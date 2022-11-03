@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "halplibe",
+  "version": "${version}",
+
+  "name": "HalpLibe",
+  "description": "Helper library to ease mod development.",
+  "authors": [
+    "azurelmao"
+  ],
+  "contact": {
+    "homepage": "",
+    "sources": ""
+  },
+
+  "license": "CC0-1.0",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+        "azurelmao.halplibe.HalpLibe"
+    ]
+  },
+  "mixins": [
+      "halplibe.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.13.3"
+  },
+  "suggests": {
+  }
+}
