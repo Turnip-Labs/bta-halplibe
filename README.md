@@ -11,7 +11,7 @@ A helper library to ease babric mod development for BTA.
 
 1. Download or clone this repository and put it somewhere.
 ```
-git clone https://github.com/azurelmao/bta-halplibe.git
+git clone https://github.com/Turnip-Labs/bta-halplibe.git
 ```
 
 2. Import the project in IntelliJ IDEA, close it and open it again.
