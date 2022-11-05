@@ -1,6 +1,6 @@
-package azurelmao.halplibe.helper;
+package turniplabs.halplibe.helper;
 
-import azurelmao.halplibe.mixin.helper.DimensionInterface;
+import turniplabs.halplibe.mixin.helper.DimensionInterface;
 import net.minecraft.src.Block;
 import net.minecraft.src.Dimension;
 import net.minecraft.src.WorldType;

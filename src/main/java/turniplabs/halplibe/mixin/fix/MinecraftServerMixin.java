@@ -1,4 +1,4 @@
-package azurelmao.halplibe.mixin.fix;
+package turniplabs.halplibe.mixin.fix;
 
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.src.Dimension;
@@ -18,7 +18,7 @@ public class MinecraftServerMixin {
     public EntityTracker[] entityTracker;
 
     @Inject(method = "startServer", at = @At(value = "HEAD"))
-    private void examplemod_startServer(CallbackInfoReturnable<Boolean> cir) {
+    private void halplibe_startServer(CallbackInfoReturnable<Boolean> cir) {
         entityTracker = new EntityTracker[Dimension.dimensionList.length];
     }
 }

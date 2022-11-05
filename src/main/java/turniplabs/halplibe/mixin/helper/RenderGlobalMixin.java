@@ -1,6 +1,6 @@
-package azurelmao.halplibe.mixin.helper;
+package turniplabs.halplibe.mixin.helper;
 
-import azurelmao.halplibe.helper.ParticleHelper;
+import turniplabs.halplibe.helper.ParticleHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.EntityFX;
 import net.minecraft.src.RenderGlobal;

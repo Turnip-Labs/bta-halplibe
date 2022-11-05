@@ -1,4 +1,4 @@
-package azurelmao.halplibe.mixin.helper;
+package turniplabs.halplibe.mixin.helper;
 
 import net.minecraft.src.Entity;
 import net.minecraft.src.Render;

@@ -1,4 +1,4 @@
-package azurelmao.halplibe.mixin.helper;
+package turniplabs.halplibe.mixin.helper;
 
 import net.minecraft.src.RenderPlayer;
 import org.spongepowered.asm.mixin.Mixin;

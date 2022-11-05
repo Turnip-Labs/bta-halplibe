@@ -1,6 +1,6 @@
-package azurelmao.halplibe.helper;
+package turniplabs.halplibe.helper;
 
-import azurelmao.halplibe.mixin.helper.BlockInterface;
+import turniplabs.halplibe.mixin.helper.BlockInterface;
 import net.minecraft.src.Block;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemBlock;

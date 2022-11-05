@@ -1,7 +1,7 @@
-package azurelmao.halplibe.helper;
+package turniplabs.halplibe.helper;
 
-import azurelmao.halplibe.mixin.helper.EntityListInterface;
-import azurelmao.halplibe.mixin.helper.RenderManagerInterface;
+import turniplabs.halplibe.mixin.helper.EntityListInterface;
+import turniplabs.halplibe.mixin.helper.RenderManagerInterface;
 import net.minecraft.src.Entity;
 import net.minecraft.src.Render;
 import net.minecraft.src.RenderManager;

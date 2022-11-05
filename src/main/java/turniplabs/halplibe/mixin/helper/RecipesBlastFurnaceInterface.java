@@ -1,6 +1,5 @@
-package azurelmao.halplibe.mixin.helper;
+package turniplabs.halplibe.mixin.helper;
 
-import net.minecraft.src.ItemStack;
 import net.minecraft.src.RecipesBlastFurnace;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;

@@ -1,9 +1,9 @@
-package azurelmao.halplibe.helper;
+package turniplabs.halplibe.helper;
 
-import azurelmao.halplibe.HalpLibe;
-import azurelmao.halplibe.mixin.helper.CraftingManagerInterface;
-import azurelmao.halplibe.mixin.helper.RecipesBlastFurnaceInterface;
-import azurelmao.halplibe.mixin.helper.RecipesFurnaceInterface;
+import turniplabs.halplibe.HalpLibe;
+import turniplabs.halplibe.mixin.helper.CraftingManagerInterface;
+import turniplabs.halplibe.mixin.helper.RecipesBlastFurnaceInterface;
+import turniplabs.halplibe.mixin.helper.RecipesFurnaceInterface;
 import net.minecraft.src.*;
 
 import java.util.List;

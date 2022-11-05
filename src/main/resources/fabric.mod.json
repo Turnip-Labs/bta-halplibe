@@ -6,7 +6,7 @@
   "name": "HalpLibe",
   "description": "Helper library to ease mod development.",
   "authors": [
-    "azurelmao"
+    "Turnip Labs"
   ],
   "contact": {
     "homepage": "",
@@ -18,7 +18,7 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-        "azurelmao.halplibe.HalpLibe"
+        "turniplabs.halplibe.HalpLibe"
     ]
   },
   "mixins": [

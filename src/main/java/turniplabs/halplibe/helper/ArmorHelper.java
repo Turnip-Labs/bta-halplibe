@@ -1,6 +1,6 @@
-package azurelmao.halplibe.helper;
+package turniplabs.halplibe.helper;
 
-import azurelmao.halplibe.mixin.helper.RenderPlayerInterface;
+import turniplabs.halplibe.mixin.helper.RenderPlayerInterface;
 import net.minecraft.src.helper.DamageType;
 import net.minecraft.src.material.ArmorMaterial;
 import org.apache.commons.lang3.ArrayUtils;
