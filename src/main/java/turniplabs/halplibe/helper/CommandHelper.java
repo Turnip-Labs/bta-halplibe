@@ -6,6 +6,6 @@ import net.minecraft.src.command.Commands;
 public class CommandHelper {
 
     public static void createCommand(Command command) {
-        Commands.commands.add(command);
+        if (Commands.commands.size() > 0) Commands.commands.add(command);
     }
 }
