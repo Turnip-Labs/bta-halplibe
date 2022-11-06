@@ -27,3 +27,25 @@ git clone https://github.com/Turnip-Labs/bta-halplibe.git
 
 
 5. Open `File > Project Structure`, select `Project` and set `Compiler output` to your project's path.
+
+## How to include HalpLibe in a project
+Add this in your `build.gradle`:
+```groovy
+repositories {
+   ivy {
+      url = "https://github.com/Turnip-Labs"
+      patternLayout {
+         artifact "[organisation]/releases/download/v[revision]/[module]-[revision].jar"
+         m2compatible = true
+      }
+      metadataSources { artifact() }
+   }
+}
+
+dependencies {
+   
+   modImplementation "bta-halplibe:halplibe:${project.halplibe_version}"
+   include "bta-halplibe:halplibe:${project.halplibe_version}"
+   
+}
+```
