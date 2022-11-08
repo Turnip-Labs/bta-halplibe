@@ -1,8 +1,3 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
-
 package turniplabs.halplibe.util;
 
 import net.minecraft.src.dynamictexture.DynamicTexture;

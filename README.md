@@ -49,3 +49,8 @@ dependencies {
    
 }
 ```
+
+## Credits
+- azurelmao
+- Jim Jim aka FatherCheese
+- ICantTellYou

@@ -1,4 +1,4 @@
-package turniplabs.halplibe.mixin;
+package turniplabs.halplibe.mixin.helper;
 
 import net.minecraft.src.RenderEngine;
 import net.minecraft.src.dynamictexture.DynamicTexture;
@@ -11,7 +11,7 @@ import turniplabs.halplibe.helper.TextureHelper;
 
 import java.util.List;
 
-@Mixin(value = RenderEngine.class, remap = false)
+@Mixin(value = RenderEngine.class, remap = false, priority = 1100)
 public class RenderEngineMixin {
     @Shadow
     private List<DynamicTexture> dynamicTextures;

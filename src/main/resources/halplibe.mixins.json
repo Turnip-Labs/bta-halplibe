@@ -11,6 +11,7 @@
         "helper.EntityListInterface",
         "helper.RecipesBlastFurnaceInterface",
         "helper.RecipesFurnaceInterface",
+        "helper.RenderEngineMixin",
         "helper.RenderGlobalMixin",
         "helper.RenderManagerInterface",
         "helper.RenderPlayerInterface",
