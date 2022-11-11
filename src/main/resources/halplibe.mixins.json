@@ -15,7 +15,8 @@
         "helper.RenderGlobalMixin",
         "helper.RenderManagerInterface",
         "helper.RenderPlayerInterface",
-        "helper.TileEntityInterface"
+        "helper.TileEntityInterface",
+        "helper.TileEntityRendererInterface"
     ],
     "client": [
     ],
