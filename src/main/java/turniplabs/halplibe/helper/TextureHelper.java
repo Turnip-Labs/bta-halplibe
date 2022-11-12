@@ -13,7 +13,15 @@ public class TextureHelper {
         textureHandlers.add(new TextureHandler("/terrain.png", "/" + modId+ "/assets/block/" + blockTexture, Block.texCoordToIndex(x, y), 16, 1));
     }
 
+    public static void addAnimatedTextureToTerrain(String modId, String blockTexture, int x, int y, int frames) {
+        textureHandlers.add(new TextureHandler("/terrain.png", "/" + modId+ "/assets/block/" + blockTexture, Block.texCoordToIndex(x, y), 16, frames));
+    }
+
     public static void addTextureToItems(String modId, String itemTexture, int x, int y) {
         textureHandlers.add(new TextureHandler("/gui/items.png", "/" + modId + "/assets/item/" + itemTexture, Block.texCoordToIndex(x, y), 16, 1));
+    }
+
+    public static void addAnimatedTextureToItems(String modId, String itemTexture, int x, int y, int frames) {
+        textureHandlers.add(new TextureHandler("/gui/items.png", "/" + modId + "/assets/item/" + itemTexture, Block.texCoordToIndex(x, y), 16, frames));
     }
 }
