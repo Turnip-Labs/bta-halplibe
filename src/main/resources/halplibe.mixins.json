@@ -5,6 +5,8 @@
     "compatibilityLevel": "JAVA_8",
     "mixins": [
         "fix.MinecraftServerMixin",
+        "fix.DungeonLootMixin",
+        "fix.LabyrinthLootMixin",
         "helper.BlockInterface",
         "helper.CraftingManagerInterface",
         "helper.DimensionInterface",

@@ -32,6 +32,10 @@ public class RecipeHelper {
             ((CraftingManagerInterface) craftingManager).callAddShapelessRecipe(new ItemStack(outputBlock, amount), aobj);
         }
 
+        public static void createRepairRecipe(Item outPutItem, ItemStack materials) {
+            ((CraftingManagerInterface) craftingManager).callAddRepairableStackableRecipe( outPutItem, materials);
+        }
+
         public static void removeRecipe(Item outputItem) {
             List recipes = craftingManager.getRecipeList();
             IRecipe theRecipe = null;

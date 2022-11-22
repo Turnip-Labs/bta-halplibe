@@ -1,6 +1,7 @@
 package turniplabs.halplibe.mixin.helper;
 
 import net.minecraft.src.CraftingManager;
+import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
@@ -16,6 +17,9 @@ public interface CraftingManagerInterface {
 
     @Invoker("addShapelessRecipe")
     void callAddShapelessRecipe(ItemStack itemstack, Object[] aobj);
+
+    @Invoker("addRepairableStackableRecipe")
+    void callAddRepairableStackableRecipe(Item outPutItem, ItemStack materialStack);
 
     @Accessor("recipes")
     void setRecipes(List list);
