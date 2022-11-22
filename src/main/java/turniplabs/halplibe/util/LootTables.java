@@ -23,7 +23,7 @@ public class LootTables {
             put(8, new LootStack(Item.dustRedstone, 2, 6,3) );
             put(9, new LootStack(Item.foodApple) );
             put(10, new LootStack(Item.dye, 1, 1,1, 3,3) );
-            put(11, new LootStack( Block.spongeDry, 0, 5) );
+            put(11, new LootStack(Block.spongeDry, 0, 5) );
             put(12, new LootStack(Item.bone, 0, 5) );
 
             //disks
@@ -45,6 +45,7 @@ public class LootTables {
 
     static {
         labyrinthLoot = new HashMap<Integer, LootStack>() {{
+
             put(0, new LootStack( Item.ingotIron,0,6) );
             put(1, new LootStack( Item.ingotGold,0,4) );
             put(2, new LootStack( Item.sulphur,0,6) );

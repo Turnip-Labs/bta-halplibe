@@ -8,18 +8,20 @@ import java.util.Random;
 
 public final class LootStack {
 
-    public Item item;
     // the actual item
+    public Item item;
 
-    public int rarity;
+
     // how rare it is, 99 equals a one hundred in one chance of finding it etc.
+    public int rarity;
 
+    // the max and minimum stack sizes for a given item.
     public int maxQuantity;
     public int minQuantity;
-    public int maxMetadata;
-    public int minMetadata;
 
     // the range of damage values a given item can spawn with.
+    public int maxMetadata;
+    public int minMetadata;
 
 
     public LootStack(Item item, int rarity, int maxQuantity, int minQuantity, int maxMetadata, int minMetadata) {
@@ -69,7 +71,7 @@ public final class LootStack {
 
             if (random.nextInt(rarity) == 0) {
 
-                if (this.maxQuantity - minQuantity > 1)
+                if (this.maxQuantity - minQuantity > 0)
                     quantity = random.nextInt(this.maxQuantity - this.minQuantity) + this.minQuantity;
 
                 if (this.maxMetadata - minMetadata > 0)
@@ -81,7 +83,7 @@ public final class LootStack {
         } else {
 
             // if rarity equals to zero.
-            if (this.maxQuantity - minQuantity > 1)
+            if (this.maxQuantity - minQuantity > 0)
                 quantity = random.nextInt(this.maxQuantity - this.minQuantity) + this.minQuantity;
 
             if (this.maxMetadata - minMetadata > 0)
