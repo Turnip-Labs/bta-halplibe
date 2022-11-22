@@ -64,7 +64,7 @@ public final class LootStack {
 
     private final Random random = new Random();
     public ItemStack generateLoot() {
-        int quantity = 1;
+        int quantity;
         int metadata;
 
         if ( this.rarity != 0) {
@@ -73,6 +73,7 @@ public final class LootStack {
 
                 if (this.maxQuantity - minQuantity > 0)
                     quantity = random.nextInt(this.maxQuantity - this.minQuantity) + this.minQuantity;
+                    else quantity = this.minQuantity;
 
                 if (this.maxMetadata - minMetadata > 0)
                     metadata = random.nextInt( this.maxMetadata - this.minMetadata) + this.minMetadata;
@@ -85,6 +86,7 @@ public final class LootStack {
             // if rarity equals to zero.
             if (this.maxQuantity - minQuantity > 0)
                 quantity = random.nextInt(this.maxQuantity - this.minQuantity) + this.minQuantity;
+                else quantity = this.minQuantity;
 
             if (this.maxMetadata - minMetadata > 0)
                 metadata = random.nextInt( this.maxMetadata - this.minMetadata) + this.minMetadata;
