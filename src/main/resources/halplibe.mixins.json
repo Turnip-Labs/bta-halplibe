@@ -4,6 +4,7 @@
     "package": "turniplabs.halplibe.mixin",
     "compatibilityLevel": "JAVA_8",
     "mixins": [
+        "fix.ContainerPlayerCreativeMixin",
         "fix.MinecraftServerMixin",
         "helper.BlockInterface",
         "helper.CraftingManagerInterface",
