@@ -5,6 +5,7 @@
     "compatibilityLevel": "JAVA_8",
     "mixins": [
         "fix.ContainerPlayerCreativeMixin",
+        "fix.EntityClientPlayerMPMixin",
         "fix.MinecraftServerMixin",
         "helper.BlockInterface",
         "helper.CraftingManagerInterface",
