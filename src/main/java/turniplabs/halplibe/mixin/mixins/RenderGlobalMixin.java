@@ -1,4 +1,4 @@
-package turniplabs.halplibe.mixin.helper;
+package turniplabs.halplibe.mixin.mixins;
 
 import turniplabs.halplibe.helper.ParticleHelper;
 import net.minecraft.client.Minecraft;
@@ -13,8 +13,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Map;
 
-@Mixin(value = RenderGlobal.class, remap = false, priority = 1100)
-public class RenderGlobalMixin {
+@Mixin(value = RenderGlobal.class, remap = false)
+public abstract class RenderGlobalMixin {
 
     @Shadow
     private Minecraft mc;
@@ -22,18 +22,18 @@ public class RenderGlobalMixin {
     @Shadow
     private World worldObj;
 
-    @Inject(method = "spawnParticle", at = @At(value = "RETURN"))
-    private void halplibe_spawnParticle(String s, double x, double y, double z, double motionX, double motionY, double motionZ, CallbackInfo ci) {
+    @Inject(method = "spawnParticle", at = @At(value = "TAIL"))
+    private void halplibe_spawnParticle(String particle, double x, double y, double z, double motionX, double motionY, double motionZ, CallbackInfo ci) {
         if (mc != null && mc.renderViewEntity != null && mc.effectRenderer != null) {
-            double d6 = this.mc.renderViewEntity.posX - x;
-            double d7 = this.mc.renderViewEntity.posY - y;
-            double d8 = this.mc.renderViewEntity.posZ - z;
-            double d9 = 16.0;
+            double distanceX = this.mc.renderViewEntity.posX - x;
+            double distanceY = this.mc.renderViewEntity.posY - y;
+            double distanceZ = this.mc.renderViewEntity.posZ - z;
+            double maxDistance = 16.0;
 
-            if (!(d6 * d6 + d7 * d7 + d8 * d8 > d9 * d9)) {
+            if (!(distanceX * distanceX + distanceY * distanceY + distanceZ * distanceZ > maxDistance * maxDistance)) {
                 Map<String, Class<? extends EntityFX>> particles = ParticleHelper.particles;
                 for (String name : particles.keySet()) {
-                    if (s.equals(name)) {
+                    if (name.equals(particle)) {
                         Class<? extends EntityFX> clazz = particles.get(name);
 
                         try {

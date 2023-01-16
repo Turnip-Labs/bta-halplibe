@@ -1,4 +1,4 @@
-package turniplabs.halplibe.mixin.helper;
+package turniplabs.halplibe.mixin.mixins;
 
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
@@ -17,17 +17,17 @@ import java.util.Properties;
 
 @Mixin(value = StringTranslate.class, remap = false)
 public abstract class StringTranslateMixin {
-    @Shadow private Properties translateTable;
+    @Shadow
+    private Properties translateTable;
 
-    @Inject(
-            method = "<init>",
+    @Inject(method = "<init>",
             at = @At(
                     value = "INVOKE",
                     target = "Ljava/io/PrintStream;println(Ljava/lang/String;)V",
                     shift = At.Shift.BEFORE
             )
     )
-    public void onApplyTranslations(CallbackInfo ci) {
+    public void halplibe_onApplyTranslations(CallbackInfo ci) {
         for (ModContainer mod : FabricLoader.getInstance().getAllMods()) {
             try (InputStream stream = FabricLauncherBase.getLauncher().getResourceAsStream("lang/" +
                     mod.getMetadata().getId() +

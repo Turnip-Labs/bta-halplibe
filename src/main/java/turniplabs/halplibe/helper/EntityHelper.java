@@ -1,10 +1,10 @@
 package turniplabs.halplibe.helper;
 
 import net.minecraft.src.*;
-import turniplabs.halplibe.mixin.helper.EntityListInterface;
-import turniplabs.halplibe.mixin.helper.RenderManagerInterface;
-import turniplabs.halplibe.mixin.helper.TileEntityInterface;
-import turniplabs.halplibe.mixin.helper.TileEntityRendererInterface;
+import turniplabs.halplibe.mixin.accessors.EntityListInterface;
+import turniplabs.halplibe.mixin.accessors.RenderManagerInterface;
+import turniplabs.halplibe.mixin.accessors.TileEntityInterface;
+import turniplabs.halplibe.mixin.accessors.TileEntityRendererInterface;
 
 import java.util.Map;
 

@@ -1,6 +1,6 @@
 package turniplabs.halplibe.helper;
 
-import turniplabs.halplibe.mixin.helper.DimensionInterface;
+import turniplabs.halplibe.mixin.accessors.DimensionInterface;
 import net.minecraft.src.Block;
 import net.minecraft.src.Dimension;
 import net.minecraft.src.WorldType;

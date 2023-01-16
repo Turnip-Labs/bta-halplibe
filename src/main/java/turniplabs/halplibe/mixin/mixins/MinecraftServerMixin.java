@@ -1,4 +1,4 @@
-package turniplabs.halplibe.mixin.fix;
+package turniplabs.halplibe.mixin.mixins;
 
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.src.Dimension;
@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(value = MinecraftServer.class, remap = false)
-public class MinecraftServerMixin {
+public abstract class MinecraftServerMixin {
 
     // Mixin to fix custom dimensions on multiplayer
 

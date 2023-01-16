@@ -1,9 +1,9 @@
 package turniplabs.halplibe.helper;
 
 import turniplabs.halplibe.HalpLibe;
-import turniplabs.halplibe.mixin.helper.CraftingManagerInterface;
-import turniplabs.halplibe.mixin.helper.RecipesBlastFurnaceInterface;
-import turniplabs.halplibe.mixin.helper.RecipesFurnaceInterface;
+import turniplabs.halplibe.mixin.accessors.CraftingManagerInterface;
+import turniplabs.halplibe.mixin.accessors.RecipesBlastFurnaceInterface;
+import turniplabs.halplibe.mixin.accessors.RecipesFurnaceInterface;
 import net.minecraft.src.*;
 
 import java.util.List;
@@ -48,7 +48,7 @@ public class RecipeHelper {
             }
 
             if (theRecipe == null) {
-                HalpLibe.LOGGER.info("Couldn't find recipe with output: " + outputItem.getItemName());
+                HalpLibe.LOGGER.debug("Couldn't find recipe with output: " + outputItem.getItemName());
                 return;
             }
 
@@ -71,7 +71,7 @@ public class RecipeHelper {
             }
 
             if (theRecipe == null) {
-                HalpLibe.LOGGER.info("Couldn't find crafting recipe with output: " + outputBlock.getBlockName(0));
+                HalpLibe.LOGGER.debug("Couldn't find crafting recipe with output: " + outputBlock.getBlockName(0));
                 return;
             }
 
@@ -102,7 +102,7 @@ public class RecipeHelper {
             Map recipes = smeltingManager.getSmeltingList();
 
             if (!recipes.containsKey(inputItem)) {
-                HalpLibe.LOGGER.info("Couldn't find smelting recipe with input: " + inputItem.getItemName());
+                HalpLibe.LOGGER.debug("Couldn't find smelting recipe with input: " + inputItem.getItemName());
                 return;
             }
 
@@ -114,7 +114,7 @@ public class RecipeHelper {
             Map recipes = smeltingManager.getSmeltingList();
 
             if (!recipes.containsKey(inputItem)) {
-                HalpLibe.LOGGER.info("Couldn't find smelting recipe with input: " + inputItem.getBlockName(0));
+                HalpLibe.LOGGER.debug("Couldn't find smelting recipe with input: " + inputItem.getBlockName(0));
                 return;
             }
 
@@ -144,7 +144,7 @@ public class RecipeHelper {
             Map recipes = blastingManager.getSmeltingList();
 
             if (!recipes.containsKey(inputItem)) {
-                HalpLibe.LOGGER.info("Couldn't find blasting recipe with input: " + inputItem.getItemName());
+                HalpLibe.LOGGER.debug("Couldn't find blasting recipe with input: " + inputItem.getItemName());
                 return;
             }
 
@@ -156,7 +156,7 @@ public class RecipeHelper {
             Map recipes = blastingManager.getSmeltingList();
 
             if (!recipes.containsKey(inputItem)) {
-                HalpLibe.LOGGER.info("Couldn't find blasting recipe with input: " + inputItem.getBlockName(0));
+                HalpLibe.LOGGER.debug("Couldn't find blasting recipe with input: " + inputItem.getBlockName(0));
                 return;
             }
 

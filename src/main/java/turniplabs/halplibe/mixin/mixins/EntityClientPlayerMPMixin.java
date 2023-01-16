@@ -1,4 +1,4 @@
-package turniplabs.halplibe.mixin.fix;
+package turniplabs.halplibe.mixin.mixins;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.EntityClientPlayerMP;
@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value = EntityClientPlayerMP.class, remap = false)
-public class EntityClientPlayerMPMixin {
+public abstract class EntityClientPlayerMPMixin {
 
     @Inject(method = "sendChatMessage", at = @At("HEAD"), cancellable = true)
     private void halplibe_sendChatMessage(String s, CallbackInfo ci) {

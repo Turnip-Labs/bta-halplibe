@@ -1,4 +1,4 @@
-package turniplabs.halplibe.mixin.helper;
+package turniplabs.halplibe.mixin.accessors;
 
 import net.minecraft.src.Block;
 import net.minecraft.src.StepSound;

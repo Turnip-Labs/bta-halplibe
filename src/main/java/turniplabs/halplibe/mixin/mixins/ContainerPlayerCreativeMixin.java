@@ -1,4 +1,4 @@
-package turniplabs.halplibe.mixin.fix;
+package turniplabs.halplibe.mixin.mixins;
 
 import net.minecraft.src.ContainerPlayerCreative;
 import net.minecraft.src.ItemStack;
@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import java.util.Arrays;
 
 @Mixin(value = ContainerPlayerCreative.class, remap = false)
-public class ContainerPlayerCreativeMixin {
+public abstract class ContainerPlayerCreativeMixin {
 
     @Shadow
     public static ItemStack[] creativeItems;
