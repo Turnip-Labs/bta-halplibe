@@ -4,6 +4,8 @@
     "package": "turniplabs.halplibe.mixin",
     "compatibilityLevel": "JAVA_8",
     "mixins": [
+        "fix.ContainerPlayerCreativeMixin",
+        "fix.EntityClientPlayerMPMixin",
         "fix.MinecraftServerMixin",
         "helper.BlockInterface",
         "helper.CraftingManagerInterface",
@@ -15,7 +17,8 @@
         "helper.RenderGlobalMixin",
         "helper.RenderManagerInterface",
         "helper.RenderPlayerInterface",
-        "helper.TileEntityInterface"
+        "helper.TileEntityInterface",
+        "helper.TileEntityRendererInterface"
     ],
     "client": [
     ],
