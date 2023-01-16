@@ -34,5 +34,6 @@ dependencies {
 
 ## Credits
 - azurelmao
+- pkstDev
 - Jim Jim aka FatherCheese
 - ICantTellYou
