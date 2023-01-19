@@ -10,4 +10,8 @@ public class ItemHelper {
         TextureHelper.addTextureToItems(modId, texture, one[0], one[1]);
         return item.setIconCoord(one[0], one[1]).setItemName(HalpLibe.addModId(modId, translationKey));
     }
+
+    public static Item createItemWithoutUVs(String modId, Item item, String translationKey) {
+        return item.setItemName(HalpLibe.addModId(modId, translationKey));
+    }
 }
