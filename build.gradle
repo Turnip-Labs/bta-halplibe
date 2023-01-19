@@ -10,7 +10,7 @@ version = project.mod_version
 loom {
 	gluedMinecraftJar()
 	noIntermediateMappings()
-	customMinecraftManifest.set("https://github.com/Turnip-Labs/bta-manifest-repo/releases/download/v1.7.6.2_02/1.7.6.2_02.json")
+	customMinecraftManifest.set("https://github.com/Turnip-Labs/bta-manifest-repo/releases/download/v${project.bta_version}/${project.bta_version}.json")
 }
 
 repositories {
@@ -73,9 +73,8 @@ jar {
 
 processResources {
 	inputs.property "version", version
-	inputs.property "mod_id", archivesBaseName
 
 	filesMatching("fabric.mod.json") {
-		expand "version": version, "mod_id": archivesBaseName
+		expand "version": version
 	}
 }
