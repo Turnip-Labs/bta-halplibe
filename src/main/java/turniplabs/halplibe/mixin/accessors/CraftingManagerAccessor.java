@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 import java.util.List;
 
 @Mixin(value = CraftingManager.class, remap = false)
-public interface CraftingManagerInterface {
+public interface CraftingManagerAccessor {
 
     @Invoker("addRecipe")
     void callAddRecipe(ItemStack itemstack, Object[] aobj);

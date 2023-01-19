@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 import java.util.Map;
 
 @Mixin(value = RenderManager.class, remap = false)
-public interface RenderManagerInterface {
+public interface RenderManagerAccessor {
 
     @Accessor("entityRenderMap")
     Map<Class<? extends Entity>, Render> getEntityRenderMap();

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "halplibe",
+  "id": "${mod_id}",
   "version": "${version}",
 
   "name": "HalpLibe",

@@ -15,7 +15,9 @@ public class TextureHandler extends DynamicTexture {
         super(textureIndex, resolution, width);
         this.textureName = textureName;
         BufferedImage image = Textures.readImage(TextureHandler.class.getResourceAsStream(animationSource));
-        if (image.getWidth() != resolution) {
+        if (image == Textures.missingTexture) {
+            throw new RuntimeException("Animation " + animationSource + " couldn't be found!");
+        } else if (image.getWidth() != resolution) {
             throw new RuntimeException("Animation " + animationSource + " doesn't have the same width as textures in " + textureName + "!");
         } else if (image.getHeight() % image.getWidth() != 0) {
             throw new RuntimeException("Invalid Height for animation! " + animationSource);

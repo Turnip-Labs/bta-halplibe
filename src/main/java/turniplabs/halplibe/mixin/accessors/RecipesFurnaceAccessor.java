@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 import java.util.Map;
 
 @Mixin(value = RecipesFurnace.class, remap = false)
-public interface RecipesFurnaceInterface {
+public interface RecipesFurnaceAccessor {
 
     @Accessor("smeltingList")
     void setSmeltingList(Map map);

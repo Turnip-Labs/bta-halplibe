@@ -1,6 +1,6 @@
 package turniplabs.halplibe.helper;
 
-import turniplabs.halplibe.mixin.accessors.RenderPlayerInterface;
+import turniplabs.halplibe.mixin.accessors.RenderPlayerAccessor;
 import net.minecraft.src.helper.DamageType;
 import net.minecraft.src.material.ArmorMaterial;
 import org.apache.commons.lang3.ArrayUtils;
@@ -18,9 +18,9 @@ public class ArmorHelper {
      * @return the new ArmorMaterial.
      */
     public static ArmorMaterial createArmorMaterial(String textureName, int durability, float combat, float blast, float fire, float fall) {
-        String[] armorFilenamePrefix = RenderPlayerInterface.getArmorFilenamePrefix();
+        String[] armorFilenamePrefix = RenderPlayerAccessor.getArmorFilenamePrefix();
         armorFilenamePrefix = ArrayUtils.add(armorFilenamePrefix, textureName);
-        RenderPlayerInterface.setArmorFilenamePrefix(armorFilenamePrefix);
+        RenderPlayerAccessor.setArmorFilenamePrefix(armorFilenamePrefix);
 
         ArmorMaterial armorMaterial = new ArmorMaterial(textureName, armorFilenamePrefix.length - 1, durability);
         ArmorMaterial.setProtectionValuePercent(armorMaterial, DamageType.COMBAT, combat);

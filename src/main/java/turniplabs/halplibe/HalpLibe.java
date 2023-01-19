@@ -8,8 +8,8 @@ public class HalpLibe implements ModInitializer {
     public static final String MOD_ID = "halplibe";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
-    public static String name(String name) {
-        return MOD_ID + "." + name;
+    public static String addModId(String modId, String name) {
+        return modId + "." + name;
     }
 
     @Override

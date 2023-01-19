@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(value = Block.class, remap = false)
-public interface BlockInterface {
+public interface BlockAccessor {
 
     @Invoker("setHardness")
     Block callSetHardness(float f);

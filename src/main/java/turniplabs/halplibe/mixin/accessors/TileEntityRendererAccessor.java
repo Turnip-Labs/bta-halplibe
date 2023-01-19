@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 import java.util.Map;
 
 @Mixin(value = TileEntityRenderer.class, remap = false)
-public interface TileEntityRendererInterface {
+public interface TileEntityRendererAccessor {
 
     @Accessor("specialRendererMap")
     Map<Class<? extends TileEntity>, TileEntitySpecialRenderer> getSpecialRendererMap();

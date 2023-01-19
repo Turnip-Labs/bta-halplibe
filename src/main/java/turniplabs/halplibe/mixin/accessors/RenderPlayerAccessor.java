@@ -5,7 +5,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(value = RenderPlayer.class, remap = false)
-public interface RenderPlayerInterface {
+public interface RenderPlayerAccessor {
 
     @Accessor("armorFilenamePrefix")
     static String[] getArmorFilenamePrefix() {

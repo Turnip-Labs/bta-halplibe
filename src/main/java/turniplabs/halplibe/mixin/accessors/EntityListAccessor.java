@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(value = EntityList.class, remap = false)
-public interface EntityListInterface {
+public interface EntityListAccessor {
 
     @Invoker("addMapping")
     static void callAddMapping(Class<? extends Entity> clazz, String name, int id) {

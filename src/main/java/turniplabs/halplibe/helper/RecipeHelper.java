@@ -1,9 +1,9 @@
 package turniplabs.halplibe.helper;
 
 import turniplabs.halplibe.HalpLibe;
-import turniplabs.halplibe.mixin.accessors.CraftingManagerInterface;
-import turniplabs.halplibe.mixin.accessors.RecipesBlastFurnaceInterface;
-import turniplabs.halplibe.mixin.accessors.RecipesFurnaceInterface;
+import turniplabs.halplibe.mixin.accessors.CraftingManagerAccessor;
+import turniplabs.halplibe.mixin.accessors.RecipesBlastFurnaceAccessor;
+import turniplabs.halplibe.mixin.accessors.RecipesFurnaceAccessor;
 import net.minecraft.src.*;
 
 import java.util.List;
@@ -17,19 +17,19 @@ public class RecipeHelper {
     public static class Crafting {
 
         public static void createRecipe(Item outputItem, int amount, Object[] aobj) {
-            ((CraftingManagerInterface) craftingManager).callAddRecipe(new ItemStack(outputItem, amount), aobj);
+            ((CraftingManagerAccessor) craftingManager).callAddRecipe(new ItemStack(outputItem, amount), aobj);
         }
 
         public static void createRecipe(Block outputBlock, int amount, Object[] aobj) {
-            ((CraftingManagerInterface) craftingManager).callAddRecipe(new ItemStack(outputBlock, amount), aobj);
+            ((CraftingManagerAccessor) craftingManager).callAddRecipe(new ItemStack(outputBlock, amount), aobj);
         }
 
         public static void createShapelessRecipe(Item outputItem, int amount, Object[] aobj) {
-            ((CraftingManagerInterface) craftingManager).callAddShapelessRecipe(new ItemStack(outputItem, amount), aobj);
+            ((CraftingManagerAccessor) craftingManager).callAddShapelessRecipe(new ItemStack(outputItem, amount), aobj);
         }
 
         public static void createShapelessRecipe(Block outputBlock, int amount, Object[] aobj) {
-            ((CraftingManagerInterface) craftingManager).callAddShapelessRecipe(new ItemStack(outputBlock, amount), aobj);
+            ((CraftingManagerAccessor) craftingManager).callAddShapelessRecipe(new ItemStack(outputBlock, amount), aobj);
         }
 
         public static void removeRecipe(Item outputItem) {
@@ -53,7 +53,7 @@ public class RecipeHelper {
             }
 
             recipes.remove(theRecipe);
-            ((CraftingManagerInterface) craftingManager).setRecipes(recipes);
+            ((CraftingManagerAccessor) craftingManager).setRecipes(recipes);
         }
         public static void removeRecipe(Block outputBlock) {
             List recipes = craftingManager.getRecipeList();
@@ -76,7 +76,7 @@ public class RecipeHelper {
             }
 
             recipes.remove(theRecipe);
-            ((CraftingManagerInterface) craftingManager).setRecipes(recipes);
+            ((CraftingManagerAccessor) craftingManager).setRecipes(recipes);
         }
     }
 
@@ -107,7 +107,7 @@ public class RecipeHelper {
             }
 
             recipes.remove(inputItem);
-            ((RecipesFurnaceInterface) smeltingManager).setSmeltingList(recipes);
+            ((RecipesFurnaceAccessor) smeltingManager).setSmeltingList(recipes);
         }
 
         public static void removeRecipe(Block inputItem) {
@@ -119,7 +119,7 @@ public class RecipeHelper {
             }
 
             recipes.remove(inputItem);
-            ((RecipesFurnaceInterface) smeltingManager).setSmeltingList(recipes);
+            ((RecipesFurnaceAccessor) smeltingManager).setSmeltingList(recipes);
         }
     }
 
@@ -149,7 +149,7 @@ public class RecipeHelper {
             }
 
             recipes.remove(inputItem);
-            ((RecipesBlastFurnaceInterface) blastingManager).setSmeltingList(recipes);
+            ((RecipesBlastFurnaceAccessor) blastingManager).setSmeltingList(recipes);
         }
 
         public static void removeRecipe(Block inputItem) {
@@ -161,7 +161,7 @@ public class RecipeHelper {
             }
 
             recipes.remove(inputItem);
-            ((RecipesBlastFurnaceInterface) blastingManager).setSmeltingList(recipes);
+            ((RecipesBlastFurnaceAccessor) blastingManager).setSmeltingList(recipes);
         }
     }
 
