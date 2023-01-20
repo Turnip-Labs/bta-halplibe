@@ -11,53 +11,33 @@ public class BlockHelper {
 
 
     public static Block createBlock(String modId, Block block, String translationKey, String texture, StepSound stepSound, float hardness, float resistance, float lightValue) {
-        int[] one = BlockCoords.nextCoords();
-        TextureHelper.addTextureToTerrain(modId, texture, one[0], one[1]);
+        int[] one = TextureHelper.registerBlockTexture(modId, texture);
 
         return createBlock(modId, block, translationKey, one[0], one[1], one[0], one[1], one[0], one[1], one[0], one[1], one[0], one[1], one[0], one[1], stepSound, hardness, resistance, lightValue);
     }
 
     public static Block createBlock(String modId, Block block, String translationKey, String topBottomTexture, String sidesTexture, StepSound stepSound, float hardness, float resistance, float lightValue) {
-        int[] topBottom = BlockCoords.nextCoords();
-        TextureHelper.addTextureToTerrain(modId, topBottomTexture, topBottom[0], topBottom[1]);
-
-        int[] sides = BlockCoords.nextCoords();
-        TextureHelper.addTextureToTerrain(modId, sidesTexture, sides[0], sides[1]);
+        int[] topBottom = TextureHelper.registerBlockTexture(modId, topBottomTexture);
+        int[] sides = TextureHelper.registerBlockTexture(modId, sidesTexture);
 
         return createBlock(modId, block, translationKey, topBottom[0], topBottom[1], topBottom[0], topBottom[1], sides[0], sides[1], sides[0], sides[1], sides[0], sides[1], sides[0], sides[1], stepSound, hardness, resistance, lightValue);
     }
 
     public static Block createBlock(String modId, Block block, String translationKey, String topTexture, String bottomTexture, String sidesTexture, StepSound stepSound, float hardness, float resistance, float lightValue) {
-        int[] top = BlockCoords.nextCoords();
-        TextureHelper.addTextureToTerrain(modId, topTexture, top[0], top[1]);
-
-        int[] bottom = BlockCoords.nextCoords();
-        TextureHelper.addTextureToTerrain(modId, bottomTexture, bottom[0], bottom[1]);
-
-        int[] sides = BlockCoords.nextCoords();
-        TextureHelper.addTextureToTerrain(modId, sidesTexture, sides[0], sides[1]);
+        int[] top = TextureHelper.registerBlockTexture(modId, topTexture);
+        int[] bottom = TextureHelper.registerBlockTexture(modId, bottomTexture);
+        int[] sides = TextureHelper.registerBlockTexture(modId, sidesTexture);
 
         return createBlock(modId, block, translationKey, top[0], top[1], bottom[0], bottom[1], sides[0], sides[1], sides[0], sides[1], sides[0], sides[1], sides[0], sides[1], stepSound, hardness, resistance, lightValue);
     }
 
     public static Block createBlock(String modId, Block block, String translationKey, String topTexture, String bottomTexture, String northTexture, String eastTexture, String southTexture, String westTexture, StepSound stepSound, float hardness, float resistance, float lightValue) {
-        int[] top = BlockCoords.nextCoords();
-        TextureHelper.addTextureToTerrain(modId, topTexture, top[0], top[1]);
-
-        int[] bottom = BlockCoords.nextCoords();
-        TextureHelper.addTextureToTerrain(modId, bottomTexture, bottom[0], bottom[1]);
-
-        int[] north = BlockCoords.nextCoords();
-        TextureHelper.addTextureToTerrain(modId, northTexture, north[0], north[1]);
-
-        int[] south = BlockCoords.nextCoords();
-        TextureHelper.addTextureToTerrain(modId, southTexture, south[0], south[1]);
-
-        int[] east = BlockCoords.nextCoords();
-        TextureHelper.addTextureToTerrain(modId, eastTexture, east[0], east[1]);
-
-        int[] west = BlockCoords.nextCoords();
-        TextureHelper.addTextureToTerrain(modId, westTexture, west[0], west[1]);
+        int[] top = TextureHelper.registerBlockTexture(modId, topTexture);
+        int[] bottom = TextureHelper.registerBlockTexture(modId, bottomTexture);
+        int[] north = TextureHelper.registerBlockTexture(modId, northTexture);
+        int[] south = TextureHelper.registerBlockTexture(modId, southTexture);
+        int[] east = TextureHelper.registerBlockTexture(modId, eastTexture);
+        int[] west = TextureHelper.registerBlockTexture(modId, westTexture);
 
         return createBlock(modId, block, translationKey, top[0], top[1], bottom[0], bottom[1], north[0], north[1], south[0], south[1], east[0], east[1], west[0], west[1], stepSound, hardness, resistance, lightValue);
     }
