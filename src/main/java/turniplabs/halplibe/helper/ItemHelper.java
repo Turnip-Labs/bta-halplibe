@@ -6,11 +6,13 @@ import turniplabs.halplibe.HalpLibe;
 public class ItemHelper {
 
     public static Item createItem(String modId, Item item, String translationKey, String... texture) {
-        int[] one = TextureHelper.registerItemTexture(modId, texture[0]);
-        for (int index = 1; index < texture.length; ++index) {
-            TextureHelper.registerItemTexture(modId, texture[index]);
+        if (texture.length > 0) {
+            int[] mainCoords = TextureHelper.registerItemTexture(modId, texture[0]);
+            item.setIconCoord(mainCoords[0], mainCoords[1]);
+            for (int index = 1; index < texture.length; ++index) {
+                TextureHelper.registerItemTexture(modId, texture[index]);
+            }
         }
-
-        return item.setIconCoord(one[0], one[1]).setItemName(HalpLibe.addModId(modId, translationKey));
+        return item.setItemName(HalpLibe.addModId(modId, translationKey));
     }
 }
