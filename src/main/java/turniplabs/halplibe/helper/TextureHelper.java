@@ -32,7 +32,7 @@ public class TextureHelper {
             return possibleCoords;
         }
 
-        int[] newCoords = BlockCoords.nextCoords();
+        int[] newCoords = ItemCoords.nextCoords();
         registeredItemTextures.put(modId + ":" + itemTexture, newCoords);
         addTextureToItems(modId, itemTexture, newCoords[0], newCoords[1]);
         return newCoords;
