@@ -9,7 +9,6 @@ import turniplabs.halplibe.mixin.accessors.BlockAccessor;
 
 public class BlockHelper {
 
-
     public static Block createBlock(String modId, Block block, String translationKey, String texture, StepSound stepSound, float hardness, float resistance, float lightValue) {
         int[] one = TextureHelper.registerBlockTexture(modId, texture);
 
@@ -44,6 +43,11 @@ public class BlockHelper {
 
     public static Block createBlock(String modId, Block block, String translationKey, int topX, int topY, int bottomX, int bottomY, int northX, int northY, int southX, int southY, int eastX, int eastY, int westX, int westY, StepSound stepSound, float hardness, float resistance, float lightValue) {
         block.setTexCoords(topX, topY, bottomX, bottomY, northX, northY, eastX, eastY, southX, southY, westX, westY);
+
+        return createBlock(modId, block, translationKey, stepSound, hardness, resistance, lightValue);
+    }
+
+    public static Block createBlock(String modId, Block block, String translationKey, StepSound stepSound, float hardness, float resistance, float lightValue) {
         block.setBlockName(HalpLibe.addModId(modId, translationKey));
 
         ((BlockAccessor) block).callSetStepSound(stepSound);
