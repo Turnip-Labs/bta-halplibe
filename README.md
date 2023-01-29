@@ -27,7 +27,6 @@ repositories {
 dependencies {
    
    modImplementation "bta-halplibe:halplibe:${project.halplibe_version}"
-   include "bta-halplibe:halplibe:${project.halplibe_version}"
    
 }
 ```
