@@ -1,6 +1,6 @@
 package turniplabs.halplibe.mixin.accessors;
 
-import net.minecraft.src.RecipesBlastFurnace;
+import net.minecraft.core.crafting.recipe.RecipesBlastFurnace;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
@@ -10,5 +10,5 @@ import java.util.Map;
 public interface RecipesBlastFurnaceAccessor {
 
     @Accessor("smeltingList")
-    void setSmeltingList(Map map);
+    void setSmeltingList(Map<?,?> map);
 }

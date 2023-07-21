@@ -1,6 +1,6 @@
 package turniplabs.halplibe.helper;
 
-import net.minecraft.src.Item;
+import net.minecraft.core.item.Item;
 import turniplabs.halplibe.HalpLibe;
 
 public class ItemHelper {
@@ -13,6 +13,6 @@ public class ItemHelper {
     }
 
     public static Item createItem(String modId, Item item, String translationKey) {
-        return item.setItemName(HalpLibe.addModId(modId, translationKey));
+        return item.setKey(HalpLibe.addModId(modId, translationKey));
     }
 }

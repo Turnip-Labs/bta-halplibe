@@ -1,10 +1,14 @@
 package turniplabs.halplibe.helper;
 
+import net.minecraft.core.block.Block;
+import net.minecraft.core.crafting.CraftingManager;
+import net.minecraft.core.crafting.recipe.*;
+import net.minecraft.core.item.Item;
+import net.minecraft.core.item.ItemStack;
 import turniplabs.halplibe.HalpLibe;
 import turniplabs.halplibe.mixin.accessors.CraftingManagerAccessor;
 import turniplabs.halplibe.mixin.accessors.RecipesBlastFurnaceAccessor;
 import turniplabs.halplibe.mixin.accessors.RecipesFurnaceAccessor;
-import net.minecraft.src.*;
 
 import java.util.List;
 import java.util.Map;
@@ -37,18 +41,18 @@ public class RecipeHelper {
             IRecipe theRecipe = null;
 
             for (Object recipe : recipes) {
-                if (recipe instanceof RecipeShaped && ((RecipeShaped) recipe).recipeOutput.itemID == outputItem.itemID) {
+                if (recipe instanceof RecipeShaped && ((RecipeShaped) recipe).recipeOutput.itemID == outputItem.id) {
                     theRecipe = (IRecipe) recipe;
                     break;
                 }
-                else if (recipe instanceof RecipeShapeless  && ((RecipeShapeless) recipe).recipeOutput.itemID == outputItem.itemID) {
+                else if (recipe instanceof RecipeShapeless  && ((RecipeShapeless) recipe).recipeOutput.itemID == outputItem.id) {
                     theRecipe = (IRecipe) recipe;
                     break;
                 }
             }
 
             if (theRecipe == null) {
-                HalpLibe.LOGGER.debug("Couldn't find recipe with output: " + outputItem.getItemName());
+                HalpLibe.LOGGER.debug("Couldn't find recipe with output: " + outputItem.getKey());
                 return;
             }
 
@@ -60,18 +64,18 @@ public class RecipeHelper {
             IRecipe theRecipe = null;
 
             for (Object recipe : recipes) {
-                if (recipe instanceof RecipeShaped && ((RecipeShaped) recipe).recipeOutput.itemID == outputBlock.blockID) {
+                if (recipe instanceof RecipeShaped && ((RecipeShaped) recipe).recipeOutput.itemID == outputBlock.id) {
                     theRecipe = (IRecipe) recipe;
                     break;
                 }
-                else if (recipe instanceof RecipeShapeless  && ((RecipeShapeless) recipe).recipeOutput.itemID == outputBlock.blockID) {
+                else if (recipe instanceof RecipeShapeless  && ((RecipeShapeless) recipe).recipeOutput.itemID == outputBlock.id) {
                     theRecipe = (IRecipe) recipe;
                     break;
                 }
             }
 
             if (theRecipe == null) {
-                HalpLibe.LOGGER.debug("Couldn't find crafting recipe with output: " + outputBlock.getBlockName(0));
+                HalpLibe.LOGGER.debug("Couldn't find crafting recipe with output: " + outputBlock.getKey());
                 return;
             }
 
@@ -83,26 +87,26 @@ public class RecipeHelper {
     public static class Smelting {
 
         public static void createRecipe(Item outputItem, Item inputItem) {
-            smeltingManager.addSmelting(inputItem.itemID, new ItemStack(outputItem));
+            smeltingManager.addSmelting(inputItem.id, new ItemStack(outputItem));
         }
 
         public static void createRecipe(Item outputItem, Block inputItem) {
-            smeltingManager.addSmelting(inputItem.blockID, new ItemStack(outputItem));
+            smeltingManager.addSmelting(inputItem.id, new ItemStack(outputItem));
         }
 
         public static void createRecipe(Block outputItem, Item inputItem) {
-            smeltingManager.addSmelting(inputItem.itemID, new ItemStack(outputItem));
+            smeltingManager.addSmelting(inputItem.id, new ItemStack(outputItem));
         }
 
         public static void createRecipe(Block outputItem, Block inputItem) {
-            smeltingManager.addSmelting(inputItem.blockID, new ItemStack(outputItem));
+            smeltingManager.addSmelting(inputItem.id, new ItemStack(outputItem));
         }
 
         public static void removeRecipe(Item inputItem) {
             Map recipes = smeltingManager.getSmeltingList();
 
             if (!recipes.containsKey(inputItem)) {
-                HalpLibe.LOGGER.debug("Couldn't find smelting recipe with input: " + inputItem.getItemName());
+                HalpLibe.LOGGER.debug("Couldn't find smelting recipe with input: " + inputItem.getKey());
                 return;
             }
 
@@ -114,7 +118,7 @@ public class RecipeHelper {
             Map recipes = smeltingManager.getSmeltingList();
 
             if (!recipes.containsKey(inputItem)) {
-                HalpLibe.LOGGER.debug("Couldn't find smelting recipe with input: " + inputItem.getBlockName(0));
+                HalpLibe.LOGGER.debug("Couldn't find smelting recipe with input: " + inputItem.getKey());
                 return;
             }
 
@@ -125,26 +129,26 @@ public class RecipeHelper {
 
     public static class Blasting {
         public static void createRecipe(Item outputItem, Item inputItem) {
-            blastingManager.addSmelting(inputItem.itemID, new ItemStack(outputItem));
+            blastingManager.addSmelting(inputItem.id, new ItemStack(outputItem));
         }
 
         public static void createRecipe(Item outputItem, Block inputItem) {
-            blastingManager.addSmelting(inputItem.blockID, new ItemStack(outputItem));
+            blastingManager.addSmelting(inputItem.id, new ItemStack(outputItem));
         }
 
         public static void createRecipe(Block outputItem, Item inputItem) {
-            blastingManager.addSmelting(inputItem.itemID, new ItemStack(outputItem));
+            blastingManager.addSmelting(inputItem.id, new ItemStack(outputItem));
         }
 
         public static void createRecipe(Block outputItem, Block inputItem) {
-            blastingManager.addSmelting(inputItem.blockID, new ItemStack(outputItem));
+            blastingManager.addSmelting(inputItem.id, new ItemStack(outputItem));
         }
 
         public static void removeRecipe(Item inputItem) {
             Map recipes = blastingManager.getSmeltingList();
 
             if (!recipes.containsKey(inputItem)) {
-                HalpLibe.LOGGER.debug("Couldn't find blasting recipe with input: " + inputItem.getItemName());
+                HalpLibe.LOGGER.debug("Couldn't find blasting recipe with input: " + inputItem.getKey());
                 return;
             }
 
@@ -156,7 +160,7 @@ public class RecipeHelper {
             Map recipes = blastingManager.getSmeltingList();
 
             if (!recipes.containsKey(inputItem)) {
-                HalpLibe.LOGGER.debug("Couldn't find blasting recipe with input: " + inputItem.getBlockName(0));
+                HalpLibe.LOGGER.debug("Couldn't find blasting recipe with input: " + inputItem.getKey());
                 return;
             }
 

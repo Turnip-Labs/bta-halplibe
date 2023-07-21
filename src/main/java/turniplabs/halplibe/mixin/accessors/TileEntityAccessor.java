@@ -1,6 +1,6 @@
 package turniplabs.halplibe.mixin.accessors;
 
-import net.minecraft.src.TileEntity;
+import net.minecraft.core.block.entity.TileEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 public interface TileEntityAccessor {
 
     @Invoker("addMapping")
-    static void callAddMapping(Class clazz, String s) {
+    static void callAddMapping(Class<?> clazz, String s) {
         throw new AssertionError();
     }
 }

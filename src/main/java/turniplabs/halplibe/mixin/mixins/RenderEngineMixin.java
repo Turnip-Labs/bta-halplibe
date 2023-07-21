@@ -1,7 +1,7 @@
 package turniplabs.halplibe.mixin.mixins;
 
-import net.minecraft.src.RenderEngine;
-import net.minecraft.src.dynamictexture.DynamicTexture;
+import net.minecraft.client.render.RenderEngine;
+import net.minecraft.client.render.dynamictexture.DynamicTexture;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;

@@ -1,10 +1,10 @@
 package turniplabs.halplibe.mixin.mixins;
 
+import net.minecraft.client.render.RenderGlobal;
+import net.minecraft.core.entity.fx.EntityFX;
+import net.minecraft.core.world.World;
 import turniplabs.halplibe.helper.ParticleHelper;
 import net.minecraft.client.Minecraft;
-import net.minecraft.src.EntityFX;
-import net.minecraft.src.RenderGlobal;
-import net.minecraft.src.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -22,12 +22,12 @@ public abstract class RenderGlobalMixin {
     @Shadow
     private World worldObj;
 
-    @Inject(method = "spawnParticle", at = @At(value = "TAIL"))
+    @Inject(method = "addParticle(Ljava/lang/String;DDDDDD)V", at = @At(value = "TAIL"))
     private void halplibe_spawnParticle(String particle, double x, double y, double z, double motionX, double motionY, double motionZ, CallbackInfo ci) {
-        if (mc != null && mc.renderViewEntity != null && mc.effectRenderer != null) {
-            double distanceX = this.mc.renderViewEntity.posX - x;
-            double distanceY = this.mc.renderViewEntity.posY - y;
-            double distanceZ = this.mc.renderViewEntity.posZ - z;
+        if (mc != null && mc.activeCamera != null && mc.effectRenderer != null) {
+            double distanceX = this.mc.activeCamera.getX() - x;
+            double distanceY = this.mc.activeCamera.getY() - y;
+            double distanceZ = this.mc.activeCamera.getZ() - z;
             double maxDistance = 16.0;
 
             if (!(distanceX * distanceX + distanceY * distanceY + distanceZ * distanceZ > maxDistance * maxDistance)) {

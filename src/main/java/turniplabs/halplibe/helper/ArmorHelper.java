@@ -1,9 +1,9 @@
 package turniplabs.halplibe.helper;
 
-import turniplabs.halplibe.mixin.accessors.RenderPlayerAccessor;
-import net.minecraft.src.helper.DamageType;
-import net.minecraft.src.material.ArmorMaterial;
+import net.minecraft.core.item.material.ArmorMaterial;
+import net.minecraft.core.util.helper.DamageType;
 import org.apache.commons.lang3.ArrayUtils;
+import turniplabs.halplibe.mixin.accessors.RenderPlayerAccessor;
 
 public class ArmorHelper {
 

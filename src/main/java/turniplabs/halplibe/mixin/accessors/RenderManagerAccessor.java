@@ -1,16 +1,16 @@
 package turniplabs.halplibe.mixin.accessors;
 
-import net.minecraft.src.Entity;
-import net.minecraft.src.Render;
-import net.minecraft.src.RenderManager;
+import net.minecraft.client.render.EntityRenderDispatcher;
+import net.minecraft.client.render.entity.EntityRenderer;
+import net.minecraft.core.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
 import java.util.Map;
 
-@Mixin(value = RenderManager.class, remap = false)
+@Mixin(value = EntityRenderDispatcher.class, remap = false)
 public interface RenderManagerAccessor {
 
-    @Accessor("entityRenderMap")
-    Map<Class<? extends Entity>, Render> getEntityRenderMap();
+    @Accessor("renderers")
+    Map<Class<? extends Entity>, EntityRenderer<?>> getEntityRenderMap();
 }

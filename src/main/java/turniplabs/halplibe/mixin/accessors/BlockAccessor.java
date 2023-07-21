@@ -1,40 +1,37 @@
 package turniplabs.halplibe.mixin.accessors;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.StepSound;
+import net.minecraft.client.sound.block.BlockSound;
+import net.minecraft.core.block.Block;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(value = Block.class, remap = false)
 public interface BlockAccessor {
 
-    @Invoker("setHardness")
+    @Invoker("withHardness")
     Block callSetHardness(float f);
 
-    @Invoker("setResistance")
+    @Invoker("withBlastResistance")
     Block callSetResistance(float f);
 
-    @Invoker("setStepSound")
-    Block callSetStepSound(StepSound stepSound);
-
-    @Invoker("setLightOpacity")
+    @Invoker("withLightOpacity")
     Block callSetLightOpacity(int i);
 
-    @Invoker("setLightValue")
+    @Invoker("withLightValue")
     Block callSetLightValue(float f);
 
-    @Invoker("setLightValue")
+    @Invoker("withLightValue")
     Block callSetLightValue(int i);
 
-    @Invoker("setImmovable")
+    @Invoker("withImmovableFlagSet")
     Block callSetImmovable();
 
     @Invoker("setDropOverride")
     Block callSetDropOverride(Block block);
 
-    @Invoker("setIsLitInteriorSurface")
+    @Invoker("withLitInteriorSurface")
     Block callSetIsLitInteriorSurface(boolean isLit);
 
-    @Invoker("setBlockUnbreakable")
+    @Invoker("withSetUnbreakable")
     Block callSetBlockUnbreakable();
 }
