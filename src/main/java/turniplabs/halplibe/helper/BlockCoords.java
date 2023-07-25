@@ -3,7 +3,7 @@ package turniplabs.halplibe.helper;
 import turniplabs.halplibe.HalpLibe;
 
 public class BlockCoords {
-    public static int lastX = 22;
+    public static int lastX = 24;
     public static int lastY = 0;
     public static int area = 0;
 
