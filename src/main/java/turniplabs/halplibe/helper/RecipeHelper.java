@@ -36,6 +36,14 @@ public class RecipeHelper {
             ((CraftingManagerAccessor) craftingManager).callAddShapelessRecipe(new ItemStack(outputBlock, amount), aobj);
         }
 
+        public static void createRecipe(ItemStack stack, Object[] aobj) {
+            ((CraftingManagerAccessor) craftingManager).callAddRecipe(stack, aobj);
+        }
+
+        public static void createShapelessRecipe(ItemStack stack, Object[] aobj) {
+            ((CraftingManagerAccessor) craftingManager).callAddShapelessRecipe(stack, aobj);
+        }
+
         public static void removeRecipe(Item outputItem) {
             List recipes = craftingManager.getRecipeList();
             IRecipe theRecipe = null;
@@ -82,6 +90,53 @@ public class RecipeHelper {
             recipes.remove(theRecipe);
             ((CraftingManagerAccessor) craftingManager).setRecipes(recipes);
         }
+    }
+
+    public static void removeRecipe(Item outputItem, int meta) {
+        List recipes = craftingManager.getRecipeList();
+        IRecipe theRecipe = null;
+
+        for (Object recipe : recipes) {
+            if (recipe instanceof RecipeShaped && ((RecipeShaped) recipe).recipeOutput.itemID == outputItem.id && ((RecipeShaped) recipe).recipeOutput.getMetadata() == meta) {
+                theRecipe = (IRecipe) recipe;
+                break;
+            }
+            else if (recipe instanceof RecipeShapeless  && ((RecipeShapeless) recipe).recipeOutput.itemID == outputItem.id && ((RecipeShapeless) recipe).recipeOutput.getMetadata() == meta) {
+                theRecipe = (IRecipe) recipe;
+                break;
+            }
+        }
+
+        if (theRecipe == null) {
+            HalpLibe.LOGGER.debug("Couldn't find recipe with output: " + outputItem.getKey());
+            return;
+        }
+
+        recipes.remove(theRecipe);
+        ((CraftingManagerAccessor) craftingManager).setRecipes(recipes);
+    }
+    public static void removeRecipe(Block outputBlock, int meta) {
+        List recipes = craftingManager.getRecipeList();
+        IRecipe theRecipe = null;
+
+        for (Object recipe : recipes) {
+            if (recipe instanceof RecipeShaped && ((RecipeShaped) recipe).recipeOutput.itemID == outputBlock.id && ((RecipeShaped) recipe).recipeOutput.getMetadata() == meta) {
+                theRecipe = (IRecipe) recipe;
+                break;
+            }
+            else if (recipe instanceof RecipeShapeless  && ((RecipeShapeless) recipe).recipeOutput.itemID == outputBlock.id && ((RecipeShapeless) recipe).recipeOutput.getMetadata() == meta) {
+                theRecipe = (IRecipe) recipe;
+                break;
+            }
+        }
+
+        if (theRecipe == null) {
+            HalpLibe.LOGGER.debug("Couldn't find crafting recipe with output: " + outputBlock.getKey());
+            return;
+        }
+
+        recipes.remove(theRecipe);
+        ((CraftingManagerAccessor) craftingManager).setRecipes(recipes);
     }
 
     public static class Smelting {
