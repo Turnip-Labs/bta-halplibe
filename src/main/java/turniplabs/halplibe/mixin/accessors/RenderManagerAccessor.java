@@ -11,6 +11,6 @@ import java.util.Map;
 @Mixin(value = RenderManager.class, remap = false)
 public interface RenderManagerAccessor {
 
-    @Accessor("entityRenderMap")
-    Map<Class<? extends Entity>, Render> getEntityRenderMap();
+	@Accessor("entityRenderMap")
+	Map<Class<? extends Entity>, Render> getEntityRenderMap();
 }

@@ -11,12 +11,12 @@ import java.util.List;
 @Mixin(value = CraftingManager.class, remap = false)
 public interface CraftingManagerAccessor {
 
-    @Invoker("addRecipe")
-    void callAddRecipe(ItemStack itemstack, Object[] aobj);
+	@Invoker("addRecipe")
+	void callAddRecipe(ItemStack itemstack, Object[] aobj);
 
-    @Invoker("addShapelessRecipe")
-    void callAddShapelessRecipe(ItemStack itemstack, Object[] aobj);
+	@Invoker("addShapelessRecipe")
+	void callAddShapelessRecipe(ItemStack itemstack, Object[] aobj);
 
-    @Accessor("recipes")
-    void setRecipes(List list);
+	@Accessor("recipes")
+	void setRecipes(List list);
 }

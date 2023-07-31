@@ -9,6 +9,6 @@ import java.util.Map;
 @Mixin(value = RecipesBlastFurnace.class, remap = false)
 public interface RecipesBlastFurnaceAccessor {
 
-    @Accessor("smeltingList")
-    void setSmeltingList(Map map);
+	@Accessor("smeltingList")
+	void setSmeltingList(Map map);
 }

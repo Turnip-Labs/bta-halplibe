@@ -11,7 +11,7 @@ import java.util.Map;
 @Mixin(value = TileEntityRenderer.class, remap = false)
 public interface TileEntityRendererAccessor {
 
-    @Accessor("specialRendererMap")
-    Map<Class<? extends TileEntity>, TileEntitySpecialRenderer> getSpecialRendererMap();
+	@Accessor("specialRendererMap")
+	Map<Class<? extends TileEntity>, TileEntitySpecialRenderer> getSpecialRendererMap();
 
 }

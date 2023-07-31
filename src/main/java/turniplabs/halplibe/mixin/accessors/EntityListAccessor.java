@@ -8,8 +8,8 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 @Mixin(value = EntityList.class, remap = false)
 public interface EntityListAccessor {
 
-    @Invoker("addMapping")
-    static void callAddMapping(Class<? extends Entity> clazz, String name, int id) {
-        throw new AssertionError();
-    }
+	@Invoker("addMapping")
+	static void callAddMapping(Class<? extends Entity> clazz, String name, int id) {
+		throw new AssertionError();
+	}
 }

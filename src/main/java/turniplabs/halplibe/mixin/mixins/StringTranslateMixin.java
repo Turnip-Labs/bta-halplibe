@@ -17,26 +17,19 @@ import java.util.Properties;
 
 @Mixin(value = StringTranslate.class, remap = false)
 public abstract class StringTranslateMixin {
-    @Shadow
-    private Properties translateTable;
+	@Shadow
+	private Properties translateTable;
 
-    @Inject(method = "<init>",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Ljava/io/PrintStream;println(Ljava/lang/String;)V",
-                    shift = At.Shift.BEFORE
-            )
-    )
-    public void halplibe_onApplyTranslations(CallbackInfo ci) {
-        for (ModContainer mod : FabricLoader.getInstance().getAllMods()) {
-            try (InputStream stream = FabricLauncherBase.getLauncher().getResourceAsStream("lang/" +
-                    mod.getMetadata().getId() +
-                    "/en_US.lang")) {
-                HalpLibe.LOGGER.debug("Language file for " + mod.getMetadata().getId() + " is not null: " + (stream != null));
-                if (stream != null) {
-                    this.translateTable.load(stream);
-                }
-            } catch (IOException ignored) {}
-        }
-    }
+	@Inject(method = "<init>", at = @At(value = "INVOKE", target = "Ljava/io/PrintStream;println(Ljava/lang/String;)V", shift = At.Shift.BEFORE))
+	public void halplibe_onApplyTranslations(CallbackInfo ci) {
+		for (ModContainer mod : FabricLoader.getInstance().getAllMods()) {
+			try (InputStream stream = FabricLauncherBase.getLauncher().getResourceAsStream("lang/" + mod.getMetadata().getId() + "/en_US.lang")) {
+				HalpLibe.LOGGER.debug("Language file for " + mod.getMetadata().getId() + " is not null: " + (stream != null));
+				if (stream != null) {
+					this.translateTable.load(stream);
+				}
+			} catch (IOException ignored) {
+			}
+		}
+	}
 }

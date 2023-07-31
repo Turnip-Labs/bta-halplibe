@@ -7,8 +7,8 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(value = Dimension.class, remap = false)
 public interface DimensionAccessor {
 
-    @Accessor("dimensionList")
-    static void setDimensionList(Dimension[] list) {
-        throw new AssertionError();
-    }
+	@Accessor("dimensionList")
+	static void setDimensionList(Dimension[] list) {
+		throw new AssertionError();
+	}
 }

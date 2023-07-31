@@ -12,13 +12,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(value = MinecraftServer.class, remap = false)
 public abstract class MinecraftServerMixin {
 
-    // Mixin to fix custom dimensions on multiplayer
+	// Mixin to fix custom dimensions on multiplayer
 
-    @Shadow
-    public EntityTracker[] entityTracker;
+	@Shadow
+	public EntityTracker[] entityTracker;
 
-    @Inject(method = "startServer", at = @At(value = "HEAD"))
-    private void halplibe_startServer(CallbackInfoReturnable<Boolean> cir) {
-        entityTracker = new EntityTracker[Dimension.dimensionList.length];
-    }
+	@Inject(method = "startServer", at = @At(value = "HEAD"))
+	private void halplibe_startServer(CallbackInfoReturnable<Boolean> cir) {
+		entityTracker = new EntityTracker[Dimension.dimensionList.length];
+	}
 }

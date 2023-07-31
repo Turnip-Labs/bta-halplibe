@@ -12,16 +12,14 @@ import java.util.Arrays;
 @Mixin(value = ContainerPlayerCreative.class, remap = false)
 public abstract class ContainerPlayerCreativeMixin {
 
-    @Shadow
-    public static ItemStack[] creativeItems;
+	@Shadow
+	public static ItemStack[] creativeItems;
 
-    @ModifyConstant(method = "<clinit>", constant = @Constant(intValue = 1000))
-    private static int halplibe_changeMaxDisplayedItems(int constant) {
-        creativeItems = Arrays.copyOf(creativeItems, 10000);
-        return constant + 9000;
-    }
-
-
+	@ModifyConstant(method = "<clinit>", constant = @Constant(intValue = 1000))
+	private static int halplibe_changeMaxDisplayedItems(int constant) {
+		creativeItems = Arrays.copyOf(creativeItems, 10000);
+		return constant + 9000;
+	}
 
 
 }
