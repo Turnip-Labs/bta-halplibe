@@ -1,7 +1,7 @@
 package turniplabs.halplibe.mixin.accessors;
 
-import net.minecraft.src.CraftingManager;
-import net.minecraft.src.ItemStack;
+import net.minecraft.core.crafting.CraftingManager;
+import net.minecraft.core.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.gen.Invoker;

@@ -1,40 +1,37 @@
 package turniplabs.halplibe.mixin.accessors;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.StepSound;
+import net.minecraft.client.sound.block.BlockSound;
+import net.minecraft.core.block.Block;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(value = Block.class, remap = false)
 public interface BlockAccessor {
 
-	@Invoker("setHardness")
-	Block callSetHardness(float f);
+    @Invoker("withHardness")
+    Block callSetHardness(float f);
 
-	@Invoker("setResistance")
-	Block callSetResistance(float f);
+    @Invoker("withBlastResistance")
+    Block callSetResistance(float f);
 
-	@Invoker("setStepSound")
-	Block callSetStepSound(StepSound stepSound);
+    @Invoker("withLightOpacity")
+    Block callSetLightOpacity(int i);
 
-	@Invoker("setLightOpacity")
-	Block callSetLightOpacity(int i);
+    @Invoker("withLightValue")
+    Block callSetLightValue(float f);
 
-	@Invoker("setLightValue")
-	Block callSetLightValue(float f);
+    @Invoker("withLightValue")
+    Block callSetLightValue(int i);
 
-	@Invoker("setLightValue")
-	Block callSetLightValue(int i);
+    @Invoker("withImmovableFlagSet")
+    Block callSetImmovable();
 
-	@Invoker("setImmovable")
-	Block callSetImmovable();
+    @Invoker("setDropOverride")
+    Block callSetDropOverride(Block block);
 
-	@Invoker("setDropOverride")
-	Block callSetDropOverride(Block block);
+    @Invoker("withLitInteriorSurface")
+    Block callSetIsLitInteriorSurface(boolean isLit);
 
-	@Invoker("setIsLitInteriorSurface")
-	Block callSetIsLitInteriorSurface(boolean isLit);
-
-	@Invoker("setBlockUnbreakable")
-	Block callSetBlockUnbreakable();
+    @Invoker("withSetUnbreakable")
+    Block callSetBlockUnbreakable();
 }

@@ -1,6 +1,7 @@
 package turniplabs.halplibe.helper;
 
-import net.minecraft.src.EntityFX;
+
+import net.minecraft.core.entity.fx.EntityFX;
 
 import java.util.HashMap;
 import java.util.Map;

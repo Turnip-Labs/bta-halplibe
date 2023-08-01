@@ -1,6 +1,6 @@
 package turniplabs.halplibe.helper;
 
-import net.minecraft.src.Block;
+import net.minecraft.core.block.Block;
 import turniplabs.halplibe.util.TextureHandler;
 
 import java.util.ArrayList;
