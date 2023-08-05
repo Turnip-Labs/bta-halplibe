@@ -1,10 +1,9 @@
 package turniplabs.halplibe.mixin.mixins;
 
+import net.fabricmc.loader.api.FabricLoader;
+import net.fabricmc.loader.api.ModContainer;
 import net.minecraft.core.lang.I18n;
 import net.minecraft.core.lang.Language;
-import org.quiltmc.loader.api.ModContainer;
-import org.quiltmc.loader.api.QuiltLoader;
-import org.spongepowered.asm.mixin.Debug;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -96,9 +95,9 @@ public abstract class I18nMixin {
     )
     public void addHalplibeModLangFiles(String languageCode, boolean save, CallbackInfo ci){
         Properties entries = ((LanguageAccessor)currentLanguage).getEntries();
-        for (ModContainer mod : QuiltLoader.getAllMods()) {
-            String[] langs = filesInDir("/lang/"+mod.metadata().id()+"/");
-            HalpLibe.LOGGER.debug(mod.metadata().id()+" contains "+langs.length+" language files.");
+        for (ModContainer mod : FabricLoader.getInstance().getAllMods()) {
+            String[] langs = filesInDir("/lang/"+mod.getMetadata().getId()+"/");
+            HalpLibe.LOGGER.debug(mod.getMetadata().getId()+" contains "+langs.length+" language files.");
             HalpLibe.LOGGER.debug(Arrays.toString(langs));
             for (String lang : langs) {
                 try (InputStream stream = getResourceAsStream(lang)){//QuiltLauncherBase.getLauncher().getResourceAsStream(lang)) {
