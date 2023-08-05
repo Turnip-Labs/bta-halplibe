@@ -1,5 +1,5 @@
 plugins {
-	id "org.quiltmc.loom" version "1.+"
+	id 'babric-loom' version '1.1.+'
 	id 'java'
 }
 
@@ -8,9 +8,9 @@ archivesBaseName = project.mod_name
 version = project.mod_version
 
 loom {
-	clientOnlyMinecraftJar()
+	gluedMinecraftJar()
 	noIntermediateMappings()
-	customMinecraftManifest.set("https://github.com/MartinSVK12/bta-manifest-repo/releases/download/v${project.bta_version}/${project.bta_version}.json")
+	customMinecraftManifest.set("https://github.com/Turnip-Labs/bta-manifest-repo/releases/download/v${project.bta_version}/${project.bta_version}.json")
 }
 
 repositories {
@@ -59,15 +59,19 @@ repositories {
 
 dependencies {
 	minecraft "bta-download-repo:bta:${project.bta_version}"
-	mappings loom.layered {}
+	mappings loom.layered() {}
 
 	modRuntimeOnly "objects:client:43db9b498cb67058d2e12d394e6507722e71bb45" // https://piston-data.mojang.com/v1/objects/43db9b498cb67058d2e12d394e6507722e71bb45/client.jar
-	modImplementation("quilt-loader:quilt-loader:${project.loader_version}")
+	modImplementation "fabric-loader:fabric-loader:${project.loader_version}"
 
-	modImplementation "org.slf4j:slf4j-api:1.8.0-beta4"
-	modImplementation "org.apache.logging.log4j:log4j-slf4j18-impl:2.16.0"
-	modImplementation("org.apache.commons:commons-lang3:3.12.0")
-	include("org.apache.commons:commons-lang3:3.12.0")
+	implementation "org.slf4j:slf4j-api:1.8.0-beta4"
+	implementation "org.apache.logging.log4j:log4j-slf4j18-impl:2.16.0"
+
+	var log4jVersion = "2.20.0"
+	implementation("org.apache.logging.log4j:log4j-core:${log4jVersion}")
+	implementation("org.apache.logging.log4j:log4j-api:${log4jVersion}")
+	implementation("org.apache.logging.log4j:log4j-1.2-api:${log4jVersion}")
+	implementation("log4j:apache-log4j-extras:1.2.17")
 }
 
 java {
@@ -76,12 +80,20 @@ java {
 	withSourcesJar()
 }
 
-tasks.withType(JavaCompile).configureEach {
+tasks.withType(JavaCompile) {
 	options.release.set 8
 }
 
 jar {
 	from("LICENSE") {
 		rename { "${it}_${archivesBaseName}" }
+	}
+}
+
+processResources {
+	inputs.property "version", version
+
+	filesMatching("fabric.mod.json") {
+		expand "version": version
 	}
 }
