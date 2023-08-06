@@ -13,9 +13,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import turniplabs.halplibe.HalpLibe;
 import turniplabs.halplibe.mixin.accessors.LanguageAccessor;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.util.*;
 import java.util.stream.Stream;
@@ -95,17 +95,22 @@ public abstract class I18nMixin {
     )
     public void addHalplibeModLangFiles(String languageCode, boolean save, CallbackInfo ci){
         Properties entries = ((LanguageAccessor)currentLanguage).getEntries();
+        String currentLangId = currentLanguage.getId();
+        HalpLibe.LOGGER.debug("Current lang: "+currentLangId);
         for (ModContainer mod : FabricLoader.getInstance().getAllMods()) {
             String[] langs = filesInDir("/lang/"+mod.getMetadata().getId()+"/");
             HalpLibe.LOGGER.debug(mod.getMetadata().getId()+" contains "+langs.length+" language files.");
             HalpLibe.LOGGER.debug(Arrays.toString(langs));
             for (String lang : langs) {
-                try (InputStream stream = getResourceAsStream(lang)){//QuiltLauncherBase.getLauncher().getResourceAsStream(lang)) {
-                    if (stream != null) {
-                        entries.load(stream);
+                if(lang.contains(currentLangId)){
+                    try (InputStream stream = getResourceAsStream(lang)){
+                        if (stream != null) {
+                            InputStreamReader r = new InputStreamReader(stream, StandardCharsets.UTF_8);
+                            entries.load(r);
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
             }
         }
