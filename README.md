@@ -8,7 +8,7 @@ A helper library to ease babric mod development for BTA.
 - Minecraft Development plugin (Optional, but highly recommended)
 
 ## Setup instructions
-Follow the setup instructions on [the minimal mod](https://github.com/Turnip-Labs/bta-minimal-mod) GitHub page.
+Follow the setup instructions on [the example mod](https://github.com/Turnip-Labs/bta-example-mod) GitHub page.
 
 ## How to include HalpLibe in a project
 Add this in your `build.gradle`:
