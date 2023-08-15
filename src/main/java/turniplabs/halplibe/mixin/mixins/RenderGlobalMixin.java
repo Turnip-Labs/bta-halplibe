@@ -1,15 +1,15 @@
 package turniplabs.halplibe.mixin.mixins;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.render.RenderGlobal;
 import net.minecraft.core.entity.fx.EntityFX;
 import net.minecraft.core.world.World;
-import turniplabs.halplibe.helper.ParticleHelper;
-import net.minecraft.client.Minecraft;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import turniplabs.halplibe.helper.ParticleHelper;
 
 import java.util.Map;
 
@@ -23,7 +23,7 @@ public abstract class RenderGlobalMixin {
     private World worldObj;
 
     @Inject(method = "addParticle(Ljava/lang/String;DDDDDD)V", at = @At(value = "TAIL"))
-    private void halplibe_spawnParticle(String particle, double x, double y, double z, double motionX, double motionY, double motionZ, CallbackInfo ci) {
+    private void spawnParticle(String particle, double x, double y, double z, double motionX, double motionY, double motionZ, CallbackInfo ci) {
         if (mc != null && mc.activeCamera != null && mc.effectRenderer != null) {
             double distanceX = this.mc.activeCamera.getX() - x;
             double distanceY = this.mc.activeCamera.getY() - y;

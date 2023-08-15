@@ -13,20 +13,20 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import turniplabs.halplibe.HalpLibe;
 import turniplabs.halplibe.mixin.accessors.LanguageAccessor;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.util.*;
 import java.util.stream.Stream;
 
-@Mixin(
-        value = I18n.class,
-        remap = false
-)
+@Mixin(value = I18n.class, remap = false)
 public abstract class I18nMixin {
 
-    @Shadow private Language currentLanguage;
+    @Shadow
+    private Language currentLanguage;
 
     @Unique
     private static String[] filesInDir(String directory) {
@@ -57,7 +57,7 @@ public abstract class I18nMixin {
                 Iterator<Path> it = walk.iterator();
                 it.next();
 
-                while(it.hasNext()) {
+                while (it.hasNext()) {
                     paths.add(directory + it.next().getFileName().toString());
                 }
             } catch (Throwable var10) {
@@ -93,17 +93,17 @@ public abstract class I18nMixin {
             method = "reload(Ljava/lang/String;Z)V",
             at = @At("TAIL")
     )
-    public void addHalplibeModLangFiles(String languageCode, boolean save, CallbackInfo ci){
-        Properties entries = ((LanguageAccessor)currentLanguage).getEntries();
+    public void addHalplibeModLangFiles(String languageCode, boolean save, CallbackInfo ci) {
+        Properties entries = ((LanguageAccessor) currentLanguage).getEntries();
         String currentLangId = currentLanguage.getId();
-        HalpLibe.LOGGER.debug("Current lang: "+currentLangId);
+        HalpLibe.LOGGER.debug("Current lang: " + currentLangId);
         for (ModContainer mod : FabricLoader.getInstance().getAllMods()) {
-            String[] langs = filesInDir("/lang/"+mod.getMetadata().getId()+"/");
-            HalpLibe.LOGGER.debug(mod.getMetadata().getId()+" contains "+langs.length+" language files.");
+            String[] langs = filesInDir("/lang/" + mod.getMetadata().getId() + "/");
+            HalpLibe.LOGGER.debug(mod.getMetadata().getId() + " contains " + langs.length + " language files.");
             HalpLibe.LOGGER.debug(Arrays.toString(langs));
             for (String lang : langs) {
-                if(lang.contains(currentLangId)){
-                    try (InputStream stream = getResourceAsStream(lang)){
+                if (lang.contains(currentLangId)) {
+                    try (InputStream stream = getResourceAsStream(lang)) {
                         if (stream != null) {
                             InputStreamReader r = new InputStreamReader(stream, StandardCharsets.UTF_8);
                             entries.load(r);

@@ -13,11 +13,11 @@ import java.util.List;
 
 @Mixin(value = RenderEngine.class, remap = false)
 public abstract class RenderEngineMixin {
-	@Shadow
-	private List<DynamicTexture> dynamicTextures;
+    @Shadow
+    private List<DynamicTexture> dynamicTextures;
 
-	@Inject(method = "initDynamicTextures", at = @At("TAIL"))
-	private void halplibe_initDynamicTextures(CallbackInfo ci) {
-		dynamicTextures.addAll(TextureHelper.textureHandlers);
-	}
+    @Inject(method = "initDynamicTextures", at = @At("TAIL"))
+    private void initDynamicTextures(CallbackInfo ci) {
+        dynamicTextures.addAll(TextureHelper.textureHandlers);
+    }
 }

@@ -1,17 +1,10 @@
 package turniplabs.halplibe.mixin.accessors;
 
 import net.minecraft.client.util.dispatch.Dispatcher;
-import org.spongepowered.asm.mixin.Debug;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
-@Mixin(
-        value = Dispatcher.class,
-        remap = false
-)
-@Debug(
-        export = true
-)
+@Mixin(value = Dispatcher.class, remap = false)
 public interface DispatcherAccessor {
 
     @Invoker("addDispatch")

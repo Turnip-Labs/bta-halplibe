@@ -10,5 +10,5 @@ import java.util.Map;
 public interface RecipesBlastFurnaceAccessor {
 
     @Accessor("smeltingList")
-    void setSmeltingList(Map<?,?> map);
+    void setSmeltingList(Map<?, ?> map);
 }

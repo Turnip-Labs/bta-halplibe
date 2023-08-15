@@ -9,8 +9,7 @@ public class BlockCoords {
 
     public static int[] nextCoords() {
         switch (area) {
-            case 0:
-            {
+            case 0: {
                 int x = lastX;
                 int y = lastY;
                 if (++lastX > 31) {
@@ -23,8 +22,7 @@ public class BlockCoords {
                 }
                 return new int[]{x, y};
             }
-            case 1:
-            {
+            case 1: {
                 int x = lastX;
                 int y = lastY;
                 if (++lastX > 21) {
@@ -37,8 +35,7 @@ public class BlockCoords {
                 }
                 return new int[]{x, y};
             }
-            case 2:
-            {
+            case 2: {
                 int x = lastX;
                 int y = lastY;
                 if (++lastX > 21) {
