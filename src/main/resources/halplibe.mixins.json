@@ -1,31 +1,32 @@
 {
-  "required": true,
-  "minVersion": "0.8",
-  "package": "turniplabs.halplibe.mixin",
-  "compatibilityLevel": "JAVA_8",
-  "mixins": [
-    "accessors.LanguageAccessor",
-    "accessors.BlockAccessor",
-    "accessors.CraftingManagerAccessor",
-    "accessors.DimensionAccessor",
-    "accessors.DispatcherAccessor",
-    "accessors.EntityListAccessor",
-    "accessors.RecipesBlastFurnaceAccessor",
-    "accessors.RecipesFurnaceAccessor",
-    "accessors.RenderManagerAccessor",
-    "accessors.RenderPlayerAccessor",
-    "accessors.TileEntityAccessor",
-    "accessors.TileEntityRendererAccessor",
-    "mixins.BlockSoundDispatcherMixin",
-    "mixins.ContainerPlayerCreativeMixin",
-    "mixins.EntityClientPlayerMPMixin",
-    "mixins.I18nMixin",
-    "mixins.RenderEngineMixin",
-    "mixins.RenderGlobalMixin"
-  ],
-  "client": [
-  ],
-  "injectors": {
-    "defaultRequire": 1
+    "required": true,
+    "minVersion": "0.8",
+    "package": "turniplabs.halplibe.mixin",
+    "compatibilityLevel": "JAVA_8",
+    "mixins": [
+        "accessors.BlockAccessor",
+        "accessors.BlockFireAccessor",
+        "accessors.CraftingManagerAccessor",
+        "accessors.DimensionAccessor",
+        "accessors.DispatcherAccessor",
+        "accessors.EntityListAccessor",
+        "accessors.LanguageAccessor",
+        "accessors.RecipesBlastFurnaceAccessor",
+        "accessors.RecipesFurnaceAccessor",
+        "accessors.RenderManagerAccessor",
+        "accessors.RenderPlayerAccessor",
+        "accessors.TileEntityAccessor",
+        "accessors.TileEntityRendererAccessor",
+        "mixins.BlockFireMixin",
+        "mixins.BlockSoundDispatcherMixin",
+        "mixins.EntityClientPlayerMPMixin",
+        "mixins.I18nMixin",
+        "mixins.RenderEngineMixin",
+        "mixins.RenderGlobalMixin"
+    ],
+    "client": [
+    ],
+    "injectors": {
+        "defaultRequire": 1
   }
 }
