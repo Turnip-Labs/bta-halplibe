@@ -413,7 +413,7 @@ public class BlockBuilder implements Cloneable {
         return block;
     }
 
-    private interface BlockLambda<T> {
+    public interface BlockLambda<T> {
         T run(Block block);
     }
 }
