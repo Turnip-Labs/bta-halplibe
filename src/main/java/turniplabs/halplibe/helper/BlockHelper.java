@@ -6,7 +6,6 @@ import net.minecraft.core.block.Block;
 import net.minecraft.core.item.Item;
 import net.minecraft.core.item.block.ItemBlock;
 import turniplabs.halplibe.mixin.accessors.BlockAccessor;
-import turniplabs.halplibe.mixin.accessors.DispatcherAccessor;
 
 @Deprecated
 public class BlockHelper {
@@ -56,7 +55,7 @@ public class BlockHelper {
 
     @Deprecated
     public static Block createBlock(String modId, Block block, BlockSound blockSound, float hardness, float resistance, float lightValue) {
-        ((DispatcherAccessor) BlockSoundDispatcher.getInstance()).callAddDispatch(block, blockSound);
+        BlockSoundDispatcher.getInstance().addDispatch(block, blockSound);
         ((BlockAccessor) block).callSetHardness(hardness);
         ((BlockAccessor) block).callSetResistance(resistance);
         ((BlockAccessor) block).callSetLightValue(lightValue);

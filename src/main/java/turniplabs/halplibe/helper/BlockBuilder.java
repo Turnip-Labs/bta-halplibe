@@ -10,9 +10,10 @@ import net.minecraft.core.block.Block;
 import net.minecraft.core.data.tag.Tag;
 import net.minecraft.core.item.Item;
 import net.minecraft.core.item.block.ItemBlock;
+import net.minecraft.core.util.helper.Side;
+import org.apache.commons.lang3.ArrayUtils;
 import turniplabs.halplibe.mixin.accessors.BlockAccessor;
 import turniplabs.halplibe.mixin.accessors.BlockFireAccessor;
-import turniplabs.halplibe.mixin.accessors.DispatcherAccessor;
 
 import java.util.Set;
 import java.util.TreeSet;
@@ -25,23 +26,25 @@ public class BlockBuilder implements Cloneable {
     private Float resistance = null;
     private Integer luminance = null;
     private Integer lightOpacity = null;
+    private Float slipperiness = null;
     private boolean immovable = false;
     private boolean useInternalLight = false;
-    private boolean disabledNNOMC = false;
-    private int[] flammability = null;
+    private boolean visualUpdateOnMetadata = false;
+    private boolean tickOnLoad = false;
     private boolean infiniburn = false;
+    private int[] flammability = null;
     private Block blockDrop = null;
     private BlockSound blockSound = null;
     private BlockColor blockColor = null;
     private BlockModel blockModel = null;
     private BlockLambda<ItemBlock> customItemBlock = null;
     private Tag<Block>[] tags = null;
-    private int[] topTexture = new int[2];
-    private int[] bottomTexture = new int[2];
-    private int[] northTexture = new int[2];
-    private int[] eastTexture = new int[2];
-    private int[] southTexture = new int[2];
-    private int[] westTexture = new int[2];
+    private int[] topTexture = null;
+    private int[] bottomTexture = null;
+    private int[] northTexture = null;
+    private int[] eastTexture = null;
+    private int[] southTexture = null;
+    private int[] westTexture = null;
 
     public BlockBuilder(String modId) {
         MOD_ID = modId;
@@ -58,7 +61,7 @@ public class BlockBuilder implements Cloneable {
     }
 
     /**
-     * Sets the block's time to break.
+     * Sets how long it takes to break the block.
      */
     public BlockBuilder setHardness(float hardness) {
         BlockBuilder blockBuilder = this.clone();
@@ -87,15 +90,39 @@ public class BlockBuilder implements Cloneable {
     }
 
     /**
-     * Sets the block's ability for light to pass through it.
-     * Block light and sunlight (once it encounters a non-transparent block) decreases its intensity by 1,
-     * so when passing through a block with opacity 1, it will actually decrease by 2.
+     * Sets the block's ability for light to pass through it.<br>
+     * Block light and sunlight (once it encounters a non-transparent block) decreases
+     * its intensity by 1 every block travelled.<br>
+     * Therefore, when passing through a block with opacity 1, it will actually decrease by 2.
      *
      * @param lightOpacity ranges from 0 to 15
      */
     public BlockBuilder setLightOpacity(int lightOpacity) {
         BlockBuilder blockBuilder = this.clone();
         blockBuilder.lightOpacity = lightOpacity;
+        return blockBuilder;
+    }
+
+    /**
+     * Sets the block's slipperiness, 0.6 is default, 0.98 is ice.
+     */
+    public BlockBuilder setSlipperiness(float slipperiness) {
+        BlockBuilder blockBuilder = this.clone();
+        blockBuilder.slipperiness = slipperiness;
+        return blockBuilder;
+    }
+
+    /**
+     * Sets the block's flammability.
+     *
+     * @param chanceToCatchFire how likely it is for the block to catch fire
+     *                          non-destructively
+     * @param chanceToDegrade   how likely it is for the block to burn itself
+     *                          to ash and disappear
+     */
+    public BlockBuilder setFlammability(int chanceToCatchFire, int chanceToDegrade) {
+        BlockBuilder blockBuilder = this.clone();
+        blockBuilder.flammability = new int[]{chanceToCatchFire, chanceToDegrade};
         return blockBuilder;
     }
 
@@ -118,16 +145,16 @@ public class BlockBuilder implements Cloneable {
     }
 
     /**
-     * Makes a block drop a different block than itself upon breaking.
+     * Makes fire burn indefinitely on top of the block.
      */
-    public BlockBuilder setBlockDrop(Block droppedBlock) {
+    public BlockBuilder setInfiniburn() {
         BlockBuilder blockBuilder = this.clone();
-        blockBuilder.blockDrop = droppedBlock;
+        blockBuilder.infiniburn = true;
         return blockBuilder;
     }
 
     /**
-     * Makes a block's interior faces get light from the block's position.
+     * Makes a block's interior faces get light from the block's position.<br>
      * Used for things like slabs, stairs, layers and various other non-full
      * blocks that allow light to pass through them.
      */
@@ -137,50 +164,93 @@ public class BlockBuilder implements Cloneable {
         return blockBuilder;
     }
 
+
+    @Deprecated
+    public BlockBuilder setDisabledNeighborNotifyOnMetadataChange() {
+        return setVisualUpdateOnMetadata();
+    }
+
     /**
-     * Sets the block's flammability.
-     *
-     * @param chanceToCatchFire how likely it is for the block to catch fire
-     *                          non-destructively
-     * @param chanceToDegrade   how likely it is for the block to burn itself
-     *                          to ash and disappear
+     * Makes the block receive a visual update when the metadata of that block changes.
      */
-    public BlockBuilder setFlammability(int chanceToCatchFire, int chanceToDegrade) {
+    public BlockBuilder setVisualUpdateOnMetadata() {
         BlockBuilder blockBuilder = this.clone();
-        blockBuilder.flammability = new int[]{chanceToCatchFire, chanceToDegrade};
+        blockBuilder.visualUpdateOnMetadata = true;
         return blockBuilder;
     }
 
-    public BlockBuilder setInfiniburn() {
+    /**
+     * Makes the block receive a tick update when the game loads the chunk the block is in.
+     */
+    public BlockBuilder setTickOnLoad() {
         BlockBuilder blockBuilder = this.clone();
-        blockBuilder.infiniburn = true;
+        blockBuilder.tickOnLoad = true;
         return blockBuilder;
     }
 
+    /**
+     * Makes a block drop a different block than itself upon breaking.
+     */
+    public BlockBuilder setBlockDrop(Block droppedBlock) {
+        BlockBuilder blockBuilder = this.clone();
+        blockBuilder.blockDrop = droppedBlock;
+        return blockBuilder;
+    }
+
+    /**
+     * Sets the block's sound when walking over and breaking it.<br>
+     * Example code:
+     * <pre>{@code
+     *     public static final Block exampleBlock = new BlockBuilder(MOD_ID)
+     *          .setBlockSound(BlockSounds.WOOD)
+     *          .build(new Block("example.block", 4000, Material.wood));
+     * }</pre>
+     */
     public BlockBuilder setBlockSound(BlockSound blockSound) {
         BlockBuilder blockBuilder = this.clone();
         blockBuilder.blockSound = blockSound;
         return blockBuilder;
     }
 
-    public BlockBuilder setBlockColor(BlockColor color) {
+    /**
+     * Makes the block's textures be colorized according to the provided BlockColor.<br>
+     * Example code:
+     * <pre>{@code
+     *     public static final Block customGrassBlock = new BlockBuilder(MOD_ID)
+     *          .setBlockColor(new BlockColorGrass())
+     *          .build(new BlockGrass("custom.grass.block", 4001, Material.grass));
+     * }</pre>
+     */
+    public BlockBuilder setBlockColor(BlockColor blockColor) {
         BlockBuilder blockBuilder = this.clone();
-        blockBuilder.blockColor = color;
+        blockBuilder.blockColor = blockColor;
         return blockBuilder;
     }
 
-    public BlockBuilder setBlockModel(BlockModel model) {
+    /**
+     * Sets the block's visible model.<br>
+     * Example code:
+     * <pre>{@code
+     *     public static final Block customFlower = new BlockBuilder(MOD_ID)
+     *          .setBlockModel(new BlockModelRenderBlocks(1))
+     *          .build(new BlockFlower("custom.flower", 4002);
+     * }</pre>
+     */
+    public BlockBuilder setBlockModel(BlockModel blockModel) {
         BlockBuilder blockBuilder = this.clone();
-        blockBuilder.blockModel = model;
+        blockBuilder.blockModel = blockModel;
         return blockBuilder;
     }
 
-    public BlockBuilder setDisabledNeighborNotifyOnMetadataChange() {
-        BlockBuilder blockBuilder = this.clone();
-        blockBuilder.disabledNNOMC = true;
-        return blockBuilder;
-    }
-
+    /**
+     * Sets the block's item used to place the block.<br>
+     * Example code:
+     * <pre>{@code
+     *     public static final Block customSlab = new BlockBuilder(MOD_ID)
+     *          .setItemBlock(ItemBlockSlab::new)
+     *          .build(new BlockSlab(Block.dirt, 4003));
+     * }</pre>
+     */
     public BlockBuilder setItemBlock(BlockLambda<ItemBlock> customItemBlock) {
         BlockBuilder blockBuilder = this.clone();
         blockBuilder.customItemBlock = customItemBlock;
@@ -191,6 +261,13 @@ public class BlockBuilder implements Cloneable {
     public final BlockBuilder setTags(Tag<Block>... tags) {
         BlockBuilder blockBuilder = this.clone();
         blockBuilder.tags = tags;
+        return blockBuilder;
+    }
+
+    @SafeVarargs
+    public final BlockBuilder addTags(Tag<Block>... tags) {
+        BlockBuilder blockBuilder = this.clone();
+        blockBuilder.tags = ArrayUtils.addAll(this.tags, tags);
         return blockBuilder;
     }
 
@@ -222,7 +299,12 @@ public class BlockBuilder implements Cloneable {
         return blockBuilder;
     }
 
+    @Deprecated
     public BlockBuilder setSides(String texture) {
+        return setSideTextures(texture);
+    }
+
+    public BlockBuilder setSideTextures(String texture) {
         int[] sides = TextureHelper.getOrCreateBlockTexture(MOD_ID, texture);
 
         BlockBuilder blockBuilder = this.clone();
@@ -234,7 +316,12 @@ public class BlockBuilder implements Cloneable {
         return blockBuilder;
     }
 
+    @Deprecated
     public BlockBuilder setSides(int x, int y) {
+        return setSideTextures(x, y);
+    }
+
+    public BlockBuilder setSideTextures(int x, int y) {
         int[] sides = new int[]{x, y};
 
         BlockBuilder blockBuilder = this.clone();
@@ -339,14 +426,29 @@ public class BlockBuilder implements Cloneable {
     }
 
     public Block build(Block block) {
-        block.withTexCoords(
-                topTexture[0], topTexture[1],
-                bottomTexture[0], bottomTexture[1],
-                northTexture[0], northTexture[1],
-                eastTexture[0], eastTexture[1],
-                southTexture[0], southTexture[1],
-                westTexture[0], westTexture[1]
-        );
+        if (topTexture != null) {
+            block.atlasIndices[Side.TOP.getId()] = Block.texCoordToIndex(topTexture[0], topTexture[1]);
+        }
+
+        if (topTexture != null) {
+            block.atlasIndices[Side.BOTTOM.getId()] = Block.texCoordToIndex(bottomTexture[0], bottomTexture[1]);
+        }
+
+        if (topTexture != null) {
+            block.atlasIndices[Side.NORTH.getId()] = Block.texCoordToIndex(northTexture[0], northTexture[1]);
+        }
+
+        if (topTexture != null) {
+            block.atlasIndices[Side.EAST.getId()] = Block.texCoordToIndex(eastTexture[0], eastTexture[1]);
+        }
+
+        if (topTexture != null) {
+            block.atlasIndices[Side.SOUTH.getId()] = Block.texCoordToIndex(southTexture[0], southTexture[1]);
+        }
+
+        if (topTexture != null) {
+            block.atlasIndices[Side.WEST.getId()] = Block.texCoordToIndex(westTexture[0], westTexture[1]);
+        }
 
         if (hardness != null) {
             ((BlockAccessor) block).callSetHardness(hardness);
@@ -364,6 +466,10 @@ public class BlockBuilder implements Cloneable {
             ((BlockAccessor) block).callSetLightOpacity(lightOpacity);
         }
 
+        if (slipperiness != null) {
+            block.movementScale = slipperiness;
+        }
+
         ((BlockAccessor) block).callSetIsLitInteriorSurface(useInternalLight);
 
         if (immovable) {
@@ -378,16 +484,18 @@ public class BlockBuilder implements Cloneable {
             infiniburnList.add(block.id);
         }
 
-        if (disabledNNOMC) {
+        if (visualUpdateOnMetadata) {
             ((BlockAccessor) block).callWithDisabledNeighborNotifyOnMetadataChange();
         }
+
+        ((BlockAccessor) block).callSetTickOnLoad(tickOnLoad);
 
         if (blockDrop != null) {
             ((BlockAccessor) block).callSetDropOverride(blockDrop);
         }
 
         if (blockSound != null) {
-            ((DispatcherAccessor) BlockSoundDispatcher.getInstance()).callAddDispatch(block, blockSound);
+            BlockSoundDispatcher.getInstance().addDispatch(block, blockSound);
         }
 
         if (blockColor != null) {
@@ -413,6 +521,7 @@ public class BlockBuilder implements Cloneable {
         return block;
     }
 
+    @FunctionalInterface
     public interface BlockLambda<T> {
         T run(Block block);
     }

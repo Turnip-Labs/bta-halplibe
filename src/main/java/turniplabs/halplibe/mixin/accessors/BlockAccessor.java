@@ -33,4 +33,7 @@ public interface BlockAccessor {
 
     @Invoker
     Block callWithDisabledNeighborNotifyOnMetadataChange();
+
+    @Invoker
+    Block callSetTickOnLoad(boolean tickOnLoad);
 }

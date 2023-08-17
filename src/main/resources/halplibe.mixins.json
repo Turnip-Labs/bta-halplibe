@@ -8,7 +8,6 @@
         "accessors.BlockFireAccessor",
         "accessors.CraftingManagerAccessor",
         "accessors.DimensionAccessor",
-        "accessors.DispatcherAccessor",
         "accessors.EntityListAccessor",
         "accessors.LanguageAccessor",
         "accessors.RecipesBlastFurnaceAccessor",
