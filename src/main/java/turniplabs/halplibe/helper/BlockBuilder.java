@@ -12,11 +12,13 @@ import net.minecraft.core.item.Item;
 import net.minecraft.core.item.block.ItemBlock;
 import net.minecraft.core.util.helper.Side;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
+import turniplabs.halplibe.HalpLibe;
 import turniplabs.halplibe.mixin.accessors.BlockAccessor;
 import turniplabs.halplibe.mixin.accessors.BlockFireAccessor;
 
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class BlockBuilder implements Cloneable {
     public static final Set<Integer> infiniburnList = new TreeSet<>();
@@ -516,7 +518,16 @@ public class BlockBuilder implements Cloneable {
             block.withTags(tags);
         }
 
-        block.setKey(MOD_ID + "." + block.getKey().substring(5));
+        List<String> tokens = Arrays.stream(block.getKey().split("\\."))
+                .filter(token -> !token.equals(MOD_ID))
+                .collect(Collectors.toList());
+
+        List<String> newTokens = new ArrayList<>();
+        newTokens.add(tokens.get(0));
+        newTokens.add(MOD_ID);
+        newTokens.addAll(tokens.subList(1, tokens.size()));
+
+        ((BlockAccessor) block).halplibe$setKey(StringUtils.join(newTokens, '.'));
 
         return block;
     }
