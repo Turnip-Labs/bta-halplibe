@@ -14,20 +14,11 @@ Follow the setup instructions on [the example mod](https://github.com/Turnip-Lab
 Add this in your `build.gradle`:
 ```groovy
 repositories {
-   ivy {
-      url = "https://github.com/Turnip-Labs"
-      patternLayout {
-         artifact "[organisation]/releases/download/v[revision]/[module]-[revision].jar"
-         m2compatible = true
-      }
-      metadataSources { artifact() }
-   }
+   maven { url = "https://jitpack.io" }
 }
 
 dependencies {
-   
-   modImplementation "bta-halplibe:halplibe:${project.halplibe_version}"
-   
+    modImplementation "com.github.Turnip-Labs:bta-halplibe:${project.halplibe_version}"
 }
 ```
 
