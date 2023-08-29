@@ -87,8 +87,6 @@ public class ConfigHandler {
         return Boolean.parseBoolean(this.properties.getProperty(key));
     }
 
-    // private
-
     public void writeDefaultConfig() {
         File configFile = new File(getFilePath());
         writeDefaultConfig(configFile, this.defaultProperties);
