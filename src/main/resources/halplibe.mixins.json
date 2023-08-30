@@ -18,7 +18,6 @@
         "accessors.TileEntityRendererAccessor",
         "mixins.BlockFireMixin",
         "mixins.BlockSoundDispatcherMixin",
-        "mixins.DefaultLanguageAdapaterMixin",
         "mixins.EntityClientPlayerMPMixin",
         "mixins.I18nMixin",
         "mixins.RenderEngineMixin",
