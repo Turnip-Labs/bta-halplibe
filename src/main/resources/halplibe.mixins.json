@@ -23,6 +23,10 @@
     "mixins.I18nMixin",
     "mixins.RenderEngineMixin",
     "mixins.RenderGlobalMixin"
+    "mixins.network.MinecraftMixin",
+    "mixins.network.MinecraftServerMixin",
+    "mixins.network.NetworkManagerMixin",
+    "mixins.network.PacketMixin"
   ],
   "client": [
   ],
