@@ -22,9 +22,13 @@
     "mixins.GuiIngameMenuMixin",
     "mixins.I18nMixin",
     "mixins.RenderEngineMixin",
-    "mixins.RenderGlobalMixin"
+    "mixins.RenderGlobalMixin",
+    "mixins.network.MinecraftServerMixin",
+    "mixins.network.NetworkManagerMixin",
+    "mixins.network.PacketMixin"
   ],
   "client": [
+    "mixins.network.MinecraftMixin"
   ],
   "injectors": {
     "defaultRequire": 1
