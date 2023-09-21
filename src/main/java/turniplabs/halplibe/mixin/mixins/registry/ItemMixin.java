@@ -1,6 +1,5 @@
 package turniplabs.halplibe.mixin.mixins.registry;
 
-import net.minecraft.core.block.Block;
 import net.minecraft.core.item.Item;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -9,9 +8,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import turniplabs.halplibe.helper.BlockHelper;
 import turniplabs.halplibe.helper.ItemHelper;
-import turniplabs.halplibe.util.SpecialItemBlock;
+import turniplabs.halplibe.util.HalplibeItemBlock;
 
 @Mixin(value = Item.class, remap = false)
 public class ItemMixin {
@@ -25,7 +23,7 @@ public class ItemMixin {
 	public void preSetId(int id, CallbackInfo ci) {
 		tmp = itemsList[id];
 		//noinspection ConstantValue
-		if ((Object) this instanceof SpecialItemBlock) {
+		if ((Object) this instanceof HalplibeItemBlock) {
 			itemsList[id] = null;
 		}
 	}

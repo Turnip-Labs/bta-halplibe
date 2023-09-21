@@ -1,17 +1,14 @@
 package turniplabs.halplibe;
 
 import net.fabricmc.api.ModInitializer;
-import net.minecraft.core.block.Block;
-import net.minecraft.core.block.material.Material;
-import net.minecraft.core.item.Item;
-import net.minecraft.core.item.block.ItemBlock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import turniplabs.halplibe.helper.*;
-import turniplabs.halplibe.util.SpecialItemBlock;
 import turniplabs.halplibe.util.achievements.AchievementPage;
-import turniplabs.halplibe.util.achievements.TestAchievementsPage;
 import turniplabs.halplibe.util.achievements.VanillaAchievementsPage;
+
+import java.io.File;
+import java.util.Properties;
 
 public class HalpLibe implements ModInitializer {
     public static final String MOD_ID = "halplibe";
