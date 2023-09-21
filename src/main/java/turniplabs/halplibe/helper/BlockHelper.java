@@ -7,9 +7,32 @@ import net.minecraft.core.item.Item;
 import net.minecraft.core.item.block.ItemBlock;
 import turniplabs.halplibe.mixin.accessors.BlockAccessor;
 
+import java.util.ArrayList;
+
 @Deprecated
 public class BlockHelper {
-
+    
+    public static int highestVanilla;
+    
+    /**
+     * Should be called in a runnable scheduled with {@link RegistryHelper#scheduleRegistry(boolean, Runnable)}
+     * @param count the amount of needed blocks for the mod
+     * @return the first available slot to register in
+     */
+    public static int findOpenIds(int count) {
+        int run = 0;
+        for (int i = highestVanilla; i < Block.blocksList.length; i++) {
+            if (Block.blocksList[i] == null) {
+                if (run >= count)
+                    return (i - run);
+                run++;
+            } else {
+                run = 0;
+            }
+        }
+        return -1;
+    }
+    
     @Deprecated
     public static Block createBlock(String modId, Block block, String texture, BlockSound stepSound, float hardness, float resistance, float lightValue) {
         int[] one = TextureHelper.getOrCreateBlockTexture(modId, texture);

@@ -25,10 +25,14 @@
     "mixins.RenderGlobalMixin",
     "mixins.network.MinecraftServerMixin",
     "mixins.network.NetworkManagerMixin",
-    "mixins.network.PacketMixin"
+    "mixins.network.PacketMixin",
+    "mixins.registry.MinecraftServerMixin",
+    "mixins.registry.BlockMixin",
+    "mixins.registry.ItemMixin"
   ],
   "client": [
-    "mixins.network.MinecraftMixin"
+    "mixins.network.MinecraftMixin",
+    "mixins.registry.MinecraftMixin"
   ],
   "injectors": {
     "defaultRequire": 1
