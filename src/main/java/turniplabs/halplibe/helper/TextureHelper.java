@@ -12,6 +12,12 @@ public class TextureHelper {
     public static List<TextureHandler> textureHandlers = new ArrayList<>();
     public static Map<String, int[]> registeredBlockTextures = new HashMap<>();
     public static Map<String, int[]> registeredItemTextures = new HashMap<>();
+    public static Map<String, Integer> textureDestinationResolutions = new HashMap<>();
+
+    static {
+        textureDestinationResolutions.put("/terrain.png", 16);
+        textureDestinationResolutions.put("/gui/items.png", 16);
+    }
 
     @Deprecated
     public static int[] registerBlockTexture(String modId, String blockTexture) {
