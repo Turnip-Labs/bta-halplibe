@@ -13,10 +13,13 @@ public class TextureHelper {
     public static Map<String, int[]> registeredBlockTextures = new HashMap<>();
     public static Map<String, int[]> registeredItemTextures = new HashMap<>();
     public static Map<String, Integer> textureDestinationResolutions = new HashMap<>();
+    public static Map<String, Integer> textureAtlasWidths = new HashMap<>();
 
     static {
         textureDestinationResolutions.put("/terrain.png", 16);
         textureDestinationResolutions.put("/gui/items.png", 16);
+        textureAtlasWidths.put("/terrain.png", 32);
+        textureAtlasWidths.put("/gui/items.png", 32);
     }
 
     @Deprecated

@@ -25,7 +25,7 @@ public abstract class RenderEngineMixin {
         Minecraft mc = Minecraft.getMinecraft(Minecraft.class);
         for (String key: TextureHelper.textureDestinationResolutions.keySet()) {
             GL11.glBindTexture(3553, thisAsRenderEngine.getTexture(key));
-            int destinationResolution = GL11.glGetTexLevelParameteri(3553, 0, 4096) / RenderEngine.atlasWidth();
+            int destinationResolution = GL11.glGetTexLevelParameteri(3553, 0, 4096) / TextureHelper.textureAtlasWidths.get(key);
             TextureHelper.textureDestinationResolutions.put(key, destinationResolution);
         }
         TextureHelper.textureHandlers.forEach((handler) -> dynamicTextures.add(handler.newHandler(mc)));
