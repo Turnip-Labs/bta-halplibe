@@ -19,13 +19,13 @@ public class TextureHandler extends DynamicTexture {
     private final byte[] frames;
     private int elapsedTicks = 0;
     private static final Minecraft fakeMc;
-    private static int scale = 2;
+    private static float scale = 128f/16;
 
     public TextureHandler(String textureName, String animationSource, int textureIndex, int resolution, int width) {
         this(textureName, animationSource, textureIndex, resolution, width, fakeMc);
     }
     public TextureHandler(String textureName, String animationSource, int textureIndex, int resolution, int width, Minecraft mc) {
-        super(textureIndex, resolution * scale, width);
+        super(textureIndex, (int) (resolution * scale), width);
         this.textureName = textureName;
         this.animationSource = animationSource;
         this.textureIndex = textureIndex;
@@ -42,13 +42,13 @@ public class TextureHandler extends DynamicTexture {
         } else {
             this.frameCount = image.getHeight() / image.getWidth();
             System.out.println("Frame Count: " + this.frameCount);
-            this.frames = new byte[resolution * resolution * 4 * this.frameCount * scale * scale];
+            this.frames = new byte[(int) (resolution * resolution * 4 * this.frameCount * scale * scale)];
 
             for (int frame = 0; frame < this.frameCount; ++frame) {
                 for (int x = 0; x < resolution * scale; ++x) {
                     for (int y = 0; y < resolution * scale; ++y) {
-                        int c = image.getRGB(x/scale, frame * resolution + y/scale);
-                        putPixel(this.frames, frame * resolution * scale * scale * resolution + y * resolution * scale + x, c);
+                        int c = image.getRGB((int) (x/scale),  (frame * resolution + (int)(y/scale)));
+                        putPixel(this.frames, (int) (frame * resolution * scale * scale * resolution + y * resolution * scale + x), c);
                     }
                 }
             }
@@ -64,7 +64,7 @@ public class TextureHandler extends DynamicTexture {
 
         for (int i = 0; i < this.resolution * scale; ++i) {
             for (int j = 0; j < this.resolution * scale; ++j) {
-                transferPixel(this.frames, this.elapsedTicks * this.resolution * this.resolution * scale * scale + j * this.resolution * scale + i, this.imageData, j * this.resolution * scale + i);
+                transferPixel(this.frames, (int) (this.elapsedTicks * this.resolution * this.resolution * scale * scale + j * this.resolution * scale + i), this.imageData, (int) (j * this.resolution * scale + i));
             }
         }
 
