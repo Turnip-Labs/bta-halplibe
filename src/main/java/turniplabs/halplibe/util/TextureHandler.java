@@ -16,6 +16,7 @@ public class TextureHandler extends DynamicTexture {
     private final String animationSource;
     private final int textureIndex;
     private final int resolution;
+    private final int defaultResolution;
     private final int width;
     private final byte[] frames;
     private int elapsedTicks = 0;
@@ -26,20 +27,20 @@ public class TextureHandler extends DynamicTexture {
     public TextureHandler(String textureName, String animationSource, int textureIndex, int resolution, int width) {
         this(textureName, animationSource, textureIndex, resolution, width, fakeMc);
     }
-    public TextureHandler(String textureName, String animationSource, int textureIndex, int resolution, int width, Minecraft mc) {
-        super(textureIndex, (int) (resolution * getScale(textureName, resolution)), width);
-        this.scale = getScale(textureName, resolution);
+    public TextureHandler(String textureName, String animationSource, int textureIndex, int defaultResolution, int width, Minecraft mc) {
+        super(textureIndex, getAtlasResolution(textureName, defaultResolution), width);
         this.textureName = textureName;
         this.animationSource = animationSource;
         this.textureIndex = textureIndex;
-        this.resolution = resolution;
+        this.defaultResolution = defaultResolution;
+        BufferedImage image = Textures.readImage(mc.texturePackList.selectedTexturePack.getResourceAsStream(animationSource));
+        this.resolution = image.getWidth();
+        this.scale = getScale(mc, textureName, resolution);
         this.width = width;
 
-        BufferedImage image = Textures.readImage(mc.texturePackList.selectedTexturePack.getResourceAsStream(animationSource));
+
         if (image == Textures.missingTexture) {
             throw new RuntimeException("Animation " + animationSource + " couldn't be found!");
-        } else if (image.getWidth() != resolution) {
-            throw new RuntimeException("Animation " + animationSource + " doesn't have the same width as textures in " + textureName + "!");
         } else if (image.getHeight() % image.getWidth() != 0) {
             throw new RuntimeException("Invalid Height for animation! " + animationSource);
         } else {
@@ -59,7 +60,7 @@ public class TextureHandler extends DynamicTexture {
     }
     public TextureHandler newHandler(Minecraft mc){
         // Returns a new TextureHandler using the current state of Minecraft, If the texturepack has changed it will then use the new texturepack's textures
-        return new TextureHandler(textureName, animationSource, textureIndex, resolution, width, mc);
+        return new TextureHandler(textureName, animationSource, textureIndex, defaultResolution, width, mc);
     }
     public void update() {
         this.elapsedTicks = (this.elapsedTicks + 1) % this.frameCount;
@@ -74,11 +75,17 @@ public class TextureHandler extends DynamicTexture {
     public String getTextureName() {
         return this.textureName;
     }
-    public static float getScale(String textureName, int resolution){
+    public static float getScale(Minecraft mc, String textureName, int resolution){
         if (TextureHelper.textureDestinationResolutions.get(textureName) != null){
             return (float)TextureHelper.textureDestinationResolutions.get(textureName)/resolution;
         }
         return 1f;
+    }
+    public static int getAtlasResolution(String textureName, int resolution){
+        if (TextureHelper.textureDestinationResolutions.get(textureName) != null){
+            return TextureHelper.textureDestinationResolutions.get(textureName);
+        }
+        return resolution;
     }
 
     static {

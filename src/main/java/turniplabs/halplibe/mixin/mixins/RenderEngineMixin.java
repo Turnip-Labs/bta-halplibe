@@ -19,7 +19,7 @@ public abstract class RenderEngineMixin {
     @Shadow
     private List<DynamicTexture> dynamicTextures;
     @Unique
-    private RenderEngine thisAsRenderEngine = (RenderEngine)(Object)this;
+    private final RenderEngine thisAsRenderEngine = (RenderEngine)(Object)this;
     @Inject(method = "initDynamicTextures", at = @At("TAIL"))
     private void initDynamicTextures(CallbackInfo ci) {
         Minecraft mc = Minecraft.getMinecraft(Minecraft.class);
