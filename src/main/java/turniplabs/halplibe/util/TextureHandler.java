@@ -19,12 +19,13 @@ public class TextureHandler extends DynamicTexture {
     private final byte[] frames;
     private int elapsedTicks = 0;
     private static final Minecraft fakeMc;
+    private static int scale = 2;
 
     public TextureHandler(String textureName, String animationSource, int textureIndex, int resolution, int width) {
         this(textureName, animationSource, textureIndex, resolution, width, fakeMc);
     }
     public TextureHandler(String textureName, String animationSource, int textureIndex, int resolution, int width, Minecraft mc) {
-        super(textureIndex, resolution, width);
+        super(textureIndex, resolution * scale, width);
         this.textureName = textureName;
         this.animationSource = animationSource;
         this.textureIndex = textureIndex;
@@ -41,13 +42,13 @@ public class TextureHandler extends DynamicTexture {
         } else {
             this.frameCount = image.getHeight() / image.getWidth();
             System.out.println("Frame Count: " + this.frameCount);
-            this.frames = new byte[resolution * resolution * 4 * this.frameCount];
+            this.frames = new byte[resolution * resolution * 4 * this.frameCount * scale * scale];
 
             for (int frame = 0; frame < this.frameCount; ++frame) {
-                for (int x = 0; x < resolution; ++x) {
-                    for (int y = 0; y < resolution; ++y) {
-                        int c = image.getRGB(x, frame * resolution + y);
-                        putPixel(this.frames, frame * resolution * resolution + y * resolution + x, c);
+                for (int x = 0; x < resolution * scale; ++x) {
+                    for (int y = 0; y < resolution * scale; ++y) {
+                        int c = image.getRGB(x/scale, frame * resolution + y/scale);
+                        putPixel(this.frames, frame * resolution * scale * scale * resolution + y * resolution * scale + x, c);
                     }
                 }
             }
@@ -61,9 +62,9 @@ public class TextureHandler extends DynamicTexture {
     public void update() {
         this.elapsedTicks = (this.elapsedTicks + 1) % this.frameCount;
 
-        for (int i = 0; i < this.resolution; ++i) {
-            for (int j = 0; j < this.resolution; ++j) {
-                transferPixel(this.frames, this.elapsedTicks * this.resolution * this.resolution + j * this.resolution + i, this.imageData, j * this.resolution + i);
+        for (int i = 0; i < this.resolution * scale; ++i) {
+            for (int j = 0; j < this.resolution * scale; ++j) {
+                transferPixel(this.frames, this.elapsedTicks * this.resolution * this.resolution * scale * scale + j * this.resolution * scale + i, this.imageData, j * this.resolution * scale + i);
             }
         }
 
