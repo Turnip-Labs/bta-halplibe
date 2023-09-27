@@ -18,19 +18,10 @@ public class TextureHandler extends DynamicTexture {
     private final int width;
     private final byte[] frames;
     private int elapsedTicks = 0;
+    private static final Minecraft fakeMc;
 
     public TextureHandler(String textureName, String animationSource, int textureIndex, int resolution, int width) {
-        this(textureName, animationSource, textureIndex, resolution, width, fakeMinecraft());
-    }
-    private static Minecraft fakeMinecraft(){
-        // Create a Minecraft Container with the needed information to load the texture-pack
-        Minecraft mc = Minecraft.getMinecraft(Minecraft.class);
-        File mcdir = mc.getMinecraftDir();
-        GameSettings gameSettings = new GameSettings(mc, mcdir);
-        mc.gameSettings = gameSettings;
-        TexturePackList packList = new TexturePackList(mc, mcdir);
-        mc.texturePackList = packList;
-        return mc;
+        this(textureName, animationSource, textureIndex, resolution, width, fakeMc);
     }
     public TextureHandler(String textureName, String animationSource, int textureIndex, int resolution, int width, Minecraft mc) {
         super(textureIndex, resolution, width);
@@ -80,5 +71,16 @@ public class TextureHandler extends DynamicTexture {
 
     public String getTextureName() {
         return this.textureName;
+    }
+
+    static {
+        // Create a Minecraft Container with the needed information to load the texture-pack
+        Minecraft mc = Minecraft.getMinecraft(Minecraft.class);
+        File mcdir = mc.getMinecraftDir();
+        GameSettings gameSettings = new GameSettings(mc, mcdir);
+        mc.gameSettings = gameSettings;
+        TexturePackList packList = new TexturePackList(mc, mcdir);
+        mc.texturePackList = packList;
+        fakeMc = mc;
     }
 }
