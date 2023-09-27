@@ -1,5 +1,6 @@
 package turniplabs.halplibe.mixin.mixins;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.render.RenderEngine;
 import net.minecraft.client.render.dynamictexture.DynamicTexture;
 import org.spongepowered.asm.mixin.Mixin;
@@ -15,9 +16,9 @@ import java.util.List;
 public abstract class RenderEngineMixin {
     @Shadow
     private List<DynamicTexture> dynamicTextures;
-
     @Inject(method = "initDynamicTextures", at = @At("TAIL"))
     private void initDynamicTextures(CallbackInfo ci) {
-        dynamicTextures.addAll(TextureHelper.textureHandlers);
+        Minecraft mc = Minecraft.getMinecraft(Minecraft.class);
+        TextureHelper.textureHandlers.forEach((handler) -> dynamicTextures.add(handler.newHandler(mc)));
     }
 }
