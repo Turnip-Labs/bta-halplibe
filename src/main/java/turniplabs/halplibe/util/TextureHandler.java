@@ -21,7 +21,6 @@ public class TextureHandler extends DynamicTexture {
     private final byte[] frames;
     private int elapsedTicks = 0;
     private static final Minecraft fakeMc;
-    // End Resolution/source Resolutions
     private final float scale;
 
     public TextureHandler(String textureName, String animationSource, int textureIndex, int resolution, int width) {
@@ -35,7 +34,8 @@ public class TextureHandler extends DynamicTexture {
         this.defaultResolution = defaultResolution;
         BufferedImage image = Textures.readImage(mc.texturePackList.selectedTexturePack.getResourceAsStream(animationSource));
         this.resolution = image.getWidth();
-        this.scale = getScale(mc, textureName, resolution);
+        // Scaling factor from source resolution to destination resolution
+        this.scale = getScale(textureName, resolution);
         this.width = width;
 
 
@@ -75,17 +75,17 @@ public class TextureHandler extends DynamicTexture {
     public String getTextureName() {
         return this.textureName;
     }
-    public static float getScale(Minecraft mc, String textureName, int resolution){
+    public static float getScale(String textureName, int resolution){
         if (TextureHelper.textureDestinationResolutions.get(textureName) != null){
             return (float)TextureHelper.textureDestinationResolutions.get(textureName)/resolution;
         }
         return 1f;
     }
-    public static int getAtlasResolution(String textureName, int resolution){
+    public static int getAtlasResolution(String textureName, int defaultResolution){
         if (TextureHelper.textureDestinationResolutions.get(textureName) != null){
             return TextureHelper.textureDestinationResolutions.get(textureName);
         }
-        return resolution;
+        return defaultResolution;
     }
 
     static {

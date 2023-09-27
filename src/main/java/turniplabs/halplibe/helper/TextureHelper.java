@@ -1,5 +1,6 @@
 package turniplabs.halplibe.helper;
 
+import net.minecraft.core.Global;
 import net.minecraft.core.block.Block;
 import turniplabs.halplibe.util.TextureHandler;
 
@@ -16,10 +17,12 @@ public class TextureHelper {
     public static Map<String, Integer> textureAtlasWidths = new HashMap<>();
 
     static {
+        // Assign Default Resolutions
         textureDestinationResolutions.put("/terrain.png", 16);
         textureDestinationResolutions.put("/gui/items.png", 16);
-        textureAtlasWidths.put("/terrain.png", 32);
-        textureAtlasWidths.put("/gui/items.png", 32);
+        // Assign Default Atlas Widths
+        textureAtlasWidths.put("/terrain.png", Global.TEXTURE_ATLAS_WIDTH_TILES);
+        textureAtlasWidths.put("/gui/items.png", Global.TEXTURE_ATLAS_WIDTH_TILES);
     }
 
     @Deprecated
