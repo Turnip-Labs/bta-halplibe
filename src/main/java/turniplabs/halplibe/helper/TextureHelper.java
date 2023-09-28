@@ -1,5 +1,6 @@
 package turniplabs.halplibe.helper;
 
+import net.minecraft.core.Global;
 import net.minecraft.core.block.Block;
 import turniplabs.halplibe.util.TextureHandler;
 
@@ -12,6 +13,17 @@ public class TextureHelper {
     public static List<TextureHandler> textureHandlers = new ArrayList<>();
     public static Map<String, int[]> registeredBlockTextures = new HashMap<>();
     public static Map<String, int[]> registeredItemTextures = new HashMap<>();
+    public static Map<String, Integer> textureDestinationResolutions = new HashMap<>();
+    public static Map<String, Integer> textureAtlasWidths = new HashMap<>();
+
+    static {
+        // Assign Default Resolutions
+        textureDestinationResolutions.put("/terrain.png", 16);
+        textureDestinationResolutions.put("/gui/items.png", 16);
+        // Assign Default Atlas Widths
+        textureAtlasWidths.put("/terrain.png", Global.TEXTURE_ATLAS_WIDTH_TILES);
+        textureAtlasWidths.put("/gui/items.png", Global.TEXTURE_ATLAS_WIDTH_TILES);
+    }
 
     @Deprecated
     public static int[] registerBlockTexture(String modId, String blockTexture) {
