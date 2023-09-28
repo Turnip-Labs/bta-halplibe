@@ -3,6 +3,7 @@ package turniplabs.halplibe.helper;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.item.Item;
 import turniplabs.halplibe.HalpLibe;
+import turniplabs.halplibe.mixin.mixins.registry.BlockMixin;
 
 public class ItemHelper {
 	
@@ -15,7 +16,10 @@ public class ItemHelper {
 	 */
 	public static int findOpenIds(int count) {
 		int run = 0;
-		for (int i = highestVanilla; i < Item.itemsList.length; i++) {
+//		for (int i = highestVanilla; i < Item.itemsList.length; i++) {
+		// block ids should always match the id of their corresponding item
+		// therefor, start registering items one after the max block id
+		for (int i = Block.blocksList.length + 1; i < Item.itemsList.length; i++) {
 			if (Item.itemsList[i] == null) {
 				if (run >= count)
 					return (i - run);

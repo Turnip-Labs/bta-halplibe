@@ -31,7 +31,6 @@ public class BlockBuilder implements Cloneable {
     private Float slipperiness = null;
     private boolean immovable = false;
     private boolean useInternalLight = false;
-    private boolean hasItemBlock = true;
     private boolean visualUpdateOnMetadata = false;
     private boolean tickOnLoad = false;
     private boolean infiniburn = false;
@@ -509,12 +508,10 @@ public class BlockBuilder implements Cloneable {
             BlockModelDispatcher.getInstance().addDispatch(block, blockModel);
         }
 
-        if (hasItemBlock) {
-            if (customItemBlock != null) {
-                Item.itemsList[block.id] = customItemBlock.run(block);
-            } else {
-                Item.itemsList[block.id] = new ItemBlock(block);
-            }
+        if (customItemBlock != null) {
+            Item.itemsList[block.id] = customItemBlock.run(block);
+        } else {
+            Item.itemsList[block.id] = new ItemBlock(block);
         }
 
         if (tags != null) {
@@ -533,11 +530,6 @@ public class BlockBuilder implements Cloneable {
         ((BlockAccessor) block).halplibe$setKey(StringUtils.join(newTokens, '.'));
 
         return block;
-    }
-    
-    public BlockBuilder noItemBlock() {
-        hasItemBlock = false;
-        return this;
     }
     
     @FunctionalInterface
