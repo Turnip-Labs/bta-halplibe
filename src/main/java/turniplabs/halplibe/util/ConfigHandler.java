@@ -1,12 +1,13 @@
 package turniplabs.halplibe.util;
 
+import net.fabricmc.loader.api.FabricLoader;
 import turniplabs.halplibe.HalpLibe;
 
 import java.io.*;
 import java.util.Properties;
 
 public class ConfigHandler {
-    private static final String CONFIG_DIRECTORY = "./config/";
+    private static final String CONFIG_DIRECTORY = FabricLoader.getInstance().getConfigDir().toString() + "/config/";
     private final Properties defaultProperties;
     private final Properties properties;
     private String configFileName = "";
