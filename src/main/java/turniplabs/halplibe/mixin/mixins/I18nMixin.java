@@ -95,6 +95,9 @@ public abstract class I18nMixin {
     )
     public void addHalplibeModLangFiles(String languageCode, boolean save, CallbackInfo ci) {
         Properties entries = ((LanguageAccessor) currentLanguage).getEntries();
+        Language defaultLanguage = Language.Default.INSTANCE;
+        Properties defaultEntries = ((LanguageAccessor) defaultLanguage).getEntries(); //if you see a ClassCastException warning here, it is wrong, nothing happens
+        String defaultLangId = defaultLanguage.getId();
         String currentLangId = currentLanguage.getId();
         HalpLibe.LOGGER.debug("Current lang: " + currentLangId);
         for (ModContainer mod : FabricLoader.getInstance().getAllMods()) {
@@ -107,6 +110,16 @@ public abstract class I18nMixin {
                         if (stream != null) {
                             InputStreamReader r = new InputStreamReader(stream, StandardCharsets.UTF_8);
                             entries.load(r);
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if(lang.contains(defaultLangId)){
+                    try (InputStream stream = getResourceAsStream(lang)) {
+                        if (stream != null) {
+                            InputStreamReader r = new InputStreamReader(stream, StandardCharsets.UTF_8);
+                            defaultEntries.load(r);
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
