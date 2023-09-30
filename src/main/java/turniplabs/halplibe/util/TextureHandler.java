@@ -12,19 +12,18 @@ import java.io.File;
 
 public class TextureHandler extends DynamicTexture {
     private final String textureName;
-    private final int frameCount;
+    private int frameCount;
     private final String animationSource;
     private final int textureIndex;
-    private final int resolution;
+    private int resolution;
     private final int defaultResolution;
     private final int width;
-    private final byte[] frames;
+    private byte[] frames;
     private int elapsedTicks = 0;
-    private static final Minecraft fakeMc;
-    private final float scale;
+    private float scale;
 
     public TextureHandler(String textureName, String animationSource, int textureIndex, int resolution, int width) {
-        this(textureName, animationSource, textureIndex, resolution, width, fakeMc);
+        this(textureName, animationSource, textureIndex, resolution, width, null);
     }
     public TextureHandler(String textureName, String animationSource, int textureIndex, int defaultResolution, int width, Minecraft mc) {
         super(textureIndex, getAtlasResolution(textureName, defaultResolution), width);
@@ -32,11 +31,13 @@ public class TextureHandler extends DynamicTexture {
         this.animationSource = animationSource;
         this.textureIndex = textureIndex;
         this.defaultResolution = defaultResolution;
+        this.width = width;
+        if (mc == null){return;} // Don't process textures when mc is null
         BufferedImage image = Textures.readImage(mc.texturePackList.selectedTexturePack.getResourceAsStream(animationSource));
         this.resolution = image.getWidth();
         // Scaling factor from source resolution to destination resolution
         this.scale = getScale(textureName, resolution);
-        this.width = width;
+
 
 
         if (image == Textures.missingTexture) {
@@ -86,14 +87,5 @@ public class TextureHandler extends DynamicTexture {
             return TextureHelper.textureDestinationResolutions.get(textureName);
         }
         return defaultResolution;
-    }
-
-    static {
-        // Create a Minecraft Container with the needed information to load the texture-pack
-        Minecraft mc = Minecraft.getMinecraft(Minecraft.class);
-        File mcdir = mc.getMinecraftDir();
-        mc.gameSettings = new GameSettings(mc, mcdir);
-        mc.texturePackList = new TexturePackList(mc, mcdir);
-        fakeMc = mc;
     }
 }
