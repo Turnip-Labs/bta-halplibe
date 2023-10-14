@@ -19,6 +19,8 @@ public class MinecraftMixin {
 			m.setAccessible(true);
 			m.invoke(null);
 			m.setAccessible(false);
+			StatList.init();
+			StatList.onBlockInit();
 			StatList.onItemInit();
 		} catch (Throwable err) {
 			throw new RuntimeException(err);
