@@ -1,6 +1,7 @@
 package turniplabs.halplibe;
 
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.loader.api.entrypoint.PreLaunchEntrypoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import turniplabs.halplibe.helper.*;
@@ -10,7 +11,7 @@ import turniplabs.halplibe.util.achievements.VanillaAchievementsPage;
 import java.io.File;
 import java.util.Properties;
 
-public class HalpLibe implements ModInitializer {
+public class HalpLibe implements ModInitializer, PreLaunchEntrypoint {
     public static final String MOD_ID = "halplibe";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
     static {
@@ -31,5 +32,10 @@ public class HalpLibe implements ModInitializer {
     public void onInitialize() {
         AchievementHelper.addPage(VANILLA_ACHIEVEMENTS);
         LOGGER.info("HalpLibe initialized.");
+    }
+
+    @Override
+    public void onPreLaunch() {
+        // Initializes halp statics first
     }
 }

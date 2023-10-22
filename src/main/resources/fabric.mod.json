@@ -19,6 +19,9 @@
   "entrypoints": {
     "main": [
         "turniplabs.halplibe.HalpLibe"
+    ],
+    "preLaunch": [
+      "turniplabs.halplibe.HalpLibe"
     ]
   },
   "mixins": [
