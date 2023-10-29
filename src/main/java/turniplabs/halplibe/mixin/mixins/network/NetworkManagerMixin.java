@@ -22,8 +22,8 @@ public class NetworkManagerMixin {
 
     @Inject(at = @At("TAIL"), method = "<init>")
     public void postInit(Socket socket, String s, NetHandler nethandler, CallbackInfo ci) {
-        field_28144_e = new int[NetworkHelper.getLastPacketId()];
-        field_28145_d = new int[NetworkHelper.getLastPacketId()];
+        field_28144_e = new int[NetworkHelper.getLastPacketId() + 1];
+        field_28145_d = new int[NetworkHelper.getLastPacketId() + 1];
     }
 
     // Increase id size when needed
