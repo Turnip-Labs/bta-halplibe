@@ -2,6 +2,7 @@ package turniplabs.halplibe.helper;
 
 import net.minecraft.core.net.packet.Packet;
 import org.jetbrains.annotations.NotNull;
+import turniplabs.halplibe.HalpLibe;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -11,10 +12,9 @@ import java.util.function.Consumer;
 
 public class NetworkHelper {
     private static final TreeSet<NetworkEntry> ENTRIES = new TreeSet<>();
-
     private static boolean locked = false;
 
-    public static void register(Class<Packet> clazz, boolean toServer, boolean toClient) {
+    public static void register(Class<? extends Packet> clazz, boolean toServer, boolean toClient) {
         if (locked)
             // if a packet is registered after the game starts, the game will most likely crash due to int[]'s in network managers not being long enough
             throw new RuntimeException("Packet " + clazz + " was registered too late, packets should be registered before the game starts running.");
@@ -28,14 +28,17 @@ public class NetworkHelper {
     public static int getLastPacketId() {
         return lastPacket;
     }
+    public static boolean useExtendedPacketID(){
+        return getLastPacketId() > 255;
+    }
 
     // this class is likely more or less redundant, I'm just using it to try to minimize issues from mod load ordering
     public static final class NetworkEntry implements Comparable<NetworkEntry> {
-        public final Class<Packet> clazz;
+        public final Class<? extends Packet> clazz;
 
         public final boolean toServer, toClient;
 
-        public NetworkEntry(Class<Packet> clazz, boolean toServer, boolean toClient) {
+        public NetworkEntry(Class<? extends Packet> clazz, boolean toServer, boolean toClient) {
             this.clazz = clazz;
             this.toServer = toServer;
             this.toClient = toClient;
@@ -93,7 +96,9 @@ public class NetworkHelper {
             addMapping.setAccessible(false);
 
             locked = true;
+            HalpLibe.LOGGER.info("Successfully registered packet " + packet.getName() + " with id " + latestId);
         } catch (Throwable ignored) {
+            HalpLibe.LOGGER.warn("Packet Registration failed for packet " + packet.getName());
         }
     }
 }

@@ -14,13 +14,13 @@ import java.io.IOException;
 public class PacketMixin {
     @Redirect(at = @At(value = "INVOKE", target = "Ljava/io/DataOutputStream;write(I)V"), method = "writePacket")
     private static void preWrite(DataOutputStream instance, int b) throws IOException {
-        if (NetworkHelper.getLastPacketId() > 255) instance.writeInt(b);
+        if (NetworkHelper.useExtendedPacketID()) instance.writeInt(b);
         else instance.write(b);
     }
 
     @Redirect(at = @At(value = "INVOKE", target = "Ljava/io/DataInputStream;read()I"), method = "readPacket")
     private static int preWrite(DataInputStream instance) throws IOException {
-        if (NetworkHelper.getLastPacketId() > 255) return instance.readInt();
+        if (NetworkHelper.useExtendedPacketID()) return instance.readInt();
         else return instance.read();
     }
 }
