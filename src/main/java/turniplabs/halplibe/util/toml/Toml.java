@@ -253,4 +253,24 @@ public class Toml {
             }
         }
     }
+
+    public void remove(String s) {
+        if (s.startsWith(".")) {
+            if (s.substring(1).contains(".")) {
+                categories.get(s.substring(1).split("\\.")[0])
+                        .remove("." + s.substring(1).split("\\.")[1]);
+                return;
+            }
+            orderedKeys.remove(s);
+            categories.remove(s.substring(1));
+        } else {
+            if (s.contains(".")) {
+                categories.get(s.split("\\.")[0])
+                        .remove(s.split("\\.")[1]);
+                return;
+            }
+            orderedKeys.remove(s);
+            entries.remove(s);
+        }
+    }
 }

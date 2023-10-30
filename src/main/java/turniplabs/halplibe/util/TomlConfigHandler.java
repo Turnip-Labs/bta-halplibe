@@ -13,7 +13,14 @@ public class TomlConfigHandler {
     private final Toml config;
     private String configFileName = "";
 
+    private ConfigUpdater updater;
+
     public TomlConfigHandler(String modID, Toml defaults) {
+        this(null, modID, defaults);
+    }
+
+    public TomlConfigHandler(ConfigUpdater updater, String modID, Toml defaults) {
+        this.updater = updater;
         this.configFileName = modID + ".cfg";
         this.defaults = defaults;
         if (defaults.getComment().isPresent())
@@ -48,16 +55,6 @@ public class TomlConfigHandler {
         return CONFIG_DIRECTORY + configFileName;
     }
 
-    /**
-     * equivalent to {@link TomlConfigHandler#getString(String)}
-     * @param key the key of the property
-     * @return the property's value, as a string
-     */
-    @Deprecated
-    public String getProperty(String key) {
-        return getString(key);
-    }
-
     public String getString(String key) {
         Object o = this.config.get(key);
         if (o == null) return null;
@@ -67,6 +64,7 @@ public class TomlConfigHandler {
     public int getInt(String key) {
         return this.config.get(key, Integer.class);
     }
+
     public long getLong(String key) {
         return this.config.get(key, Long.class);
     }
@@ -105,7 +103,7 @@ public class TomlConfigHandler {
         loadConfig(configFile, this.config);
     }
 
-    private static void loadConfig(File configFile, Toml properties) {
+    private void loadConfig(File configFile, Toml properties) {
         try (InputStream input = new FileInputStream(configFile)) {
             // only loads the ones that it finds in the file
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -117,6 +115,8 @@ public class TomlConfigHandler {
             }
 
             Toml parsed = TomlParser.parse(baos.toString());
+            updater.updating = parsed;
+            updater.update();
             properties.merge(true, parsed);
 
             input.close();
