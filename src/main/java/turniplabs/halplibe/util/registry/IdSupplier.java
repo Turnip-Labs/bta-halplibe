@@ -1,11 +1,13 @@
 package turniplabs.halplibe.util.registry;
 
-import turniplabs.halplibe.util.registry.error.RequestOutOfBounds;
+import turniplabs.halplibe.util.registry.error.RequestCutShortException;
+import turniplabs.halplibe.util.registry.error.RequestOutOfBoundsException;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class IdSupplier {
+    String modid;
     RunReserves reserves;
     RunLengthConfig cfg;
     int max;
@@ -15,7 +17,8 @@ public class IdSupplier {
     /* if this is true, the reservations will get optimized when being written */
     boolean hasUnreserved = false;
 
-    public IdSupplier(RunReserves reserves, RunLengthConfig cfg, int max) {
+    public IdSupplier(String modid, RunReserves reserves, RunLengthConfig cfg, int max) {
+        this.modid = modid;
         this.reserves = reserves;
         this.cfg = cfg;
         this.max = max;
@@ -80,7 +83,7 @@ public class IdSupplier {
         }
 
         if (done > max) {
-            throw new RequestOutOfBounds("A mod has gotten more ids than it has requested.");
+            throw new RequestOutOfBoundsException(modid + " has grabbed more ids than it has requested.");
         }
 
         done++;
@@ -151,5 +154,11 @@ public class IdSupplier {
         reservationStart = reserves.idFinder.apply(amount);
         reservationEnd = reservationStart + reserves.runLengthFinder.apply(reservationStart, max - done);
         current = 0;
+    }
+
+    public void validate() {
+        if (done != max) {
+            throw new RequestCutShortException(modid + " did not use up all requested ids.");
+        }
     }
 }

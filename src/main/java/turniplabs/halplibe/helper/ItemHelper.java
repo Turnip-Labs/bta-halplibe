@@ -57,18 +57,20 @@ public class ItemHelper {
 
 	/**
 	 * Allows halplibe to automatically figure out where to insert the runs
+	 * @param modid     an identifier for the mod, can be anything, but should be something the user can identify
 	 * @param runs      a toml object representing configured registry runs
 	 * @param neededIds the number of needed ids
 	 *                  if this changes after the mod has been configured (i.e. mod updated and now has more items) it'll find new, valid runs to put those items into
 	 * @param function  the function to run for registering items
 	 */
-	public static void reserveRuns(Toml runs, int neededIds, Consumer<IdSupplier> function) {
+	public static void reserveRuns(String modid, Toml runs, int neededIds, Consumer<IdSupplier> function) {
 		RunLengthConfig cfg = new RunLengthConfig(runs, neededIds);
 		cfg.register(reserves);
 		RegistryHelper.scheduleSmartRegistry(
 				() -> {
-					IdSupplier supplier = new IdSupplier(reserves, cfg, neededIds);
+					IdSupplier supplier = new IdSupplier(modid, reserves, cfg, neededIds);
 					function.accept(supplier);
+					supplier.validate();
 				}
 		);
 	}
