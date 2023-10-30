@@ -4,12 +4,11 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.entrypoint.PreLaunchEntrypoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import turniplabs.halplibe.helper.*;
+import turniplabs.halplibe.helper.AchievementHelper;
+import turniplabs.halplibe.helper.NetworkHelper;
 import turniplabs.halplibe.util.achievements.AchievementPage;
 import turniplabs.halplibe.util.achievements.VanillaAchievementsPage;
-
-import java.io.File;
-import java.util.Properties;
+import turniplabs.halplibe.util.network.PacketExtendedMobSpawn;
 
 public class HalpLibe implements ModInitializer, PreLaunchEntrypoint {
     public static final String MOD_ID = "halplibe";
@@ -31,6 +30,7 @@ public class HalpLibe implements ModInitializer, PreLaunchEntrypoint {
     @Override
     public void onInitialize() {
         AchievementHelper.addPage(VANILLA_ACHIEVEMENTS);
+        NetworkHelper.register(PacketExtendedMobSpawn.class, false, true);
         LOGGER.info("HalpLibe initialized.");
     }
 
