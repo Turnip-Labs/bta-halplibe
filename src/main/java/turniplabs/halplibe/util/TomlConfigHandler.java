@@ -11,6 +11,7 @@ public class TomlConfigHandler {
     private static final String CONFIG_DIRECTORY = FabricLoader.getInstance().getGameDir().toString() + "/config/";
     private final Toml defaults;
     private final Toml config;
+    private Toml rawParsed;
     private String configFileName = "";
 
     private ConfigUpdater updater;
@@ -86,10 +87,15 @@ public class TomlConfigHandler {
 
         // make sure the actual config has all the required entries
         config.merge(defaults);
+        if (rawParsed != null) {
+            // preserve undefined entries
+            // used due to run config handler
+            rawParsed.merge(true, config);
+        } else rawParsed = config;
 
         // write the config
         try (OutputStream output = new FileOutputStream(configFile)) {
-            output.write(config.toString().getBytes());
+            output.write(rawParsed.toString().getBytes());
             output.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -115,13 +121,27 @@ public class TomlConfigHandler {
             }
 
             Toml parsed = TomlParser.parse(baos.toString());
-            updater.updating = parsed;
-            updater.update();
-            properties.merge(true, parsed);
+
+            // TODO: system for specifying "greedy" categories?
+            //       greedy categories would keep all entries that aren't sepcified in code but are specified in the config
+            if (defaults.getComment().isPresent())  {
+                rawParsed = new Toml(defaults.getComment().get());
+                rawParsed.addMissing(parsed);
+            } else rawParsed = parsed;
+
+            if (updater != null) {
+                updater.updating = rawParsed;
+                updater.update();
+            }
+            properties.merge(true, rawParsed);
 
             input.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public Toml getRawParsed() {
+        return rawParsed;
     }
 }

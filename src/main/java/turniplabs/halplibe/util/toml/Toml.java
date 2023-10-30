@@ -209,7 +209,12 @@ public class Toml {
         for (String orderedKey : parsed.orderedKeys) {
             if (orderedKey.startsWith(".")) {
                 orderedKey = orderedKey.substring(1);
-                categories.get(orderedKey).merge(complete, parsed.categories.get(orderedKey));
+                if (complete) {
+                    if (!categories.containsKey(orderedKey))
+                        addCategory(orderedKey);
+                    categories.get(orderedKey).merge(complete, parsed.categories.get(orderedKey));
+                } else if (categories.containsKey(orderedKey))
+                    categories.get(orderedKey).merge(complete, parsed.categories.get(orderedKey));
             } else {
                 if (complete) {
                     if (entries.containsKey(orderedKey)) {
@@ -255,6 +260,8 @@ public class Toml {
     }
 
     public void remove(String s) {
+        immutKeys = null;
+
         if (s.startsWith(".")) {
             if (s.substring(1).contains(".")) {
                 categories.get(s.substring(1).split("\\.")[0])
