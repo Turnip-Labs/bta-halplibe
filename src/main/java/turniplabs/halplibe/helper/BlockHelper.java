@@ -66,7 +66,7 @@ public class BlockHelper {
         cfg.register(reserves);
         RegistryHelper.scheduleSmartRegistry(
                 () -> {
-                    IdSupplier supplier = new IdSupplier(reserves, neededIds, cfg);
+                    IdSupplier supplier = new IdSupplier(reserves, cfg, neededIds);
                     function.accept(supplier);
                 }
         );

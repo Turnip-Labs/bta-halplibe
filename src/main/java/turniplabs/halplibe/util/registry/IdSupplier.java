@@ -6,16 +6,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class IdSupplier {
-    RunLengthConfig cfg;
     RunReserves reserves;
-
-    ArrayList<Reservation> reservations = new ArrayList<>();
+    RunLengthConfig cfg;
     int max;
 
-    public IdSupplier(RunReserves reserves, int max, RunLengthConfig cfg) {
+    /* the list of reservations used by the code requesting the ids */
+    ArrayList<Reservation> reservations = new ArrayList<>();
+    /* if this is true, the reservations will get optimized when being written */
+    boolean hasUnreserved = false;
+
+    public IdSupplier(RunReserves reserves, RunLengthConfig cfg, int max) {
         this.reserves = reserves;
-        this.max = max;
         this.cfg = cfg;
+        this.max = max;
 
         if (cfg.reservations[0].reserved) {
             reservations.add(cfg.reservations[0]);
@@ -23,8 +26,16 @@ public class IdSupplier {
             reservationStart = cfg.reservations[0].start;
             reservationEnd = cfg.reservations[0].end;
         }
+
+        for (Reservation reservation : cfg.reservations) {
+            if (!reservation.reserved) {
+                hasUnreserved = true;
+                break;
+            }
+        }
     }
 
+    /* information about the reservation currently being filled */
     int reservationId = 0;
     int current = 0;
     int done = 0;
@@ -90,6 +101,28 @@ public class IdSupplier {
                 reservationEnd = -1;
                 current = 0;
             }
+        }
+
+        if (hasUnreserved) {
+            // group newly added reservations with existing ones if possible
+            List<Reservation> result = new ArrayList<>();
+            Reservation prev = null;
+            for (Reservation reservation : reservations) {
+                if (prev == null) {
+                    prev = reservation;
+                    result.add(reservation);
+                } else {
+                    if (prev.end + 1 == reservation.start) {
+                        result.remove(result.size() - 1);
+                        result.add(new Reservation(prev.start, reservation.end));
+                    } else {
+                        result.add(reservation);
+                    }
+                    prev = reservation;
+                }
+            }
+
+            return result;
         }
 
         return reservations;
