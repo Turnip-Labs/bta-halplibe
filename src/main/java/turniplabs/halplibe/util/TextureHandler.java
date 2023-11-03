@@ -34,6 +34,7 @@ public class TextureHandler extends DynamicTexture {
         this.width = width;
         if (mc == null){return;} // Don't process textures when mc is null
         BufferedImage image = Textures.readImage(mc.texturePackList.selectedTexturePack.getResourceAsStream(animationSource));
+        if (image == null) {return;} // Don't process non existent images
         this.resolution = image.getWidth();
         // Scaling factor from source resolution to destination resolution
         this.scale = getScale(textureName, resolution);
