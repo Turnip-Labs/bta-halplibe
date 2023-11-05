@@ -23,6 +23,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 import java.nio.ByteBuffer;
 import java.util.List;
+import java.util.Map;
 
 @Mixin(value = RenderEngine.class, remap = false)
 public abstract class RenderEngineMixin {
@@ -36,6 +37,7 @@ public abstract class RenderEngineMixin {
     @Shadow @Final public Minecraft minecraft;
     @Shadow private boolean clampTexture;
     @Shadow private boolean blurTexture;
+    @Shadow private Map<String, Integer> textureMap;
     @Unique
     private final RenderEngine thisAsRenderEngine = (RenderEngine)(Object)this;
     @Inject(method = "initDynamicTextures", at = @At("TAIL"))
@@ -49,19 +51,18 @@ public abstract class RenderEngineMixin {
         }
         TextureHelper.textureHandlers.forEach((handler) -> dynamicTextures.add(handler.newHandler(mc)));
     }
-    private String textureName = "";
-    @Inject(method = "getTexture(Ljava/lang/String;)I", at = @At("HEAD"))
-    private void redirectAtlasTextures(String name, CallbackInfoReturnable<Integer> cir){
-        textureName = name;
-    }
-    @Inject(method = "setupTexture(Ljava/lang/String;)V", at = @At("HEAD"))
-    private void redirectAtlasTextures2(String name, CallbackInfo ci){
-        textureName = name;
-    }
     @Inject(method = "setupTexture(Ljava/awt/image/BufferedImage;IZ)V", at = @At("HEAD"), cancellable = true)
     private void adjustAtlasSize(BufferedImage img, int id, boolean mipmap, CallbackInfo ci){
-        if (textureName.equals("/terrain.png") || textureName.equals("/gui/items.png")){
-            textureName = "";
+        boolean doResize = false;
+        for (String key : textureMap.keySet()) {
+            if (key.equals("/terrain.png") || key.equals("/gui/items.png")) {
+                doResize = textureMap.get(key) == id;
+                if (doResize) {
+                    break;
+                }
+            }
+        }
+        if (mipmap){
             BufferedImage testImage = new BufferedImage(img.getWidth()*2, img.getHeight()*2, img.getType());
             for (int x = 0; x < img.getWidth(); x++) {
                 for (int y = 0; y < img.getHeight(); y++) {
@@ -89,10 +90,9 @@ public abstract class RenderEngineMixin {
             Buffer.put(testImage);
             GL11.glTexImage2D(3553, 0, 6408, w, h, 0, 6408, 5121, Buffer.buffer);
             if (mipmap) {
-                this.generateMipmaps(Buffer.buffer, testImage, (Integer)this.minecraft.gameSettings.mipmapLevels.value, this.minecraft.gameSettings.mipmapType.value == MipmapType.SMOOTH);
+                this.generateMipmaps(Buffer.buffer, testImage, this.minecraft.gameSettings.mipmapLevels.value, this.minecraft.gameSettings.mipmapType.value == MipmapType.SMOOTH);
             }
             ci.cancel();
         }
-        textureName = "";
     }
 }
