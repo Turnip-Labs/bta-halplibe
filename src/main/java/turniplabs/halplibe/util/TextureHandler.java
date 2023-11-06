@@ -1,14 +1,11 @@
 package turniplabs.halplibe.util;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.option.GameSettings;
 import net.minecraft.client.render.dynamictexture.DynamicTexture;
-import net.minecraft.client.render.texturepack.TexturePackList;
 import net.minecraft.core.util.helper.Textures;
 import turniplabs.halplibe.helper.TextureHelper;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
 
 public class TextureHandler extends DynamicTexture {
     private final String textureName;
@@ -21,6 +18,7 @@ public class TextureHandler extends DynamicTexture {
     private byte[] frames;
     private int elapsedTicks = 0;
     private float scale;
+    private boolean hasInitialized = false;
 
     public TextureHandler(String textureName, String animationSource, int textureIndex, int resolution, int width) {
         this(textureName, animationSource, textureIndex, resolution, width, null);
@@ -59,12 +57,14 @@ public class TextureHandler extends DynamicTexture {
                 }
             }
         }
+        hasInitialized = true;
     }
     public TextureHandler newHandler(Minecraft mc){
         // Returns a new TextureHandler using the current state of Minecraft, If the texturepack has changed it will then use the new texturepack's textures
         return new TextureHandler(textureName, animationSource, textureIndex, defaultResolution, width, mc);
     }
     public void update() {
+        if (!hasInitialized) {return;}
         this.elapsedTicks = (this.elapsedTicks + 1) % this.frameCount;
 
         for (int i = 0; i < this.resolution * scale; ++i) {
