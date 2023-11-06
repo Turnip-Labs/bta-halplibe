@@ -1,5 +1,6 @@
 package turniplabs.halplibe.helper;
 
+import net.minecraft.core.Global;
 import turniplabs.halplibe.HalpLibe;
 
 public class BlockCoords {
@@ -12,9 +13,9 @@ public class BlockCoords {
             case 0: {
                 int x = lastX;
                 int y = lastY;
-                if (++lastX > 31) {
+                if (++lastX > Global.TEXTURE_ATLAS_WIDTH_TILES-1) {
                     lastX = 22;
-                    if (++lastY > 31) {
+                    if (++lastY > Global.TEXTURE_ATLAS_WIDTH_TILES-1) {
                         area = 1;
                         lastX = 7;
                         lastY = 16;

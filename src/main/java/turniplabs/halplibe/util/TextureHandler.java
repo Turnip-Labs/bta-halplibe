@@ -45,7 +45,7 @@ public class TextureHandler extends DynamicTexture {
             throw new RuntimeException("Invalid Height for animation! " + animationSource);
         } else {
             this.frameCount = image.getHeight() / image.getWidth();
-            System.out.println(textureName + " frame Count: " + this.frameCount);
+            System.out.println(animationSource + " frame Count: " + this.frameCount);
             this.frames = new byte[(int) (resolution * resolution * 4 * this.frameCount * scale * scale)];
 
             for (int frame = 0; frame < this.frameCount; ++frame) {
