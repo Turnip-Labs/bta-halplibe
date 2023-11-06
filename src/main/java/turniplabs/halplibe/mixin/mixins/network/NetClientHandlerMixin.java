@@ -6,6 +6,7 @@ import net.minecraft.client.net.handler.NetClientHandler;
 import net.minecraft.client.world.WorldClient;
 import net.minecraft.core.entity.EntityDispatcher;
 import net.minecraft.core.entity.EntityLiving;
+import net.minecraft.core.net.handler.NetHandler;
 import net.minecraft.core.net.packet.Packet24MobSpawn;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -17,7 +18,7 @@ import turniplabs.halplibe.util.network.PacketExtendedMobSpawn;
 import java.util.List;
 
 @Mixin(value = NetClientHandler.class, remap = false)
-public class NetClientHandlerMixin {
+public abstract class NetClientHandlerMixin extends NetHandler {
     @Shadow private WorldClient worldClient;
 
     @Shadow private Minecraft mc;
