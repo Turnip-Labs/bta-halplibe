@@ -30,7 +30,10 @@
     "mixins.network.PacketMixin",
     "mixins.registry.BlockMixin",
     "mixins.registry.ItemMixin",
-    "mixins.registry.MinecraftServerMixin"
+    "mixins.registry.MinecraftServerMixin",
+    "mixins.version.NetClientHandlerMixin",
+    "mixins.version.NetHandlerMixin",
+    "mixins.version.NetLoginHandlerMixin"
   ],
   "client": [
     "mixins.network.MinecraftMixin",
