@@ -2,21 +2,32 @@ package turniplabs.halplibe;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.entrypoint.PreLaunchEntrypoint;
+import net.minecraft.core.Global;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import turniplabs.halplibe.helper.AchievementHelper;
 import turniplabs.halplibe.helper.ModVersionHelper;
 import turniplabs.halplibe.helper.NetworkHelper;
+import turniplabs.halplibe.util.TomlConfigHandler;
 import turniplabs.halplibe.util.achievements.AchievementPage;
 import turniplabs.halplibe.util.achievements.VanillaAchievementsPage;
 import turniplabs.halplibe.util.network.PacketExtendedMobSpawn;
 import turniplabs.halplibe.util.version.PacketModList;
+import turniplabs.halplibe.util.toml.Toml;
 
 public class HalpLibe implements ModInitializer, PreLaunchEntrypoint {
     public static final String MOD_ID = "halplibe";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+    public static final TomlConfigHandler CONFIG;
     static {
-        // this is here to possibly fix some class loading issues but might not work anyway, delete if it causes even more problems
+        Toml toml = new Toml();
+        toml.addCategory("Experimental");
+        toml.addEntry("Experimental.AtlasWidth", "Dynamically resized the Terrain and Item atlases, value must be an integer greater than or equal to 32",32);
+
+        CONFIG = new TomlConfigHandler(MOD_ID, toml);
+
+        Global.TEXTURE_ATLAS_WIDTH_TILES = Math.max(32, CONFIG.getInt("Experimental.AtlasWidth"));
+        // Initialize Block and Item static fields
         try {
             Class.forName("net.minecraft.core.block.Block");
             Class.forName("net.minecraft.core.item.Item");
