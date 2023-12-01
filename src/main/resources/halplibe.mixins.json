@@ -13,7 +13,6 @@
     "accessors.RecipesBlastFurnaceAccessor",
     "accessors.RecipesFurnaceAccessor",
     "accessors.RenderManagerAccessor",
-    "accessors.RenderPlayerAccessor",
     "accessors.TileEntityAccessor",
     "accessors.TileEntityRendererAccessor",
     "mixins.BlockFireMixin",

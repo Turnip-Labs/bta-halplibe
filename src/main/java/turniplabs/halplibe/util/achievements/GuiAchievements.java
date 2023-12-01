@@ -170,11 +170,11 @@ public class GuiAchievements extends GuiScreen {
         if(posY < top){
             posY = top;
         }
-        if(posX >= right){
-            posX = right - 1;
+        if(posX > right){
+            posX = right;
         }
-        if(posY >= bottom){
-            posY = bottom - 1;
+        if(posY > bottom){
+            posY = bottom;
         }
         int blockTex = this.mc.renderEngine.getTexture("/terrain.png");
         int bgTex = this.mc.renderEngine.getTexture("/achievement/bg.png");

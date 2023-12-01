@@ -2,7 +2,6 @@ package turniplabs.halplibe;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.entrypoint.PreLaunchEntrypoint;
-import net.minecraft.core.Global;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import turniplabs.halplibe.helper.AchievementHelper;
@@ -12,8 +11,8 @@ import turniplabs.halplibe.util.TomlConfigHandler;
 import turniplabs.halplibe.util.achievements.AchievementPage;
 import turniplabs.halplibe.util.achievements.VanillaAchievementsPage;
 import turniplabs.halplibe.util.network.PacketExtendedMobSpawn;
-import turniplabs.halplibe.util.version.PacketModList;
 import turniplabs.halplibe.util.toml.Toml;
+import turniplabs.halplibe.util.version.PacketModList;
 
 public class HalpLibe implements ModInitializer, PreLaunchEntrypoint {
     public static final String MOD_ID = "halplibe";
@@ -26,7 +25,7 @@ public class HalpLibe implements ModInitializer, PreLaunchEntrypoint {
 
         CONFIG = new TomlConfigHandler(MOD_ID, toml);
 
-        Global.TEXTURE_ATLAS_WIDTH_TILES = Math.max(32, CONFIG.getInt("Experimental.AtlasWidth"));
+        //Global.TEXTURE_ATLAS_WIDTH_TILES = Math.max(32, CONFIG.getInt("Experimental.AtlasWidth"));
         // Initialize Block and Item static fields
         try {
             Class.forName("net.minecraft.core.block.Block");

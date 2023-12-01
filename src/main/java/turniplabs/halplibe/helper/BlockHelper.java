@@ -122,7 +122,7 @@ public class BlockHelper {
         BlockSoundDispatcher.getInstance().addDispatch(block, blockSound);
         ((BlockAccessor) block).callSetHardness(hardness);
         ((BlockAccessor) block).callSetResistance(resistance);
-        ((BlockAccessor) block).callSetLightValue(lightValue);
+        block.withLightEmission(lightValue);
 
         Item.itemsList[block.id] = new ItemBlock(block);
 

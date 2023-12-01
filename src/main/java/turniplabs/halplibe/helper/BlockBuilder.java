@@ -22,6 +22,9 @@ import java.util.stream.Collectors;
 
 public class BlockBuilder implements Cloneable {
     public static final Set<Integer> infiniburnList = new TreeSet<>();
+    static {
+        infiniburnList.add(Block.netherrack.id);
+    }
 
     private final String MOD_ID;
     private Float hardness = null;
@@ -461,11 +464,11 @@ public class BlockBuilder implements Cloneable {
         }
 
         if (luminance != null) {
-            ((BlockAccessor) block).callSetLightValue(luminance);
+            block.withLightEmission(luminance);
         }
 
         if (lightOpacity != null) {
-            ((BlockAccessor) block).callSetLightOpacity(lightOpacity);
+            block.withLightBlock(lightOpacity);
         }
 
         if (slipperiness != null) {
@@ -490,7 +493,7 @@ public class BlockBuilder implements Cloneable {
             ((BlockAccessor) block).callWithDisabledNeighborNotifyOnMetadataChange();
         }
 
-        ((BlockAccessor) block).callSetTickOnLoad(tickOnLoad);
+        block.setTicking(tickOnLoad);
 
         if (blockDrop != null) {
             ((BlockAccessor) block).callSetDropOverride(blockDrop);
