@@ -6,12 +6,9 @@
   "mixins": [
     "accessors.BlockAccessor",
     "accessors.BlockFireAccessor",
-    "accessors.CraftingManagerAccessor",
     "accessors.DimensionAccessor",
     "accessors.EntityListAccessor",
     "accessors.LanguageAccessor",
-    "accessors.RecipesBlastFurnaceAccessor",
-    "accessors.RecipesFurnaceAccessor",
     "accessors.RenderManagerAccessor",
     "accessors.TileEntityAccessor",
     "accessors.TileEntityRendererAccessor",

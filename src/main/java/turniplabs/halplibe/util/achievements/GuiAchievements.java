@@ -11,7 +11,7 @@ import net.minecraft.client.render.Lighting;
 import net.minecraft.client.render.entity.ItemEntityRenderer;
 import net.minecraft.core.achievement.Achievement;
 import net.minecraft.core.achievement.AchievementList;
-import net.minecraft.core.achievement.stat.StatFileWriter;
+import net.minecraft.core.achievement.stat.StatsCounter;
 import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.lang.I18n;
 import net.minecraft.core.util.helper.MathHelper;
@@ -39,11 +39,11 @@ public class GuiAchievements extends GuiScreen {
     protected double field_27112_q;
     protected double field_27111_r;
     private int isMouseButtonDown = 0;
-    private final StatFileWriter statFileWriter;
+    private final StatsCounter statFileWriter;
     public int page = 0;
     GuiScreen parent;
 
-    public GuiAchievements(GuiScreen parent, StatFileWriter statFileWriter){
+    public GuiAchievements(GuiScreen parent, StatsCounter statFileWriter){
         this.statFileWriter = statFileWriter;
         this.parent = parent;
         this.guiX = field_27112_q = field_27116_m = AchievementList.OPEN_INVENTORY.x * 24 - (double) 141 / 2 - 12;
@@ -51,7 +51,7 @@ public class GuiAchievements extends GuiScreen {
     }
 
     @Override
-    public void initGui() {
+    public void init() {
         this.controlList.clear();
         this.controlList.add(new GuiOptionsButton(1, this.width / 2 + 24, this.height / 2 + 74, 80, 20, I18n.getInstance().translateKey("gui.done")));
         this.controlList.add(new GuiOptionsButton(2, this.width / 2 - 104, this.height / 2 + 74, 120, 20, "Minecraft"));
@@ -88,7 +88,7 @@ public class GuiAchievements extends GuiScreen {
 
     @Override
     public void keyTyped(char c, int i, int mouseX, int mouseY) {
-        if (this.mc.gameSettings.keyInventory.isKey(i)) {
+        if (this.mc.gameSettings.keyInventory.isKeyboardKey(i)) {
             this.mc.displayGuiScreen(null);
             this.mc.setIngameFocus();
         } else {
@@ -140,7 +140,7 @@ public class GuiAchievements extends GuiScreen {
     }
 
     @Override
-    public void updateScreen() {
+    public void tick() {
         this.field_27116_m = this.guiX;
         this.field_27115_n = this.guiY;
         double var1 = this.field_27112_q - this.guiX;
@@ -209,8 +209,8 @@ public class GuiAchievements extends GuiScreen {
                     int x1 = achievement.x * 24 - posX + 11 + iOffset;
                     int y1 = achievement.y * 24 - posY + 11 + jOffset;
                     int color = 0;
-                    boolean isUnlocked = statFileWriter.hasAchievementUnlocked(achievement);
-                    boolean isAvailable = statFileWriter.func_27181_b(achievement);
+                    boolean isUnlocked = statFileWriter.isAchievementUnlocked(achievement);
+                    boolean isAvailable = statFileWriter.isAchievementUnlockable(achievement);
                     int n = Math.sin((double)(System.currentTimeMillis() % 600L) / 600.0 * Math.PI * 2.0) <= 0.6 ? 130 : 255;
                     color = isUnlocked ? -9408400 : (isAvailable ? 65280 + (n << 24) : -16777216);
                     this.func_27100_a(x1, x1, y1, color);
@@ -221,8 +221,8 @@ public class GuiAchievements extends GuiScreen {
                     int x2 = achievement.parent.x * 24 - posX + 11 + iOffset;
                     int y2 = achievement.parent.y * 24 - posY + 11 + jOffset;
                     int color = 0;
-                    boolean isUnlocked = statFileWriter.hasAchievementUnlocked(achievement);
-                    boolean isAvailable = statFileWriter.func_27181_b(achievement);
+                    boolean isUnlocked = statFileWriter.isAchievementUnlocked(achievement);
+                    boolean isAvailable = statFileWriter.isAchievementUnlockable(achievement);
                     int n = Math.sin((double)(System.currentTimeMillis() % 600L) / 600.0 * Math.PI * 2.0) <= 0.6 ? 130 : 255;
                     color = isUnlocked ? -9408400 : (isAvailable ? 65280 + (n << 24) : -16777216);
                     this.func_27100_a(x1, x2, y1, color);
@@ -239,8 +239,8 @@ public class GuiAchievements extends GuiScreen {
                 int x1 = achievement.x * 24 - posX;
                 int y1 = achievement.y * 24 - posY;
                 if (x1 < -24 || y1 < -24 || x1 > 224 || y1 > 155) continue;
-                boolean isUnlocked = statFileWriter.hasAchievementUnlocked(achievement);
-                boolean isAvailable = statFileWriter.func_27181_b(achievement);
+                boolean isUnlocked = statFileWriter.isAchievementUnlocked(achievement);
+                boolean isAvailable = statFileWriter.isAchievementUnlockable(achievement);
                 if(isUnlocked){
                     GL11.glColor4f(1,1,1,1);
                 } else if (isAvailable) {
@@ -289,8 +289,8 @@ public class GuiAchievements extends GuiScreen {
                 String desc = achievement1.getDescription();
                 int x1 = x + 12;
                 int y1 = y - 4;
-                boolean isUnlocked = statFileWriter.hasAchievementUnlocked(achievement1);
-                boolean isAvailable = statFileWriter.func_27181_b(achievement1);
+                boolean isUnlocked = statFileWriter.isAchievementUnlocked(achievement1);
+                boolean isAvailable = statFileWriter.isAchievementUnlockable(achievement1);
                 if(isAvailable){
                     int maxNameLength = Math.max(this.fontRenderer.getStringWidth(name), 120);
                     int descLength = this.fontRenderer.func_27277_a(desc, maxNameLength);

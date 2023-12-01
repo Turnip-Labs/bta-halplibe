@@ -4,7 +4,7 @@ import net.minecraft.client.render.TextureFX;
 import net.minecraft.core.Global;
 import net.minecraft.core.achievement.Achievement;
 import net.minecraft.core.achievement.AchievementList;
-import net.minecraft.core.achievement.stat.StatBase;
+import net.minecraft.core.achievement.stat.Stat;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.util.helper.Side;
 import org.lwjgl.opengl.GL11;
@@ -17,7 +17,7 @@ public class TestAchievementsPage extends AchievementPage{
 
     public TestAchievementsPage() {
         super("HalpLibe", "achievements.page.halplibe");
-        ((StatBase)TEST).registerStat();
+        ((Stat)TEST).registerStat();
         achievementList.add(TEST);
     }
 
