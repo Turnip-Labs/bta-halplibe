@@ -38,8 +38,8 @@ public class RegistryHelper {
 	
 	@SuppressWarnings("unused")
 	private static void runRegistry() {
-		for (Runnable regsitryFunction : configuredRegsitryFunctions) regsitryFunction.run();
-		for (Runnable regsitryFunction : smartRregsitryFunctions) regsitryFunction.run();
-		for (Runnable regsitryFunction : regsitryFunctions) regsitryFunction.run();
+//		for (Runnable regsitryFunction : configuredRegsitryFunctions) regsitryFunction.run();
+//		for (Runnable regsitryFunction : smartRregsitryFunctions) regsitryFunction.run();
+//		for (Runnable regsitryFunction : regsitryFunctions) regsitryFunction.run();
 	}
 }
