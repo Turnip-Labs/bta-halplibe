@@ -17,7 +17,6 @@
     "mixins.EntityClientPlayerMPMixin",
     "mixins.GuiIngameMenuMixin",
     "mixins.I18nMixin",
-    "mixins.MinecraftMixin",
     "mixins.RenderEngineMixin",
     "mixins.RenderGlobalMixin",
     "mixins.network.EntityTrackerEntryMixin",
