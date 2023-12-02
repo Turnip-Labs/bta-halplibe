@@ -8,19 +8,19 @@ import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemStack;
 @Deprecated
 public class RecipeHelper {
+    @Deprecated
     public static final CraftingManager craftingManager = CraftingManager.getInstance();
     public static final RecipesFurnace smeltingManager = RecipesFurnace.getInstance();
     public static final RecipesBlastFurnace blastingManager = RecipesBlastFurnace.getInstance();
+    @Deprecated
+    public static final RecipesFurnace smeltingManager = RecipesFurnace.smelting();
+    @Deprecated
+    public static final RecipesBlastFurnace blastingManager = RecipesBlastFurnace.smelting();
 
-    public static class Crafting {
+    @Deprecated
+    public static void removeRecipe(Item outputItem, int meta) {
+        IRecipe theRecipe = null;
 
-        public static void createRecipe(Item outputItem, int amount, Object[] aobj) {
-            craftingManager.addRecipe(new ItemStack(outputItem, amount), aobj);
-        }
-
-        public static void createRecipe(Block outputBlock, int amount, Object[] aobj) {
-            craftingManager.addRecipe(new ItemStack(outputBlock, amount), aobj);
-        }
 
         public static void createShapelessRecipe(Item outputItem, int amount, Object[] aobj) {
             craftingManager.addShapelessRecipe(new ItemStack(outputItem, amount), aobj);
@@ -38,7 +38,7 @@ public class RecipeHelper {
             craftingManager.addShapelessRecipe(stack, aobj);
         }
     }
-
+    @Deprecated
     public static class Smelting {
 
         public static void createRecipe(Item outputItem, Item inputItem) {
@@ -58,6 +58,7 @@ public class RecipeHelper {
         }
     }
 
+    @Deprecated
     public static class Blasting {
         public static void createRecipe(Item outputItem, Item inputItem) {
             blastingManager.addSmelting(inputItem.id, new ItemStack(outputItem));
