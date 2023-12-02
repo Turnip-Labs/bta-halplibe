@@ -14,15 +14,6 @@ public interface BlockAccessor {
     @Invoker("withBlastResistance")
     Block callSetResistance(float f);
 
-    @Invoker("withLightOpacity")
-    Block callSetLightOpacity(int i);
-
-    @Invoker("withLightValue")
-    Block callSetLightValue(float f);
-
-    @Invoker("withLightValue")
-    Block callSetLightValue(int i);
-
     @Invoker("withImmovableFlagSet")
     Block callSetImmovable();
 
@@ -31,12 +22,8 @@ public interface BlockAccessor {
 
     @Invoker("withLitInteriorSurface")
     Block callSetIsLitInteriorSurface(boolean isLit);
-
     @Invoker
     Block callWithDisabledNeighborNotifyOnMetadataChange();
-
-    @Invoker
-    Block callSetTickOnLoad(boolean tickOnLoad);
 
     @Accessor("key")
     void halplibe$setKey(String key);

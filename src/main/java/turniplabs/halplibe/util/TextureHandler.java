@@ -2,7 +2,7 @@ package turniplabs.halplibe.util;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.render.dynamictexture.DynamicTexture;
-import net.minecraft.core.util.helper.Textures;
+import net.minecraft.client.util.helper.Textures;
 import turniplabs.halplibe.helper.TextureHelper;
 
 import java.awt.image.BufferedImage;

@@ -23,8 +23,7 @@ public class GuiIngameMenuMixin extends GuiScreen {
     )
     protected void buttonPressed(GuiButton guibutton, CallbackInfo ci) {
         if (guibutton.id == 5) {
-            GuiIngameMenu trueThis = (GuiIngameMenu)((Object)this);
-            this.mc.displayGuiScreen(new GuiAchievements(trueThis, Minecraft.getMinecraft(this).statsCounter));
+            this.mc.displayGuiScreen(new GuiAchievements(this, this.mc.statsCounter));
             ci.cancel();
         }
     }

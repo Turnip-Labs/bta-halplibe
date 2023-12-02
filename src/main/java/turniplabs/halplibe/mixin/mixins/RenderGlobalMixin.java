@@ -1,8 +1,8 @@
 package turniplabs.halplibe.mixin.mixins;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.fx.EntityFX;
 import net.minecraft.client.render.RenderGlobal;
-import net.minecraft.core.entity.fx.EntityFX;
 import net.minecraft.core.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

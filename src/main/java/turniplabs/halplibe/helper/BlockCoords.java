@@ -17,7 +17,7 @@ public class BlockCoords {
                     lastX = 22;
                     if (++lastY > Global.TEXTURE_ATLAS_WIDTH_TILES-1) {
                         area = 1;
-                        lastX = 7;
+                        lastX = 10;
                         lastY = 16;
                     }
                 }
@@ -27,7 +27,7 @@ public class BlockCoords {
                 int x = lastX;
                 int y = lastY;
                 if (++lastX > 21) {
-                    lastX = 7;
+                    lastX = 10;
                     if (++lastY > 30) {
                         area = 2;
                         lastX = 16;

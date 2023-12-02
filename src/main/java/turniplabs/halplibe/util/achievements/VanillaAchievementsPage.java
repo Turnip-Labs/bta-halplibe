@@ -1,16 +1,11 @@
 package turniplabs.halplibe.util.achievements;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.render.TextureFX;
 import net.minecraft.core.Global;
-import net.minecraft.core.achievement.Achievement;
 import net.minecraft.core.achievement.AchievementList;
-import net.minecraft.core.achievement.stat.StatStringFormatKeyInv;
 import net.minecraft.core.block.Block;
-import net.minecraft.core.item.Item;
 import net.minecraft.core.util.helper.Side;
 import org.lwjgl.opengl.GL11;
-import turniplabs.halplibe.HalpLibe;
 
 import java.util.Random;
 
