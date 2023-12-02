@@ -13,11 +13,16 @@ import turniplabs.halplibe.mixin.accessors.RecipesFurnaceAccessor;
 import java.util.List;
 import java.util.Map;
 
+@Deprecated
 public class RecipeHelper {
+    @Deprecated
     public static final CraftingManager craftingManager = CraftingManager.getInstance();
+    @Deprecated
     public static final RecipesFurnace smeltingManager = RecipesFurnace.smelting();
+    @Deprecated
     public static final RecipesBlastFurnace blastingManager = RecipesBlastFurnace.smelting();
 
+    @Deprecated
     public static void removeRecipe(Item outputItem, int meta) {
         List<IRecipe> recipes = craftingManager.getRecipeList();
         IRecipe theRecipe = null;
@@ -41,6 +46,7 @@ public class RecipeHelper {
         ((CraftingManagerAccessor) craftingManager).setRecipes(recipes);
     }
 
+    @Deprecated
     public static void removeRecipe(Block outputBlock, int meta) {
         List<IRecipe> recipes = craftingManager.getRecipeList();
         IRecipe theRecipe = null;
@@ -64,6 +70,7 @@ public class RecipeHelper {
         ((CraftingManagerAccessor) craftingManager).setRecipes(recipes);
     }
 
+    @Deprecated
     public static class Crafting {
 
         public static void createRecipe(Item outputItem, int amount, Object[] aobj) {
@@ -136,7 +143,7 @@ public class RecipeHelper {
             ((CraftingManagerAccessor) craftingManager).setRecipes(recipes);
         }
     }
-
+    @Deprecated
     public static class Smelting {
 
         public static void createRecipe(Item outputItem, Item inputItem) {
@@ -180,6 +187,7 @@ public class RecipeHelper {
         }
     }
 
+    @Deprecated
     public static class Blasting {
         public static void createRecipe(Item outputItem, Item inputItem) {
             blastingManager.addSmelting(inputItem.id, new ItemStack(outputItem));

@@ -24,10 +24,11 @@ public class ArmorHelper {
         RenderPlayerAccessor.setArmorFilenamePrefix(armorFilenamePrefix);
 
         ArmorMaterial armorMaterial = new ArmorMaterial(textureName, armorFilenamePrefix.length - 1, durability);
-        ArmorMaterial.setProtectionValuePercent(armorMaterial, DamageType.COMBAT, combat);
-        ArmorMaterial.setProtectionValuePercent(armorMaterial, DamageType.BLAST, blast);
-        ArmorMaterial.setProtectionValuePercent(armorMaterial, DamageType.FIRE, fire);
-        ArmorMaterial.setProtectionValuePercent(armorMaterial, DamageType.FALL, fall);
+        armorMaterial.withProtectionPercentage(DamageType.COMBAT,combat);
+        armorMaterial.withProtectionPercentage(DamageType.COMBAT, combat);
+        armorMaterial.withProtectionPercentage(DamageType.BLAST, blast);
+        armorMaterial.withProtectionPercentage(DamageType.FIRE, fire);
+        armorMaterial.withProtectionPercentage(DamageType.FALL, fall);
 
         return armorMaterial;
     }
