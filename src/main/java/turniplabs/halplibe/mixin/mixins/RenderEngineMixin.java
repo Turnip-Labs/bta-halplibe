@@ -26,7 +26,7 @@ public abstract class RenderEngineMixin {
     private List<DynamicTexture> dynamicTextures;
     @Shadow protected abstract void generateMipmaps(ByteBuffer buffer, BufferedImage image, int levels, boolean smooth);
 
-    @Shadow @Final public Minecraft minecraft;
+    @Shadow @Final public Minecraft mc;
     @Shadow private boolean clampTexture;
     @Shadow private boolean blurTexture;
     @Unique
@@ -84,7 +84,7 @@ public abstract class RenderEngineMixin {
             Buffer.put(resizedAtlas);
             GL11.glTexImage2D(3553, 0, 6408, w, h, 0, 6408, 5121, Buffer.buffer);
             if (mipmap) {
-                this.generateMipmaps(Buffer.buffer, resizedAtlas, this.minecraft.gameSettings.mipmapLevels.value, this.minecraft.gameSettings.mipmapType.value == MipmapType.SMOOTH);
+                this.generateMipmaps(Buffer.buffer, resizedAtlas, this.mc.gameSettings.mipmapLevels.value, this.mc.gameSettings.mipmapType.value == MipmapType.SMOOTH);
             }
             ci.cancel();
         }
