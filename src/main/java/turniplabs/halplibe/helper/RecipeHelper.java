@@ -17,6 +17,12 @@ public class RecipeHelper {
     public static final RecipesBlastFurnace blastingManager = RecipesBlastFurnace.getInstance();
     @Deprecated
     public static class Crafting {
+        
+        @Deprecated
+        public static void removeRecipe(Item outputItem, int meta) {
+            IRecipe theRecipe = null;
+        }
+
         public static void createShapelessRecipe(Item outputItem, int amount, Object[] aobj) {
             craftingManager.addShapelessRecipe(new ItemStack(outputItem, amount), aobj);
         }
