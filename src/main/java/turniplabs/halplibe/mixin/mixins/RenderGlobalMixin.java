@@ -31,13 +31,13 @@ public abstract class RenderGlobalMixin {
             double maxDistance = 16.0;
 
             if (!(distanceX * distanceX + distanceY * distanceY + distanceZ * distanceZ > maxDistance * maxDistance)) {
-                Map<String, Class<? super EntityFX>> particles = (Map<String, Class<? super EntityFX>>) ParticleHelper.particles;
+                Map<String, Class<? extends EntityFX>> particles = ParticleHelper.particles;
                 for (String name : particles.keySet()) {
                     if (name.equals(particle)) {
-                        Class<? super EntityFX> clazz = particles.get(name);
+                        Class<? extends EntityFX> clazz = particles.get(name);
 
                         try {
-                            mc.effectRenderer.addEffect((net.minecraft.client.entity.fx.EntityFX) clazz
+                            mc.effectRenderer.addEffect(clazz
                                     .getDeclaredConstructor(World.class, double.class, double.class, double.class, double.class, double.class, double.class)
                                     .newInstance(worldObj, x, y, z, motionX, motionY, motionZ));
                         } catch (Exception e) {

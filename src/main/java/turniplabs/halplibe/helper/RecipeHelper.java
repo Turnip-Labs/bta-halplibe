@@ -13,32 +13,6 @@ public class RecipeHelper {
     public static final RecipesFurnace smeltingManager = RecipesFurnace.getInstance();
     public static final RecipesBlastFurnace blastingManager = RecipesBlastFurnace.getInstance();
     @Deprecated
-    public static final RecipesFurnace smeltingManager = RecipesFurnace.smelting();
-    @Deprecated
-    public static final RecipesBlastFurnace blastingManager = RecipesBlastFurnace.smelting();
-
-    @Deprecated
-    public static void removeRecipe(Item outputItem, int meta) {
-        IRecipe theRecipe = null;
-
-
-        public static void createShapelessRecipe(Item outputItem, int amount, Object[] aobj) {
-            craftingManager.addShapelessRecipe(new ItemStack(outputItem, amount), aobj);
-        }
-
-        public static void createShapelessRecipe(Block outputBlock, int amount, Object[] aobj) {
-            craftingManager.addShapelessRecipe(new ItemStack(outputBlock, amount), aobj);
-        }
-
-        public static void createRecipe(ItemStack stack, Object[] aobj) {
-            craftingManager.addRecipe(stack, aobj);
-        }
-
-        public static void createShapelessRecipe(ItemStack stack, Object[] aobj) {
-            craftingManager.addShapelessRecipe(stack, aobj);
-        }
-    }
-    @Deprecated
     public static class Smelting {
 
         public static void createRecipe(Item outputItem, Item inputItem) {
