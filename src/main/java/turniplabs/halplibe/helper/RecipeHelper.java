@@ -2,6 +2,7 @@ package turniplabs.halplibe.helper;
 
 import net.minecraft.core.block.Block;
 import net.minecraft.core.crafting.legacy.CraftingManager;
+import net.minecraft.core.crafting.legacy.recipe.IRecipe;
 import net.minecraft.core.crafting.legacy.recipe.RecipesBlastFurnace;
 import net.minecraft.core.crafting.legacy.recipe.RecipesFurnace;
 import net.minecraft.core.item.Item;
@@ -10,8 +11,29 @@ import net.minecraft.core.item.ItemStack;
 public class RecipeHelper {
     @Deprecated
     public static final CraftingManager craftingManager = CraftingManager.getInstance();
+    @Deprecated
     public static final RecipesFurnace smeltingManager = RecipesFurnace.getInstance();
+    @Deprecated
     public static final RecipesBlastFurnace blastingManager = RecipesBlastFurnace.getInstance();
+    @Deprecated
+    public static class Crafting {
+        public static void createShapelessRecipe(Item outputItem, int amount, Object[] aobj) {
+            craftingManager.addShapelessRecipe(new ItemStack(outputItem, amount), aobj);
+        }
+
+        public static void createShapelessRecipe(Block outputBlock, int amount, Object[] aobj) {
+            craftingManager.addShapelessRecipe(new ItemStack(outputBlock, amount), aobj);
+        }
+
+        public static void createRecipe(ItemStack stack, Object[] aobj) {
+            craftingManager.addRecipe(stack, aobj);
+        }
+
+        public static void createShapelessRecipe(ItemStack stack, Object[] aobj) {
+            craftingManager.addShapelessRecipe(stack, aobj);
+        }
+    }
+
     @Deprecated
     public static class Smelting {
 
