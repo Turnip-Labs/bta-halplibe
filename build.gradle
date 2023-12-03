@@ -58,7 +58,6 @@ repositories {
 }
 
 dependencies {
-	implementation project(path: ':')
     minecraft "bta-download-repo:bta:${project.bta_version}"
 	mappings loom.layered() {}
 
