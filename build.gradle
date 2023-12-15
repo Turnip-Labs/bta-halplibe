@@ -40,6 +40,22 @@ repositories {
 		metadataSources { artifact() }
 	}
 	ivy {
+		url = "https://github.com/Turnip-Labs"
+		patternLayout {
+			artifact "[organisation]/releases/download/[revision]/[module]-[revision].jar"
+			m2compatible = true
+		}
+		metadataSources { artifact() }
+	}
+	ivy {
+		url = "https://github.com/Turnip-Labs"
+		patternLayout {
+			artifact "[organisation]/releases/download/[revision]/[module]-bta-[revision].jar"
+			m2compatible = true
+		}
+		metadataSources { artifact() }
+	}
+	ivy {
 		url = "https://piston-data.mojang.com"
 		patternLayout {
 			artifact "v1/[organisation]/[revision]/[module].jar"
@@ -55,10 +71,24 @@ repositories {
 		}
 		metadataSources { artifact() }
 	}
+	ivy {
+		url = "https://github.com/UselessBullets"
+		patternLayout {
+			artifact "[organisation]/releases/download/[revision]/[module]-bta-[revision].jar"
+			m2compatible = true
+		}
+		metadataSources { artifact() }
+	}
+	ivy {
+		url = uri("https://github.com/UselessBullets")
+		patternLayout {
+			artifact("[organisation]/releases/download/v[revision]/[module]-[revision].jar")
+		}
+		metadataSources { artifact() }
+	}
 }
 
 dependencies {
-	implementation project(path: ':')
     minecraft "bta-download-repo:bta:${project.bta_version}"
 	mappings loom.layered() {}
 
@@ -68,11 +98,16 @@ dependencies {
 	implementation "org.slf4j:slf4j-api:1.8.0-beta4"
 	implementation "org.apache.logging.log4j:log4j-slf4j18-impl:2.16.0"
 
+	implementation 'com.google.guava:guava:30.0-jre'
+	implementation group: 'com.google.code.gson', name: 'gson', version: '2.10.1'
+
 	var log4jVersion = "2.20.0"
 	implementation("org.apache.logging.log4j:log4j-core:${log4jVersion}")
 	implementation("org.apache.logging.log4j:log4j-api:${log4jVersion}")
 	implementation("org.apache.logging.log4j:log4j-1.2-api:${log4jVersion}")
 	include(implementation("org.apache.commons:commons-lang3:3.12.0"))
+
+	modImplementation "ModMenu:modmenu:2.0.2-7.1"
 }
 
 java {
@@ -81,7 +116,7 @@ java {
 	withSourcesJar()
 }
 
-tasks.withType(JavaCompile) {
+tasks.withType(JavaCompile).configureEach {
 	options.release.set 8
 }
 
