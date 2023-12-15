@@ -69,7 +69,7 @@ public class TextureHandler extends DynamicTexture {
 
         for (int i = 0; i < this.resolution * scale; ++i) {
             for (int j = 0; j < this.resolution * scale; ++j) {
-                transferPixel(this.frames, (int) (this.elapsedTicks * this.resolution * this.resolution * scale * scale + j * this.resolution * scale + i), this.imageData, (int) (j * this.resolution * scale + i));
+                //transferPixel(this.frames, (int) (this.elapsedTicks * this.resolution * this.resolution * scale * scale + j * this.resolution * scale + i), this.imageData, (int) (j * this.resolution * scale + i));
             }
         }
 
