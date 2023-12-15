@@ -1,6 +1,6 @@
 /run/
+/out/
 /.idea/
 /build/
 /.gradle/
 /local-lib/
-/out/

@@ -4,53 +4,53 @@ import net.minecraft.core.Global;
 import turniplabs.halplibe.HalpLibe;
 
 public class BlockCoords {
-    public static int lastX = 24;
-    public static int lastY = 0;
-    public static int area = 0;
+    public static boolean[][] usedCoordinates = new boolean[Global.TEXTURE_ATLAS_WIDTH_TILES][Global.TEXTURE_ATLAS_WIDTH_TILES];
 
     public static int[] nextCoords() {
-        switch (area) {
-            case 0: {
-                int x = lastX;
-                int y = lastY;
-                if (++lastX > Global.TEXTURE_ATLAS_WIDTH_TILES-1) {
-                    lastX = 22;
-                    if (++lastY > Global.TEXTURE_ATLAS_WIDTH_TILES-1) {
-                        area = 1;
-                        lastX = 10;
-                        lastY = 16;
-                    }
-                }
+        for (int y = 0; y < usedCoordinates[0].length; y++) {
+            for (int x = 0; x < usedCoordinates.length; x++) {
+                if (usedCoordinates[x][y]) continue;
+                markIDUsed(x, y);
                 return new int[]{x, y};
             }
-            case 1: {
-                int x = lastX;
-                int y = lastY;
-                if (++lastX > 21) {
-                    lastX = 10;
-                    if (++lastY > 30) {
-                        area = 2;
-                        lastX = 16;
-                        lastY = 10;
-                    }
-                }
-                return new int[]{x, y};
-            }
-            case 2: {
-                int x = lastX;
-                int y = lastY;
-                if (++lastX > 21) {
-                    lastX = 16;
-                    if (++lastY > 15) {
-                        area = 3;
-                        HalpLibe.LOGGER.info("Reached the end of block texture space!");
-                    }
-                }
-                return new int[]{x, y};
-            }
-            default:
-                HalpLibe.LOGGER.info("No more block texture spaces are available!");
-                return new int[]{21, 15};
         }
+        throw new NullPointerException("Out of Texture space! Increase the atlas size in the halplibe config");
+    }
+    public static void markIDUsed(int x, int y){
+        if (x > Global.TEXTURE_ATLAS_WIDTH_TILES || y > Global.TEXTURE_ATLAS_WIDTH_TILES){
+            throw new IllegalArgumentException("Coordinates [" + x + ", " + y + "] is outside the valid range of [" + Global.TEXTURE_ATLAS_WIDTH_TILES + ", " + Global.TEXTURE_ATLAS_WIDTH_TILES + "]");
+        }
+        usedCoordinates[x][y] = true;
+    }
+    public static void markSectionUsed(int[] topLeft, int[] bottomRight){
+        if (topLeft[0] > Global.TEXTURE_ATLAS_WIDTH_TILES || topLeft[1] > Global.TEXTURE_ATLAS_WIDTH_TILES){
+            throw new IllegalArgumentException("Coordinates [" + topLeft[0] + ", " + topLeft[1] + "] is outside the valid range of [" + Global.TEXTURE_ATLAS_WIDTH_TILES + ", " + Global.TEXTURE_ATLAS_WIDTH_TILES + "]");
+        }
+        if (bottomRight[0] > Global.TEXTURE_ATLAS_WIDTH_TILES || bottomRight[1] > Global.TEXTURE_ATLAS_WIDTH_TILES){
+            throw new IllegalArgumentException("Coordinates [" + bottomRight[0] + ", " + bottomRight[1] + "] is outside the valid range of [" + Global.TEXTURE_ATLAS_WIDTH_TILES + ", " + Global.TEXTURE_ATLAS_WIDTH_TILES + "]");
+        }
+        for (int x = topLeft[0]; x <= bottomRight[0]; x++) {
+            for (int y = topLeft[1]; y <= bottomRight[1]; y++) {
+                markIDUsed(x, y);
+            }
+        }
+    }
+    static {
+        markSectionUsed(new int[]{0,0}, new int[]{17, 15});
+        markSectionUsed(new int[]{18,0}, new int[]{19, 6});
+        markSectionUsed(new int[]{20,0}, new int[]{21, 3});
+        markSectionUsed(new int[]{0,16}, new int[]{4, 28});
+        markSectionUsed(new int[]{0,31}, new int[]{8, 31});
+        markSectionUsed(new int[]{20,20}, new int[]{31, 31});
+        markSectionUsed(new int[]{16,24}, new int[]{19, 31});
+        markSectionUsed(new int[]{5,17}, new int[]{6, 24});
+        markSectionUsed(new int[]{7,18}, new int[]{10, 20});
+        markIDUsed(15, 16);
+        markIDUsed(16, 16);
+        markIDUsed(18, 8);
+        markIDUsed(18, 9);
+        markIDUsed(18, 10);
+        markIDUsed(22, 0);
+        markIDUsed(23, 0);
     }
 }

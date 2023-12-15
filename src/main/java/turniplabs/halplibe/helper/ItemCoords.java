@@ -4,40 +4,39 @@ import net.minecraft.core.Global;
 import turniplabs.halplibe.HalpLibe;
 
 public class ItemCoords {
-    public static int lastX = 16;
-    public static int lastY = 0;
-    public static int area = 0;
+    public static boolean[][] usedCoordinates = new boolean[Global.TEXTURE_ATLAS_WIDTH_TILES][Global.TEXTURE_ATLAS_WIDTH_TILES];
 
     public static int[] nextCoords() {
-        switch (area) {
-            case 0: {
-                int x = lastX;
-                int y = lastY;
-                if (++lastX > Global.TEXTURE_ATLAS_WIDTH_TILES-1) {
-                    lastX = 16;
-                    if (++lastY > Global.TEXTURE_ATLAS_WIDTH_TILES-1) {
-                        area = 1;
-                        lastX = 0;
-                        lastY = 16;
-                    }
+        for (int y = 0; y < usedCoordinates[0].length; y++) {
+            for (int x = 0; x < usedCoordinates.length; x++) {
+                if (!usedCoordinates[x][y]){
+                    markIDUsed(x, y);
+                    return new int[]{x, y};
                 }
-                return new int[]{x, y};
             }
-            case 1: {
-                int x = lastX;
-                int y = lastY;
-                if (++lastX > 15) {
-                    lastX = 0;
-                    if (++lastY > Global.TEXTURE_ATLAS_WIDTH_TILES-1) {
-                        area = 2;
-                        HalpLibe.LOGGER.info("Reached the end of item texture space!");
-                    }
-                }
-                return new int[]{x, y};
-            }
-            default:
-                HalpLibe.LOGGER.info("No more item texture spaces are available!");
-                return new int[]{15, Global.TEXTURE_ATLAS_WIDTH_TILES-1};
         }
+        throw new NullPointerException("Out of Texture space! Increase the atlas size in the halplibe config");
+    }
+    public static void markIDUsed(int x, int y){
+        if (x > Global.TEXTURE_ATLAS_WIDTH_TILES || y > Global.TEXTURE_ATLAS_WIDTH_TILES){
+            throw new IllegalArgumentException("Coordinates [" + x + ", " + y + "] is outside the valid range of [" + Global.TEXTURE_ATLAS_WIDTH_TILES + ", " + Global.TEXTURE_ATLAS_WIDTH_TILES + "]");
+        }
+        usedCoordinates[x][y] = true;
+    }
+    public static void markSectionUsed(int[] topLeft, int[] bottomRight){
+        if (topLeft[0] > Global.TEXTURE_ATLAS_WIDTH_TILES || topLeft[1] > Global.TEXTURE_ATLAS_WIDTH_TILES){
+            throw new IllegalArgumentException("Coordinates [" + topLeft[0] + ", " + topLeft[1] + "] is outside the valid range of [" + Global.TEXTURE_ATLAS_WIDTH_TILES + ", " + Global.TEXTURE_ATLAS_WIDTH_TILES + "]");
+        }
+        if (bottomRight[0] > Global.TEXTURE_ATLAS_WIDTH_TILES || bottomRight[1] > Global.TEXTURE_ATLAS_WIDTH_TILES){
+            throw new IllegalArgumentException("Coordinates [" + bottomRight[0] + ", " + bottomRight[1] + "] is outside the valid range of [" + Global.TEXTURE_ATLAS_WIDTH_TILES + ", " + Global.TEXTURE_ATLAS_WIDTH_TILES + "]");
+        }
+        for (int x = topLeft[0]; x <= bottomRight[0]; x++) {
+            for (int y = topLeft[1]; y <= bottomRight[1]; y++) {
+                markIDUsed(x, y);
+            }
+        }
+    }
+    static {
+        markSectionUsed(new int[]{0,0}, new int[]{15, 15});
     }
 }

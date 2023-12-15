@@ -30,6 +30,8 @@ public class HalpLibe implements ModInitializer, PreLaunchEntrypoint {
 
         CONFIG = new TomlConfigHandler(MOD_ID, toml);
 
+        Global.TEXTURE_ATLAS_WIDTH_TILES = Math.max(32, CONFIG.getInt("Experimental.AtlasWidth"));
+
         // Initialize Block and Item static fields
         try {
             Class.forName("net.minecraft.core.block.Block");

@@ -15,14 +15,13 @@ public class RecipeHelper {
     public static final RecipesFurnace smeltingManager = RecipesFurnace.getInstance();
     @Deprecated
     public static final RecipesBlastFurnace blastingManager = RecipesBlastFurnace.getInstance();
-
     @Deprecated
     public static void removeRecipe(Item outputItem, int meta) {
         IRecipe theRecipe = null;
     }
-
     @Deprecated
     public static class Crafting {
+        
         public static void createShapelessRecipe(Item outputItem, int amount, Object[] aobj) {
             craftingManager.addShapelessRecipe(new ItemStack(outputItem, amount), aobj);
         }
