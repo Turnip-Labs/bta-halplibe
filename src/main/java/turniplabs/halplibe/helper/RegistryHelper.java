@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.function.Consumer;
 
 public class RegistryHelper {
-	private static final ArrayList<Runnable> regsitryFunctions = new ArrayList<>();
-	private static final ArrayList<Runnable> configuredRegsitryFunctions = new ArrayList<>();
-	private static final ArrayList<Runnable> smartRregsitryFunctions = new ArrayList<>();
+	private static final ArrayList<Runnable> registryFunctions = new ArrayList<>();
+	private static final ArrayList<Runnable> configuredRegistryFunctions = new ArrayList<>();
+	private static final ArrayList<Runnable> smartRegistryFunctions = new ArrayList<>();
 
 	/**
 	 * Only intended for internal use from {@link BlockHelper#reserveRuns(Toml, int, Consumer)} and {@link ItemHelper#reserveRuns(Toml, int, Consumer)}
@@ -17,7 +17,7 @@ public class RegistryHelper {
 	 * @param function the function to run on registry handling
 	 */
 	public static void scheduleSmartRegistry(Runnable function) {
-		smartRregsitryFunctions.add(function);
+		smartRegistryFunctions.add(function);
 	}
 
 	/**
@@ -32,14 +32,14 @@ public class RegistryHelper {
 	 * @param function the function to run upon registering stuff
 	 */
 	public static void scheduleRegistry(boolean configured, Runnable function) {
-		if (configured) configuredRegsitryFunctions.add(function);
-		else regsitryFunctions.add(function);
+		if (configured) configuredRegistryFunctions.add(function);
+		else registryFunctions.add(function);
 	}
 	
 	@SuppressWarnings("unused")
 	private static void runRegistry() {
-		for (Runnable regsitryFunction : configuredRegsitryFunctions) regsitryFunction.run();
-		for (Runnable regsitryFunction : smartRregsitryFunctions) regsitryFunction.run();
-		for (Runnable regsitryFunction : regsitryFunctions) regsitryFunction.run();
+		for (Runnable registryFunction : configuredRegistryFunctions) registryFunction.run();
+		for (Runnable registryFunction : smartRegistryFunctions) registryFunction.run();
+		for (Runnable registryFunction : registryFunctions) registryFunction.run();
 	}
 }

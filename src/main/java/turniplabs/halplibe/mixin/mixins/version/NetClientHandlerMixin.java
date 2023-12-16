@@ -11,6 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import turniplabs.halplibe.HalpLibe;
 import turniplabs.halplibe.helper.ModVersionHelper;
 import turniplabs.halplibe.util.version.IVersionPackets;
+import turniplabs.halplibe.util.version.ModInfo;
 import turniplabs.halplibe.util.version.PacketModList;
 
 import java.lang.reflect.Field;

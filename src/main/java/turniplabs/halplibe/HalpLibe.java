@@ -22,15 +22,20 @@ import java.lang.reflect.Modifier;
 public class HalpLibe implements ModInitializer, PreLaunchEntrypoint {
     public static final String MOD_ID = "halplibe";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+    public static boolean sendModlist;
     public static final TomlConfigHandler CONFIG;
     static {
         Toml toml = new Toml();
         toml.addCategory("Experimental");
         toml.addEntry("Experimental.AtlasWidth", "Dynamically resized the Terrain and Item atlases, value must be an integer greater than or equal to 32",32);
+        toml.addCategory("Network");
+        toml.addEntry("Network.SendModlistPack", "This sends a modlist packet to clients that join the server when enabled, however it may cause issues if the clients do not have halplibe installed", true);
+
 
         CONFIG = new TomlConfigHandler(MOD_ID, toml);
 
         Global.TEXTURE_ATLAS_WIDTH_TILES = Math.max(32, CONFIG.getInt("Experimental.AtlasWidth"));
+        sendModlist = CONFIG.getBoolean("Network.SendModlistPack");
 
         // Initialize Block and Item static fields
         try {

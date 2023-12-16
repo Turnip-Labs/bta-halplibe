@@ -69,7 +69,7 @@ public class TextureHandler extends DynamicTexture {
 
         for (int i = 0; i < this.resolution * scale; ++i) {
             for (int j = 0; j < this.resolution * scale; ++j) {
-                //transferPixel(this.frames, (int) (this.elapsedTicks * this.resolution * this.resolution * scale * scale + j * this.resolution * scale + i), this.imageData, (int) (j * this.resolution * scale + i));
+                transferPixel(this.frames, (int) (this.elapsedTicks * this.resolution * this.resolution * scale * scale + j * this.resolution * scale + i), this.imageData, (int) (j * this.resolution * scale + i));
             }
         }
 
@@ -88,5 +88,13 @@ public class TextureHandler extends DynamicTexture {
             return TextureHelper.textureDestinationResolutions.get(textureName);
         }
         return defaultResolution;
+    }
+
+    // Copied the old method from 7.0 since it was deleted in 7.1-pre1
+    public static void transferPixel(byte[] array1, int i, byte[] array2, int j) {
+        array2[j * 4 + 0] = array1[i * 4 + 0];
+        array2[j * 4 + 1] = array1[i * 4 + 1];
+        array2[j * 4 + 2] = array1[i * 4 + 2];
+        array2[j * 4 + 3] = array1[i * 4 + 3];
     }
 }
