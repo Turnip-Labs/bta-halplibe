@@ -1,7 +1,6 @@
 package turniplabs.halplibe.mixin.mixins;
 
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiIngameMenu;
 import net.minecraft.client.gui.GuiScreen;
