@@ -16,7 +16,7 @@ import turniplabs.halplibe.util.RecipeEntrypoint;
 
 public class MinecraftMixin {
 
-    @Inject(method = "startGame", at = @At(value = "NEW",target = "()Lnet/minecraft/core/data/registry/Registries;",shift = At.Shift.AFTER))
+    @Inject(method = "startGame", at = @At(value = "INVOKE",target = "Lnet/minecraft/core/data/DataLoader;loadRecipes(Ljava/lang/String;)V",shift = At.Shift.BEFORE))
     public void recipeEntrypoint(CallbackInfo ci){
         FabricLoader.getInstance().getEntrypoints("recipesReady", RecipeEntrypoint.class).forEach(RecipeEntrypoint::onRecipesReady);
     }
