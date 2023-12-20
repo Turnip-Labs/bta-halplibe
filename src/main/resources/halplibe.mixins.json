@@ -10,6 +10,7 @@
     "accessors.EntityListAccessor",
     "accessors.LanguageAccessor",
     "accessors.TileEntityAccessor",
+    "mixins.BlockSoundDispatcherMixin",
     "mixins.BlockFireMixin",
     "mixins.I18nMixin",
     "mixins.ItemStackJsonAdapterMixin",
@@ -23,7 +24,6 @@
   "client": [
     "accessors.RenderManagerAccessor",
     "accessors.TileEntityRendererAccessor",
-    "mixins.BlockSoundDispatcherMixin",
     "mixins.EntityClientPlayerMPMixin",
     "mixins.GuiIngameMenuMixin",
     "mixins.MinecraftMixin",
