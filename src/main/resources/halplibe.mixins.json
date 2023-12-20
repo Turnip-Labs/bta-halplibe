@@ -18,23 +18,23 @@
     "mixins.registry.BlockMixin",
     "mixins.registry.ItemMixin",
     "mixins.version.NetHandlerMixin"
-
   ],
   "client": [
     "accessors.RenderManagerAccessor",
     "accessors.TileEntityRendererAccessor",
     "mixins.BlockSoundDispatcherMixin",
-    "mixins.RenderGlobalMixin",
-    "mixins.RenderEngineMixin",
     "mixins.EntityClientPlayerMPMixin",
-    "mixins.network.NetClientHandlerMixin",
-    "mixins.MinecraftMixin",
-    "mixins.network.MinecraftMixin",
-    "mixins.version.NetClientHandlerMixin",
     "mixins.GuiIngameMenuMixin",
-    "mixins.registry.MinecraftMixin"
+    "mixins.MinecraftMixin",
+    "mixins.RenderEngineMixin",
+    "mixins.RenderGlobalMixin",
+    "mixins.network.MinecraftMixin",
+    "mixins.network.NetClientHandlerMixin",
+    "mixins.registry.MinecraftMixin",
+    "mixins.version.NetClientHandlerMixin"
   ],
   "server": [
+    "mixins.MinecraftServerMixin",
     "mixins.network.MinecraftServerMixin",
     "mixins.registry.MinecraftServerMixin",
     "mixins.version.NetLoginHandlerMixin"
