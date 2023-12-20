@@ -12,6 +12,7 @@
     "accessors.TileEntityAccessor",
     "mixins.BlockFireMixin",
     "mixins.I18nMixin",
+    "mixins.ItemStackJsonAdapterMixin",
     "mixins.network.EntityTrackerEntryMixin",
     "mixins.network.NetworkManagerMixin",
     "mixins.network.PacketMixin",
