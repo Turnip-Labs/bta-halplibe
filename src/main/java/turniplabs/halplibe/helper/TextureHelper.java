@@ -41,6 +41,13 @@ public class TextureHelper {
         addTextureToTerrain(modId, blockTexture, newCoords[0], newCoords[1]);
         return newCoords;
     }
+    /**
+     * Place mod textures in the <i>assets/modid/block/</i> directory for them to be seen.
+     */
+    public static int getOrCreateBlockTextureIndex(String modId, String blockTexture){
+        int[] tex = getOrCreateBlockTexture(modId, blockTexture);
+        return Block.texCoordToIndex(tex[0], tex[1]);
+    }
 
     @Deprecated
     public static int[] registerItemTexture(String modId, String itemTexture) {
@@ -60,6 +67,13 @@ public class TextureHelper {
         registeredItemTextures.put(modId + ":" + itemTexture, newCoords);
         addTextureToItems(modId, itemTexture, newCoords[0], newCoords[1]);
         return newCoords;
+    }
+    /**
+     * Place mod textures in the <i>assets/modid/item/</i> directory for them to be seen.
+     */
+    public static int getOrCreateItemTextureIndex(String modId, String itemTexture){
+        int[] tex = getOrCreateItemTexture(modId, itemTexture);
+        return Block.texCoordToIndex(tex[0], tex[1]);
     }
 
     public static void addTextureToTerrain(String modId, String blockTexture, int x, int y) {
