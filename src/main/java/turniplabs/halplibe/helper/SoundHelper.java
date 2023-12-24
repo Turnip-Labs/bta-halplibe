@@ -9,7 +9,7 @@ import java.util.Hashtable;
 
 
 public class SoundHelper {
-    private static Hashtable<String, String> fileCache = new Hashtable<String, String>();
+    private static final Hashtable<String, String> fileCache = new Hashtable<String, String>();
     public static final File appDirectory = Minecraft.getAppDir("minecraft-bta");
     public static final File soundDirectory = new File(appDirectory.getAbsolutePath() + "/resources/mod/sound");
     public static final File musicDirectory = new File(appDirectory.getAbsolutePath() + "/resources/mod/music");
