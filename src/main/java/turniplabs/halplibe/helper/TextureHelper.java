@@ -2,6 +2,8 @@ package turniplabs.halplibe.helper;
 
 import net.minecraft.core.Global;
 import net.minecraft.core.block.Block;
+import turniplabs.halplibe.util.BlockCoords;
+import turniplabs.halplibe.util.ItemCoords;
 import turniplabs.halplibe.util.TextureHandler;
 
 import java.util.*;

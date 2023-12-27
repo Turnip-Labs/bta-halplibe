@@ -22,7 +22,7 @@ public class EntityHelper {
     @Deprecated
     public static void createEntity(Class<? extends Entity> clazz, EntityRenderer<?> renderer, int id, String name) {
         Client.assignEntityRenderer(clazz, renderer);
-        EntityListAccessor.callAddMapping(clazz, name, id);
+        Core.createEntity(clazz, id, name);
     }
 
     /**
@@ -30,19 +30,15 @@ public class EntityHelper {
      */
     @Deprecated
     public static void createTileEntity(Class<? extends TileEntity> clazz, String name) {
-        TileEntityAccessor.callAddMapping(clazz, name);
+        Core.createTileEntity(clazz, name);
     }
 
     /**
-     * @deprecated Function is being moved to {@link Core#createSpecialTileEntity(Class, TileEntityRenderer, String)} (Class, String)}
+     * @deprecated Function is being moved to {@link Core#createSpecialTileEntity(Class, TileEntityRenderer, String)}
      */
     @Deprecated
     public static void createSpecialTileEntity(Class<? extends TileEntity> clazz, TileEntityRenderer<?> renderer, String name) {
-        Map<Class<? extends TileEntity>, TileEntityRenderer<?>> specialRendererMap = ((TileEntityRendererAccessor) TileEntityRenderDispatcher.instance).getSpecialRendererMap();
-        specialRendererMap.put(clazz, renderer);
-        renderer.setRenderDispatcher(TileEntityRenderDispatcher.instance);
-
-        TileEntityAccessor.callAddMapping(clazz, name);
+        Core.createSpecialTileEntity(clazz, renderer, name);
     }
     /**
      * Functions to call from the client or server
