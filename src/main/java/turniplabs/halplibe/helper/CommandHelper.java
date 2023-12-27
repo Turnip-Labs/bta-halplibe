@@ -10,6 +10,6 @@ public class CommandHelper {
      * It will require a Minecraft class instance, so use Minecraft.getMinecraft(Minecraft.class) to do so.
      */
     public static void createCommand(Command command) {
-        if (Commands.commands.size() > 0) Commands.commands.add(command);
+        if (!Commands.commands.isEmpty()) Commands.commands.add(command);
     }
 }

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class IdSupplier {
-    String modid;
+    String modId;
     RunReserves reserves;
     RunLengthConfig cfg;
     int max;
@@ -17,8 +17,8 @@ public class IdSupplier {
     /* if this is true, the reservations will get optimized when being written */
     boolean hasUnreserved = false;
 
-    public IdSupplier(String modid, RunReserves reserves, RunLengthConfig cfg, int max) {
-        this.modid = modid;
+    public IdSupplier(String modId, RunReserves reserves, RunLengthConfig cfg, int max) {
+        this.modId = modId;
         this.reserves = reserves;
         this.cfg = cfg;
         this.max = max;
@@ -83,7 +83,7 @@ public class IdSupplier {
         }
 
         if (done > max) {
-            throw new RequestOutOfBoundsException(modid + " has grabbed more ids than it has requested.");
+            throw new RequestOutOfBoundsException(modId + " has grabbed more ids than it has requested.");
         }
 
         done++;
@@ -158,7 +158,7 @@ public class IdSupplier {
 
     public void validate() {
         if (done != max) {
-            throw new RequestCutShortException(modid + " did not use up all requested ids.");
+            throw new RequestCutShortException(modId + " did not use up all requested ids.");
         }
     }
 }

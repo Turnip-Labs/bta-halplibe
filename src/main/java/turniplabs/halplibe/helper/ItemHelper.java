@@ -3,7 +3,6 @@ package turniplabs.halplibe.helper;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.item.Item;
 import turniplabs.halplibe.HalpLibe;
-import turniplabs.halplibe.mixin.mixins.registry.BlockMixin;
 import turniplabs.halplibe.util.registry.IdSupplier;
 import turniplabs.halplibe.util.registry.RunLengthConfig;
 import turniplabs.halplibe.util.registry.RunReserves;
@@ -27,7 +26,6 @@ public class ItemHelper {
 	 */
 	public static int findOpenIds(int count) {
 		int run = 0;
-//		for (int i = highestVanilla; i < Item.itemsList.length; i++) {
 		// block ids should always match the id of their corresponding item
 		// therefor, start registering items one after the max block id
 		for (int i = Block.blocksList.length + 1; i < Item.itemsList.length; i++) {
@@ -57,18 +55,18 @@ public class ItemHelper {
 
 	/**
 	 * Allows halplibe to automatically figure out where to insert the runs
-	 * @param modid     an identifier for the mod, can be anything, but should be something the user can identify
+	 * @param modId     an identifier for the mod, can be anything, but should be something the user can identify
 	 * @param runs      a toml object representing configured registry runs
 	 * @param neededIds the number of needed ids
 	 *                  if this changes after the mod has been configured (i.e. mod updated and now has more items) it'll find new, valid runs to put those items into
 	 * @param function  the function to run for registering items
 	 */
-	public static void reserveRuns(String modid, Toml runs, int neededIds, Consumer<IdSupplier> function) {
+	public static void reserveRuns(String modId, Toml runs, int neededIds, Consumer<IdSupplier> function) {
 		RunLengthConfig cfg = new RunLengthConfig(runs, neededIds);
 		cfg.register(reserves);
 		RegistryHelper.scheduleSmartRegistry(
 				() -> {
-					IdSupplier supplier = new IdSupplier(modid, reserves, cfg, neededIds);
+					IdSupplier supplier = new IdSupplier(modId, reserves, cfg, neededIds);
 					function.accept(supplier);
 					supplier.validate();
 				}

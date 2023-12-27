@@ -18,11 +18,11 @@ public class ModInfo {
         this(container.getMetadata().getId(), container.getMetadata().getVersion());
     }
     public ModInfo(String id, Version version){
-        if (id.equals("")){
+        if (id.isEmpty()){
             id = "Unknown ID";
         }
         this.id = id;
-        if (version.getFriendlyString().equals("")){
+        if (version.getFriendlyString().isEmpty()){
             version = new StringVersion("-1.-1.-1");
         }
         this.version = version;

@@ -7,6 +7,10 @@ import net.minecraft.core.crafting.legacy.recipe.RecipesBlastFurnace;
 import net.minecraft.core.crafting.legacy.recipe.RecipesFurnace;
 import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemStack;
+
+/**
+ * @deprecated Class will be removed once the Legacy crafting manager is removed from BTA
+ */
 @Deprecated
 public class RecipeHelper {
     @Deprecated

@@ -17,8 +17,6 @@ public abstract class BlockMixin {
 
 	@Shadow @Final public static Block[] blocksList;
 
-	@Shadow public abstract String getKey();
-
 	@Inject(at = @At("TAIL"), method = "<clinit>")
 	private static void captureHighest(CallbackInfo ci) {
 		BlockHelper.highestVanilla = highestBlockId;
