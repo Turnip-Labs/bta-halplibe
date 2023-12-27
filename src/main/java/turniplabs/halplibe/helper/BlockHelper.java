@@ -5,7 +5,6 @@ import net.minecraft.client.sound.block.BlockSoundDispatcher;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.item.Item;
 import net.minecraft.core.item.block.ItemBlock;
-import turniplabs.halplibe.mixin.accessors.BlockAccessor;
 import turniplabs.halplibe.util.registry.IdSupplier;
 import turniplabs.halplibe.util.registry.RunLengthConfig;
 import turniplabs.halplibe.util.registry.RunReserves;
@@ -56,18 +55,18 @@ public class BlockHelper {
 
     /**
      * Allows halplibe to automatically figure out where to insert the runs
-     * @param modid     an identifier for the mod, can be anything, but should be something the user can identify
+     * @param modId     an identifier for the mod, can be anything, but should be something the user can identify
      * @param runs      a toml object representing configured registry runs
      * @param neededIds the number of needed ids
      *                  if this changes after the mod has been configured (i.e. mod updated and now has more blocks) it'll find new, valid runs to put those blocks into
      * @param function  the function to run for registering items
      */
-    public static void reserveRuns(String modid, Toml runs, int neededIds, Consumer<IdSupplier> function) {
+    public static void reserveRuns(String modId, Toml runs, int neededIds, Consumer<IdSupplier> function) {
         RunLengthConfig cfg = new RunLengthConfig(runs, neededIds);
         cfg.register(reserves);
         RegistryHelper.scheduleSmartRegistry(
                 () -> {
-                    IdSupplier supplier = new IdSupplier(modid, reserves, cfg, neededIds);
+                    IdSupplier supplier = new IdSupplier(modId, reserves, cfg, neededIds);
                     function.accept(supplier);
                     supplier.validate();
                 }
@@ -120,8 +119,8 @@ public class BlockHelper {
     @Deprecated
     public static Block createBlock(String modId, Block block, BlockSound blockSound, float hardness, float resistance, float lightValue) {
         BlockSoundDispatcher.getInstance().addDispatch(block, blockSound);
-        ((BlockAccessor) block).callSetHardness(hardness);
-        ((BlockAccessor) block).callSetResistance(resistance);
+        block.withHardness(hardness);
+        block.withBlastResistance(resistance);
         block.withLightEmission(lightValue);
 
         Item.itemsList[block.id] = new ItemBlock(block);

@@ -13,11 +13,13 @@ import net.minecraft.core.item.block.ItemBlock;
 import net.minecraft.core.util.helper.Side;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-import turniplabs.halplibe.HalpLibe;
-import turniplabs.halplibe.mixin.accessors.BlockAccessor;
 import turniplabs.halplibe.mixin.accessors.BlockFireAccessor;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 public class BlockBuilder implements Cloneable {
@@ -456,11 +458,11 @@ public class BlockBuilder implements Cloneable {
         }
 
         if (hardness != null) {
-            ((BlockAccessor) block).callSetHardness(hardness);
+            block.withHardness(hardness);
         }
 
         if (resistance != null) {
-            ((BlockAccessor) block).callSetResistance(resistance);
+            block.withBlastResistance(resistance);
         }
 
         if (luminance != null) {
@@ -475,10 +477,10 @@ public class BlockBuilder implements Cloneable {
             block.movementScale = slipperiness;
         }
 
-        ((BlockAccessor) block).callSetIsLitInteriorSurface(useInternalLight);
+        block.withLitInteriorSurface(useInternalLight);
 
         if (immovable) {
-            ((BlockAccessor) block).callSetImmovable();
+            block.withImmovableFlagSet();
         }
 
         if (flammability != null) {
@@ -490,13 +492,13 @@ public class BlockBuilder implements Cloneable {
         }
 
         if (visualUpdateOnMetadata) {
-            ((BlockAccessor) block).callWithDisabledNeighborNotifyOnMetadataChange();
+            block.withDisabledNeighborNotifyOnMetadataChange();
         }
 
         block.setTicking(tickOnLoad);
 
         if (blockDrop != null) {
-            ((BlockAccessor) block).callSetDropOverride(blockDrop);
+            block.setDropOverride(blockDrop);
         }
 
         if (blockSound != null) {
@@ -526,11 +528,10 @@ public class BlockBuilder implements Cloneable {
                 .collect(Collectors.toList());
 
         List<String> newTokens = new ArrayList<>();
-        newTokens.add(tokens.get(0));
         newTokens.add(MOD_ID);
         newTokens.addAll(tokens.subList(1, tokens.size()));
 
-        ((BlockAccessor) block).halplibe$setKey(StringUtils.join(newTokens, '.'));
+        block.setKey(StringUtils.join(newTokens, '.'));
 
         return block;
     }

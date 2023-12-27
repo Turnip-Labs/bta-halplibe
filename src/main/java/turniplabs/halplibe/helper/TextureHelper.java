@@ -30,7 +30,7 @@ public class TextureHelper {
     }
 
     /**
-     * Place mod textures in the <i>assets/modid/block/</i> directory for them to be seen.
+     * Place mod textures in the <i>assets/modId/block/</i> directory for them to be seen.
      */
     public static int[] getOrCreateBlockTexture(String modId, String blockTexture) {
         int[] possibleCoords = registeredBlockTextures.get(modId + ":" + blockTexture);
@@ -44,7 +44,7 @@ public class TextureHelper {
         return newCoords;
     }
     /**
-     * Place mod textures in the <i>assets/modid/block/</i> directory for them to be seen.
+     * Place mod textures in the <i>assets/modId/block/</i> directory for them to be seen.
      */
     public static int getOrCreateBlockTextureIndex(String modId, String blockTexture){
         int[] tex = getOrCreateBlockTexture(modId, blockTexture);
@@ -57,7 +57,7 @@ public class TextureHelper {
     }
 
     /**
-     * Place mod textures in the <i>assets/modid/item/</i> directory for them to be seen.
+     * Place mod textures in the <i>assets/modId/item/</i> directory for them to be seen.
      */
     public static int[] getOrCreateItemTexture(String modId, String itemTexture) {
         int[] possibleCoords = registeredItemTextures.get(modId + ":" + itemTexture);
@@ -71,7 +71,7 @@ public class TextureHelper {
         return newCoords;
     }
     /**
-     * Place mod textures in the <i>assets/modid/item/</i> directory for them to be seen.
+     * Place mod textures in the <i>assets/modId/item/</i> directory for them to be seen.
      */
     public static int getOrCreateItemTextureIndex(String modId, String itemTexture){
         int[] tex = getOrCreateItemTexture(modId, itemTexture);

@@ -4,7 +4,6 @@ import net.minecraft.client.render.EntityRenderDispatcher;
 import net.minecraft.client.render.TileEntityRenderDispatcher;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.tileentity.TileEntityRenderer;
-import net.minecraft.core.Global;
 import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.entity.Entity;
 import turniplabs.halplibe.mixin.accessors.EntityListAccessor;

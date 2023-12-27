@@ -10,7 +10,7 @@ import java.util.Hashtable;
 
 
 public class SoundHelper {
-    private static final Hashtable<String, String> fileCache = new Hashtable<String, String>();
+    private static final Hashtable<String, String> fileCache = new Hashtable<>();
     public static final File appDirectory;
     public static final File soundDirectory;
     public static final File musicDirectory;
@@ -118,7 +118,7 @@ public class SoundHelper {
     }
     public static class Client{
         /**
-         * Place mod sounds in the <i>assets/modid/cavemusic/</i> directory for them to be seen.
+         * Place mod sounds in the <i>assets/modId/cavemusic/</i> directory for them to be seen.
          */
         public static void addCaveMusic(String MOD_ID, String soundSource){
             if (appDirectory == null) return;
@@ -130,7 +130,7 @@ public class SoundHelper {
             HalpLibe.LOGGER.info(extract(source, destination, soundSource) + " Added to sound directory");
         }
         /**
-         * Place mod sounds in the <i>assets/modid/streaming/</i> directory for them to be seen.
+         * Place mod sounds in the <i>assets/modId/streaming/</i> directory for them to be seen.
          */
         public static void addStreaming(String MOD_ID, String soundSource){
             if (appDirectory == null) return;
@@ -142,7 +142,7 @@ public class SoundHelper {
             HalpLibe.LOGGER.info(extract(source, destination, soundSource) + " Added to sound directory");
         }
         /**
-         * Place mod sounds in the <i>assets/modid/music/</i> directory for them to be seen.
+         * Place mod sounds in the <i>assets/modId/music/</i> directory for them to be seen.
          */
         public static void addMusic(String MOD_ID, String soundSource){
             if (appDirectory == null) return;
@@ -154,7 +154,7 @@ public class SoundHelper {
             HalpLibe.LOGGER.info(extract(source, destination, soundSource) + " Added to sound directory");
         }
         /**
-         * Place mod sounds in the <i>assets/modid/sound/</i> directory for them to be seen.
+         * Place mod sounds in the <i>assets/modId/sound/</i> directory for them to be seen.
          */
         public static void addSound(String MOD_ID, String soundSource){
             if (appDirectory == null) return;
