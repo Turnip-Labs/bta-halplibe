@@ -32,7 +32,7 @@ public abstract class EntityClientPlayerMPMixin {
                             command.sendCommandSyntax(handler, sender);
                         }
                     } catch (CommandError commandError8) {
-                        sender.sendMessage("\u00a7" + Colors.allChatColors[14] + commandError8.getMessage());
+                        sender.sendMessage("§" + Colors.allChatColors[14] + commandError8.getMessage());
                     }
 
                     ci.cancel();
