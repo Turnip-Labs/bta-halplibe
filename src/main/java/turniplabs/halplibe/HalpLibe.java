@@ -24,6 +24,7 @@ public class HalpLibe implements ModInitializer, PreLaunchEntrypoint{
         Toml toml = new Toml();
         toml.addCategory("Experimental");
         toml.addEntry("Experimental.AtlasWidth", "Dynamically resized the Terrain and Item atlases, value must be an integer greater than or equal to 32",32);
+        toml.addEntry("Experimental.RequireTextures", "Require texture to exist on startup", false);
         toml.addCategory("Network");
         toml.addEntry("Network.SendModlistPack", "This sends a modlist packet to clients that join the server when enabled, however it may cause issues if the clients do not have halplibe installed", true);
 

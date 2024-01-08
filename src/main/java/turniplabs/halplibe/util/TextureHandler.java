@@ -6,6 +6,11 @@ import net.minecraft.client.util.helper.Textures;
 import turniplabs.halplibe.helper.TextureHelper;
 
 import java.awt.image.BufferedImage;
+import java.util.Arrays;
+import java.util.logging.Logger;
+
+import static turniplabs.halplibe.HalpLibe.CONFIG;
+import static turniplabs.halplibe.HalpLibe.LOGGER;
 
 public class TextureHandler extends DynamicTexture {
     private final String textureName;
@@ -33,27 +38,32 @@ public class TextureHandler extends DynamicTexture {
         if (mc == null){return;} // Don't process textures when mc is null
         BufferedImage image = Textures.readImage(mc.texturePackList.selectedTexturePack.getResourceAsStream(animationSource));
         if (image == null) {return;} // Don't process non existent images
+
+        if (image == Textures.missingTexture) {
+            if (CONFIG.getBoolean("Experimental.RequireTextures")){
+                throw new RuntimeException("Animation " + animationSource + " couldn't be found!");
+            }
+            LOGGER.warn("Animation " + animationSource + " couldn't be found!");
+            image = Textures.readImage(Textures.class.getResourceAsStream("/assets/halplibe/block/missing.png"));
+        }
+        if (image.getHeight() % image.getWidth() != 0) {
+            throw new RuntimeException("Invalid Height for animation! " + animationSource);
+        }
         this.resolution = image.getWidth();
         // Scaling factor from source resolution to destination resolution
         this.scale = getScale(textureName, resolution);
+        this.frameCount = image.getHeight() / image.getWidth();
+        if (frameCount < 1){
+            frameCount = 1;
+        }
+        System.out.println(animationSource + " frame Count: " + this.frameCount);
+        this.frames = new byte[(int) (resolution * resolution * 4 * this.frameCount * scale * scale)];
 
-
-
-        if (image == Textures.missingTexture) {
-            throw new RuntimeException("Animation " + animationSource + " couldn't be found!");
-        } else if (image.getHeight() % image.getWidth() != 0) {
-            throw new RuntimeException("Invalid Height for animation! " + animationSource);
-        } else {
-            this.frameCount = image.getHeight() / image.getWidth();
-            System.out.println(animationSource + " frame Count: " + this.frameCount);
-            this.frames = new byte[(int) (resolution * resolution * 4 * this.frameCount * scale * scale)];
-
-            for (int frame = 0; frame < this.frameCount; ++frame) {
-                for (int x = 0; x < resolution * scale; ++x) {
-                    for (int y = 0; y < resolution * scale; ++y) {
-                        int c = image.getRGB((int) (x/scale),  (frame * resolution + (int)(y/scale)));
-                        putPixel(this.frames, (int) (frame * resolution * scale * scale * resolution + y * resolution * scale + x), c);
-                    }
+        for (int frame = 0; frame < this.frameCount; ++frame) {
+            for (int x = 0; x < resolution * scale; ++x) {
+                for (int y = 0; y < resolution * scale; ++y) {
+                    int c = image.getRGB((int) (x/scale),  (frame * resolution + (int)(y/scale)));
+                    putPixel(this.frames, (int) (frame * resolution * scale * scale * resolution + y * resolution * scale + x), c);
                 }
             }
         }
@@ -65,6 +75,7 @@ public class TextureHandler extends DynamicTexture {
     }
     public void update() {
         if (!hasInitialized) {return;}
+
         this.elapsedTicks = (this.elapsedTicks + 1) % this.frameCount;
 
         for (int i = 0; i < this.resolution * scale; ++i) {
@@ -72,7 +83,6 @@ public class TextureHandler extends DynamicTexture {
                 transferPixel(this.frames, (int) (this.elapsedTicks * this.resolution * this.resolution * scale * scale + j * this.resolution * scale + i), this.imageData, (int) (j * this.resolution * scale + i));
             }
         }
-
     }
     public String getTextureName() {
         return this.textureName;
