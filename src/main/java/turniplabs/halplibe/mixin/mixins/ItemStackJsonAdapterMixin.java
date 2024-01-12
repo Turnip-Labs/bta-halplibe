@@ -11,6 +11,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import turniplabs.halplibe.HalpLibe;
 
 import java.lang.reflect.Type;
 
@@ -22,21 +23,7 @@ public class ItemStackJsonAdapterMixin {
         JsonObject obj = json.getAsJsonObject();
         if (obj.has("key")) {
             String key = obj.get("key").getAsString();
-            Integer itemId;
-            if (key.startsWith("tile")){
-                itemId = Block.keyToIdMap.get(key);
-                if (itemId == null) {
-                    throw new IllegalArgumentException("Null return when trying to located block from key '" + obj.get("key") + "'");
-                }
-            } else if (key.startsWith("item")) {
-                itemId = Item.nameToIdMap.get(key);
-                if (itemId == null) {
-                    throw new IllegalArgumentException("Null return when trying to located item from key '" + obj.get("key") + "'");
-                }
-            } else {
-                throw new IllegalArgumentException("Key '" + key + "' does not start with a valid predicate of 'item' or 'tile'");
-            }
-
+            int itemId = HalpLibe.getTrueItemOrBlockId(key);
             ItemStack stack = obj.has("amount") ? new ItemStack(itemId, obj.get("amount").getAsInt(), obj.get("meta").getAsInt()) : new ItemStack(itemId, 1, obj.get("meta").getAsInt());
             cir.setReturnValue(stack);
         }
