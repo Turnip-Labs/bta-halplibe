@@ -53,7 +53,7 @@ public class GuiAchievements extends GuiScreen {
     @Override
     public void init() {
         this.controlList.clear();
-        this.controlList.add(new GuiOptionsButton(1, this.width / 2 + 24, this.height / 2 + 74, 80, 20, I18n.getInstance().translateKey("gui.done")));
+        this.controlList.add(new GuiOptionsButton(1, this.width / 2 + 24, this.height / 2 + 74, 80, 20, I18n.getInstance().translateKey("gui.achievements.button.done")));
         this.controlList.add(new GuiOptionsButton(2, this.width / 2 - 104, this.height / 2 + 74, 120, 20, "Minecraft"));
     }
 
@@ -75,7 +75,7 @@ public class GuiAchievements extends GuiScreen {
         }
         if(guibutton.id == 2) {
             GuiPopup popup = new PopupBuilder(this,128)
-                    .withLabel("gui.achievements")
+                    .withLabel("gui.achievements.label.title")
                     .closeOnClickOut(0)
                     .closeOnEsc(0)
                     .withOnCloseListener(new PopupListener())
@@ -157,7 +157,7 @@ public class GuiAchievements extends GuiScreen {
     private void drawForeground() {
         int x = (this.width - this.windowWidth) / 2;
         int y = (this.height - this.windowHeight) / 2;
-        this.fontRenderer.drawString(I18n.getInstance().translateKey("gui.achievements"), x + 15, y + 5, 4210752);
+        this.fontRenderer.drawString(I18n.getInstance().translateKey("gui.achievements.label.title"), x + 15, y + 5, 4210752);
     }
 
     public void drawAchievementBackground(int x, int y, float renderPartialTicks) {
