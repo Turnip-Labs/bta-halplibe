@@ -318,10 +318,9 @@ public class GuiAchievements extends GuiScreen {
     }
 
     static {
-        top = AchievementList.minX * 24 - 112;
-        left = AchievementList.minY * 24 - 112; //- 112
-        bottom = AchievementList.maxX * 24 - 77;
-        right = AchievementList.maxY * 24 - 77; //- 77
+        top = AchievementList.minY * 24 - 112;
+        left = AchievementList.minX * 24 - 112; //- 112
+        bottom = AchievementList.maxY * 24 - 77;
+        right = AchievementList.maxX * 24 - 77; //- 77
     }
-
 }
