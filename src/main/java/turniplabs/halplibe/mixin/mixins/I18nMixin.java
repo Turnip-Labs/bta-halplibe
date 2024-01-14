@@ -101,10 +101,14 @@ public abstract class I18nMixin {
         String currentLangId = currentLanguage.getId();
         HalpLibe.LOGGER.debug("Current lang: " + currentLangId);
         for (ModContainer mod : FabricLoader.getInstance().getAllMods()) {
-            String[] langs = filesInDir("/lang/" + mod.getMetadata().getId() + "/");
-            HalpLibe.LOGGER.debug(mod.getMetadata().getId() + " contains " + langs.length + " language files.");
-            HalpLibe.LOGGER.debug(Arrays.toString(langs));
-            for (String lang : langs) {
+            String[] rootLangs = filesInDir("/lang/" + mod.getMetadata().getId() + "/");
+            String[] subCurrentLangs = filesInDir("/lang/" + mod.getMetadata().getId() + "/" + currentLangId + "/");
+            String[] subDefaultLangs = filesInDir("/lang/" + mod.getMetadata().getId() + "/" + defaultLangId + "/");
+            HalpLibe.LOGGER.debug(mod.getMetadata().getId() + " contains " + rootLangs.length + subDefaultLangs.length + subCurrentLangs.length + " language files.");
+            HalpLibe.LOGGER.debug(Arrays.toString(rootLangs));
+            HalpLibe.LOGGER.debug(Arrays.toString(subCurrentLangs));
+            HalpLibe.LOGGER.debug(Arrays.toString(subDefaultLangs));
+            for (String lang : rootLangs) {
                 if (lang.contains(currentLangId)) {
                     try (InputStream stream = getResourceAsStream(lang)) {
                         if (stream != null) {
@@ -124,6 +128,26 @@ public abstract class I18nMixin {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+                }
+            }
+            for (String lang : subCurrentLangs) {
+                try (InputStream stream = getResourceAsStream(lang)) {
+                    if (stream != null) {
+                        InputStreamReader r = new InputStreamReader(stream, StandardCharsets.UTF_8);
+                        entries.load(r);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            for (String lang : subDefaultLangs) {
+                try (InputStream stream = getResourceAsStream(lang)) {
+                    if (stream != null) {
+                        InputStreamReader r = new InputStreamReader(stream, StandardCharsets.UTF_8);
+                        entries.load(r);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
         }
