@@ -55,6 +55,9 @@ public class MinecraftMixin {
                 .setInput(Block.cobbleBasalt)
                 .addEntry(new WeightedRandomLootObject(Item.olivine.getDefaultStack()), 1)
                 .create("cobbled_basalt");
+        RecipeBuilder.ModifyWorkbench("minecraft").removeRecipe("block_of_diamond").removeRecipe("block_of_diamond_to_diamond").removeRecipe("cake");
+        RecipeBuilder.ModifyBlastFurnace("minecraft").removeRecipe("coal_ores_to_coal");
+        RecipeBuilder.ModifyFurnace("minecraft").removeRecipe("porkchop_raw_to_porkchop_cooked");
     }
 
     @Inject(method = "startGame", at = @At("HEAD"))

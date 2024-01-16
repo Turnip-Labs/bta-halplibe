@@ -11,7 +11,10 @@ import turniplabs.halplibe.helper.recipeBuilders.RecipeBuilderFurnace;
 import turniplabs.halplibe.helper.recipeBuilders.RecipeBuilderShaped;
 import turniplabs.halplibe.helper.recipeBuilders.RecipeBuilderShapeless;
 import turniplabs.halplibe.helper.recipeBuilders.RecipeBuilderTrommel;
+import turniplabs.halplibe.helper.recipeBuilders.modifiers.BlastFurnaceModifier;
+import turniplabs.halplibe.helper.recipeBuilders.modifiers.FurnaceModifier;
 import turniplabs.halplibe.helper.recipeBuilders.modifiers.TrommelModifier;
+import turniplabs.halplibe.helper.recipeBuilders.modifiers.WorkbenchModifier;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
@@ -59,5 +62,14 @@ public final class RecipeBuilder {
     }
     public static TrommelModifier ModifyTrommel(String namespace, String key){
         return new TrommelModifier(namespace, key);
+    }
+    public static WorkbenchModifier ModifyWorkbench(String namespace){
+        return new WorkbenchModifier(namespace);
+    }
+    public static FurnaceModifier ModifyFurnace(String namespace){
+        return new FurnaceModifier(namespace);
+    }
+    public static BlastFurnaceModifier ModifyBlastFurnace(String namespace){
+        return new BlastFurnaceModifier(namespace);
     }
 }
