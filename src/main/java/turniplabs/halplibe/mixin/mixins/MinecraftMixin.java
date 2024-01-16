@@ -8,7 +8,9 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import turniplabs.halplibe.HalpLibe;
 import turniplabs.halplibe.helper.RecipeBuilder;
+import turniplabs.halplibe.helper.recipeBuilders.RecipeBuilderShaped;
 import turniplabs.halplibe.util.ClientStartEntrypoint;
 import turniplabs.halplibe.util.GameStartEntrypoint;
 import turniplabs.halplibe.util.RecipeEntrypoint;
@@ -23,21 +25,25 @@ public class MinecraftMixin {
     @Inject(method = "startGame", at = @At(value = "INVOKE",target = "Lnet/minecraft/core/data/DataLoader;loadRecipes(Ljava/lang/String;)V", ordinal = 3, shift = At.Shift.AFTER))
     public void recipeEntrypoint(CallbackInfo ci){
         FabricLoader.getInstance().getEntrypoints("recipesReady", RecipeEntrypoint.class).forEach(RecipeEntrypoint::onRecipesReady);
-        new RecipeBuilder("halplibe")
-                .setShapeless()
-                .addShapelessInput(Block.dirt)
-                .addShapelessInput(Block.cobweb)
-                .addShapelessInput(Block.algae)
+        RecipeBuilder.Shapeless(HalpLibe.MOD_ID)
+                .addInput(Block.dirt)
+                .addInput(Block.cobweb)
+                .addInput(Block.algae)
                 .build("testShapeless", Block.blockDiamond.getDefaultStack());
-        new RecipeBuilder("halplibe")
-                .setShaped("X X"," X ","X X")
-                .addShapedInput('X', Block.mobspawner)
+        RecipeBuilder.Shaped(HalpLibe.MOD_ID,
+                        "X X",
+                        " X ",
+                        "X X")
+                .addInput('X', Block.mobspawner)
                 .build("testShaped", Item.doorIron.getDefaultStack());
-        RecipeBuilder stairsTemplate = new RecipeBuilder("halplibe")
-                .setShaped("X  ", "XX ", "XXX");
-        stairsTemplate.addShapedInput('X', Block.dirt).build("stairs1", Block.stairsBrickLimestone.getDefaultStack());
-        stairsTemplate.addShapedInput('X', Block.cobweb).build("stairs2", Block.blockDiamond.getDefaultStack());
-        stairsTemplate.addShapedInput('X', Block.mesh).build("stairs3", Block.seat.getDefaultStack());
+
+        RecipeBuilderShaped stairsTemplate = RecipeBuilder.Shaped(HalpLibe.MOD_ID,
+                "X  ",
+                "XX ",
+                "XXX");
+        stairsTemplate.addInput('X', Block.dirt).build("stairs1", Block.stairsBrickLimestone.getDefaultStack());
+        stairsTemplate.addInput('X', Block.cobweb).build("stairs2", Block.blockDiamond.getDefaultStack());
+        stairsTemplate.addInput('X', Block.mesh).build("stairs3", Block.seat.getDefaultStack());
     }
 
     @Inject(method = "startGame", at = @At("HEAD"))

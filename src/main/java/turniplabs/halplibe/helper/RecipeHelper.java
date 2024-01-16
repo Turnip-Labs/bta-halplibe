@@ -15,30 +15,11 @@ import net.minecraft.core.item.ItemStack;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
-
+/**
+ * @deprecated Class will be removed once the Legacy crafting manager is removed from BTA
+ */
+@Deprecated
 public class RecipeHelper {
-    @Nonnull
-    public static RecipeNamespace getRecipeNamespace(String modID){
-        if (Registries.RECIPES.getItem(modID) != null){
-            return Registries.RECIPES.getItem(modID);
-        }
-        RecipeNamespace modSpace = new RecipeNamespace();
-        Registries.RECIPES.register(modID, modSpace);
-        return modSpace;
-    }
-    @Nonnull
-    public static RecipeGroup<?> getRecipeGroup(String modID, String key, RecipeSymbol symbol){
-        return getRecipeGroup(getRecipeNamespace(modID), key, symbol);
-    }
-    @Nonnull
-    public static RecipeGroup<?> getRecipeGroup(RecipeNamespace namespace, String key, RecipeSymbol symbol){
-        if (namespace.getItem(key) != null){
-            return namespace.getItem(key);
-        }
-        RecipeGroup<?> group = new RecipeGroup<>(symbol);
-        namespace.register(key, group);
-        return group;
-    }
     @Deprecated
     public static final CraftingManager craftingManager = CraftingManager.getInstance();
     @Deprecated
