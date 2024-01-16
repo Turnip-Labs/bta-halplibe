@@ -10,4 +10,8 @@ import java.util.List;
 public interface WeightedRandomBagAccessor {
     @Accessor("entries")
     List<WeightedRandomBag.Entry> getRawEntries();
+    @Accessor
+    double getAccumulatedWeight();
+    @Accessor("accumulatedWeight")
+    void setAccumulatedWeight(double weight);
 }

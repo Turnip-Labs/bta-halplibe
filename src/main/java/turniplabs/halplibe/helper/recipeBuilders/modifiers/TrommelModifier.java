@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class TrommelModifier implements Cloneable {
+public class TrommelModifier {
     private final WeightedRandomBag<WeightedRandomLootObject> trommelEntry;
     public TrommelModifier(String namespace, String key){
         trommelEntry = (WeightedRandomBag<WeightedRandomLootObject>) Objects.requireNonNull(RecipeBuilder.getRecipeGroup(namespace, "trommel", new RecipeSymbol(Block.trommelActive.getDefaultStack())).getItem(key), "Requested recipe " + (namespace + ":trommel/" + key) + " does not exist!").getOutput();
@@ -35,6 +35,7 @@ public class TrommelModifier implements Cloneable {
                 ((WeightedRandomBagAccessor)trommelEntry).getRawEntries().remove(object);
             }
         }
+        recalculateWeights();
         return this;
     }
     /**
@@ -50,6 +51,7 @@ public class TrommelModifier implements Cloneable {
                 break;
             }
         }
+        recalculateWeights();
         return this;
     }
 
@@ -67,6 +69,7 @@ public class TrommelModifier implements Cloneable {
                 break;
             }
         }
+        recalculateWeights();
         return this;
     }
     /**
@@ -81,6 +84,14 @@ public class TrommelModifier implements Cloneable {
                 ((WeightedRandomBagEntryAccessor)object).setWeight(newWeight);
             }
         }
+        recalculateWeights();
         return this;
+    }
+    protected void recalculateWeights(){
+        double weight = 0;
+        for (WeightedRandomBag.Entry object : trommelEntry.getEntriesWithWeights()){
+            weight += object.getWeight();
+        }
+        ((WeightedRandomBagAccessor)trommelEntry).setAccumulatedWeight(weight);
     }
 }
