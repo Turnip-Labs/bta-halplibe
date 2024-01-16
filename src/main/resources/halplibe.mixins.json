@@ -9,6 +9,8 @@
     "accessors.LanguageAccessor",
     "accessors.RegistryAccessor",
     "accessors.TileEntityAccessor",
+    "accessors.WeightedRandomBagAccessor",
+    "accessors.WeightedRandomBagEntryAccessor",
     "mixins.BlockFireMixin",
     "mixins.BlockSoundDispatcherMixin",
     "mixins.I18nMixin",

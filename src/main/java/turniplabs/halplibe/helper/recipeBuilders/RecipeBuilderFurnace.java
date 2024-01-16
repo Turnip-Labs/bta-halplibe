@@ -11,7 +11,7 @@ import turniplabs.halplibe.helper.RecipeBuilder;
 import java.util.Objects;
 
 public class RecipeBuilderFurnace extends RecipeBuilderBase{
-    private RecipeSymbol input;
+    protected RecipeSymbol input;
     public RecipeBuilderFurnace(String modID) {
         super(modID);
     }
@@ -34,7 +34,8 @@ public class RecipeBuilderFurnace extends RecipeBuilderBase{
     }
 
     @Override
-    public void build(String recipeID, ItemStack outputStack) {
+    public void create(String recipeID, ItemStack outputStack) {
+        Objects.requireNonNull(input, "Input symbol must not be null!");
         ((RecipeGroup<RecipeEntryFurnace>) RecipeBuilder.getRecipeGroup(modID, "furnace", new RecipeSymbol(Block.furnaceStoneActive.getDefaultStack())))
                 .register(recipeID, new RecipeEntryFurnace(input, outputStack));
     }

@@ -72,7 +72,7 @@ public class RecipeBuilderShaped extends RecipeBuilderBase{
         symbolShapedMap.put(templateSymbol, symbol);
         return builder;
     }
-    public void build(String recipeID, ItemStack outputStack) {
+    public void create(String recipeID, ItemStack outputStack) {
         if (shape == null) throw new RuntimeException("Shaped recipe: " + recipeID + " attempted to build without a assigned shape!!");
         RecipeSymbol[] recipe = new RecipeSymbol[height * width];
         for (int x = 0; x < width; x++) {

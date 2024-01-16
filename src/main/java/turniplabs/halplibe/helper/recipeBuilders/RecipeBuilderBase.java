@@ -21,5 +21,5 @@ abstract class RecipeBuilderBase implements Cloneable {
             throw new AssertionError();
         }
     }
-    public abstract void build(String recipeID, ItemStack outputStack);
+    protected abstract void create(String recipeID, ItemStack outputStack);
 }

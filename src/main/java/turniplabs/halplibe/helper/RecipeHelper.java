@@ -17,6 +17,7 @@ import javax.annotation.Nonnull;
 import java.util.Objects;
 /**
  * @deprecated Class will be removed once the Legacy crafting manager is removed from BTA
+ * Replace by the RecipeBuilder
  */
 @Deprecated
 public class RecipeHelper {

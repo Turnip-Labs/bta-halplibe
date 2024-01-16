@@ -37,7 +37,7 @@ public class RecipeBuilderShapeless extends RecipeBuilderBase{
         return builder;
     }
     @Override
-    public void build(String recipeID, ItemStack outputStack) {
+    public void create(String recipeID, ItemStack outputStack) {
         ((RecipeGroup<RecipeEntryCrafting<?, ?>>) RecipeBuilder.getRecipeGroup(modID, "workbench", new RecipeSymbol(Block.workbench.getDefaultStack())))
                 .register(recipeID, new RecipeEntryCraftingShapeless(symbolShapelessList, outputStack));
     }

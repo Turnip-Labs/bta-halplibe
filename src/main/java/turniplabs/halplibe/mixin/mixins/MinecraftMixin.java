@@ -2,6 +2,7 @@ package turniplabs.halplibe.mixin.mixins;
 
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.WeightedRandomLootObject;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.item.Item;
 import org.spongepowered.asm.mixin.Mixin;
@@ -29,21 +30,31 @@ public class MinecraftMixin {
                 .addInput(Block.dirt)
                 .addInput(Block.cobweb)
                 .addInput(Block.algae)
-                .build("testShapeless", Block.blockDiamond.getDefaultStack());
+                .create("testShapeless", Block.blockDiamond.getDefaultStack());
         RecipeBuilder.Shaped(HalpLibe.MOD_ID,
                         "X X",
                         " X ",
                         "X X")
                 .addInput('X', Block.mobspawner)
-                .build("testShaped", Item.doorIron.getDefaultStack());
+                .create("testShaped", Item.doorIron.getDefaultStack());
 
         RecipeBuilderShaped stairsTemplate = RecipeBuilder.Shaped(HalpLibe.MOD_ID,
                 "X  ",
                 "XX ",
                 "XXX");
-        stairsTemplate.addInput('X', Block.dirt).build("stairs1", Block.stairsBrickLimestone.getDefaultStack());
-        stairsTemplate.addInput('X', Block.cobweb).build("stairs2", Block.blockDiamond.getDefaultStack());
-        stairsTemplate.addInput('X', Block.mesh).build("stairs3", Block.seat.getDefaultStack());
+        stairsTemplate.addInput('X', Block.dirt).create("stairs1", Block.stairsBrickLimestone.getDefaultStack());
+        stairsTemplate.addInput('X', Block.cobweb).create("stairs2", Block.blockDiamond.getDefaultStack());
+        stairsTemplate.addInput('X', Block.mesh).create("stairs3", Block.seat.getDefaultStack());
+        RecipeBuilder.ModifyTrommel("minecraft", "dirt")
+                .addEntry(new WeightedRandomLootObject(Item.diamond.getDefaultStack(), 1, 100), 20)
+                .addEntry(new WeightedRandomLootObject(Item.flag.getDefaultStack(), 5), 2)
+                .removeEntries(Item.ammoPebble.getDefaultStack());
+        RecipeBuilder.ModifyTrommel("minecraft", "clay")
+                .setWeights(Item.clay.getDefaultStack(), 200);
+        RecipeBuilder.Trommel(HalpLibe.MOD_ID)
+                .setInput(Block.cobbleBasalt)
+                .addEntry(new WeightedRandomLootObject(Item.olivine.getDefaultStack()), 1)
+                .create("cobbled_basalt");
     }
 
     @Inject(method = "startGame", at = @At("HEAD"))
