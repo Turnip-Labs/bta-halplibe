@@ -5,14 +5,40 @@ import net.minecraft.core.crafting.legacy.CraftingManager;
 import net.minecraft.core.crafting.legacy.recipe.IRecipe;
 import net.minecraft.core.crafting.legacy.recipe.RecipesBlastFurnace;
 import net.minecraft.core.crafting.legacy.recipe.RecipesFurnace;
+import net.minecraft.core.data.registry.Registries;
+import net.minecraft.core.data.registry.recipe.RecipeEntryBase;
+import net.minecraft.core.data.registry.recipe.RecipeGroup;
+import net.minecraft.core.data.registry.recipe.RecipeNamespace;
+import net.minecraft.core.data.registry.recipe.RecipeSymbol;
 import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemStack;
 
-/**
- * @deprecated Class will be removed once the Legacy crafting manager is removed from BTA
- */
-@Deprecated
+import javax.annotation.Nonnull;
+import java.util.Objects;
+
 public class RecipeHelper {
+    @Nonnull
+    public static RecipeNamespace getRecipeNamespace(String modID){
+        if (Registries.RECIPES.getItem(modID) != null){
+            return Registries.RECIPES.getItem(modID);
+        }
+        RecipeNamespace modSpace = new RecipeNamespace();
+        Registries.RECIPES.register(modID, modSpace);
+        return modSpace;
+    }
+    @Nonnull
+    public static RecipeGroup<?> getRecipeGroup(String modID, String key, RecipeSymbol symbol){
+        return getRecipeGroup(getRecipeNamespace(modID), key, symbol);
+    }
+    @Nonnull
+    public static RecipeGroup<?> getRecipeGroup(RecipeNamespace namespace, String key, RecipeSymbol symbol){
+        if (namespace.getItem(key) != null){
+            return namespace.getItem(key);
+        }
+        RecipeGroup<?> group = new RecipeGroup<>(symbol);
+        namespace.register(key, group);
+        return group;
+    }
     @Deprecated
     public static final CraftingManager craftingManager = CraftingManager.getInstance();
     @Deprecated
