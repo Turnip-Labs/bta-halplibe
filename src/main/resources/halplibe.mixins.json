@@ -15,6 +15,8 @@
     "mixins.I18nMixin",
     "mixins.ItemStackJsonAdapterMixin",
     "mixins.RegistryMixin",
+    "mixins.TileEntityBlastFurnaceMixin",
+    "mixins.TileEntityFurnaceMixin",
     "mixins.network.EntityTrackerEntryMixin",
     "mixins.network.NetworkManagerMixin",
     "mixins.network.PacketMixin",

@@ -35,5 +35,8 @@ public class MinecraftServerMixin {
     @Inject(method = "startServer", at = @At("TAIL"))
     public void afterGameStartEntrypoint(CallbackInfoReturnable<Boolean> cir){
         FabricLoader.getInstance().getEntrypoints("afterGameStart", GameStartEntrypoint.class).forEach(GameStartEntrypoint::afterGameStart);
+        if (HalpLibe.exportRecipes){
+            RecipeBuilder.exportRecipes();
+        }
     }
 }
