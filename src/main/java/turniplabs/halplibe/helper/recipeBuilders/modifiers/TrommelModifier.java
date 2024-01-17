@@ -3,11 +3,15 @@ package turniplabs.halplibe.helper.recipeBuilders.modifiers;
 import net.minecraft.core.WeightedRandomBag;
 import net.minecraft.core.WeightedRandomLootObject;
 import net.minecraft.core.block.Block;
+import net.minecraft.core.data.registry.recipe.RecipeGroup;
 import net.minecraft.core.data.registry.recipe.RecipeSymbol;
+import net.minecraft.core.data.registry.recipe.entry.RecipeEntryFurnace;
+import net.minecraft.core.data.registry.recipe.entry.RecipeEntryTrommel;
 import net.minecraft.core.item.ItemStack;
 import turniplabs.halplibe.helper.RecipeBuilder;
 import turniplabs.halplibe.mixin.accessors.WeightedRandomBagAccessor;
 import turniplabs.halplibe.mixin.accessors.WeightedRandomBagEntryAccessor;
+import turniplabs.halplibe.util.IUnregister;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,8 +19,16 @@ import java.util.Objects;
 
 public class TrommelModifier {
     private final WeightedRandomBag<WeightedRandomLootObject> trommelEntry;
+    private final String key;
+    private final String namespace;
     public TrommelModifier(String namespace, String key){
+        this.key = key;
+        this.namespace = namespace;
         trommelEntry = (WeightedRandomBag<WeightedRandomLootObject>) Objects.requireNonNull(RecipeBuilder.getRecipeGroup(namespace, "trommel", new RecipeSymbol(Block.trommelActive.getDefaultStack())).getItem(key), "Requested recipe " + (namespace + ":trommel/" + key) + " does not exist!").getOutput();
+    }
+    public void deleteRecipe(){
+        RecipeGroup<RecipeEntryTrommel> recipeGroup = (RecipeGroup<RecipeEntryTrommel>) RecipeBuilder.getRecipeGroup(namespace, "trommel", new RecipeSymbol(Block.trommelActive.getDefaultStack()));
+        ((IUnregister<RecipeEntryFurnace>)recipeGroup).unregister(key);
     }
     public TrommelModifier addEntry(WeightedRandomLootObject lootObject, double weight){
         trommelEntry.addEntry(lootObject, weight);

@@ -82,9 +82,9 @@ public class RecipeBuilderShaped extends RecipeBuilderBase{
                 }
                 RecipeSymbol tempplate = symbolShapedMap.get(cha);
                 if (tempplate == null){
-                    recipe[x + y * 3] = null;
+                    recipe[x + y * width] = null;
                 } else {
-                    recipe[x + y * 3] = new RecipeSymbol(cha == null ? ' ' : cha, tempplate.getStack(), tempplate.getItemGroup());
+                    recipe[x + y * width] = new RecipeSymbol(cha == null ? ' ' : cha, tempplate.getStack(), tempplate.getItemGroup());
                 }
 
             }
