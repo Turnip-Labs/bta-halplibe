@@ -58,6 +58,9 @@ public class MinecraftMixin {
         RecipeBuilder.ModifyWorkbench("minecraft").removeRecipe("block_of_diamond").removeRecipe("block_of_diamond_to_diamond").removeRecipe("cake");
         RecipeBuilder.ModifyBlastFurnace("minecraft").removeRecipe("coal_ores_to_coal");
         RecipeBuilder.ModifyFurnace("minecraft").removeRecipe("porkchop_raw_to_porkchop_cooked");
+        if (HalpLibe.exportRecipes){
+            RecipeBuilder.exportRecipes();
+        }
     }
 
     @Inject(method = "startGame", at = @At("HEAD"))

@@ -23,6 +23,7 @@ public class HalpLibe implements ModInitializer, PreLaunchEntrypoint{
     public static final String MOD_ID = "halplibe";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
     public static boolean sendModlist;
+    public static boolean exportRecipes;
     public static final TomlConfigHandler CONFIG;
     static {
         Toml toml = new Toml();
@@ -31,12 +32,15 @@ public class HalpLibe implements ModInitializer, PreLaunchEntrypoint{
         toml.addEntry("Experimental.RequireTextures", "Require texture to exist on startup", false);
         toml.addCategory("Network");
         toml.addEntry("Network.SendModlistPack", "This sends a modlist packet to clients that join the server when enabled, however it may cause issues if the clients do not have halplibe installed", true);
+        toml.addCategory("Debug");
+        toml.addEntry("Debug.ExportRecipes", "Writes all the loaded game recipes to dumpRecipes after startup", false);
 
 
         CONFIG = new TomlConfigHandler(MOD_ID, toml);
 
         Global.TEXTURE_ATLAS_WIDTH_TILES = Math.max(32, CONFIG.getInt("Experimental.AtlasWidth"));
         sendModlist = CONFIG.getBoolean("Network.SendModlistPack");
+        exportRecipes = CONFIG.getBoolean("Debug.ExportRecipes");
 
         // Initialize Block and Item static fields
         try {

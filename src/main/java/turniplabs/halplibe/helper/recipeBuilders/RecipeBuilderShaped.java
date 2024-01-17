@@ -8,7 +8,6 @@ import net.minecraft.core.data.registry.recipe.entry.RecipeEntryCraftingShaped;
 import net.minecraft.core.item.IItemConvertible;
 import net.minecraft.core.item.ItemStack;
 import turniplabs.halplibe.helper.RecipeBuilder;
-import turniplabs.halplibe.helper.RecipeHelper;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -81,7 +80,13 @@ public class RecipeBuilderShaped extends RecipeBuilderBase{
                 if (shape[y].length() > x) {
                     cha = shape[y].charAt(x);
                 }
-                recipe[x + y * 3] = symbolShapedMap.get(cha);
+                RecipeSymbol tempplate = symbolShapedMap.get(cha);
+                if (tempplate == null){
+                    recipe[x + y * 3] = null;
+                } else {
+                    recipe[x + y * 3] = new RecipeSymbol(cha == null ? ' ' : cha, tempplate.getStack(), tempplate.getItemGroup());
+                }
+
             }
         }
         ((RecipeGroup<RecipeEntryCrafting<?, ?>>) RecipeBuilder.getRecipeGroup(modID, "workbench", new RecipeSymbol(Block.workbench.getDefaultStack())))
