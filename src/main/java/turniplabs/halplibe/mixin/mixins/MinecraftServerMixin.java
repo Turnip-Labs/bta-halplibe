@@ -2,12 +2,18 @@ package turniplabs.halplibe.mixin.mixins;
 
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Global;
+import net.minecraft.core.WeightedRandomLootObject;
+import net.minecraft.core.block.Block;
+import net.minecraft.core.item.Item;
 import net.minecraft.server.MinecraftServer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import turniplabs.halplibe.HalpLibe;
+import turniplabs.halplibe.helper.RecipeBuilder;
+import turniplabs.halplibe.helper.recipeBuilders.RecipeBuilderShaped;
 import turniplabs.halplibe.util.GameStartEntrypoint;
 import turniplabs.halplibe.util.RecipeEntrypoint;
 
@@ -29,5 +35,8 @@ public class MinecraftServerMixin {
     @Inject(method = "startServer", at = @At("TAIL"))
     public void afterGameStartEntrypoint(CallbackInfoReturnable<Boolean> cir){
         FabricLoader.getInstance().getEntrypoints("afterGameStart", GameStartEntrypoint.class).forEach(GameStartEntrypoint::afterGameStart);
+        if (HalpLibe.exportRecipes){
+            RecipeBuilder.exportRecipes();
+        }
     }
 }

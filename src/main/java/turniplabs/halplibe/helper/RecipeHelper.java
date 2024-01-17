@@ -5,11 +5,19 @@ import net.minecraft.core.crafting.legacy.CraftingManager;
 import net.minecraft.core.crafting.legacy.recipe.IRecipe;
 import net.minecraft.core.crafting.legacy.recipe.RecipesBlastFurnace;
 import net.minecraft.core.crafting.legacy.recipe.RecipesFurnace;
+import net.minecraft.core.data.registry.Registries;
+import net.minecraft.core.data.registry.recipe.RecipeEntryBase;
+import net.minecraft.core.data.registry.recipe.RecipeGroup;
+import net.minecraft.core.data.registry.recipe.RecipeNamespace;
+import net.minecraft.core.data.registry.recipe.RecipeSymbol;
 import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemStack;
 
+import javax.annotation.Nonnull;
+import java.util.Objects;
 /**
  * @deprecated Class will be removed once the Legacy crafting manager is removed from BTA
+ * Replace by the RecipeBuilder
  */
 @Deprecated
 public class RecipeHelper {
