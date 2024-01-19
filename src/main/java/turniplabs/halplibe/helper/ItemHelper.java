@@ -2,13 +2,18 @@ package turniplabs.halplibe.helper;
 
 import net.minecraft.core.block.Block;
 import net.minecraft.core.item.Item;
+import org.apache.commons.lang3.StringUtils;
 import turniplabs.halplibe.HalpLibe;
 import turniplabs.halplibe.util.registry.IdSupplier;
 import turniplabs.halplibe.util.registry.RunLengthConfig;
 import turniplabs.halplibe.util.registry.RunReserves;
 import turniplabs.halplibe.util.toml.Toml;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 public class ItemHelper {
 	
@@ -73,14 +78,22 @@ public class ItemHelper {
 		);
 	}
 
-	public static Item createItem(String modId, Item item, String translationKey, String texture) {
-        int[] mainCoords = TextureHelper.getOrCreateItemTexture(modId, texture);
-        item.setIconCoord(mainCoords[0], mainCoords[1]);
+	public static Item createItem(String modId, Item item, String texture) {
+		int[] mainCoords = TextureHelper.getOrCreateItemTexture(modId, texture);
+		item.setIconCoord(mainCoords[0], mainCoords[1]);
 
-        return createItem(modId, item, translationKey);
-    }
+		return createItem(modId, item);
+	}
 
-    public static Item createItem(String modId, Item item, String translationKey) {
-        return item.setKey(HalpLibe.addModId(modId, translationKey));
-    }
+	public static Item createItem(String modId, Item item) {
+		List<String> tokens = Arrays.stream(item.getKey().split("\\."))
+				.filter(token -> !token.equals(modId))
+				.collect(Collectors.toList());
+
+		List<String> newTokens = new ArrayList<>();
+		newTokens.add(modId);
+		newTokens.addAll(tokens.subList(1, tokens.size()));
+
+		return item.setKey(StringUtils.join(newTokens, '.'));
+	}
 }
