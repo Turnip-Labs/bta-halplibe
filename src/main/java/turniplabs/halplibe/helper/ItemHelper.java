@@ -79,6 +79,17 @@ public class ItemHelper {
 		);
 	}
 
+	/**
+	 * @deprecated Translation keys should now be defined inside the item constructor
+	 * Use instead 	{@link ItemHelper#createItem(String modId, Item item, String texture)} or
+	 * 				{@link ItemHelper#createItem(String modId, Item item)}
+	 */
+	@Deprecated
+	public static Item createItem(String modId, Item item, String translationKey, String texture) {
+		item.setKey(translationKey);
+		return createItem(modId, item, texture);
+	}
+
 	public static Item createItem(String modId, Item item, String texture) {
 		int[] mainCoords = TextureHelper.getOrCreateItemTexture(modId, texture);
 		item.setIconCoord(mainCoords[0], mainCoords[1]);
