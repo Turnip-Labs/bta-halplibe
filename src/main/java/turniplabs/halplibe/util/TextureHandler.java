@@ -6,13 +6,16 @@ import net.minecraft.client.util.helper.Textures;
 import turniplabs.halplibe.helper.TextureHelper;
 
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Logger;
 
 import static turniplabs.halplibe.HalpLibe.CONFIG;
 import static turniplabs.halplibe.HalpLibe.LOGGER;
 
 public class TextureHandler extends DynamicTexture {
+
     private final String textureName;
     private int frameCount;
     private final String animationSource;

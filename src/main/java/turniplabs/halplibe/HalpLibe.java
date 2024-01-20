@@ -24,12 +24,14 @@ public class HalpLibe implements ModInitializer, PreLaunchEntrypoint{
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
     public static boolean sendModlist;
     public static boolean exportRecipes;
+    public static boolean compatibilityMode;
     public static final TomlConfigHandler CONFIG;
     static {
         Toml toml = new Toml();
         toml.addCategory("Experimental");
         toml.addEntry("Experimental.AtlasWidth", "Dynamically resized the Terrain and Item atlases, value must be an integer greater than or equal to 32",32);
         toml.addEntry("Experimental.RequireTextures", "Require texture to exist on startup", false);
+        toml.addEntry("Experimental.CompatibilityMode", "Attempt allowing compatibility with older halplibe versions", true);
         toml.addCategory("Network");
         toml.addEntry("Network.SendModlistPack", "This sends a modlist packet to clients that join the server when enabled, however it may cause issues if the clients do not have halplibe installed", true);
         toml.addCategory("Debug");
@@ -41,6 +43,7 @@ public class HalpLibe implements ModInitializer, PreLaunchEntrypoint{
         Global.TEXTURE_ATLAS_WIDTH_TILES = Math.max(32, CONFIG.getInt("Experimental.AtlasWidth"));
         sendModlist = CONFIG.getBoolean("Network.SendModlistPack");
         exportRecipes = CONFIG.getBoolean("Debug.ExportRecipes");
+        compatibilityMode = CONFIG.getBoolean("Experimental.CompatibilityMode");
 
         // Initialize Block and Item static fields
         try {

@@ -9,6 +9,19 @@ import turniplabs.halplibe.util.TextureHandler;
 import java.util.*;
 
 public class TextureHelper {
+    public static List<String> supportedImageFormats = new ArrayList<>();
+    static {
+        supportedImageFormats.add("BMP");
+        supportedImageFormats.add("bmp");
+        supportedImageFormats.add("jpeg");
+        supportedImageFormats.add("wbmp");
+        supportedImageFormats.add("gif");
+        supportedImageFormats.add("png");
+        supportedImageFormats.add("JPG");
+        supportedImageFormats.add("jpg");
+        supportedImageFormats.add("WBMP");
+        supportedImageFormats.add("JPEG");
+    }
     public static List<TextureHandler> textureHandlers = new ArrayList<>();
     public static Map<String, int[]> registeredBlockTextures = new HashMap<>();
     public static Map<String, int[]> registeredItemTextures = new HashMap<>();

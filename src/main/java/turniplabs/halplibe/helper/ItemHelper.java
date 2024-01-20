@@ -3,6 +3,7 @@ package turniplabs.halplibe.helper;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.item.Item;
 import org.apache.commons.lang3.StringUtils;
+import turniplabs.halplibe.HalpLibe;
 import turniplabs.halplibe.util.registry.IdSupplier;
 import turniplabs.halplibe.util.registry.RunLengthConfig;
 import turniplabs.halplibe.util.registry.RunReserves;
@@ -91,6 +92,15 @@ public class ItemHelper {
 	}
 
 	public static Item createItem(String modId, Item item, String texture) {
+		if (HalpLibe.compatibilityMode){
+			String[] textureSplit = texture.split("[.]");
+			if (textureSplit.length > 2 || (textureSplit.length > 1 && !TextureHelper.supportedImageFormats.contains(textureSplit[1])) || textureSplit.length == 1){ // TODO eventually remove this deprecation support code
+				new IllegalArgumentException("Language key provided instead of a valid texture path!! \nPrevious function has been deprecated language keys are now input into the item constructor rather than as an explicit parameter!").printStackTrace();
+				HalpLibe.LOGGER.warn("Provided texture detected as language key, compatibility mode emulating the old behavior");
+				item.setKey(texture);
+				return createItem(modId, item);
+			}
+		}
 		int[] mainCoords = TextureHelper.getOrCreateItemTexture(modId, texture);
 		item.setIconCoord(mainCoords[0], mainCoords[1]);
 
