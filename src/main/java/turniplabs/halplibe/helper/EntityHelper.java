@@ -50,6 +50,10 @@ public class EntityHelper {
             TileEntityAccessor.callAddMapping(clazz, name);
         }
 
+        /**
+         * @deprecated Function is being split into {@link Core#createTileEntity(Class, String)} and {@link Client#assignTileEntityRenderer(Class, TileEntityRenderer)}
+         */
+        @Deprecated
         public static void createSpecialTileEntity(Class<? extends TileEntity> clazz, TileEntityRenderer<?> renderer, String name) {
             Map<Class<? extends TileEntity>, TileEntityRenderer<?>> specialRendererMap = ((TileEntityRendererAccessor) TileEntityRenderDispatcher.instance).getSpecialRendererMap();
             specialRendererMap.put(clazz, renderer);
@@ -67,6 +71,11 @@ public class EntityHelper {
             Map<Class<? extends Entity>, EntityRenderer<?>> entityRenderMap = ((RenderManagerAccessor) EntityRenderDispatcher.instance).getEntityRenderMap();
             entityRenderMap.put(clazz, renderer);
             renderer.setRenderDispatcher(EntityRenderDispatcher.instance);
+        }
+        public static void assignTileEntityRenderer(Class<? extends TileEntity> clazz, TileEntityRenderer<?> renderer){
+            Map<Class<? extends TileEntity>, TileEntityRenderer<?>> specialRendererMap = ((TileEntityRendererAccessor) TileEntityRenderDispatcher.instance).getSpecialRendererMap();
+            specialRendererMap.put(clazz, renderer);
+            renderer.setRenderDispatcher(TileEntityRenderDispatcher.instance);
         }
     }
 }
