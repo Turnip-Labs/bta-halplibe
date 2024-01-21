@@ -45,7 +45,28 @@ public class RecipeBuilderShaped extends RecipeBuilderBase{
         }
         this.height = shape.length;
         this.width = shape[0].length();
-        this.shape = shape;
+
+        // Gets the max width
+        for (int y = 0; y < this.height; y++) {
+            this.width = Math.max(this.width, shape[y].length());
+        }
+
+        // Ensures that the recipe shape is always square
+        String[] internalShape = new String[height];
+        for (int y = 0; y < internalShape.length; y++) {
+            StringBuilder builder = new StringBuilder();
+            String row = shape[y];
+            for (int x = 0; x < width; x++) {
+                if (x >= row.length()){
+                    builder.append(" ");
+                } else {
+                    builder.append(row.charAt(x));
+                }
+            }
+            internalShape[y] = builder.toString();
+        }
+
+        this.shape = internalShape;
     }
     public RecipeBuilderShaped setConsumeContainer(boolean consumeContainer){
         RecipeBuilderShaped builder = this.clone(this);
@@ -67,6 +88,7 @@ public class RecipeBuilderShaped extends RecipeBuilderBase{
         return addInput(templateSymbol, new RecipeSymbol(itemGroup));
     }
     public RecipeBuilderShaped addInput(char templateSymbol, RecipeSymbol symbol){
+        if (templateSymbol == ' ') throw new IllegalArgumentException("Cannot assign item to protected symbol ' ' pick a different symbol for your recipe input");
         RecipeBuilderShaped builder = this.clone(this);
         symbolShapedMap.put(templateSymbol, symbol);
         return builder;
