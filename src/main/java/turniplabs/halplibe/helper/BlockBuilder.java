@@ -37,7 +37,7 @@ public class BlockBuilder implements Cloneable {
     private boolean immovable = false;
     private boolean useInternalLight = false;
     private boolean visualUpdateOnMetadata = false;
-    private boolean tickOnLoad = false;
+    private Boolean tickOnLoad = null;
     private boolean infiniburn = false;
     private int[] flammability = null;
     private Block blockDrop = null;
@@ -495,7 +495,9 @@ public class BlockBuilder implements Cloneable {
             block.withDisabledNeighborNotifyOnMetadataChange();
         }
 
-        block.setTicking(tickOnLoad);
+        if (tickOnLoad != null){
+            block.setTicking(tickOnLoad);
+        }
 
         if (blockDrop != null) {
             block.setDropOverride(blockDrop);
