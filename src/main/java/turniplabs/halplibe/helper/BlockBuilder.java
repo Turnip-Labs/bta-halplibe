@@ -194,6 +194,14 @@ public class BlockBuilder implements Cloneable {
         blockBuilder.tickOnLoad = true;
         return blockBuilder;
     }
+    /**
+     * Makes the block receive a tick update when the game loads the chunk the block is in.
+     */
+    public BlockBuilder setTicking(boolean ticking) {
+        BlockBuilder blockBuilder = this.clone();
+        blockBuilder.tickOnLoad = ticking;
+        return blockBuilder;
+    }
 
     /**
      * Makes a block drop a different block than itself upon breaking.
