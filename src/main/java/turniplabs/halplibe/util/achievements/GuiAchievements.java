@@ -8,6 +8,7 @@ import net.minecraft.client.gui.popup.GuiPopup;
 import net.minecraft.client.gui.popup.PopupBuilder;
 import net.minecraft.client.gui.popup.PopupCloseListener;
 import net.minecraft.client.render.Lighting;
+import net.minecraft.client.render.Scissor;
 import net.minecraft.client.render.entity.ItemEntityRenderer;
 import net.minecraft.core.achievement.Achievement;
 import net.minecraft.core.achievement.AchievementList;
@@ -190,6 +191,7 @@ public class GuiAchievements extends GuiScreen {
         GL11.glDisable(2896);
         GL11.glEnable(32826);
         GL11.glEnable(2903);
+        Scissor.enable(i + 1, j + 1, windowWidth - 2, windowHeight - 2);
         this.mc.renderEngine.bindTexture(blockTex);
         AchievementPage achievementPage = AchievementHelper.getPage(this.page);
         if(achievementPage != null){
@@ -275,6 +277,7 @@ public class GuiAchievements extends GuiScreen {
             GL11.glDisable(2929);
             GL11.glEnable(3042);
             GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+            Scissor.disable();
             bgTex = this.mc.renderEngine.getTexture("/achievement/bg.png");
             this.mc.renderEngine.bindTexture(bgTex);
             this.drawTexturedModalRect(i, j, 0, 0, this.windowWidth, this.windowHeight);
