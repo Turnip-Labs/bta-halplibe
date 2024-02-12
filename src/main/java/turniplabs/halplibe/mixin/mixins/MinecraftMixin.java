@@ -4,6 +4,7 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.WeightedRandomLootObject;
 import net.minecraft.core.block.Block;
+import net.minecraft.core.enums.EnumOS;
 import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
@@ -42,5 +43,13 @@ public class MinecraftMixin {
         if (HalpLibe.exportRecipes){
             RecipeBuilder.exportRecipes();
         }
+    }
+
+    @Inject(method = "printWrongJavaVersionInfo", at = @At("HEAD"), cancellable = true)
+    private void printWrongJavaVersionInfo(CallbackInfo ci) {
+        if (Minecraft.getOs() == EnumOS.linux){
+            System.out.println("If the game crashes with a message similar to \n\"Inconsistency detected by ld.so: dl-lookup.c: 111: check_match: Assertion `version->filename == NULL || ! _dl_name_match_p (version->filename, map)' failed!\", \nEither use Java 8 or 17 from Eclipse Adoptium!");
+        }
+        ci.cancel();
     }
 }
