@@ -1,51 +1,52 @@
 {
-    "required": true,
-    "minVersion": "0.8",
-    "package": "turniplabs.halplibe.mixin",
-    "compatibilityLevel": "JAVA_8",
-    "mixins": [
-        "accessors.BlockFireAccessor",
-        "accessors.EntityListAccessor",
-        "accessors.LanguageAccessor",
-        "accessors.TileEntityAccessor",
-        "accessors.WeightedRandomBagAccessor",
-        "accessors.WeightedRandomBagEntryAccessor",
-        "mixins.ArmorMaterialMixin",
-        "mixins.BlockFireMixin",
-        "mixins.BlockSoundDispatcherMixin",
-        "mixins.I18nMixin",
-        "mixins.ItemStackJsonAdapterMixin",
-        "mixins.RegistryMixin",
-        "mixins.TileEntityBlastFurnaceMixin",
-        "mixins.TileEntityFurnaceMixin",
-        "mixins.network.EntityTrackerEntryMixin",
-        "mixins.network.NetworkManagerMixin",
-        "mixins.network.PacketMixin",
-        "mixins.registry.BlockMixin",
-        "mixins.registry.ItemMixin",
-        "mixins.version.NetHandlerMixin"
-    ],
-    "client": [
-        "accessors.RenderManagerAccessor",
-        "accessors.TileEntityRendererAccessor",
-        "mixins.EntityClientPlayerMPMixin",
-        "mixins.PlayerRendererMixin",
-        "mixins.GuiIngameMenuMixin",
-        "mixins.MinecraftMixin",
-        "mixins.RenderEngineMixin",
-        "mixins.RenderGlobalMixin",
-        "mixins.network.MinecraftMixin",
-        "mixins.network.NetClientHandlerMixin",
-        "mixins.registry.MinecraftMixin",
-        "mixins.version.NetClientHandlerMixin"
-    ],
-    "server": [
-        "mixins.MinecraftServerMixin",
-        "mixins.network.MinecraftServerMixin",
-        "mixins.registry.MinecraftServerMixin",
-        "mixins.version.NetLoginHandlerMixin"
-    ],
-    "injectors": {
-        "defaultRequire": 1
+  "required": true,
+  "minVersion": "0.8",
+  "package": "turniplabs.halplibe.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "accessors.BlockFireAccessor",
+    "accessors.EntityListAccessor",
+    "accessors.LanguageAccessor",
+    "accessors.TileEntityAccessor",
+    "accessors.WeightedRandomBagAccessor",
+    "accessors.WeightedRandomBagEntryAccessor",
+    "mixins.ArmorMaterialMixin",
+    "mixins.BlockFireMixin",
+    "mixins.BlockMixin",
+    "mixins.BlockSoundDispatcherMixin",
+    "mixins.I18nMixin",
+    "mixins.ItemStackJsonAdapterMixin",
+    "mixins.RegistryMixin",
+    "mixins.TileEntityBlastFurnaceMixin",
+    "mixins.TileEntityFurnaceMixin",
+    "mixins.network.EntityTrackerEntryMixin",
+    "mixins.network.NetworkManagerMixin",
+    "mixins.network.PacketMixin",
+    "mixins.registry.BlockMixin",
+    "mixins.registry.ItemMixin",
+    "mixins.version.NetHandlerMixin"
+  ],
+  "client": [
+    "accessors.RenderManagerAccessor",
+    "accessors.TileEntityRendererAccessor",
+    "mixins.EntityClientPlayerMPMixin",
+    "mixins.GuiIngameMenuMixin",
+    "mixins.MinecraftMixin",
+    "mixins.PlayerRendererMixin",
+    "mixins.RenderEngineMixin",
+    "mixins.RenderGlobalMixin",
+    "mixins.network.MinecraftMixin",
+    "mixins.network.NetClientHandlerMixin",
+    "mixins.registry.MinecraftMixin",
+    "mixins.version.NetClientHandlerMixin"
+  ],
+  "server": [
+    "mixins.MinecraftServerMixin",
+    "mixins.network.MinecraftServerMixin",
+    "mixins.registry.MinecraftServerMixin",
+    "mixins.version.NetLoginHandlerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
   }
 }
