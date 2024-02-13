@@ -440,7 +440,7 @@ public class BlockBuilder implements Cloneable {
         return blockBuilder;
     }
 
-    public Block build(Block block) {
+    public <T extends Block> T build(T block) {
         if (topTexture != null) {
             block.atlasIndices[Side.TOP.getId()] = Block.texCoordToIndex(topTexture[0], topTexture[1]);
         }
