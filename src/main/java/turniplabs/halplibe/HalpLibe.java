@@ -4,27 +4,17 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.entrypoint.PreLaunchEntrypoint;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.Global;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.item.Item;
-import net.minecraft.core.item.ItemArmor;
-import net.minecraft.core.item.material.ArmorMaterial;
-import net.minecraft.core.net.command.ClientCommand;
-import net.minecraft.core.net.command.Command;
-import net.minecraft.core.net.command.CommandHandler;
-import net.minecraft.core.net.command.CommandSender;
-import net.minecraft.core.net.command.ServerCommand;
-import net.minecraft.core.net.command.commands.ClearCommand;
-import net.minecraft.server.MinecraftServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import turniplabs.halplibe.helper.*;
-import turniplabs.halplibe.util.GameStartEntrypoint;
+import turniplabs.halplibe.helper.AchievementHelper;
+import turniplabs.halplibe.helper.ModVersionHelper;
+import turniplabs.halplibe.helper.NetworkHelper;
 import turniplabs.halplibe.util.TomlConfigHandler;
 import turniplabs.halplibe.util.achievements.AchievementPage;
 import turniplabs.halplibe.util.achievements.VanillaAchievementsPage;
-import turniplabs.halplibe.util.network.PacketExtendedMobSpawn;
 import turniplabs.halplibe.util.toml.Toml;
 import turniplabs.halplibe.util.version.PacketModList;
 
@@ -96,7 +86,6 @@ public class HalpLibe implements ModInitializer, PreLaunchEntrypoint {
     @Override
     public void onInitialize() {
         AchievementHelper.addPage(VANILLA_ACHIEVEMENTS);
-        NetworkHelper.register(PacketExtendedMobSpawn.class, false, true);
         NetworkHelper.register(PacketModList.class, false, true);
         LOGGER.info("HalpLibe initialized.");
     }
