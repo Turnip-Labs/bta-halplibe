@@ -302,7 +302,12 @@ public class BlockBuilder implements Cloneable {
 
     @SuppressWarnings({"unused"})
     public BlockBuilder setTextures(String texture) {
-        int[] one = TextureHelper.getOrCreateBlockTexture(MOD_ID, texture);
+        return setTextures(MOD_ID, texture);
+    }
+
+    @SuppressWarnings({"unused"})
+    public BlockBuilder setTextures(String modID, String texture) {
+        int[] one = TextureHelper.getOrCreateBlockTexture(modID, texture);
 
         BlockBuilder blockBuilder = this.clone();
         blockBuilder.topTexture = one;
@@ -329,9 +334,15 @@ public class BlockBuilder implements Cloneable {
 
         return blockBuilder;
     }
+
     @SuppressWarnings({"unused"})
     public BlockBuilder setSideTextures(String texture) {
-        int[] sides = TextureHelper.getOrCreateBlockTexture(MOD_ID, texture);
+        return setSideTextures(MOD_ID, texture);
+    }
+
+    @SuppressWarnings({"unused"})
+    public BlockBuilder setSideTextures(String modID, String texture) {
+        int[] sides = TextureHelper.getOrCreateBlockTexture(modID, texture);
 
         BlockBuilder blockBuilder = this.clone();
         blockBuilder.northTexture = sides;
@@ -341,6 +352,7 @@ public class BlockBuilder implements Cloneable {
 
         return blockBuilder;
     }
+
     @SuppressWarnings({"unused"})
     public BlockBuilder setSideTextures(int x, int y) {
         int[] sides = new int[]{x, y};
@@ -353,9 +365,15 @@ public class BlockBuilder implements Cloneable {
 
         return blockBuilder;
     }
+
     @SuppressWarnings({"unused"})
     public BlockBuilder setTopBottomTexture(String texture) {
-        int[] topBottom = TextureHelper.getOrCreateBlockTexture(MOD_ID, texture);
+        return setTopBottomTexture(MOD_ID, texture);
+    }
+
+    @SuppressWarnings({"unused"})
+    public BlockBuilder setTopBottomTexture(String modID, String texture) {
+        int[] topBottom = TextureHelper.getOrCreateBlockTexture(modID, texture);
 
         BlockBuilder blockBuilder = this.clone();
         blockBuilder.topTexture = topBottom;
@@ -363,6 +381,7 @@ public class BlockBuilder implements Cloneable {
 
         return blockBuilder;
     }
+
     @SuppressWarnings({"unused"})
     public BlockBuilder setTopBottomTexture(int x, int y) {
         int[] topBottom = new int[]{x, y};
@@ -373,72 +392,114 @@ public class BlockBuilder implements Cloneable {
 
         return blockBuilder;
     }
+
     @SuppressWarnings({"unused"})
     public BlockBuilder setTopTexture(String texture) {
+        return setTopTexture(MOD_ID, texture);
+    }
+
+    @SuppressWarnings({"unused"})
+    public BlockBuilder setTopTexture(String modID, String texture) {
         BlockBuilder blockBuilder = this.clone();
-        blockBuilder.topTexture = TextureHelper.getOrCreateBlockTexture(MOD_ID, texture);
+        blockBuilder.topTexture = TextureHelper.getOrCreateBlockTexture(modID, texture);
         return blockBuilder;
     }
+
     @SuppressWarnings({"unused"})
     public BlockBuilder setTopTexture(int x, int y) {
         BlockBuilder blockBuilder = this.clone();
         blockBuilder.topTexture = new int[]{x, y};
         return blockBuilder;
     }
+
     @SuppressWarnings({"unused"})
     public BlockBuilder setBottomTexture(String texture) {
+        return setBottomTexture(MOD_ID, texture);
+    }
+
+    @SuppressWarnings({"unused"})
+    public BlockBuilder setBottomTexture(String modID, String texture) {
         BlockBuilder blockBuilder = this.clone();
-        blockBuilder.bottomTexture = TextureHelper.getOrCreateBlockTexture(MOD_ID, texture);
+        blockBuilder.bottomTexture = TextureHelper.getOrCreateBlockTexture(modID, texture);
         return blockBuilder;
     }
+
     @SuppressWarnings({"unused"})
     public BlockBuilder setBottomTexture(int x, int y) {
         BlockBuilder blockBuilder = this.clone();
         blockBuilder.bottomTexture = new int[]{x, y};
         return blockBuilder;
     }
+
     @SuppressWarnings({"unused"})
     public BlockBuilder setNorthTexture(String texture) {
+        return setNorthTexture(MOD_ID, texture);
+    }
+
+    @SuppressWarnings({"unused"})
+    public BlockBuilder setNorthTexture(String modID, String texture) {
         BlockBuilder blockBuilder = this.clone();
-        blockBuilder.northTexture = TextureHelper.getOrCreateBlockTexture(MOD_ID, texture);
+        blockBuilder.northTexture = TextureHelper.getOrCreateBlockTexture(modID, texture);
         return blockBuilder;
     }
+
     @SuppressWarnings({"unused"})
     public BlockBuilder setNorthTexture(int x, int y) {
         BlockBuilder blockBuilder = this.clone();
         blockBuilder.northTexture = new int[]{x, y};
         return blockBuilder;
     }
+
     @SuppressWarnings({"unused"})
     public BlockBuilder setEastTexture(String texture) {
+        return setEastTexture(MOD_ID, texture);
+    }
+
+    @SuppressWarnings({"unused"})
+    public BlockBuilder setEastTexture(String modID, String texture) {
         BlockBuilder blockBuilder = this.clone();
-        blockBuilder.eastTexture = TextureHelper.getOrCreateBlockTexture(MOD_ID, texture);
+        blockBuilder.eastTexture = TextureHelper.getOrCreateBlockTexture(modID, texture);
         return blockBuilder;
     }
+
     @SuppressWarnings({"unused"})
     public BlockBuilder setEastTexture(int x, int y) {
         BlockBuilder blockBuilder = this.clone();
         blockBuilder.eastTexture = new int[]{x, y};
         return blockBuilder;
     }
+
     @SuppressWarnings({"unused"})
     public BlockBuilder setSouthTexture(String texture) {
+        return setSouthTexture(MOD_ID, texture);
+    }
+
+    @SuppressWarnings({"unused"})
+    public BlockBuilder setSouthTexture(String modID, String texture) {
         BlockBuilder blockBuilder = this.clone();
-        blockBuilder.southTexture = TextureHelper.getOrCreateBlockTexture(MOD_ID, texture);
+        blockBuilder.southTexture = TextureHelper.getOrCreateBlockTexture(modID, texture);
         return blockBuilder;
     }
+
     @SuppressWarnings({"unused"})
     public BlockBuilder setSouthTexture(int x, int y) {
         BlockBuilder blockBuilder = this.clone();
         blockBuilder.southTexture = new int[]{x, y};
         return blockBuilder;
     }
+
     @SuppressWarnings({"unused"})
     public BlockBuilder setWestTexture(String texture) {
+        return setWestTexture(MOD_ID, texture);
+    }
+
+    @SuppressWarnings({"unused"})
+    public BlockBuilder setWestTexture(String modID, String texture) {
         BlockBuilder blockBuilder = this.clone();
-        blockBuilder.westTexture = TextureHelper.getOrCreateBlockTexture(MOD_ID, texture);
+        blockBuilder.westTexture = TextureHelper.getOrCreateBlockTexture(modID, texture);
         return blockBuilder;
     }
+
     @SuppressWarnings({"unused"})
     public BlockBuilder setWestTexture(int x, int y) {
         BlockBuilder blockBuilder = this.clone();
