@@ -25,6 +25,7 @@ public class RecipeBuilderShaped extends RecipeBuilderBase{
         super(modID);
         setShapeLocal(shape);
     }
+    @SuppressWarnings({"unused"})
     public RecipeBuilderShaped setShape(String... shapeTemplate){
         RecipeBuilderShaped builder = this.clone(this);
         builder.setShapeLocal(shapeTemplate);
@@ -68,31 +69,38 @@ public class RecipeBuilderShaped extends RecipeBuilderBase{
 
         this.shape = internalShape;
     }
+    @SuppressWarnings({"unused"})
     public RecipeBuilderShaped setConsumeContainer(boolean consumeContainer){
         RecipeBuilderShaped builder = this.clone(this);
         builder.consumeContainer = consumeContainer;
         return builder;
     }
+    @SuppressWarnings({"unused"})
     public RecipeBuilderShaped addInput(char templateSymbol, IItemConvertible stack){
         return addInput(templateSymbol, stack, 0);
     }
+    @SuppressWarnings({"unused"})
     public RecipeBuilderShaped addInput(char templateSymbol, IItemConvertible stack, int meta){
         ItemStack _stack = stack.getDefaultStack();
         _stack.setMetadata(meta);
         return addInput(templateSymbol, _stack);
     }
+    @SuppressWarnings({"unused"})
     public RecipeBuilderShaped addInput(char templateSymbol, ItemStack stack){
         return addInput(templateSymbol, new RecipeSymbol(stack));
     }
+    @SuppressWarnings({"unused"})
     public RecipeBuilderShaped addInput(char templateSymbol, String itemGroup) {
         return addInput(templateSymbol, new RecipeSymbol(itemGroup));
     }
+    @SuppressWarnings({"unused"})
     public RecipeBuilderShaped addInput(char templateSymbol, RecipeSymbol symbol){
         if (templateSymbol == ' ') throw new IllegalArgumentException("Cannot assign item to protected symbol ' ' pick a different symbol for your recipe input");
         RecipeBuilderShaped builder = this.clone(this);
         symbolShapedMap.put(templateSymbol, symbol);
         return builder;
     }
+    @SuppressWarnings({"unchecked", "unused"})
     public void create(String recipeID, ItemStack outputStack) {
         if (shape == null) throw new RuntimeException("Shaped recipe: " + recipeID + " attempted to build without a assigned shape!!");
         RecipeSymbol[] recipe = new RecipeSymbol[height * width];

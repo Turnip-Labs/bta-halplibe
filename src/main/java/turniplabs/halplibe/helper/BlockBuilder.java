@@ -70,6 +70,7 @@ public class BlockBuilder implements Cloneable {
     /**
      * Sets how long it takes to break the block.
      */
+    @SuppressWarnings({"unused"})
     public BlockBuilder setHardness(float hardness) {
         BlockBuilder blockBuilder = this.clone();
         blockBuilder.hardness = hardness;
@@ -79,6 +80,7 @@ public class BlockBuilder implements Cloneable {
     /**
      * Sets the block's resistance against explosions.
      */
+    @SuppressWarnings({"unused"})
     public BlockBuilder setResistance(float resistance) {
         BlockBuilder blockBuilder = this.clone();
         blockBuilder.resistance = resistance;
@@ -90,6 +92,7 @@ public class BlockBuilder implements Cloneable {
      *
      * @param luminance ranges from 0 to 15
      */
+    @SuppressWarnings({"unused"})
     public BlockBuilder setLuminance(int luminance) {
         BlockBuilder blockBuilder = this.clone();
         blockBuilder.luminance = luminance;
@@ -104,6 +107,7 @@ public class BlockBuilder implements Cloneable {
      *
      * @param lightOpacity ranges from 0 to 15
      */
+    @SuppressWarnings({"unused"})
     public BlockBuilder setLightOpacity(int lightOpacity) {
         BlockBuilder blockBuilder = this.clone();
         blockBuilder.lightOpacity = lightOpacity;
@@ -113,6 +117,7 @@ public class BlockBuilder implements Cloneable {
     /**
      * Sets the block's slipperiness, 0.6 is default, 0.98 is ice.
      */
+    @SuppressWarnings({"unused"})
     public BlockBuilder setSlipperiness(float slipperiness) {
         BlockBuilder blockBuilder = this.clone();
         blockBuilder.slipperiness = slipperiness;
@@ -127,6 +132,7 @@ public class BlockBuilder implements Cloneable {
      * @param chanceToDegrade   how likely it is for the block to burn itself
      *                          to ash and disappear
      */
+    @SuppressWarnings({"unused"})
     public BlockBuilder setFlammability(int chanceToCatchFire, int chanceToDegrade) {
         BlockBuilder blockBuilder = this.clone();
         blockBuilder.flammability = new int[]{chanceToCatchFire, chanceToDegrade};
@@ -136,6 +142,7 @@ public class BlockBuilder implements Cloneable {
     /**
      * Makes a block unable to be moved by pistons.
      */
+    @SuppressWarnings({"unused"})
     public BlockBuilder setImmovable() {
         BlockBuilder blockBuilder = this.clone();
         blockBuilder.immovable = true;
@@ -145,6 +152,7 @@ public class BlockBuilder implements Cloneable {
     /**
      * Makes a block unable to be broken.
      */
+    @SuppressWarnings({"unused"})
     public BlockBuilder setUnbreakable() {
         BlockBuilder blockBuilder = this.clone();
         blockBuilder.hardness = -1.0f;
@@ -154,6 +162,7 @@ public class BlockBuilder implements Cloneable {
     /**
      * Makes fire burn indefinitely on top of the block.
      */
+    @SuppressWarnings({"unused"})
     public BlockBuilder setInfiniburn() {
         BlockBuilder blockBuilder = this.clone();
         blockBuilder.infiniburn = true;
@@ -165,21 +174,17 @@ public class BlockBuilder implements Cloneable {
      * Used for things like slabs, stairs, layers and various other non-full
      * blocks that allow light to pass through them.
      */
+    @SuppressWarnings({"unused"})
     public BlockBuilder setUseInternalLight() {
         BlockBuilder blockBuilder = this.clone();
         blockBuilder.useInternalLight = true;
         return blockBuilder;
     }
 
-
-    @Deprecated
-    public BlockBuilder setDisabledNeighborNotifyOnMetadataChange() {
-        return setVisualUpdateOnMetadata();
-    }
-
     /**
      * Makes the block receive a visual update when the metadata of that block changes.
      */
+    @SuppressWarnings({"unused"})
     public BlockBuilder setVisualUpdateOnMetadata() {
         BlockBuilder blockBuilder = this.clone();
         blockBuilder.visualUpdateOnMetadata = true;
@@ -189,6 +194,7 @@ public class BlockBuilder implements Cloneable {
     /**
      * Makes the block receive a tick update when the game loads the chunk the block is in.
      */
+    @SuppressWarnings({"unused"})
     public BlockBuilder setTickOnLoad() {
         BlockBuilder blockBuilder = this.clone();
         blockBuilder.tickOnLoad = true;
@@ -197,6 +203,7 @@ public class BlockBuilder implements Cloneable {
     /**
      * Makes the block receive a tick update when the game loads the chunk the block is in.
      */
+    @SuppressWarnings({"unused"})
     public BlockBuilder setTicking(boolean ticking) {
         BlockBuilder blockBuilder = this.clone();
         blockBuilder.tickOnLoad = ticking;
@@ -206,6 +213,7 @@ public class BlockBuilder implements Cloneable {
     /**
      * Makes a block drop a different block than itself upon breaking.
      */
+    @SuppressWarnings({"unused"})
     public BlockBuilder setBlockDrop(Block droppedBlock) {
         BlockBuilder blockBuilder = this.clone();
         blockBuilder.blockDrop = droppedBlock;
@@ -221,6 +229,7 @@ public class BlockBuilder implements Cloneable {
      *          .build(new Block("example.block", 4000, Material.wood));
      * }</pre>
      */
+    @SuppressWarnings({"unused"})
     public BlockBuilder setBlockSound(BlockSound blockSound) {
         BlockBuilder blockBuilder = this.clone();
         blockBuilder.blockSound = blockSound;
@@ -236,6 +245,7 @@ public class BlockBuilder implements Cloneable {
      *          .build(new BlockGrass("custom.grass.block", 4001, Material.grass));
      * }</pre>
      */
+    @SuppressWarnings({"unused"})
     public BlockBuilder setBlockColor(BlockColor blockColor) {
         BlockBuilder blockBuilder = this.clone();
         blockBuilder.blockColor = blockColor;
@@ -251,6 +261,7 @@ public class BlockBuilder implements Cloneable {
      *          .build(new BlockFlower("custom.flower", 4002);
      * }</pre>
      */
+    @SuppressWarnings({"unused"})
     public BlockBuilder setBlockModel(BlockModel blockModel) {
         BlockBuilder blockBuilder = this.clone();
         blockBuilder.blockModel = blockModel;
@@ -266,6 +277,7 @@ public class BlockBuilder implements Cloneable {
      *          .build(new BlockSlab(Block.dirt, 4003));
      * }</pre>
      */
+    @SuppressWarnings({"unused"})
     public BlockBuilder setItemBlock(BlockLambda<ItemBlock> customItemBlock) {
         BlockBuilder blockBuilder = this.clone();
         blockBuilder.customItemBlock = customItemBlock;
@@ -273,6 +285,7 @@ public class BlockBuilder implements Cloneable {
     }
 
     @SafeVarargs
+    @SuppressWarnings({"unused"})
     public final BlockBuilder setTags(Tag<Block>... tags) {
         BlockBuilder blockBuilder = this.clone();
         blockBuilder.tags = tags;
@@ -280,12 +293,14 @@ public class BlockBuilder implements Cloneable {
     }
 
     @SafeVarargs
+    @SuppressWarnings({"unused"})
     public final BlockBuilder addTags(Tag<Block>... tags) {
         BlockBuilder blockBuilder = this.clone();
         blockBuilder.tags = ArrayUtils.addAll(this.tags, tags);
         return blockBuilder;
     }
 
+    @SuppressWarnings({"unused"})
     public BlockBuilder setTextures(String texture) {
         int[] one = TextureHelper.getOrCreateBlockTexture(MOD_ID, texture);
 
@@ -300,6 +315,7 @@ public class BlockBuilder implements Cloneable {
         return blockBuilder;
     }
 
+    @SuppressWarnings({"unused"})
     public BlockBuilder setTextures(int x, int y) {
         int[] one = new int[]{x, y};
 
@@ -313,12 +329,7 @@ public class BlockBuilder implements Cloneable {
 
         return blockBuilder;
     }
-
-    @Deprecated
-    public BlockBuilder setSides(String texture) {
-        return setSideTextures(texture);
-    }
-
+    @SuppressWarnings({"unused"})
     public BlockBuilder setSideTextures(String texture) {
         int[] sides = TextureHelper.getOrCreateBlockTexture(MOD_ID, texture);
 
@@ -330,12 +341,7 @@ public class BlockBuilder implements Cloneable {
 
         return blockBuilder;
     }
-
-    @Deprecated
-    public BlockBuilder setSides(int x, int y) {
-        return setSideTextures(x, y);
-    }
-
+    @SuppressWarnings({"unused"})
     public BlockBuilder setSideTextures(int x, int y) {
         int[] sides = new int[]{x, y};
 
@@ -347,7 +353,7 @@ public class BlockBuilder implements Cloneable {
 
         return blockBuilder;
     }
-
+    @SuppressWarnings({"unused"})
     public BlockBuilder setTopBottomTexture(String texture) {
         int[] topBottom = TextureHelper.getOrCreateBlockTexture(MOD_ID, texture);
 
@@ -357,7 +363,7 @@ public class BlockBuilder implements Cloneable {
 
         return blockBuilder;
     }
-
+    @SuppressWarnings({"unused"})
     public BlockBuilder setTopBottomTexture(int x, int y) {
         int[] topBottom = new int[]{x, y};
 
@@ -367,79 +373,79 @@ public class BlockBuilder implements Cloneable {
 
         return blockBuilder;
     }
-
+    @SuppressWarnings({"unused"})
     public BlockBuilder setTopTexture(String texture) {
         BlockBuilder blockBuilder = this.clone();
         blockBuilder.topTexture = TextureHelper.getOrCreateBlockTexture(MOD_ID, texture);
         return blockBuilder;
     }
-
+    @SuppressWarnings({"unused"})
     public BlockBuilder setTopTexture(int x, int y) {
         BlockBuilder blockBuilder = this.clone();
         blockBuilder.topTexture = new int[]{x, y};
         return blockBuilder;
     }
-
+    @SuppressWarnings({"unused"})
     public BlockBuilder setBottomTexture(String texture) {
         BlockBuilder blockBuilder = this.clone();
         blockBuilder.bottomTexture = TextureHelper.getOrCreateBlockTexture(MOD_ID, texture);
         return blockBuilder;
     }
-
+    @SuppressWarnings({"unused"})
     public BlockBuilder setBottomTexture(int x, int y) {
         BlockBuilder blockBuilder = this.clone();
         blockBuilder.bottomTexture = new int[]{x, y};
         return blockBuilder;
     }
-
+    @SuppressWarnings({"unused"})
     public BlockBuilder setNorthTexture(String texture) {
         BlockBuilder blockBuilder = this.clone();
         blockBuilder.northTexture = TextureHelper.getOrCreateBlockTexture(MOD_ID, texture);
         return blockBuilder;
     }
-
+    @SuppressWarnings({"unused"})
     public BlockBuilder setNorthTexture(int x, int y) {
         BlockBuilder blockBuilder = this.clone();
         blockBuilder.northTexture = new int[]{x, y};
         return blockBuilder;
     }
-
+    @SuppressWarnings({"unused"})
     public BlockBuilder setEastTexture(String texture) {
         BlockBuilder blockBuilder = this.clone();
         blockBuilder.eastTexture = TextureHelper.getOrCreateBlockTexture(MOD_ID, texture);
         return blockBuilder;
     }
-
+    @SuppressWarnings({"unused"})
     public BlockBuilder setEastTexture(int x, int y) {
         BlockBuilder blockBuilder = this.clone();
         blockBuilder.eastTexture = new int[]{x, y};
         return blockBuilder;
     }
-
+    @SuppressWarnings({"unused"})
     public BlockBuilder setSouthTexture(String texture) {
         BlockBuilder blockBuilder = this.clone();
         blockBuilder.southTexture = TextureHelper.getOrCreateBlockTexture(MOD_ID, texture);
         return blockBuilder;
     }
-
+    @SuppressWarnings({"unused"})
     public BlockBuilder setSouthTexture(int x, int y) {
         BlockBuilder blockBuilder = this.clone();
         blockBuilder.southTexture = new int[]{x, y};
         return blockBuilder;
     }
-
+    @SuppressWarnings({"unused"})
     public BlockBuilder setWestTexture(String texture) {
         BlockBuilder blockBuilder = this.clone();
         blockBuilder.westTexture = TextureHelper.getOrCreateBlockTexture(MOD_ID, texture);
         return blockBuilder;
     }
-
+    @SuppressWarnings({"unused"})
     public BlockBuilder setWestTexture(int x, int y) {
         BlockBuilder blockBuilder = this.clone();
         blockBuilder.westTexture = new int[]{x, y};
         return blockBuilder;
     }
-
+    @SuppressWarnings({"unused"})
     public <T extends Block> T build(T block) {
         if (topTexture != null) {
             block.atlasIndices[Side.TOP.getId()] = Block.texCoordToIndex(topTexture[0], topTexture[1]);

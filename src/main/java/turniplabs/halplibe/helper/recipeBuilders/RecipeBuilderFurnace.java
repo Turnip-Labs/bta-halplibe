@@ -15,18 +15,23 @@ public class RecipeBuilderFurnace extends RecipeBuilderBase{
     public RecipeBuilderFurnace(String modID) {
         super(modID);
     }
+    @SuppressWarnings({"unused"})
     public RecipeBuilderFurnace setInput(IItemConvertible item){
         return setInput(item, 0);
     }
+    @SuppressWarnings({"unused"})
     public RecipeBuilderFurnace setInput(IItemConvertible item, int meta){
         return setInput(new ItemStack(item, 1, meta));
     }
+    @SuppressWarnings({"unused"})
     public RecipeBuilderFurnace setInput(ItemStack input){
         return setInput(new RecipeSymbol(input));
     }
+    @SuppressWarnings({"unused"})
     public RecipeBuilderFurnace setInput(String itemGroup){
         return setInput(new RecipeSymbol(itemGroup));
     }
+    @SuppressWarnings({"unused"})
     public RecipeBuilderFurnace setInput(RecipeSymbol input){
         RecipeBuilderFurnace builder = this.clone(this);
         builder.input = Objects.requireNonNull(input, "Input symbol must not be null!");
@@ -34,6 +39,7 @@ public class RecipeBuilderFurnace extends RecipeBuilderBase{
     }
 
     @Override
+    @SuppressWarnings({"unchecked"})
     public void create(String recipeID, ItemStack outputStack) {
         Objects.requireNonNull(input, "Input symbol must not be null!");
         ((RecipeGroup<RecipeEntryFurnace>) RecipeBuilder.getRecipeGroup(modID, "furnace", new RecipeSymbol(Block.furnaceStoneActive.getDefaultStack())))

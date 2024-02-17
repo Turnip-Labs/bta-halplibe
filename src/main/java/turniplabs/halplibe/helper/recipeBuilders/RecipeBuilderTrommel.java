@@ -18,30 +18,35 @@ public class RecipeBuilderTrommel extends RecipeBuilderBase{
     public RecipeBuilderTrommel(String modID) {
         super(modID);
     }
-
+    @SuppressWarnings({"unused"})
     public RecipeBuilderTrommel setInput(IItemConvertible item){
         return setInput(item, 0);
     }
+    @SuppressWarnings({"unused"})
     public RecipeBuilderTrommel setInput(IItemConvertible item, int meta){
         return setInput(new ItemStack(item, 1, meta));
     }
+    @SuppressWarnings({"unused"})
     public RecipeBuilderTrommel setInput(ItemStack input){
         return setInput(new RecipeSymbol(input));
     }
+    @SuppressWarnings({"unused"})
     public RecipeBuilderTrommel setInput(String itemGroup){
         return setInput(new RecipeSymbol(itemGroup));
     }
+    @SuppressWarnings({"unused"})
     public RecipeBuilderTrommel setInput(RecipeSymbol input){
         RecipeBuilderTrommel builder = this.clone(this);
         builder.input = Objects.requireNonNull(input, "Input symbol must not be null!");
         return builder;
     }
+    @SuppressWarnings({"unused"})
     public RecipeBuilderTrommel addEntry(WeightedRandomLootObject lootObject, double weight){
         RecipeBuilderTrommel builder = this.clone(this);
         builder.bag.addEntry(lootObject, weight);
         return builder;
     }
-
+    @SuppressWarnings({"unused", "unchecked"})
     public void create(String recipeID) {
         Objects.requireNonNull(input, "Input symbol must not be null!");
         Objects.requireNonNull(bag, "Weighted Bag must not be null!");
@@ -50,6 +55,6 @@ public class RecipeBuilderTrommel extends RecipeBuilderBase{
     }
     @Override
     protected void create(String recipeID, ItemStack outputStack) {
-
+        // Standard create method doesn't apply to this class
     }
 }
