@@ -10,6 +10,8 @@ import org.lwjgl.opengl.GL11;
 import java.util.Random;
 
 public class VanillaAchievementsPage extends AchievementPage{
+    private static Block[] stoneOres = new Block[]{Block.oreCoalStone, Block.oreIronStone, Block.oreGoldStone, Block.oreDiamondStone, Block.oreRedstoneStone};
+    private static Block[] basaltOres = new Block[]{Block.oreCoalBasalt, Block.oreIronBasalt, Block.oreGoldBasalt, Block.oreDiamondBasalt, Block.oreRedstoneBasalt};
     public VanillaAchievementsPage() {
         super("Minecraft", "achievements.page.minecraft");
         achievementList.addAll(AchievementList.achievementList);
@@ -17,33 +19,40 @@ public class VanillaAchievementsPage extends AchievementPage{
 
     @Override
     public void getBackground(GuiAchievements guiAchievements, Random random, int iOffset, int jOffset, int blockX1, int blockY1, int blockX2, int blockY2) {
-        int l7 = 0;
-        while (l7 * 16 - blockY2 < 155) {
-            float f5 = 0.6f - (float)(blockY1 + l7) / 25.0f * 0.3f;
-            GL11.glColor4f(f5, f5, f5, 1.0f);
-            int i8 = 0;
-            while (i8 * 16 - blockX2 < 224) {
-                random.setSeed(1234 + blockX1 + i8);
+        int row = 0;
+        while (row * 16 - blockY2 < 155) {
+            float brightness = 0.6f - (float)(blockY1 + row) / 25.0f * 0.3f;
+            GL11.glColor4f(brightness, brightness, brightness, 1.0f);
+            int column = 0;
+            while (column * 16 - blockX2 < 224) {
+                random.setSeed(1234 + blockX1 + column);
                 random.nextInt();
-                int j8 = random.nextInt(1 + blockY1 + l7) + (blockY1 + l7) / 2;
-                int k8 = Block.sand.getBlockTextureFromSideAndMetadata(Side.BOTTOM, 0);
-                if (j8 > 37 || blockY1 + l7 == 35) {
-                    k8 = Block.bedrock.getBlockTextureFromSideAndMetadata(Side.BOTTOM, 0);
-                } else if (j8 == 22) {
-                    k8 = random.nextInt(2) == 0 ? Block.oreDiamondStone.getBlockTextureFromSideAndMetadata(Side.BOTTOM, 0) : Block.oreRedstoneStone.getBlockTextureFromSideAndMetadata(Side.BOTTOM, 0);
-                } else if (j8 == 10) {
-                    k8 = Block.oreIronStone.getBlockTextureFromSideAndMetadata(Side.BOTTOM, 0);
-                } else if (j8 == 8) {
-                    k8 = Block.oreCoalStone.getBlockTextureFromSideAndMetadata(Side.BOTTOM, 0);
-                } else if (j8 > 4) {
-                    k8 = Block.stone.getBlockTextureFromSideAndMetadata(Side.BOTTOM, 0);
-                } else if (j8 > 0) {
-                    k8 = Block.dirt.getBlockTextureFromSideAndMetadata(Side.BOTTOM, 0);
+                int randomY = random.nextInt(1 + blockY1 + row) + (blockY1 + row) / 2;
+                int texture = Block.sand.getBlockTextureFromSideAndMetadata(Side.BOTTOM, 0);
+                Block[] oreArray = stoneOres;
+                if (randomY >= 28 || blockY1 + row > 24) {
+                    oreArray = basaltOres;
                 }
-                guiAchievements.drawTexturedModalRect(iOffset + i8 * 16 - blockX2, jOffset + l7 * 16 - blockY2, k8 % Global.TEXTURE_ATLAS_WIDTH_TILES * TextureFX.tileWidthTerrain, k8 / Global.TEXTURE_ATLAS_WIDTH_TILES * TextureFX.tileWidthTerrain, 16, 16, TextureFX.tileWidthTerrain, 1.0f / (float)(Global.TEXTURE_ATLAS_WIDTH_TILES * TextureFX.tileWidthTerrain));
-                ++i8;
+                if (randomY > 37 || blockY1 + row == 35) {
+                    texture = Block.bedrock.getBlockTextureFromSideAndMetadata(Side.BOTTOM, 0);
+                } else if (randomY == 22) {
+                    texture = random.nextInt(2) == 0 ? oreArray[3].getBlockTextureFromSideAndMetadata(Side.BOTTOM, 0) : oreArray[4].getBlockTextureFromSideAndMetadata(Side.BOTTOM, 0);
+                } else if (randomY == 10) {
+                    texture = oreArray[1].getBlockTextureFromSideAndMetadata(Side.BOTTOM, 0);
+                } else if (randomY == 8) {
+                    texture = oreArray[0].getBlockTextureFromSideAndMetadata(Side.BOTTOM, 0);
+                } else if (randomY > 4) {
+                    texture = Block.stone.getBlockTextureFromSideAndMetadata(Side.BOTTOM, 0);
+                    if (randomY >= 28 || blockY1 + row > 24) {
+                        texture = Block.basalt.getBlockTextureFromSideAndMetadata(Side.BOTTOM, 0);
+                    }
+                } else if (randomY > 0) {
+                    texture = Block.dirt.getBlockTextureFromSideAndMetadata(Side.BOTTOM, 0);
+                }
+                guiAchievements.drawTexturedModalRect(iOffset + column * 16 - blockX2, jOffset + row * 16 - blockY2, texture % Global.TEXTURE_ATLAS_WIDTH_TILES * TextureFX.tileWidthTerrain, texture / Global.TEXTURE_ATLAS_WIDTH_TILES * TextureFX.tileWidthTerrain, 16, 16, TextureFX.tileWidthTerrain, 1.0f / (float)(Global.TEXTURE_ATLAS_WIDTH_TILES * TextureFX.tileWidthTerrain));
+                ++column;
             }
-            ++l7;
+            ++row;
         }
     }
 }
