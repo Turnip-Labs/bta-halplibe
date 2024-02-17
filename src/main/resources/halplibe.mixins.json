@@ -19,6 +19,7 @@
     "mixins.RegistryMixin",
     "mixins.TileEntityBlastFurnaceMixin",
     "mixins.TileEntityFurnaceMixin",
+    "mixins.commands.CommandsCoreMixin",
     "mixins.network.EntityTrackerEntryMixin",
     "mixins.network.NetworkManagerMixin",
     "mixins.network.PacketMixin",
@@ -38,13 +39,15 @@
     "mixins.network.MinecraftMixin",
     "mixins.network.NetClientHandlerMixin",
     "mixins.registry.MinecraftMixin",
-    "mixins.version.NetClientHandlerMixin"
+    "mixins.version.NetClientHandlerMixin",
+    "mixins.commands.CommandsClientMixin"
   ],
   "server": [
     "mixins.MinecraftServerMixin",
     "mixins.network.MinecraftServerMixin",
     "mixins.registry.MinecraftServerMixin",
-    "mixins.version.NetLoginHandlerMixin"
+    "mixins.version.NetLoginHandlerMixin",
+    "mixins.commands.CommandsServerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

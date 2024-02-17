@@ -56,7 +56,7 @@ public class ModVersionHelper {
      * @return Returns true only if the player is currently connected to a server.
      */
     public static boolean isClientOfServer(){
-        if (Global.isServer){
+        if (!HalpLibe.isClient){
             return false;
         }
         Minecraft mc = Minecraft.getMinecraft(Minecraft.class);

@@ -6,7 +6,10 @@ import turniplabs.halplibe.util.BlockCoords;
 import turniplabs.halplibe.util.ItemCoords;
 import turniplabs.halplibe.util.TextureHandler;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class TextureHelper {
     public static List<String> supportedImageFormats = new ArrayList<>();
@@ -98,5 +101,4 @@ public class TextureHelper {
     public static void addTextureToItems(String modId, String itemTexture, int x, int y) {
         textureHandlers.add(new TextureHandler("/gui/items.png", "/assets/" + modId + "/item/" + itemTexture, Block.texCoordToIndex(x, y), 16, 1));
     }
-
 }
