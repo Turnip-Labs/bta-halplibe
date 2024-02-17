@@ -21,15 +21,18 @@ public class TrommelModifier {
     private final WeightedRandomBag<WeightedRandomLootObject> trommelEntry;
     private final String key;
     private final String namespace;
+    @SuppressWarnings("unchecked")
     public TrommelModifier(String namespace, String key){
         this.key = key;
         this.namespace = namespace;
         trommelEntry = (WeightedRandomBag<WeightedRandomLootObject>) Objects.requireNonNull(RecipeBuilder.getRecipeGroup(namespace, "trommel", new RecipeSymbol(Block.trommelActive.getDefaultStack())).getItem(key), "Requested recipe " + (namespace + ":trommel/" + key) + " does not exist!").getOutput();
     }
+    @SuppressWarnings({"unchecked", "unused"})
     public void deleteRecipe(){
         RecipeGroup<RecipeEntryTrommel> recipeGroup = (RecipeGroup<RecipeEntryTrommel>) RecipeBuilder.getRecipeGroup(namespace, "trommel", new RecipeSymbol(Block.trommelActive.getDefaultStack()));
         ((IUnregister<RecipeEntryFurnace>)recipeGroup).bta_halplibe$unregister(key);
     }
+    @SuppressWarnings({"unused"})
     public TrommelModifier addEntry(WeightedRandomLootObject lootObject, double weight){
         trommelEntry.addEntry(lootObject, weight);
         return this;
@@ -39,12 +42,13 @@ public class TrommelModifier {
      * @param outputStack The stack the entries to be removed use
      * Deletes all entries matching the provided stack.
      */
+    @SuppressWarnings({"unused"})
     public TrommelModifier removeEntries(ItemStack outputStack){
         List<WeightedRandomBag<WeightedRandomLootObject>.Entry> outputs = new ArrayList<>(trommelEntry.getEntriesWithWeights());
-        for (WeightedRandomBag.Entry object : outputs){
-            WeightedRandomLootObject weightedObject = (WeightedRandomLootObject) object.getObject();
+        for (WeightedRandomBag<WeightedRandomLootObject>.Entry object : outputs){
+            WeightedRandomLootObject weightedObject = object.getObject();
             if (weightedObject.getItemStack().isItemEqual(outputStack)){
-                ((WeightedRandomBagAccessor)trommelEntry).getRawEntries().remove(object);
+                ((WeightedRandomBagAccessor<?>)trommelEntry).getRawEntries().remove(object);
             }
         }
         recalculateWeights();
@@ -54,12 +58,13 @@ public class TrommelModifier {
      * @param outputStack The stack the entry to be removed uses
      * Deletes the first entry matching the provided stack and weight.
      */
+    @SuppressWarnings({"unused"})
     public TrommelModifier removeEntry(ItemStack outputStack, double weight){
         List<WeightedRandomBag<WeightedRandomLootObject>.Entry> outputs = new ArrayList<>(trommelEntry.getEntriesWithWeights());
-        for (WeightedRandomBag.Entry object : outputs){
-            WeightedRandomLootObject weightedObject = (WeightedRandomLootObject) object.getObject();
+        for (WeightedRandomBag<WeightedRandomLootObject>.Entry object : outputs){
+            WeightedRandomLootObject weightedObject = object.getObject();
             if (weightedObject.getItemStack().isItemEqual(outputStack) && weight == object.getWeight()){
-                ((WeightedRandomBagAccessor)trommelEntry).getRawEntries().remove(object);
+                ((WeightedRandomBagAccessor<?>)trommelEntry).getRawEntries().remove(object);
                 break;
             }
         }
@@ -72,10 +77,11 @@ public class TrommelModifier {
      * @param oldWeight The weight the bag currently uses
      * @param newWeight The weight to replace the old weight with
      */
+    @SuppressWarnings({"unused"})
     public TrommelModifier setWeight(ItemStack outputStack, double oldWeight, double newWeight){
         List<WeightedRandomBag<WeightedRandomLootObject>.Entry> outputs = new ArrayList<>(trommelEntry.getEntriesWithWeights());
-        for (WeightedRandomBag.Entry object : outputs){
-            WeightedRandomLootObject weightedObject = (WeightedRandomLootObject) object.getObject();
+        for (WeightedRandomBag<WeightedRandomLootObject>.Entry object : outputs){
+            WeightedRandomLootObject weightedObject = object.getObject();
             if (weightedObject.getItemStack().isItemEqual(outputStack) && oldWeight == object.getWeight()){
                 ((WeightedRandomBagEntryAccessor)object).setWeight(newWeight);
                 break;
@@ -88,10 +94,11 @@ public class TrommelModifier {
      * @param outputStack The stack the entries to be modified uses
      * @param newWeight The weight to replace the old weight with
      */
+    @SuppressWarnings({"unused"})
     public TrommelModifier setWeights(ItemStack outputStack, double newWeight){
         List<WeightedRandomBag<WeightedRandomLootObject>.Entry> outputs = new ArrayList<>(trommelEntry.getEntriesWithWeights());
-        for (WeightedRandomBag.Entry object : outputs){
-            WeightedRandomLootObject weightedObject = (WeightedRandomLootObject) object.getObject();
+        for (WeightedRandomBag<WeightedRandomLootObject>.Entry object : outputs){
+            WeightedRandomLootObject weightedObject = object.getObject();
             if (weightedObject.getItemStack().isItemEqual(outputStack)){
                 ((WeightedRandomBagEntryAccessor)object).setWeight(newWeight);
             }
@@ -101,9 +108,9 @@ public class TrommelModifier {
     }
     protected void recalculateWeights(){
         double weight = 0;
-        for (WeightedRandomBag.Entry object : trommelEntry.getEntriesWithWeights()){
+        for (WeightedRandomBag<WeightedRandomLootObject>.Entry object : trommelEntry.getEntriesWithWeights()){
             weight += object.getWeight();
         }
-        ((WeightedRandomBagAccessor)trommelEntry).setAccumulatedWeight(weight);
+        ((WeightedRandomBagAccessor<?>)trommelEntry).setAccumulatedWeight(weight);
     }
 }

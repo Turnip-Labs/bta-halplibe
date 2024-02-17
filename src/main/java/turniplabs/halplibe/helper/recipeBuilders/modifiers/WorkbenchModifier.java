@@ -9,9 +9,11 @@ import turniplabs.halplibe.util.IUnregister;
 
 public class WorkbenchModifier {
     protected RecipeGroup<RecipeEntryCrafting<?, ?>> recipeGroup;
+    @SuppressWarnings({"unchecked", "unused"})
     public WorkbenchModifier(String namespace){
         recipeGroup = (RecipeGroup<RecipeEntryCrafting<?, ?>>) RecipeBuilder.getRecipeGroup(namespace, "workbench", new RecipeSymbol(Block.workbench.getDefaultStack()));
     }
+    @SuppressWarnings({"unchecked", "unused"})
     public WorkbenchModifier removeRecipe(String recipeID){
         ((IUnregister<RecipeEntryCrafting<?, ?>>)recipeGroup).bta_halplibe$unregister(recipeID);
         return this;

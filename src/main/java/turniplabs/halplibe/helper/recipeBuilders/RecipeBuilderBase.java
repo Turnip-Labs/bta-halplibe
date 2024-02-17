@@ -9,6 +9,7 @@ abstract class RecipeBuilderBase implements Cloneable {
     public RecipeBuilderBase(String modID){
         this.modID = Objects.requireNonNull(modID, "ModID must not be null!");
     }
+    @SuppressWarnings({"unchecked", "unused"})
     public <T> T clone(T object){
         return (T) clone();
     }
@@ -21,5 +22,6 @@ abstract class RecipeBuilderBase implements Cloneable {
             throw new AssertionError();
         }
     }
+    @SuppressWarnings({"unused"})
     protected abstract void create(String recipeID, ItemStack outputStack);
 }

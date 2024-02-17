@@ -66,37 +66,48 @@ public final class RecipeBuilder {
         namespace.register(key, group);
         return Objects.requireNonNull(group);
     }
+    @SuppressWarnings("unused")
     public static RecipeBuilderShaped Shaped(String modID){
         return new RecipeBuilderShaped(modID);
     }
+    @SuppressWarnings("unused")
     public static RecipeBuilderShaped Shaped(String modID, String... shape){
         return new RecipeBuilderShaped(modID, shape);
     }
+    @SuppressWarnings("unused")
     public static RecipeBuilderShapeless Shapeless(String modID){
         return new RecipeBuilderShapeless(modID);
     }
+    @SuppressWarnings("unused")
     public static RecipeBuilderFurnace Furnace(String modID){
         return new RecipeBuilderFurnace(modID);
     }
+    @SuppressWarnings("unused")
     public static RecipeBuilderBlastFurnace BlastFurnace(String modID){
         return new RecipeBuilderBlastFurnace(modID);
     }
+    @SuppressWarnings("unused")
     public static RecipeBuilderTrommel Trommel(String modID){
         return new RecipeBuilderTrommel(modID);
     }
+    @SuppressWarnings("unused")
     public static TrommelModifier ModifyTrommel(String namespace, String key){
         return new TrommelModifier(namespace, key);
     }
+    @SuppressWarnings("unused")
     public static WorkbenchModifier ModifyWorkbench(String namespace){
         return new WorkbenchModifier(namespace);
     }
+    @SuppressWarnings("unused")
     public static FurnaceModifier ModifyFurnace(String namespace){
         return new FurnaceModifier(namespace);
     }
+    @SuppressWarnings("unused")
     public static BlastFurnaceModifier ModifyBlastFurnace(String namespace){
         return new BlastFurnaceModifier(namespace);
     }
     public static boolean isExporting = false;
+    @SuppressWarnings("unchecked")
     public static void exportRecipes(){
         isExporting = true;
         Path filePath = Paths.get(Global.accessor.getMinecraftDir() + "/" + "recipeDump");
@@ -105,7 +116,7 @@ public final class RecipeBuilder {
         List<RecipeEntryBase<?, ?, ?>> recipes = Registries.RECIPES.getAllSerializableRecipes();
         GsonBuilder builder = new GsonBuilder();
         builder.setPrettyPrinting();
-        ArrayList usedAdapters = new ArrayList();
+        ArrayList<RecipeJsonAdapter<?>> usedAdapters = new ArrayList<>();
         for (RecipeEntryBase<?, ?, ?> recipe : recipes) {
             HasJsonAdapter hasJsonAdapter = (HasJsonAdapter) recipe;
             RecipeJsonAdapter<?> recipeJsonAdapter = hasJsonAdapter.getAdapter();
@@ -119,8 +130,8 @@ public final class RecipeBuilder {
         builder.registerTypeAdapter(WeightedRandomLootObject.class, new WeightedRandomLootObjectJsonAdapter());
         Gson gson = builder.create();
         JsonArray jsonArray = new JsonArray();
-        for (RecipeEntryBase recipeEntryBase : recipes) {
-            TypeAdapter<RecipeEntryBase> typeAdapter = (TypeAdapter<RecipeEntryBase>) gson.getAdapter(recipeEntryBase.getClass());
+        for (RecipeEntryBase<?, ?, ?> recipeEntryBase : recipes) {
+            TypeAdapter<RecipeEntryBase<?, ?, ?>> typeAdapter = (TypeAdapter<RecipeEntryBase<?, ?, ?>>) gson.getAdapter(recipeEntryBase.getClass());
             JsonElement json = typeAdapter.toJsonTree(recipeEntryBase);
             jsonArray.add(json);
         }

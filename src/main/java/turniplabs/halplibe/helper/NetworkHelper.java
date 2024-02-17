@@ -64,7 +64,6 @@ public class NetworkHelper {
 
     private static int latestId = 0;
     private static int lastPacket = 0;
-
     private static final Map<Integer, Class<? extends Packet>> map;
     private static final Method addMapping;
     static {

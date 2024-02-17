@@ -17,26 +17,32 @@ public class RecipeBuilderShapeless extends RecipeBuilderBase{
     public RecipeBuilderShapeless(String modID) {
         super(modID);
     }
+    @SuppressWarnings({"unused"})
     public RecipeBuilderShapeless addInput(IItemConvertible stack){
         return addInput(stack, 0);
     }
+    @SuppressWarnings({"unused"})
     public RecipeBuilderShapeless addInput(IItemConvertible stack, int meta){
         ItemStack _stack = stack.getDefaultStack();
         _stack.setMetadata(meta);
         return addInput(_stack);
     }
+    @SuppressWarnings({"unused"})
     public RecipeBuilderShapeless addInput(String itemGroup){
         return addInput(new RecipeSymbol(itemGroup));
     }
+    @SuppressWarnings({"unused"})
     public RecipeBuilderShapeless addInput(ItemStack stack){
         return addInput(new RecipeSymbol(stack));
     }
+    @SuppressWarnings({"unused"})
     public RecipeBuilderShapeless addInput(RecipeSymbol symbol){
         RecipeBuilderShapeless builder = this.clone(this);
         symbolShapelessList.add(symbol);
         return builder;
     }
     @Override
+    @SuppressWarnings({"unused", "unchecked"})
     public void create(String recipeID, ItemStack outputStack) {
         ((RecipeGroup<RecipeEntryCrafting<?, ?>>) RecipeBuilder.getRecipeGroup(modID, "workbench", new RecipeSymbol(Block.workbench.getDefaultStack())))
                 .register(recipeID, new RecipeEntryCraftingShapeless(symbolShapelessList, outputStack));
