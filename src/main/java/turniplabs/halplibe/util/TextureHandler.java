@@ -6,10 +6,6 @@ import net.minecraft.client.util.helper.Textures;
 import turniplabs.halplibe.helper.TextureHelper;
 
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.logging.Logger;
 
 import static turniplabs.halplibe.HalpLibe.CONFIG;
 import static turniplabs.halplibe.HalpLibe.LOGGER;
@@ -105,7 +101,7 @@ public class TextureHandler extends DynamicTexture {
 
     // Copied the old method from 7.0 since it was deleted in 7.1-pre1
     public static void transferPixel(byte[] array1, int i, byte[] array2, int j) {
-        array2[j * 4 + 0] = array1[i * 4 + 0];
+        array2[j * 4] = array1[i * 4];
         array2[j * 4 + 1] = array1[i * 4 + 1];
         array2[j * 4 + 2] = array1[i * 4 + 2];
         array2[j * 4 + 3] = array1[i * 4 + 3];

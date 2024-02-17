@@ -4,7 +4,6 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.fabricmc.loader.api.Version;
 import net.minecraft.client.Minecraft;
-import net.minecraft.core.Global;
 import turniplabs.halplibe.HalpLibe;
 import turniplabs.halplibe.util.version.EnumModList;
 import turniplabs.halplibe.util.version.ModInfo;
@@ -65,6 +64,7 @@ public class ModVersionHelper {
     /**
      * @return Returns true if the mod is present in the active mod list
      */
+    @SuppressWarnings("unused") // API function
     public static boolean isModPresent(String modIdToCheck){
         return isModPresent(modIdToCheck, EnumModList.ACTIVE);
     }
@@ -77,6 +77,7 @@ public class ModVersionHelper {
     /**
      * @return Returns 0 if versions match exactly, returns a positive integer when mod has a greater version number, returns a negative integer when a mod has a smaller version number, returns null if mod is not present or comparison fails.
      */
+    @SuppressWarnings("unused") // API function
     public static Integer isVersionPresent(String modIdToCheck, Version version){
         return isVersionPresent(modIdToCheck, version, EnumModList.ACTIVE);
     }

@@ -36,6 +36,7 @@ public class ArmorHelper {
      * @param fire        fire damage reduction in percent
      * @param fall        fall damage reduction in percent
      */
+    @SuppressWarnings("unused") // API function
     public static ArmorMaterial createArmorMaterial(String modId, String name, int durability, float combat, float blast, float fire, float fall) {
         ArmorMaterial armorMaterial = new ArmorMaterial(name, ArmorMaterial.getArmorMaterials().size()-1, durability)
                 .withProtectionPercentage(DamageType.COMBAT, combat)

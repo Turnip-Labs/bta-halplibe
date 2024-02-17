@@ -56,9 +56,6 @@ public class HalpLibe implements ModInitializer, PreLaunchEntrypoint {
         ModVersionHelper.initialize();
     }
     public static final AchievementPage VANILLA_ACHIEVEMENTS = new VanillaAchievementsPage();
-    public static String addModId(String modId, String name) {
-        return modId + "." + name;
-    }
     public static HashMap<String, Integer> itemKeyToIdMap = new HashMap<>();
     public static int getTrueItemOrBlockId(String key){
         // This all exists since the item key to id maps are somewhat unreliable due to blocks having their keys remapped after creation

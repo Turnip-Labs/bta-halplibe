@@ -10,7 +10,6 @@ import java.util.Map;
 
 @Mixin(value = EntityRenderDispatcher.class, remap = false)
 public interface RenderManagerAccessor {
-
     @Accessor("renderers")
     Map<Class<? extends Entity>, EntityRenderer<?>> getEntityRenderMap();
 }
