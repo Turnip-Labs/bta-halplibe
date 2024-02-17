@@ -1,15 +1,26 @@
 package turniplabs.halplibe;
 
+import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.entrypoint.PreLaunchEntrypoint;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.Global;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemArmor;
 import net.minecraft.core.item.material.ArmorMaterial;
+import net.minecraft.core.net.command.ClientCommand;
+import net.minecraft.core.net.command.Command;
+import net.minecraft.core.net.command.CommandHandler;
+import net.minecraft.core.net.command.CommandSender;
+import net.minecraft.core.net.command.ServerCommand;
+import net.minecraft.core.net.command.commands.ClearCommand;
+import net.minecraft.server.MinecraftServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import turniplabs.halplibe.helper.*;
+import turniplabs.halplibe.util.GameStartEntrypoint;
 import turniplabs.halplibe.util.TomlConfigHandler;
 import turniplabs.halplibe.util.achievements.AchievementPage;
 import turniplabs.halplibe.util.achievements.VanillaAchievementsPage;
@@ -19,9 +30,10 @@ import turniplabs.halplibe.util.version.PacketModList;
 
 import java.util.HashMap;
 
-public class HalpLibe implements ModInitializer, PreLaunchEntrypoint{
+public class HalpLibe implements ModInitializer, PreLaunchEntrypoint {
     public static final String MOD_ID = "halplibe";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+    public static boolean isClient = FabricLoader.getInstance().getEnvironmentType().equals(EnvType.CLIENT);
     public static boolean sendModlist;
     public static boolean exportRecipes;
     public static boolean compatibilityMode;
