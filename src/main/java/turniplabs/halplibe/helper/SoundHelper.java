@@ -17,7 +17,7 @@ public class SoundHelper {
     public static final File streamingDirectory;
     public static final File caveMusicDirectory;
     static {
-        if (Global.isServer){
+        if (!HalpLibe.isClient){
             appDirectory = null;
             soundDirectory = null;
             musicDirectory = null;
@@ -121,7 +121,10 @@ public class SoundHelper {
          * Place mod sounds in the <i>assets/modId/cavemusic/</i> directory for them to be seen.
          */
         public static void addCaveMusic(String MOD_ID, String soundSource){
-            if (appDirectory == null) return;
+            if (appDirectory == null) {
+                HalpLibe.LOGGER.warn("Resource directory cannot be found, function is only intended to be ran on the Client!");
+                return;
+            }
             String destination = caveMusicDirectory.getPath();
             String source = ("/assets/" + MOD_ID + "/cavemusic/" + soundSource).replace("//", "/").trim();
             HalpLibe.LOGGER.info("File source: " + source);
@@ -133,7 +136,10 @@ public class SoundHelper {
          * Place mod sounds in the <i>assets/modId/streaming/</i> directory for them to be seen.
          */
         public static void addStreaming(String MOD_ID, String soundSource){
-            if (appDirectory == null) return;
+            if (appDirectory == null) {
+                HalpLibe.LOGGER.warn("Resource directory cannot be found, function is only intended to be ran on the Client!");
+                return;
+            }
             String destination = streamingDirectory.getPath();
             String source = ("/assets/" + MOD_ID + "/streaming/" + soundSource).replace("//", "/").trim();
             HalpLibe.LOGGER.info("File source: " + source);
@@ -145,7 +151,10 @@ public class SoundHelper {
          * Place mod sounds in the <i>assets/modId/music/</i> directory for them to be seen.
          */
         public static void addMusic(String MOD_ID, String soundSource){
-            if (appDirectory == null) return;
+            if (appDirectory == null) {
+                HalpLibe.LOGGER.warn("Resource directory cannot be found, function is only intended to be ran on the Client!");
+                return;
+            }
             String destination = musicDirectory.getPath();
             String source = ("/assets/" + MOD_ID + "/music/" + soundSource).replace("//", "/").trim();
             HalpLibe.LOGGER.info("File source: " + source);
@@ -157,7 +166,10 @@ public class SoundHelper {
          * Place mod sounds in the <i>assets/modId/sound/</i> directory for them to be seen.
          */
         public static void addSound(String MOD_ID, String soundSource){
-            if (appDirectory == null) return;
+            if (appDirectory == null) {
+                HalpLibe.LOGGER.warn("Resource directory cannot be found, function is only intended to be ran on the Client!");
+                return;
+            }
             String destination = soundDirectory + ("/" + MOD_ID + "/").replace("//", "/");
             String source = ("/assets/" + MOD_ID + "/sound/" + soundSource).replace("//", "/").trim();
             HalpLibe.LOGGER.info("File source: " + source);
