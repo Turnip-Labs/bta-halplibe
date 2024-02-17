@@ -52,6 +52,7 @@ public class IdSupplier {
      *
      * @return the id
      */
+    @SuppressWarnings("unused")
     public int next() {
         Reservation workingIn = cfg.reservations[reservationId];
         if (
@@ -137,6 +138,7 @@ public class IdSupplier {
      *
      * @param amount the amount of ids to ensure
      */
+    @SuppressWarnings("unused")
     public void ensureFree(int amount) {
         Reservation workingIn = cfg.reservations[reservationId];
         if (workingIn.reserved) return;

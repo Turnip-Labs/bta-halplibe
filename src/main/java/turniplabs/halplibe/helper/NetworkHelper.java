@@ -67,12 +67,10 @@ public class NetworkHelper {
 
     private static final Map<Integer, Class<? extends Packet>> map;
     private static final Method addMapping;
-
     static {
         try {
             Field f = Packet.class.getDeclaredField("packetIdToClassMap");
             f.setAccessible(true);
-
             map = (Map<Integer, Class<? extends Packet>>) f.get(null);
             for (Integer integer : map.keySet())
                 lastPacket = Math.max(integer, lastPacket);

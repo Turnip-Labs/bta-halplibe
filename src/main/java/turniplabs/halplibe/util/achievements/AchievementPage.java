@@ -1,9 +1,7 @@
 package turniplabs.halplibe.util.achievements;
 
 import net.minecraft.core.achievement.Achievement;
-import net.minecraft.core.item.Item;
 import net.minecraft.core.lang.I18n;
-import turniplabs.halplibe.HalpLibe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +13,7 @@ public abstract class AchievementPage {
     public List<Achievement> achievementList = new ArrayList<>();
     public int minX;
     public int minY;
-    public int maxx;
+    public int maxX;
     public int maxY;
 
     public AchievementPage(String name, String descriptionKey) {

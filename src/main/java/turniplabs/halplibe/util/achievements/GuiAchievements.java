@@ -25,10 +25,10 @@ import java.util.Objects;
 import java.util.Random;
 
 public class GuiAchievements extends GuiScreen {
-    private static int left;
-    private static int top;
-    private static int right;
-    private static int bottom;
+    private static int top = AchievementList.minY * 24 - 112;
+    private static int left = AchievementList.minX * 24 - 112; //- 112
+    private static int bottom = AchievementList.maxY * 24 - 77;
+    private static int right = AchievementList.maxX * 24 - 77; //- 77
     protected int windowWidth = 256;
     protected int windowHeight = 202;
     protected int mouseX = 0;
@@ -318,12 +318,5 @@ public class GuiAchievements extends GuiScreen {
             GL11.glEnable(2896);
             Lighting.disable();
         }
-    }
-
-    static {
-        top = AchievementList.minY * 24 - 112;
-        left = AchievementList.minX * 24 - 112; //- 112
-        bottom = AchievementList.maxY * 24 - 77;
-        right = AchievementList.maxX * 24 - 77; //- 77
     }
 }

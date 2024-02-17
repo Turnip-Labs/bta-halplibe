@@ -25,6 +25,7 @@ public class CommandsClientMixin {
     private static void addClientCommands(Minecraft minecraft, CallbackInfo ci) throws NoSuchFieldException, IllegalAccessException {
         Field field = CommandHelper.class.getDeclaredField("clientCommands");
         field.setAccessible(true);
+        @SuppressWarnings("unchecked")
         List<Function<AtomicReference<Minecraft>, Command>> clientCommands = (List<Function<AtomicReference<Minecraft>, Command>>) field.get(CommandHelper.class);
         field.setAccessible(false);
         for (Function<AtomicReference<Minecraft>, Command> f : clientCommands){

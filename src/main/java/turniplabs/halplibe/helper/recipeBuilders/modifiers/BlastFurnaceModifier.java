@@ -9,9 +9,11 @@ import turniplabs.halplibe.util.IUnregister;
 
 public class BlastFurnaceModifier {
     protected RecipeGroup<RecipeEntryBlastFurnace> recipeGroup;
+    @SuppressWarnings("unchecked")
     public BlastFurnaceModifier(String namespace){
         recipeGroup = (RecipeGroup<RecipeEntryBlastFurnace>) RecipeBuilder.getRecipeGroup(namespace, "blast_furnace", new RecipeSymbol(Block.furnaceBlastActive.getDefaultStack()));
     }
+    @SuppressWarnings({"unchecked", "unused"})
     public BlastFurnaceModifier removeRecipe(String recipeID){
         ((IUnregister<RecipeEntryBlastFurnace>)recipeGroup).unregister(recipeID);
         return this;
