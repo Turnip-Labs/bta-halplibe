@@ -19,7 +19,7 @@ import java.lang.reflect.Method;
 @Mixin(value = NetClientHandler.class, remap = false)
 public abstract class NetClientHandlerMixin extends NetHandler implements IVersionPackets {
     @Unique
-    public void bta_halplibe$handleModList(PacketModList packetModList) {
+    public void halplibe$handleModList(PacketModList packetModList) {
         try {
             Method m = ModVersionHelper.class.getDeclaredMethod("handleModListPacket", PacketModList.class);
             m.setAccessible(true);

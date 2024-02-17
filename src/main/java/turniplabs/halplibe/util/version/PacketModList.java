@@ -43,7 +43,7 @@ public class PacketModList extends Packet {
 
     @Override
     public void processPacket(NetHandler netHandler) {
-        ((IVersionPackets)netHandler).bta_halplibe$handleModList(this);
+        ((IVersionPackets)netHandler).halplibe$handleModList(this);
     }
 
     @Override
