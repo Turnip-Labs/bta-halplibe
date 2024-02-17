@@ -19,7 +19,7 @@ abstract public class PlayerRendererMixin extends LivingRenderer<EntityPlayer> {
     }
 
     @ModifyArg(method = "setArmorModel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/entity/PlayerRenderer;loadTexture(Ljava/lang/String;)V", ordinal = 3))
-    private String changeTexturePath(String vanillaTexturePath, @Local(ordinal = 0) ItemArmor itemArmor, @Local(ordinal = 0) int renderPass) {
+    private String changeTexturePath(String vanillaTexturePath, @Local(ordinal = 0) ItemArmor itemArmor, @Local(ordinal = 0, argsOnly = true) int renderPass) {
         String modId = ((ArmorMaterialMixinInterface) itemArmor.material).halplibe$getModId();
         if (modId == null) {
             return vanillaTexturePath;
