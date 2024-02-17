@@ -15,7 +15,7 @@ public class FurnaceModifier {
     }
     @SuppressWarnings({"unchecked", "unused"})
     public FurnaceModifier removeRecipe(String recipeID){
-        ((IUnregister<RecipeEntryFurnace>)recipeGroup).unregister(recipeID);
+        ((IUnregister<RecipeEntryFurnace>)recipeGroup).bta_halplibe$unregister(recipeID);
         return this;
     }
 }

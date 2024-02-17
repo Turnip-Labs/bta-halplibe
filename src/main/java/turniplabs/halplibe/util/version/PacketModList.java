@@ -11,8 +11,9 @@ import java.util.List;
 
 public class PacketModList extends Packet {
     public List<ModInfo> modInfos = new ArrayList<>();
+    @SuppressWarnings("unused")
     public PacketModList(){
-
+        // This needs to exist because BTA uses this constructor when a packet is received
     }
     public PacketModList(List<ModInfo> modInfos){
         this.modInfos = modInfos;
@@ -42,7 +43,7 @@ public class PacketModList extends Packet {
 
     @Override
     public void processPacket(NetHandler netHandler) {
-        ((IVersionPackets)netHandler).handleModList(this);
+        ((IVersionPackets)netHandler).bta_halplibe$handleModList(this);
     }
 
     @Override

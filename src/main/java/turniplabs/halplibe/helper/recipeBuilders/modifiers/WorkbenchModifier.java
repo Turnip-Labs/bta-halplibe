@@ -13,7 +13,7 @@ public class WorkbenchModifier {
         recipeGroup = (RecipeGroup<RecipeEntryCrafting<?, ?>>) RecipeBuilder.getRecipeGroup(namespace, "workbench", new RecipeSymbol(Block.workbench.getDefaultStack()));
     }
     public WorkbenchModifier removeRecipe(String recipeID){
-        ((IUnregister<RecipeEntryCrafting<?, ?>>)recipeGroup).unregister(recipeID);
+        ((IUnregister<RecipeEntryCrafting<?, ?>>)recipeGroup).bta_halplibe$unregister(recipeID);
         return this;
     }
 }

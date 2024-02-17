@@ -3,7 +3,6 @@ package turniplabs.halplibe.mixin.mixins;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import net.minecraft.core.block.Block;
 import net.minecraft.core.data.registry.recipe.adapter.ItemStackJsonAdapter;
 import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemStack;

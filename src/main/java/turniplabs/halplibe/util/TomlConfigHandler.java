@@ -12,7 +12,7 @@ public class TomlConfigHandler {
     private final Toml defaults;
     private final Toml config;
     private Toml rawParsed;
-    private String configFileName = "";
+    private String configFileName;
 
     private ConfigUpdater updater;
 

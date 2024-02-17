@@ -1,10 +1,12 @@
 package turniplabs.halplibe.helper;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.core.Global;
 import turniplabs.halplibe.HalpLibe;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.util.Hashtable;
 

@@ -12,7 +12,7 @@ public abstract class NetHandlerMixin implements IVersionPackets {
     @Shadow public abstract void handleInvalidPacket(Packet packet);
 
     @Unique
-    public void handleModList(PacketModList packetModList) {
+    public void bta_halplibe$handleModList(PacketModList packetModList) {
         handleInvalidPacket(packetModList);
     }
 }

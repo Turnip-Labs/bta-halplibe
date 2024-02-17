@@ -40,11 +40,6 @@ public class TextureHelper {
         textureAtlasWidths.put("/gui/items.png", Global.TEXTURE_ATLAS_WIDTH_TILES);
     }
 
-    @Deprecated
-    public static int[] registerBlockTexture(String modId, String blockTexture) {
-        return getOrCreateBlockTexture(modId, blockTexture);
-    }
-
     /**
      * Place mod textures in the <i>assets/modId/block/</i> directory for them to be seen.
      */
@@ -59,17 +54,14 @@ public class TextureHelper {
         addTextureToTerrain(modId, blockTexture, newCoords[0], newCoords[1]);
         return newCoords;
     }
+
     /**
      * Place mod textures in the <i>assets/modId/block/</i> directory for them to be seen.
      */
+    @SuppressWarnings("unused") // API function
     public static int getOrCreateBlockTextureIndex(String modId, String blockTexture){
         int[] tex = getOrCreateBlockTexture(modId, blockTexture);
         return Block.texCoordToIndex(tex[0], tex[1]);
-    }
-
-    @Deprecated
-    public static int[] registerItemTexture(String modId, String itemTexture) {
-        return getOrCreateItemTexture(modId, itemTexture);
     }
 
     /**
@@ -89,6 +81,7 @@ public class TextureHelper {
     /**
      * Place mod textures in the <i>assets/modId/item/</i> directory for them to be seen.
      */
+    @SuppressWarnings("unused") // API function
     public static int getOrCreateItemTextureIndex(String modId, String itemTexture){
         int[] tex = getOrCreateItemTexture(modId, itemTexture);
         return Block.texCoordToIndex(tex[0], tex[1]);

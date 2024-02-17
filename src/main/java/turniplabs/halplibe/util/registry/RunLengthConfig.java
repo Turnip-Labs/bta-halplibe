@@ -3,7 +3,6 @@ package turniplabs.halplibe.util.registry;
 import turniplabs.halplibe.util.toml.Toml;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class RunLengthConfig {

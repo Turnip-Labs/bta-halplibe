@@ -18,21 +18,21 @@ import java.util.List;
 public class TileEntityFurnaceMixin {
     @Shadow protected ItemStack[] furnaceItemStacks;
     @Redirect(method = "canSmelt()Z", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/data/registry/recipe/RecipeRegistry;getGroupFromKey(Ljava/lang/String;)Lnet/minecraft/core/data/registry/recipe/RecipeGroup;"))
-    private RecipeGroup canSmeltFake(RecipeRegistry instance, String e){
-        RecipeGroup group = groupEmulator();
+    private RecipeGroup<RecipeEntryFurnace> canSmeltFake(RecipeRegistry instance, String e){
+        RecipeGroup<RecipeEntryFurnace> group = groupEmulator();
         if (group != null) return groupEmulator();
         return instance.getGroupFromKey(e);
     }
     @Redirect(method = "smeltItem()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/data/registry/recipe/RecipeRegistry;getGroupFromKey(Ljava/lang/String;)Lnet/minecraft/core/data/registry/recipe/RecipeGroup;"))
-    private RecipeGroup doSmeltFake(RecipeRegistry instance, String e){
-        RecipeGroup group = groupEmulator();
+    private RecipeGroup<RecipeEntryFurnace> doSmeltFake(RecipeRegistry instance, String e){
+        RecipeGroup<RecipeEntryFurnace> group = groupEmulator();
         if (group != null) return groupEmulator();
         return instance.getGroupFromKey(e);
     }
 
     @Unique
-    private RecipeGroup<?> groupEmulator(){
-        RecipeGroup group = new RecipeGroup<>(null);
+    private RecipeGroup<RecipeEntryFurnace>groupEmulator(){
+        RecipeGroup<RecipeEntryFurnace> group = new RecipeGroup<>(null);
         RecipeEntryFurnace entryFurnace = getMatchingRecipe();
         if (entryFurnace == null) return null;
         group.register("don'tCareLol", getMatchingRecipe());

@@ -7,9 +7,9 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 import java.util.List;
 
 @Mixin(value = WeightedRandomBag.class, remap = false)
-public interface WeightedRandomBagAccessor {
+public interface WeightedRandomBagAccessor<T> {
     @Accessor("entries")
-    List<WeightedRandomBag.Entry> getRawEntries();
+    List<WeightedRandomBag<T>.Entry> getRawEntries();
     @Accessor
     double getAccumulatedWeight();
     @Accessor("accumulatedWeight")

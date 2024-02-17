@@ -1,8 +1,6 @@
 package turniplabs.halplibe.util;
 
-import org.spongepowered.asm.mixin.Unique;
-
 public interface IUnregister<T> {
-    void unregister(String key);
-    void unregister(T object);
+    void bta_halplibe$unregister(String key);
+    void bta_halplibe$unregister(T object);
 }

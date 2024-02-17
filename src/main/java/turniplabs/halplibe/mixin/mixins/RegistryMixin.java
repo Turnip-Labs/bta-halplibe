@@ -21,14 +21,14 @@ public abstract class RegistryMixin<T> implements IUnregister<T> {
     @Shadow @Final private Map<T, String> itemKeyMap;
 
     @Unique
-    public void unregister(String key){
+    public void bta_halplibe$unregister(String key){
         T object = getItem(key);
         items.remove(object);
         keyItemMap.remove(key);
         itemKeyMap.remove(object);
     }
     @Unique
-    public void unregister(T object){
-        unregister(itemKeyMap.get(object));
+    public void bta_halplibe$unregister(T object){
+        bta_halplibe$unregister(itemKeyMap.get(object));
     }
 }

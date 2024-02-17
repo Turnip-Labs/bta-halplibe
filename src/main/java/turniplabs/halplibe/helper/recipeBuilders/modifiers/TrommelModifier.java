@@ -28,7 +28,7 @@ public class TrommelModifier {
     }
     public void deleteRecipe(){
         RecipeGroup<RecipeEntryTrommel> recipeGroup = (RecipeGroup<RecipeEntryTrommel>) RecipeBuilder.getRecipeGroup(namespace, "trommel", new RecipeSymbol(Block.trommelActive.getDefaultStack()));
-        ((IUnregister<RecipeEntryFurnace>)recipeGroup).unregister(key);
+        ((IUnregister<RecipeEntryFurnace>)recipeGroup).bta_halplibe$unregister(key);
     }
     public TrommelModifier addEntry(WeightedRandomLootObject lootObject, double weight){
         trommelEntry.addEntry(lootObject, weight);

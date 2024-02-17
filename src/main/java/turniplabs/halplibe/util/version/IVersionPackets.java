@@ -1,5 +1,5 @@
 package turniplabs.halplibe.util.version;
-
+@FunctionalInterface
 public interface IVersionPackets {
-    void handleModList(PacketModList packetModList);
+    void bta_halplibe$handleModList(PacketModList packetModList);
 }

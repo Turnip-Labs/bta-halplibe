@@ -72,6 +72,7 @@ public class EntityHelper {
             entityRenderMap.put(clazz, renderer);
             renderer.setRenderDispatcher(EntityRenderDispatcher.instance);
         }
+        @SuppressWarnings("unused") // API function
         public static void assignTileEntityRenderer(Class<? extends TileEntity> clazz, TileEntityRenderer<?> renderer){
             Map<Class<? extends TileEntity>, TileEntityRenderer<?>> specialRendererMap = ((TileEntityRendererAccessor) TileEntityRenderDispatcher.instance).getSpecialRendererMap();
             specialRendererMap.put(clazz, renderer);

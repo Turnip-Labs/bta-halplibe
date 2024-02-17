@@ -36,7 +36,7 @@ public abstract class I18nMixin {
         }
 
         try {
-            URI uri = I18n.class.getResource(directory).toURI();
+            URI uri = Objects.requireNonNull(I18n.class.getResource(directory)).toURI();
             FileSystem fileSystem = null;
             Path myPath;
             if (uri.getScheme().equals("jar")) {
