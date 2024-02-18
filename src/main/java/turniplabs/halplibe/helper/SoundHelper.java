@@ -2,6 +2,7 @@ package turniplabs.halplibe.helper;
 
 import net.minecraft.client.Minecraft;
 import turniplabs.halplibe.HalpLibe;
+import turniplabs.halplibe.util.DirectoryManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -128,7 +129,7 @@ public class SoundHelper {
                 return;
             }
             String destination = caveMusicDirectory.getPath();
-            String source = ("/assets/" + MOD_ID + "/cavemusic/" + soundSource).replace("//", "/").trim();
+            String source = (DirectoryManager.getCaveMusicDirectory(MOD_ID) + soundSource).replace("//", "/").trim();
             HalpLibe.LOGGER.info("File source: " + source);
             HalpLibe.LOGGER.info("File destination: " + destination);
 
@@ -143,7 +144,7 @@ public class SoundHelper {
                 return;
             }
             String destination = streamingDirectory.getPath();
-            String source = ("/assets/" + MOD_ID + "/streaming/" + soundSource).replace("//", "/").trim();
+            String source = (DirectoryManager.getStreamingDirectory(MOD_ID) + soundSource).replace("//", "/").trim();
             HalpLibe.LOGGER.info("File source: " + source);
             HalpLibe.LOGGER.info("File destination: " + destination);
 
@@ -158,7 +159,7 @@ public class SoundHelper {
                 return;
             }
             String destination = musicDirectory.getPath();
-            String source = ("/assets/" + MOD_ID + "/music/" + soundSource).replace("//", "/").trim();
+            String source = (DirectoryManager.getMusicDirectory(MOD_ID) + soundSource).replace("//", "/").trim();
             HalpLibe.LOGGER.info("File source: " + source);
             HalpLibe.LOGGER.info("File destination: " + destination);
 
@@ -173,7 +174,7 @@ public class SoundHelper {
                 return;
             }
             String destination = soundDirectory + ("/" + MOD_ID + "/").replace("//", "/");
-            String source = ("/assets/" + MOD_ID + "/sound/" + soundSource).replace("//", "/").trim();
+            String source = (DirectoryManager.getSoundDirectory(MOD_ID) + soundSource).replace("//", "/").trim();
             HalpLibe.LOGGER.info("File source: " + source);
             HalpLibe.LOGGER.info("File destination: " + destination);
 

@@ -89,6 +89,6 @@ public class HalpLibe implements ModInitializer, PreLaunchEntrypoint {
     @Override
     public void onPreLaunch() {
         // Initializes halp statics first
-        NetworkHelper.register(PacketModList.class, false, true);
+        NetworkHelper.register(PacketModList.class, false, true); // Register Halplibe packets first
     }
 }
