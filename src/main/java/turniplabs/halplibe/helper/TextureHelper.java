@@ -3,6 +3,7 @@ package turniplabs.halplibe.helper;
 import net.minecraft.core.Global;
 import net.minecraft.core.block.Block;
 import turniplabs.halplibe.util.BlockCoords;
+import turniplabs.halplibe.util.DirectoryManager;
 import turniplabs.halplibe.util.ItemCoords;
 import turniplabs.halplibe.util.TextureHandler;
 
@@ -88,10 +89,10 @@ public class TextureHelper {
     }
 
     public static void addTextureToTerrain(String modId, String blockTexture, int x, int y) {
-        textureHandlers.add(new TextureHandler("/terrain.png", "/assets/" + modId + "/block/" + blockTexture, Block.texCoordToIndex(x, y), 16, 1));
+        textureHandlers.add(new TextureHandler("/terrain.png", DirectoryManager.getBlockTextureDirectory(modId) + blockTexture, Block.texCoordToIndex(x, y), 16, 1));
     }
 
     public static void addTextureToItems(String modId, String itemTexture, int x, int y) {
-        textureHandlers.add(new TextureHandler("/gui/items.png", "/assets/" + modId + "/item/" + itemTexture, Block.texCoordToIndex(x, y), 16, 1));
+        textureHandlers.add(new TextureHandler("/gui/items.png", DirectoryManager.getItemTextureDirectory(modId) + itemTexture, Block.texCoordToIndex(x, y), 16, 1));
     }
 }

@@ -11,6 +11,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import turniplabs.halplibe.HalpLibe;
 import turniplabs.halplibe.util.ArmorMaterialMixinInterface;
+import turniplabs.halplibe.util.DirectoryManager;
 
 @Mixin(value = PlayerRenderer.class, remap = false)
 abstract public class PlayerRendererMixin extends LivingRenderer<EntityPlayer> {
@@ -25,7 +26,7 @@ abstract public class PlayerRendererMixin extends LivingRenderer<EntityPlayer> {
             return vanillaTexturePath;
         }
 
-        String path = "/assets/" + modId + "/armor/" + itemArmor.material.name + "_" + (renderPass != 2 ? 1 : 2) + ".png";
+        String path = DirectoryManager.getArmorDirectory(modId) + itemArmor.material.name + "_" + (renderPass != 2 ? 1 : 2) + ".png";
         HalpLibe.LOGGER.info(path);
         return path;
     }

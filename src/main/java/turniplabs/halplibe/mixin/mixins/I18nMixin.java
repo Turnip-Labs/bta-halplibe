@@ -12,6 +12,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import turniplabs.halplibe.HalpLibe;
 import turniplabs.halplibe.mixin.accessors.LanguageAccessor;
+import turniplabs.halplibe.util.DirectoryManager;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -101,9 +102,10 @@ public abstract class I18nMixin {
         String currentLangId = currentLanguage.getId();
         HalpLibe.LOGGER.debug("Current lang: " + currentLangId);
         for (ModContainer mod : FabricLoader.getInstance().getAllMods()) {
-            String[] rootLangs = filesInDir("/lang/" + mod.getMetadata().getId() + "/");
-            String[] subCurrentLangs = filesInDir("/lang/" + mod.getMetadata().getId() + "/" + currentLangId + "/");
-            String[] subDefaultLangs = filesInDir("/lang/" + mod.getMetadata().getId() + "/" + defaultLangId + "/");
+            String path = DirectoryManager.getLanguageDirectory(mod.getMetadata().getId());
+            String[] rootLangs = filesInDir(path);
+            String[] subCurrentLangs = filesInDir(path + currentLangId + "/");
+            String[] subDefaultLangs = filesInDir(path + defaultLangId + "/");
             HalpLibe.LOGGER.debug(mod.getMetadata().getId() + " contains " + rootLangs.length + subDefaultLangs.length + subCurrentLangs.length + " language files.");
             HalpLibe.LOGGER.debug(Arrays.toString(rootLangs));
             HalpLibe.LOGGER.debug(Arrays.toString(subCurrentLangs));
