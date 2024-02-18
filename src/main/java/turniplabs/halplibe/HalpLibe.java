@@ -106,6 +106,10 @@ public class HalpLibe implements ModInitializer, PreLaunchEntrypoint {
         CreativeHelper.setPriority(Item.dustRedstone, 998);
         CreativeHelper.setPriority(Item.dustGlowstone, 998);
         CreativeHelper.setPriority(Item.dustSugar, 998);
+
+        CreativeHelper.setParent(Item.seat, Item.toolHoeSteel);
+        CreativeHelper.setParent(Item.basket, Item.seat);
+        CreativeHelper.setParent(Item.armorChestplateDiamond, Item.basket);
     }
 
     @Override

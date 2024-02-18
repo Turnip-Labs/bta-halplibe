@@ -1,5 +1,6 @@
 package turniplabs.halplibe.mixin.mixins;
 
+import com.google.common.collect.Lists;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.player.inventory.ContainerPlayerCreative;
@@ -8,9 +9,11 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import turniplabs.halplibe.HalpLibe;
 import turniplabs.halplibe.util.CreativeEntry;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,7 +28,7 @@ public class ContainerPlayerCreativeMixin {
         List<ItemStack> trimmedList = new ArrayList<>(creativeItems);
         List<ItemStack> newList = new ArrayList<>();
         for (ItemStack stack : creativeItems){
-            if (CreativeEntry.entryMap.containsKey(stack.toString())){
+            if (CreativeEntry.priorityEntryMap.containsKey(stack.toString()) || CreativeEntry.childEntryMap.containsKey(stack.toString())){
                 trimmedList.remove(stack);
             }
         }
@@ -41,15 +44,15 @@ public class ContainerPlayerCreativeMixin {
             }
         }
 
-        List<CreativeEntry> entries = CreativeEntry.entryMap.values().stream().sorted().collect(Collectors.toList());
+        List<CreativeEntry> entries = CreativeEntry.priorityEntryMap.values().stream().sorted().collect(Collectors.toList());
         boolean hasAddedVanillaBlocks = false;
         for (CreativeEntry entry : entries){
-            if (entry.itemStack.itemID < Block.blocksList.length){
+            if (entry.stackToAdd.itemID < Block.blocksList.length){
                 if (entry.priority > 1000 && !hasAddedVanillaBlocks){
                     hasAddedVanillaBlocks = true;
                     newList.addAll(trimmedBlocks);
                 }
-                newList.add(entry.itemStack);
+                newList.add(entry.stackToAdd);
             }
         }
         if (!hasAddedVanillaBlocks){
@@ -58,16 +61,33 @@ public class ContainerPlayerCreativeMixin {
 
         boolean hasAddedVanillaItems = false;
         for (CreativeEntry entry : entries){
-            if (entry.itemStack.itemID >= Block.blocksList.length){
+            if (entry.stackToAdd.itemID >= Block.blocksList.length){
                 if (entry.priority > 1000 && !hasAddedVanillaItems){
                     hasAddedVanillaItems = true;
                     newList.addAll(trimmedItems);
                 }
-                newList.add(entry.itemStack);
+                newList.add(entry.stackToAdd);
             }
         }
         if (!hasAddedVanillaItems){
             newList.addAll(trimmedItems);
+        }
+
+        List<CreativeEntry> entriesChild = Lists.reverse(new ArrayList<>(CreativeEntry.childEntryMap.values()));
+        for (CreativeEntry entry : entriesChild){
+            int index = -1;
+            for (ItemStack stack : newList){
+                if (stack.toString().equals(entry.parentStack.toString())){
+                    index = newList.indexOf(stack);
+                    break;
+                }
+            }
+            if (index != -1){
+                newList.add(index + 1, entry.stackToAdd);
+            } else {
+                newList.add(entry.stackToAdd);
+                HalpLibe.LOGGER.warn("Could not find parent stack of '" + entry.parentStack + "' in the list! does it exist? adding stack to end of list!");
+            }
         }
 
         creativeItems = newList;

@@ -14,4 +14,13 @@ public class CreativeHelper {
     public static void setPriority(ItemStack item, int priority){
         CreativeEntry.addEntry(new CreativeEntry(item, priority));
     }
+    public static void setParent(IItemConvertible itemToAdd, IItemConvertible itemParent){
+        setParent(itemToAdd.getDefaultStack(), itemParent.getDefaultStack());
+    }
+    public static void setParent(IItemConvertible itemToAdd, int metaToAdd, IItemConvertible itemParent, int metaParent){
+        setParent(new ItemStack(itemToAdd, 1, metaToAdd), new ItemStack(itemParent, metaParent));
+    }
+    public static void setParent(ItemStack itemToAdd, ItemStack parentStack){
+        CreativeEntry.addEntry(new CreativeEntry(itemToAdd, parentStack));
+    }
 }
