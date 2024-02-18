@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import turniplabs.halplibe.helper.AchievementHelper;
 import turniplabs.halplibe.helper.ModVersionHelper;
 import turniplabs.halplibe.helper.NetworkHelper;
+import turniplabs.halplibe.util.PacketPlaceholder;
 import turniplabs.halplibe.util.TomlConfigHandler;
 import turniplabs.halplibe.util.achievements.AchievementPage;
 import turniplabs.halplibe.util.achievements.VanillaAchievementsPage;
@@ -83,12 +84,13 @@ public class HalpLibe implements ModInitializer, PreLaunchEntrypoint {
     @Override
     public void onInitialize() {
         AchievementHelper.addPage(VANILLA_ACHIEVEMENTS);
-        NetworkHelper.register(PacketModList.class, false, true);
         LOGGER.info("HalpLibe initialized.");
     }
 
     @Override
     public void onPreLaunch() {
         // Initializes halp statics first
+        NetworkHelper.register(PacketPlaceholder.class, false, false); // Placeholder to keep packet ids aligned and for future use
+        NetworkHelper.register(PacketModList.class, false, true);
     }
 }
