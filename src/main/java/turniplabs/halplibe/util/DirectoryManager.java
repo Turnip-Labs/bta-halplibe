@@ -105,9 +105,6 @@ public class DirectoryManager {
     }
     public static String getStreamingDirectory(String modID){
         resourceDirectoryMap.putIfAbsent(modID, new HashMap<>());
-        if (fl.getModContainer(modID).isPresent() && fl.getModContainer(modID).get().getMetadata().containsCustomValue(STREAMING)){
-            resourceDirectoryMap.get(modID).put(STREAMING, fl.getModContainer(modID).get().getMetadata().getCustomValue(STREAMING).getAsString());
-        }
         return resourceDirectoryMap.get(modID).getOrDefault(STREAMING, "/assets/" + modID + "/streaming/");
     }
     public static String getArmorDirectory(String modID){
