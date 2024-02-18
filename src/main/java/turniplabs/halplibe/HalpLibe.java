@@ -86,30 +86,6 @@ public class HalpLibe implements ModInitializer, PreLaunchEntrypoint {
         AchievementHelper.addPage(VANILLA_ACHIEVEMENTS);
         NetworkHelper.register(PacketModList.class, false, true);
         LOGGER.info("HalpLibe initialized.");
-
-        CreativeHelper.setPriority(Block.planksOak, 990);
-        for (int i = 0; i < 16; i++) {
-            CreativeHelper.setPriority(Block.planksOakPainted, i, 990);
-        }
-
-        CreativeHelper.setPriority(Block.brickBasalt, 999);
-        CreativeHelper.setPriority(Block.brickClay, 999);
-        CreativeHelper.setPriority(Block.brickGold, 999);
-        CreativeHelper.setPriority(Block.brickGranite, 999);
-        CreativeHelper.setPriority(Block.brickIron, 999);
-        CreativeHelper.setPriority(Block.brickLimestone, 999);
-
-        CreativeHelper.setPriority(Item.ingotIron, 999);
-        CreativeHelper.setPriority(Item.ingotGold, 999);
-        CreativeHelper.setPriority(Item.ingotSteel, 999);
-        CreativeHelper.setPriority(Item.ingotSteelCrude, 999);
-        CreativeHelper.setPriority(Item.dustRedstone, 998);
-        CreativeHelper.setPriority(Item.dustGlowstone, 998);
-        CreativeHelper.setPriority(Item.dustSugar, 998);
-
-        CreativeHelper.setParent(Item.seat, Item.toolHoeSteel);
-        CreativeHelper.setParent(Item.basket, Item.seat);
-        CreativeHelper.setParent(Item.armorChestplateDiamond, Item.basket);
     }
 
     @Override
