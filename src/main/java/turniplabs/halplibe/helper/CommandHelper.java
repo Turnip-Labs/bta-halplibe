@@ -19,6 +19,10 @@ public class CommandHelper {
     private static final List<Function<AtomicReference<Minecraft>, Command>> clientCommands = new ArrayList<>();
     @ApiStatus.Internal // used in CommandsServerMixin
     private static final List<Function<AtomicReference<MinecraftServer>, Command>> serverCommands = new ArrayList<>();
+    @Deprecated
+    public static void createCommand(Command command) {
+        Core.createCommand(command);
+    }
 
     /**
      * Functions to call from the client or server
