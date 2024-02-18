@@ -80,6 +80,10 @@ public class HalpLibe implements ModInitializer, PreLaunchEntrypoint {
         }
         throw new IllegalArgumentException("Key '" + key + "' does not start with a valid predicate of 'item' or 'tile'");
     }
+    @SuppressWarnings("unused")
+    public static String addModId(String modId, String name) {
+        return modId + "." + name;
+    }
     @Override
     public void onInitialize() {
         AchievementHelper.addPage(VANILLA_ACHIEVEMENTS);
