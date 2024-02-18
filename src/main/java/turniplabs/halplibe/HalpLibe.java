@@ -10,6 +10,7 @@ import net.minecraft.core.item.Item;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import turniplabs.halplibe.helper.AchievementHelper;
+import turniplabs.halplibe.helper.CreativeHelper;
 import turniplabs.halplibe.helper.ModVersionHelper;
 import turniplabs.halplibe.helper.NetworkHelper;
 import turniplabs.halplibe.util.TomlConfigHandler;
