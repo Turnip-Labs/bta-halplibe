@@ -4,7 +4,7 @@
   "version": "${version}",
 
   "name": "HalpLibe",
-  "description": "Helper library to ease mod development.",
+  "description": "Helper library containing functions for common use cases, while ensuring compatibility between mods.",
   "authors": [
     "Turnip Labs"
   ],
@@ -13,6 +13,7 @@
     "sources": ""
   },
 
+  "icon": "icon.png",
   "license": "CC0-1.0",
 
   "environment": "*",
