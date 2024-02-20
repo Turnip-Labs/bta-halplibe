@@ -1,6 +1,6 @@
 # HalpLibe
 
-A helper library to ease babric mod development for BTA.
+Helper library containing functions for common use cases, while ensuring compatibility between mods.
 
 ## Prerequisites
 - JDK for Java 17 ([Eclipse Temurin](https://adoptium.net/temurin/releases/) recommended)
