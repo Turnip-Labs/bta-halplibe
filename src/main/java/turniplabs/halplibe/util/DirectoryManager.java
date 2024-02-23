@@ -22,6 +22,9 @@ public class DirectoryManager {
     public static final String ARMOR = registerKey("halplibe:armor");
     public static final FabricLoader fl = FabricLoader.getInstance();
     static {
+        refreshDirectories();
+    }
+    public static void refreshDirectories(){
         for (ModContainer container : fl.getAllMods()){
             String id = container.getMetadata().getId();
             ModMetadata metadata = container.getMetadata();
