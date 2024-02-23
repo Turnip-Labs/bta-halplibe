@@ -26,8 +26,6 @@ abstract public class PlayerRendererMixin extends LivingRenderer<EntityPlayer> {
             return vanillaTexturePath;
         }
 
-        String path = DirectoryManager.getArmorDirectory(modId) + itemArmor.material.name + "_" + (renderPass != 2 ? 1 : 2) + ".png";
-        HalpLibe.LOGGER.info(path);
-        return path;
+        return DirectoryManager.getArmorDirectory(modId) + itemArmor.material.name + "_" + (renderPass != 2 ? 1 : 2) + ".png";
     }
 }

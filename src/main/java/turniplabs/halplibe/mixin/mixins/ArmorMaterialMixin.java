@@ -9,11 +9,11 @@ import turniplabs.halplibe.util.ArmorMaterialMixinInterface;
 abstract public class ArmorMaterialMixin implements ArmorMaterialMixinInterface {
     @Unique
     private String modId = null;
-
+    @Override
     public String halplibe$getModId() {
         return modId;
     }
-
+    @Override
     public void halplibe$SetModId(String modId) {
         this.modId = modId;
     }
