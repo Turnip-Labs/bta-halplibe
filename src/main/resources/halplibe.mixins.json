@@ -37,16 +37,17 @@
     "accessors.TileEntityRendererAccessor",
     "mixins.EntityClientPlayerMPMixin",
     "mixins.GuiIngameMenuMixin",
+    "mixins.GuiRenderItemMixin",
     "mixins.MinecraftMixin",
+    "mixins.MobPageMixin",
+    "mixins.GuiTooltipMixin",
     "mixins.PlayerRendererMixin",
     "mixins.RenderEngineMixin",
     "mixins.RenderGlobalMixin",
     "mixins.commands.CommandsClientMixin",
     "mixins.network.MinecraftMixin",
     "mixins.registry.MinecraftMixin",
-    "mixins.version.NetClientHandlerMixin",
-    "mixins.MobPageMixin",
-    "mixins.GuiRenderItemMixin"
+    "mixins.version.NetClientHandlerMixin"
   ],
   "server": [
     "mixins.MinecraftServerMixin",
