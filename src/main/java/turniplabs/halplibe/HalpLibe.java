@@ -11,6 +11,8 @@ import net.minecraft.core.Global;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.BlockLanternFirefly;
 import net.minecraft.core.block.tag.BlockTags;
+import net.minecraft.core.data.gamerule.GameRuleBoolean;
+import net.minecraft.core.data.gamerule.GameRules;
 import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemPlaceable;
 import net.minecraft.core.item.ItemStack;
@@ -110,6 +112,8 @@ public class HalpLibe implements ModInitializer, PreLaunchEntrypoint {
     public static FireflyColor fireflyOrange;
     public static FireflyColor fireflyBlue;
     public static FireflyColor fireflyRed;
+
+    public static GameRuleBoolean UNLOCK_ALL_RECIPES = (GameRuleBoolean) GameRules.register(new GameRuleBoolean("unlockAllRecipes", false));
 
     @Override
     public void onPreLaunch() {
