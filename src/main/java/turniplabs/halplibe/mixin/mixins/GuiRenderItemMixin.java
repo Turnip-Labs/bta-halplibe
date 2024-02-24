@@ -23,7 +23,7 @@ public class GuiRenderItemMixin extends Gui {
 
     @Inject(method = "render(Lnet/minecraft/core/item/ItemStack;IIZLnet/minecraft/core/player/inventory/slot/Slot;)V", at = @At("HEAD"))
     public void render(ItemStack itemStack, int x, int y, boolean isSelected, Slot slot, CallbackInfo ci) {
-        if(mc.theWorld.getGameRule(HalpLibe.UNLOCK_ALL_RECIPES)){
+        if(mc.theWorld.getGameRule(HalpLibe.UNLOCK_ALL_RECIPES) && slot != null){
             slot.discovered = true;
         }
     }
