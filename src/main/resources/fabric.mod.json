@@ -19,7 +19,7 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-        "turniplabs.halplibe.HalpLibe"
+      "turniplabs.halplibe.HalpLibe"
     ],
     "preLaunch": [
       "turniplabs.halplibe.HalpLibe"

@@ -4,14 +4,26 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.entrypoint.PreLaunchEntrypoint;
+import net.minecraft.client.entity.fx.EntityFireflyFX;
+import net.minecraft.client.render.block.model.BlockModelRenderBlocks;
+import net.minecraft.client.sound.block.BlockSounds;
 import net.minecraft.core.Global;
 import net.minecraft.core.block.Block;
+import net.minecraft.core.block.BlockLanternFirefly;
+import net.minecraft.core.block.tag.BlockTags;
 import net.minecraft.core.item.Item;
+import net.minecraft.core.item.ItemPlaceable;
+import net.minecraft.core.item.ItemStack;
+import net.minecraft.core.item.tag.ItemTags;
+import net.minecraft.core.util.helper.MathHelper;
+import net.minecraft.core.world.biome.Biome;
+import net.minecraft.core.world.biome.Biomes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import turniplabs.halplibe.helper.AchievementHelper;
-import turniplabs.halplibe.helper.ModVersionHelper;
-import turniplabs.halplibe.helper.NetworkHelper;
+import turniplabs.halplibe.helper.*;
+import turniplabs.halplibe.mixin.accessors.EntityFireflyFXAccessor;
+import turniplabs.halplibe.util.FireflyColor;
+import turniplabs.halplibe.util.GameStartEntrypoint;
 import turniplabs.halplibe.util.TomlConfigHandler;
 import turniplabs.halplibe.util.achievements.AchievementPage;
 import turniplabs.halplibe.util.achievements.VanillaAchievementsPage;
@@ -19,6 +31,7 @@ import turniplabs.halplibe.util.toml.Toml;
 import turniplabs.halplibe.util.version.PacketModList;
 
 import java.util.HashMap;
+import java.util.Random;
 
 public class HalpLibe implements ModInitializer, PreLaunchEntrypoint {
     public static final String MOD_ID = "halplibe";
@@ -80,19 +93,40 @@ public class HalpLibe implements ModInitializer, PreLaunchEntrypoint {
         }
         throw new IllegalArgumentException("Key '" + key + "' does not start with a valid predicate of 'item' or 'tile'");
     }
+
     @SuppressWarnings("unused")
+    @Deprecated
     public static String addModId(String modId, String name) {
         return modId + "." + name;
     }
+
     @Override
     public void onInitialize() {
         AchievementHelper.addPage(VANILLA_ACHIEVEMENTS);
         LOGGER.info("HalpLibe initialized.");
     }
 
+    public static FireflyColor fireflyGreen;
+    public static FireflyColor fireflyOrange;
+    public static FireflyColor fireflyBlue;
+    public static FireflyColor fireflyRed;
+
     @Override
     public void onPreLaunch() {
         // Initializes halp statics first
         NetworkHelper.register(PacketModList.class, false, true); // Register Halplibe packets first
+
+        fireflyGreen = new FireflyColor(0, "fireflyGreen", new ItemStack(Item.lanternFireflyGreen), new Biome[]{Biomes.OVERWORLD_RAINFOREST, Biomes.OVERWORLD_SWAMPLAND, Biomes.OVERWORLD_FOREST, Biomes.OVERWORLD_SEASONAL_FOREST});
+        fireflyOrange = new FireflyColor(1, "fireflyOrange", new ItemStack(Item.lanternFireflyOrange), new Biome[]{Biomes.OVERWORLD_DESERT, Biomes.OVERWORLD_OUTBACK, Biomes.OVERWORLD_OUTBACK_GRASSY});
+        fireflyBlue = new FireflyColor(2, "fireflyBlue", new ItemStack(Item.lanternFireflyBlue), new Biome[]{Biomes.OVERWORLD_TAIGA, Biomes.OVERWORLD_TUNDRA, Biomes.OVERWORLD_BOREAL_FOREST, Biomes.OVERWORLD_GLACIER, Biomes.PARADISE_PARADISE});
+        fireflyRed = new FireflyColor(3, "fireflyRed", new ItemStack(Item.lanternFireflyRed), new Biome[]{Biomes.NETHER_NETHER});
+        FireflyHelper.createColor(fireflyGreen);
+        FireflyHelper.createColor(fireflyOrange);
+        FireflyHelper.createColor(fireflyBlue);
+        FireflyHelper.createColor(fireflyRed);
+        FireflyHelper.setColor((BlockLanternFirefly) Block.lanternFireflyGreen, fireflyGreen);
+        FireflyHelper.setColor((BlockLanternFirefly) Block.lanternFireflyOrange, fireflyOrange);
+        FireflyHelper.setColor((BlockLanternFirefly) Block.lanternFireflyBlue, fireflyBlue);
+        FireflyHelper.setColor((BlockLanternFirefly) Block.lanternFireflyRed, fireflyRed);
     }
 }
