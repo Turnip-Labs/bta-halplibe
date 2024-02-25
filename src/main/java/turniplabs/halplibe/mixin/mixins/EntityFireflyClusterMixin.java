@@ -55,10 +55,13 @@ abstract public class EntityFireflyClusterMixin extends EntityFlying implements 
             cancellable = true
     )
     private void halplibe$injectSlowUpdates(CallbackInfo ci, @Local(ordinal = 0) int blockX, @Local(ordinal = 1) int blockY, @Local(ordinal = 2) int blockZ) {
-        FireflyColor colorForBiome = halplibe$getColourForBiome(world.getBlockBiome(blockX, blockY, blockZ));
-        if (colorForBiome != halplibe$getColor()) {
+        Biome currentBiome = world.getBlockBiome(blockX, blockY, blockZ);
+
+        if (!halplibe$getColor().getBiomeAndWeights().containsKey(currentBiome)) {
+            FireflyColor colorForBiome = halplibe$getColourForBiome(currentBiome);
             halplibe$setColor(colorForBiome);
         }
+
         ci.cancel();
     }
 
@@ -79,7 +82,7 @@ abstract public class EntityFireflyClusterMixin extends EntityFlying implements 
         if (((IFireflyColor) instance).halplibe$getColor().getId() == halplibe$getColor().getId()) {
             return null;
         } else {
-            return EnumFireflyColor.BLUE;
+            return EnumFireflyColor.GREEN;
         }
     }
 
