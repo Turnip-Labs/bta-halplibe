@@ -78,12 +78,24 @@ abstract public class EntityFireflyClusterMixin extends EntityFlying implements 
                     ordinal = 0
             )
     )
-    private EnumFireflyColor halplibe$modifyColorExpression(EntityFireflyCluster instance, Operation<EnumFireflyColor> original) {
+    private EnumFireflyColor halplibe$modifyColorExpression1(EntityFireflyCluster instance, Operation<EnumFireflyColor> original) {
         if (((IFireflyColor) instance).halplibe$getColor().getId() == halplibe$getColor().getId()) {
             return null;
         } else {
             return EnumFireflyColor.GREEN;
         }
+    }
+
+    @WrapOperation(
+            method = "merge()V",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/core/entity/animal/EntityFireflyCluster;getColor()Lnet/minecraft/core/enums/EnumFireflyColor;",
+                    ordinal = 1
+            )
+    )
+    private EnumFireflyColor halplibe$modifyColorExpression2(EntityFireflyCluster instance, Operation<EnumFireflyColor> original) {
+        return null;
     }
 
     @Unique
