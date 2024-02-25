@@ -12,7 +12,7 @@ import turniplabs.halplibe.mixin.accessors.EntityFireflyFXAccessor;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ParticleHelper {
+abstract public class ParticleHelper {
     public static Map<String, Class<? extends EntityFX>> particlesOld = new HashMap<>();
     public static Map<String, ParticleLambda> particles = new HashMap<>();
 

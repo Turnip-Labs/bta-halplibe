@@ -12,7 +12,7 @@ import turniplabs.halplibe.util.version.PacketModList;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ModVersionHelper {
+abstract public class ModVersionHelper {
     protected static boolean isDev = FabricLoader.getInstance().isDevelopmentEnvironment();
     protected static List<ModInfo> localMods = new ArrayList<>();
     protected static List<ModInfo> serverMods = null;

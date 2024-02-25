@@ -22,7 +22,10 @@ import turniplabs.halplibe.helper.FireflyHelper;
 import turniplabs.halplibe.util.FireflyColor;
 import turniplabs.halplibe.util.IFireflyColor;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Debug(export = true)
 @Mixin(value = EntityFireflyCluster.class, remap = false)
@@ -39,30 +42,8 @@ abstract public class EntityFireflyClusterMixin extends EntityFlying implements 
     public void spawnInit() {
         super.init();
         Biome currentBiome = this.world.getBlockBiome((int)this.x, (int)this.y, (int)this.z);
-        FireflyColor finalColor = null;
-        List<FireflyColor> colors = FireflyHelper.registeredColors;
-
-        for (FireflyColor color : colors) {
-            Biome[] spawnBiomes = color.getSpawnBiomes();
-            if (spawnBiomes != null) {
-                for (Biome spawnBiome : spawnBiomes) {
-                    if (spawnBiome == currentBiome) {
-                        finalColor = color;
-                        break;
-                    }
-                }
-
-                if (finalColor != null) {
-                    break;
-                }
-            }
-        }
-
-        if (finalColor == null) {
-            finalColor = HalpLibe.fireflyGreen;
-        }
-
-        halplibe$setColor(finalColor);
+        FireflyColor color = halplibe$getColourForBiome(currentBiome);
+        halplibe$setColor(color);
     }
 
     @Inject(
@@ -126,19 +107,28 @@ abstract public class EntityFireflyClusterMixin extends EntityFlying implements 
     @Unique
     private FireflyColor halplibe$getColourForBiome(Biome currentBiome) {
         List<FireflyColor> colors = FireflyHelper.registeredColors;
+        List<FireflyColor> colorsWithThisBiome = new ArrayList<>();
 
+        float totalWeight = 0f;
         for (FireflyColor color : colors) {
-            Biome[] spawnBiomes = color.getSpawnBiomes();
-
-            if (spawnBiomes != null) {
-                for (Biome biome : spawnBiomes) {
-                    if (biome == currentBiome) {
-                        return color;
-                    }
-                }
+            Float weight = color.getBiomeAndWeights().get(currentBiome);
+            if (weight != null) {
+                totalWeight += weight;
+                colorsWithThisBiome.add(color);
             }
         }
 
-        return HalpLibe.fireflyGreen;
+        int index = 0;
+        float r = (float) Math.random() * totalWeight;
+        for (; index < colorsWithThisBiome.size() - 1; index++) {
+            r -= colorsWithThisBiome.get(index).getBiomeAndWeights().get(currentBiome);
+            if (r <= 0.0) break;
+        }
+
+        if (totalWeight == 0f) {
+            return HalpLibe.fireflyGreen;
+        } else {
+          return colorsWithThisBiome.get(index);
+        }
     }
 }

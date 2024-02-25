@@ -12,7 +12,7 @@ import net.minecraft.core.item.ItemStack;
  * Replace by the RecipeBuilder
  */
 @Deprecated
-public class RecipeHelper {
+abstract public class RecipeHelper {
     @Deprecated
     public static final CraftingManager craftingManager = CraftingManager.getInstance();
     @Deprecated

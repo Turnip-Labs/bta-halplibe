@@ -13,7 +13,7 @@ import turniplabs.halplibe.mixin.accessors.TileEntityRendererAccessor;
 
 import java.util.Map;
 
-public class EntityHelper {
+abstract public class EntityHelper {
     /**
      * @deprecated No longer works serverside as of BTA 7.1 due to the removal of "Minecraft.class" from the server jar
      * Replaced by {@link Core#createEntity(Class, int, String)} and {@link Client#assignEntityRenderer(Class, EntityRenderer)}

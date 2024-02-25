@@ -8,7 +8,7 @@ import turniplabs.halplibe.util.toml.Toml;
 
 import java.util.function.Consumer;
 
-public class BlockHelper {
+abstract public class BlockHelper {
     
     public static int highestVanilla;
 
