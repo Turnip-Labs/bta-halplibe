@@ -20,7 +20,7 @@ public class GuiTooltipMixin extends Gui {
     @Shadow Minecraft mc;
 
     @Inject(method = "getTooltipText(Lnet/minecraft/core/item/ItemStack;ZLnet/minecraft/core/player/inventory/slot/Slot;)Ljava/lang/String;", at = @At(value = "FIELD", target = "Lnet/minecraft/core/player/inventory/slot/Slot;discovered:Z", ordinal = 0, shift = At.Shift.AFTER))
-    public void getTooltipText(ItemStack itemStack, boolean showDescription, Slot slot, CallbackInfoReturnable<String> cir, @Local(ordinal = 0, argsOnly = true) LocalBooleanRef discovered) {
+    public void getTooltipText(ItemStack itemStack, boolean showDescription, Slot slot, CallbackInfoReturnable<String> cir, @Local(ordinal = 1) LocalBooleanRef discovered) {
         if(mc.theWorld.getGameRule(HalpLibe.UNLOCK_ALL_RECIPES)){
             discovered.set(true);
         }
