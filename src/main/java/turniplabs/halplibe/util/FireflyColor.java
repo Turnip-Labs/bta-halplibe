@@ -25,7 +25,7 @@ public class FireflyColor {
     }
 
     public ItemStack getItemWhenClickedWithJar() {
-        return this.itemWhenClickedWithJar;
+        return this.itemWhenClickedWithJar.copy();
     }
 
     /**
@@ -47,6 +47,6 @@ public class FireflyColor {
         this.id = id;
         this.particleName = particleName;
         this.spawnBiomes = spawnBiomes;
-        this.itemWhenClickedWithJar = itemWhenClickedWithJar;
+        this.itemWhenClickedWithJar = itemWhenClickedWithJar.copy();
     }
 }
