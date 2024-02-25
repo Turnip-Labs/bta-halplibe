@@ -1,8 +1,6 @@
 package turniplabs.halplibe.helper;
 
-import net.minecraft.client.entity.fx.EntityFireflyFX;
 import net.minecraft.core.block.BlockLanternFirefly;
-import turniplabs.halplibe.mixin.accessors.EntityFireflyFXAccessor;
 import turniplabs.halplibe.util.FireflyColor;
 import turniplabs.halplibe.util.IFireflyColor;
 

@@ -4,7 +4,7 @@ import net.minecraft.core.item.material.ArmorMaterial;
 import net.minecraft.core.util.helper.DamageType;
 import turniplabs.halplibe.util.ArmorMaterialMixinInterface;
 
-public class ArmorHelper {
+abstract public class ArmorHelper {
 
     /**
      * Damage parameters can be more than 100%. Armor durability will be a bit different from in-game.

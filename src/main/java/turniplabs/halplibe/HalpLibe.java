@@ -4,28 +4,19 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.entrypoint.PreLaunchEntrypoint;
-import net.minecraft.client.entity.fx.EntityFireflyFX;
-import net.minecraft.client.render.block.model.BlockModelRenderBlocks;
-import net.minecraft.client.sound.block.BlockSounds;
 import net.minecraft.core.Global;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.BlockLanternFirefly;
-import net.minecraft.core.block.tag.BlockTags;
 import net.minecraft.core.data.gamerule.GameRuleBoolean;
 import net.minecraft.core.data.gamerule.GameRules;
 import net.minecraft.core.item.Item;
-import net.minecraft.core.item.ItemPlaceable;
 import net.minecraft.core.item.ItemStack;
-import net.minecraft.core.item.tag.ItemTags;
-import net.minecraft.core.util.helper.MathHelper;
 import net.minecraft.core.world.biome.Biome;
 import net.minecraft.core.world.biome.Biomes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import turniplabs.halplibe.helper.*;
-import turniplabs.halplibe.mixin.accessors.EntityFireflyFXAccessor;
 import turniplabs.halplibe.util.FireflyColor;
-import turniplabs.halplibe.util.GameStartEntrypoint;
 import turniplabs.halplibe.util.TomlConfigHandler;
 import turniplabs.halplibe.util.achievements.AchievementPage;
 import turniplabs.halplibe.util.achievements.VanillaAchievementsPage;
@@ -33,7 +24,6 @@ import turniplabs.halplibe.util.toml.Toml;
 import turniplabs.halplibe.util.version.PacketModList;
 
 import java.util.HashMap;
-import java.util.Random;
 
 public class HalpLibe implements ModInitializer, PreLaunchEntrypoint {
     public static final String MOD_ID = "halplibe";
@@ -113,7 +103,7 @@ public class HalpLibe implements ModInitializer, PreLaunchEntrypoint {
     public static FireflyColor fireflyBlue;
     public static FireflyColor fireflyRed;
 
-    public static GameRuleBoolean UNLOCK_ALL_RECIPES = (GameRuleBoolean) GameRules.register(new GameRuleBoolean("unlockAllRecipes", false));
+    public static GameRuleBoolean UNLOCK_ALL_RECIPES = GameRules.register(new GameRuleBoolean("unlockAllRecipes", false));
 
     @Override
     public void onPreLaunch() {

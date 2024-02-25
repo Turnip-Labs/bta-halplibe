@@ -2,18 +2,14 @@ package turniplabs.halplibe.helper;
 
 import net.minecraft.core.Global;
 import net.minecraft.core.block.Block;
-import turniplabs.halplibe.util.BlockCoords;
-import turniplabs.halplibe.util.DirectoryManager;
-import turniplabs.halplibe.util.ItemCoords;
-import turniplabs.halplibe.util.ParticleCoords;
-import turniplabs.halplibe.util.TextureHandler;
+import turniplabs.halplibe.util.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TextureHelper {
+abstract public class TextureHelper {
     public static List<String> supportedImageFormats = new ArrayList<>();
     static {
         supportedImageFormats.add("BMP");

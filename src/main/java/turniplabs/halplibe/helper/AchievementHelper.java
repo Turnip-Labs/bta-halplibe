@@ -5,7 +5,7 @@ import turniplabs.halplibe.util.achievements.AchievementPage;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AchievementHelper {
+abstract public class AchievementHelper {
     private static final List<AchievementPage> pages = new ArrayList<>();
 
     public static List<AchievementPage> getPages() {

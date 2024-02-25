@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-public class ItemHelper {
+abstract public class ItemHelper {
 	
 	public static int highestVanilla;
 

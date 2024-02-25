@@ -5,7 +5,7 @@ import turniplabs.halplibe.util.toml.Toml;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
-public class RegistryHelper {
+abstract public class RegistryHelper {
 	private static final ArrayList<Runnable> registryFunctions = new ArrayList<>();
 	private static final ArrayList<Runnable> configuredRegistryFunctions = new ArrayList<>();
 	private static final ArrayList<Runnable> smartRegistryFunctions = new ArrayList<>();
