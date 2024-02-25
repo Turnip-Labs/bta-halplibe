@@ -1,5 +1,6 @@
 package turniplabs.halplibe.mixin.mixins;
 
+import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.core.block.entity.TileEntityFurnace;
 import net.minecraft.core.data.registry.Registries;
 import net.minecraft.core.data.registry.recipe.RecipeGroup;
@@ -10,7 +11,9 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
 
@@ -47,5 +50,11 @@ public class TileEntityFurnaceMixin {
             }
         }
         return null;
+    }
+
+    //TODO: REMOVE THIS WHEN 7.1 RELEASES FULLY!!!
+    @Inject(method = "smeltItem", at = @At(value = "FIELD", target = "Lnet/minecraft/core/block/entity/TileEntityFurnace;furnaceItemStacks:[Lnet/minecraft/core/item/ItemStack;", ordinal = 5))
+    public void fixBug(CallbackInfo ci, @Local ItemStack stack){
+        furnaceItemStacks[2].stackSize += stack.stackSize-1;
     }
 }
