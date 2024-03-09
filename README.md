@@ -24,7 +24,7 @@ dependencies {
 
 ## Credits
 - azurelmao
-- pkstDev
+- Flamarine
 - Jim Jim aka FatherCheese
 - icanttellyou
 - youngsditch
