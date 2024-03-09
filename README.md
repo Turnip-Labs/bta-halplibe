@@ -26,7 +26,7 @@ dependencies {
 - azurelmao
 - pkstDev
 - Jim Jim aka FatherCheese
-- ICantTellYou
+- icanttellyou
 - youngsditch
 - sunsetsatellite
 - useless
