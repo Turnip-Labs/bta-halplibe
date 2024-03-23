@@ -9,6 +9,7 @@
     "accessors.EntityFXAccessor",
     "accessors.EntityListAccessor",
     "accessors.LanguageAccessor",
+    "accessors.RecipeSymbolAccessor",
     "accessors.TileEntityAccessor",
     "accessors.WeightedRandomBagAccessor",
     "accessors.WeightedRandomBagEntryAccessor",

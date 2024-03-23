@@ -8,6 +8,7 @@ import net.minecraft.core.data.registry.recipe.entry.RecipeEntryCraftingShaped;
 import net.minecraft.core.item.IItemConvertible;
 import net.minecraft.core.item.ItemStack;
 import turniplabs.halplibe.helper.RecipeBuilder;
+import turniplabs.halplibe.mixin.accessors.RecipeSymbolAccessor;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -114,7 +115,14 @@ public class RecipeBuilderShaped extends RecipeBuilderBase{
                 if (tempplate == null){
                     recipe[x + y * width] = null;
                 } else {
-                    recipe[x + y * width] = new RecipeSymbol(cha == null ? ' ' : cha, tempplate.getStack(), tempplate.getItemGroup());
+                    if(tempplate.getItemGroup() == null){
+                        RecipeSymbol s =  new RecipeSymbol(tempplate.getStack());
+                        ((RecipeSymbolAccessor)s).setSymbol(cha == null ? ' ' : cha);
+                        recipe[x + y * width] = s;
+                    } else {
+                        recipe[x + y * width] = new RecipeSymbol(cha == null ? ' ' : cha, tempplate.getStack(), tempplate.getItemGroup());
+                    }
+
                 }
 
             }
