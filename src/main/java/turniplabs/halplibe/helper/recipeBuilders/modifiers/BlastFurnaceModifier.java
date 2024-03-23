@@ -5,7 +5,6 @@ import net.minecraft.core.data.registry.recipe.RecipeGroup;
 import net.minecraft.core.data.registry.recipe.RecipeSymbol;
 import net.minecraft.core.data.registry.recipe.entry.RecipeEntryBlastFurnace;
 import turniplabs.halplibe.helper.RecipeBuilder;
-import turniplabs.halplibe.util.IUnregister;
 
 public class BlastFurnaceModifier {
     protected RecipeGroup<RecipeEntryBlastFurnace> recipeGroup;
@@ -15,7 +14,7 @@ public class BlastFurnaceModifier {
     }
     @SuppressWarnings({"unchecked", "unused"})
     public BlastFurnaceModifier removeRecipe(String recipeID){
-        ((IUnregister<RecipeEntryBlastFurnace>)recipeGroup).bta_halplibe$unregister(recipeID);
+        recipeGroup.unregister(recipeID);
         return this;
     }
 }

@@ -5,7 +5,6 @@ import net.minecraft.core.data.registry.recipe.RecipeGroup;
 import net.minecraft.core.data.registry.recipe.RecipeSymbol;
 import net.minecraft.core.data.registry.recipe.entry.RecipeEntryCrafting;
 import turniplabs.halplibe.helper.RecipeBuilder;
-import turniplabs.halplibe.util.IUnregister;
 
 public class WorkbenchModifier {
     protected RecipeGroup<RecipeEntryCrafting<?, ?>> recipeGroup;
@@ -15,7 +14,7 @@ public class WorkbenchModifier {
     }
     @SuppressWarnings({"unchecked", "unused"})
     public WorkbenchModifier removeRecipe(String recipeID){
-        ((IUnregister<RecipeEntryCrafting<?, ?>>)recipeGroup).bta_halplibe$unregister(recipeID);
+        recipeGroup.unregister(recipeID);
         return this;
     }
 }

@@ -16,7 +16,6 @@ import net.minecraft.core.world.biome.Biomes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import turniplabs.halplibe.helper.*;
-import turniplabs.halplibe.util.FireflyColor;
 import turniplabs.halplibe.util.TomlConfigHandler;
 import turniplabs.halplibe.util.achievements.AchievementPage;
 import turniplabs.halplibe.util.achievements.VanillaAchievementsPage;
@@ -98,29 +97,11 @@ public class HalpLibe implements ModInitializer, PreLaunchEntrypoint {
         LOGGER.info("HalpLibe initialized.");
     }
 
-    public static FireflyColor fireflyGreen;
-    public static FireflyColor fireflyOrange;
-    public static FireflyColor fireflyBlue;
-    public static FireflyColor fireflyRed;
-
     public static GameRuleBoolean UNLOCK_ALL_RECIPES = GameRules.register(new GameRuleBoolean("unlockAllRecipes", false));
 
     @Override
     public void onPreLaunch() {
         // Initializes halp statics first
         NetworkHelper.register(PacketModList.class, false, true); // Register Halplibe packets first
-
-        fireflyGreen = new FireflyColor(0, "fireflyGreen", new ItemStack(Item.lanternFireflyGreen), new Biome[]{Biomes.OVERWORLD_RAINFOREST, Biomes.OVERWORLD_SWAMPLAND, Biomes.OVERWORLD_FOREST, Biomes.OVERWORLD_SEASONAL_FOREST});
-        fireflyOrange = new FireflyColor(1, "fireflyOrange", new ItemStack(Item.lanternFireflyOrange), new Biome[]{Biomes.OVERWORLD_DESERT, Biomes.OVERWORLD_OUTBACK, Biomes.OVERWORLD_OUTBACK_GRASSY});
-        fireflyBlue = new FireflyColor(2, "fireflyBlue", new ItemStack(Item.lanternFireflyBlue), new Biome[]{Biomes.OVERWORLD_TAIGA, Biomes.OVERWORLD_TUNDRA, Biomes.OVERWORLD_BOREAL_FOREST, Biomes.OVERWORLD_GLACIER, Biomes.PARADISE_PARADISE});
-        fireflyRed = new FireflyColor(3, "fireflyRed", new ItemStack(Item.lanternFireflyRed), new Biome[]{Biomes.NETHER_NETHER});
-        FireflyHelper.createColor(fireflyGreen);
-        FireflyHelper.createColor(fireflyOrange);
-        FireflyHelper.createColor(fireflyBlue);
-        FireflyHelper.createColor(fireflyRed);
-        FireflyHelper.setColor((BlockLanternFirefly) Block.lanternFireflyGreen, fireflyGreen);
-        FireflyHelper.setColor((BlockLanternFirefly) Block.lanternFireflyOrange, fireflyOrange);
-        FireflyHelper.setColor((BlockLanternFirefly) Block.lanternFireflyBlue, fireflyBlue);
-        FireflyHelper.setColor((BlockLanternFirefly) Block.lanternFireflyRed, fireflyRed);
     }
 }

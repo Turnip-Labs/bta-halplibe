@@ -4,12 +4,12 @@ import net.minecraft.client.render.block.color.BlockColor;
 import net.minecraft.client.render.block.color.BlockColorDispatcher;
 import net.minecraft.client.render.block.model.BlockModel;
 import net.minecraft.client.render.block.model.BlockModelDispatcher;
-import net.minecraft.client.sound.block.BlockSound;
-import net.minecraft.client.sound.block.BlockSoundDispatcher;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.data.tag.Tag;
 import net.minecraft.core.item.Item;
 import net.minecraft.core.item.block.ItemBlock;
+import net.minecraft.core.sound.BlockSound;
+import net.minecraft.core.sound.BlockSoundDispatcher;
 import net.minecraft.core.util.helper.Side;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -571,7 +571,7 @@ public class BlockBuilder implements Cloneable {
         }
 
         if (blockDrop != null) {
-            block.setDropOverride(blockDrop);
+            block.setDropOverride(blockDrop.id);
         }
 
         if (blockSound != null) {

@@ -11,7 +11,6 @@ import net.minecraft.core.item.ItemStack;
 import turniplabs.halplibe.helper.RecipeBuilder;
 import turniplabs.halplibe.mixin.accessors.WeightedRandomBagAccessor;
 import turniplabs.halplibe.mixin.accessors.WeightedRandomBagEntryAccessor;
-import turniplabs.halplibe.util.IUnregister;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +29,7 @@ public class TrommelModifier {
     @SuppressWarnings({"unchecked", "unused"})
     public void deleteRecipe(){
         RecipeGroup<RecipeEntryTrommel> recipeGroup = (RecipeGroup<RecipeEntryTrommel>) RecipeBuilder.getRecipeGroup(namespace, "trommel", new RecipeSymbol(Block.trommelActive.getDefaultStack()));
-        ((IUnregister<RecipeEntryFurnace>)recipeGroup).bta_halplibe$unregister(key);
+        recipeGroup.unregister(key);
     }
     @SuppressWarnings({"unused"})
     public TrommelModifier addEntry(WeightedRandomLootObject lootObject, double weight){
