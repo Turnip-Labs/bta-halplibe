@@ -1,7 +1,5 @@
 package turniplabs.halplibe.helper;
 
-import net.minecraft.client.sound.BlockSound;
-import net.minecraft.client.sound.BlockSoundDispatcher;
 import net.minecraft.client.render.block.color.BlockColor;
 import net.minecraft.client.render.block.color.BlockColorDispatcher;
 import net.minecraft.client.render.block.model.BlockModel;
@@ -12,6 +10,8 @@ import net.minecraft.core.block.tag.BlockTags;
 import net.minecraft.core.data.tag.Tag;
 import net.minecraft.core.item.Item;
 import net.minecraft.core.item.block.ItemBlock;
+import net.minecraft.core.sound.BlockSound;
+import net.minecraft.core.sound.BlockSoundDispatcher;
 import net.minecraft.core.util.helper.Side;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
