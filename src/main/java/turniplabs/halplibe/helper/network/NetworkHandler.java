@@ -19,7 +19,7 @@ import java.util.function.Supplier;
 public final class NetworkHandler
 {
 	private static final List<Supplier<NetworkMessage>> messagesToRegisterForServer = new LinkedList<>(Collections.singletonList(
-		MessageIdsNetworkMessage::new
+			MessageIdsNetworkMessage::new
 	));
 
 	private static final Map<Short, BiConsumer<NetworkMessage.NetworkContext, UniversalPacket>> packetReaders = new HashMap<>();
@@ -29,15 +29,15 @@ public final class NetworkHandler
 	{
 	}
 
-	public static void setup()
+	/**
+	 * Register the UniversalPacket class and apply the internal messages map
+	 *
+	 * @apiNote This method is auto managed by Halplibe
+	 */
+	public static void internalNetworkHandlerSetup()
 	{
 		Packet.addMapping (88,  true, true, UniversalPacket.class );
 
-		register();
-	}
-
-	public static void register()
-	{
 		packetReaders.clear();
 		packetIds.clear();
 
@@ -46,7 +46,12 @@ public final class NetworkHandler
 		}
 	}
 
-	public static void receiveUniversalPacket(NetworkMessage.NetworkContext context, UniversalPacket buffer )
+	/**
+	 * Receive the universal packet
+	 *
+	 * @apiNote This method is auto managed by Halplibe
+	 */
+	public static void internalReceiveUniversalPacket(NetworkMessage.NetworkContext context, UniversalPacket buffer )
 	{
 		short type = buffer.readShort();
 
@@ -55,7 +60,7 @@ public final class NetworkHandler
 		}
 
 		packetReaders.get( type )
-			.accept( context, buffer );
+				.accept( context, buffer );
 	}
 
 	/**
@@ -69,26 +74,11 @@ public final class NetworkHandler
 		messagesToRegisterForServer.add(factory);
 	}
 
-	/**
-	 * Register a NetworkMessage, and a thread-unsafe handler for it.
-	 *
-	 * @param <T>     The type of the NetworkMessage to send.
-	 * @param factory The factory for this type of message.
-	 */
-	@SuppressWarnings({"unused"})
-	public static <T extends NetworkMessage> void addNetworkMessage( Supplier<T> factory )
+	private static <T extends NetworkMessage> void addNetworkMessage( Supplier<T> factory )
 	{
 		registerNetworkMessage((short) packetIds.size(), factory);
 	}
 
-	/**
-	 * Register a NetworkMessage, and a thread-unsafe handler for it.
-	 *
-	 * @param <T>     The type of the NetworkMessage to send.
-	 * @param id      The identifier for this message type
-	 * @param factory The factory for this type of message.
-	 */
-	@SuppressWarnings({"unused"})
 	private static <T extends NetworkMessage> void registerNetworkMessage( short id, Supplier<T> factory )
 	{
 		registerNetworkMessage( id, getType( factory ), buf -> {
@@ -98,14 +88,6 @@ public final class NetworkHandler
 		} );
 	}
 
-	/**
-	 * Register a NetworkMessage, and a thread-unsafe handler for it.
-	 *
-	 * @param <T>     The type of the NetworkMessage to send.
-	 * @param type    The class of the type of message to send.
-	 * @param id      The identifier for this message type
-	 * @param decoder The factory for this type of message.
-	 */
 	private static <T extends NetworkMessage> void registerNetworkMessage( short id, Class<T> type, Function<UniversalPacket, T> decoder )
 	{
 		packetIds.put( type, id );
@@ -119,7 +101,7 @@ public final class NetworkHandler
 	private static <T> Class<T> getType( Supplier<T> supplier )
 	{
 		return (Class<T>) supplier.get()
-			.getClass();
+				.getClass();
 	}
 
 	private static UniversalPacket encode(NetworkMessage message )
@@ -206,41 +188,41 @@ public final class NetworkHandler
 	}
 
 	private static class MessageIdsNetworkMessage implements NetworkMessage{
-			Map<Class<?>, Short> packetIds;
+		Map<Class<?>, Short> packetIds;
 
-			public MessageIdsNetworkMessage() {}
+		public MessageIdsNetworkMessage() {}
 
-			public MessageIdsNetworkMessage(Map<Class<?>, Short> packetIds) {
-				this.packetIds = packetIds;
+		public MessageIdsNetworkMessage(Map<Class<?>, Short> packetIds) {
+			this.packetIds = packetIds;
+		}
+
+		@Override
+		public void encodeToUniversalPacket(@NotNull UniversalPacket packet) {
+			packet.writeShort((short) packetIds.size());
+
+			for (Map.Entry<Class<?>, Short> entry : packetIds.entrySet()) {
+				packet.writeShort(entry.getValue());
+				packet.writeString(entry.getKey().getName());
 			}
+		}
 
-			@Override
-			public void encodeToUniversalPacket(@NotNull UniversalPacket packet) {
-				packet.writeShort((short) packetIds.size());
+		@Override
+		public void decodeFromUniversalPacket(@NotNull UniversalPacket packet) {
+			this.packetIds = new HashMap<>();
 
-				for (Map.Entry<Class<?>, Short> entry : packetIds.entrySet()) {
-					packet.writeShort(entry.getValue());
-					packet.writeString(entry.getKey().getName());
+			final short size = packet.readShort();
+
+			try {
+				for (int i = 0; i < size; i++) {
+					final short id = packet.readShort();
+					final Class<?> messageClass = Class.forName(packet.readString());
+
+					this.packetIds.put(messageClass, id);
 				}
+			} catch (ClassNotFoundException e) {
+				throw new RuntimeException(e);
 			}
-
-			@Override
-			public void decodeFromUniversalPacket(@NotNull UniversalPacket packet) {
-				this.packetIds = new HashMap<>();
-
-				final short size = packet.readShort();
-
-				try {
-					for (int i = 0; i < size; i++) {
-						final short id = packet.readShort();
-						final Class<?> messageClass = Class.forName(packet.readString());
-
-						this.packetIds.put(messageClass, id);
-					}
-				} catch (ClassNotFoundException e) {
-					throw new RuntimeException(e);
-				}
-			}
+		}
 
 		@Override
 		public void handle(NetworkContext context) {

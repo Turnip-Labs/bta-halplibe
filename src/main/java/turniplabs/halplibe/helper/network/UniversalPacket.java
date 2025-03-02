@@ -62,14 +62,14 @@ public class UniversalPacket extends Packet {
 
     @Environment(EnvType.SERVER)
     private void handlePacketServer(PacketHandler packetHandler) {
-        NetworkHandler.receiveUniversalPacket(new NetworkMessage.NetworkContext((
+        NetworkHandler.internalReceiveUniversalPacket(new NetworkMessage.NetworkContext((
                 (PacketHandlerServerAccessor)packetHandler).getPlayerEntity()
         ), this);
     }
 
     @Environment(EnvType.CLIENT)
     private void handlePacketClient() {
-        NetworkHandler.receiveUniversalPacket(new NetworkMessage.NetworkContext(
+        NetworkHandler.internalReceiveUniversalPacket(new NetworkMessage.NetworkContext(
                 Minecraft.getMinecraft().thePlayer
         ), this);
     }

@@ -27,7 +27,7 @@ public class MinecraftServerMixin {
     public void beforeGameStartEntrypoint(CallbackInfoReturnable<Boolean> cir){
         instance = (MinecraftServer)(Object)this;
         Global.isServer = true;
-        NetworkHandler.setup();
+        NetworkHandler.internalNetworkHandlerSetup();
         FabricLoader.getInstance().getEntrypoints("beforeGameStart", GameStartEntrypoint.class).forEach(GameStartEntrypoint::beforeGameStart);
     }
 
