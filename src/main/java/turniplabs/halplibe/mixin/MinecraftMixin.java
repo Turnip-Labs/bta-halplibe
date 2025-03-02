@@ -36,7 +36,7 @@ public class MinecraftMixin {
 
     @Inject(method = "startGame", at = @At("TAIL"))
     public void afterGameStartEntrypoint(CallbackInfo ci){
-        NetworkHandler.setup();
+        NetworkHandler.internalNetworkHandlerSetup();
         FabricLoader.getInstance().getEntrypoints("afterGameStart", GameStartEntrypoint.class).forEach(GameStartEntrypoint::afterGameStart);
         FabricLoader.getInstance().getEntrypoints("afterClientStart", ClientStartEntrypoint.class).forEach(ClientStartEntrypoint::afterClientStart);
     }
