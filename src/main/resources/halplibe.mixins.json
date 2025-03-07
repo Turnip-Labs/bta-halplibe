@@ -9,24 +9,25 @@
     "accessors.BlockAccessor",
     "accessors.BlocksAccessor",
     "accessors.LanguageAccessor",
+    "accessors.PacketHandlerServerAccessor",
     "accessors.WeightedRandomBagAccessor",
-    "accessors.WeightedRandomBagEntryAccessor",
-    "accessors.PacketHandlerServerAccessor"
+    "accessors.WeightedRandomBagEntryAccessor"
   ],
   "client": [
     "MinecraftMixin",
     "PacketHandlerClientMixin",
+    "accessors.EntityFireflyFXAccessor",
+    "accessors.EntityFXAccessor",
     "models.BlockColorDispatcherMixin",
     "models.BlockModelDispatcherMixin",
     "models.EntityRenderDispatcherMixin",
     "models.ItemModelDispatcherMixin",
-    "models.TileEntityRendererDispatcherMixin",
-    "accessors.EntityFireflyFXAccessor",
-    "accessors.EntityFXAccessor"
+    "models.TileEntityRendererDispatcherMixin"
   ],
   "server": [
     "MinecraftServerMixin",
-    "PacketHandlerLoginMixin"
+    "PacketHandlerLoginMixin",
+    "PacketHandlerServerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

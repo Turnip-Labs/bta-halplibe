@@ -7,6 +7,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.net.handler.PacketHandler;
 import net.minecraft.core.net.packet.Packet;
+import net.minecraft.core.net.packet.PacketCustomPayload;
 import org.jetbrains.annotations.NotNull;
 import turniplabs.halplibe.helper.EnvironmentHelper;
 import turniplabs.halplibe.mixin.accessors.PacketHandlerServerAccessor;
@@ -28,6 +29,16 @@ public class UniversalPacket extends Packet {
         this.buffer = new byte[0];
         this.writeIndex = 0;
         this.readIndex = 0;
+    }
+
+    public UniversalPacket(PacketCustomPayload packetCustomPayload) {
+        this.buffer = packetCustomPayload.data;
+        this.writeIndex = packetCustomPayload.data.length - 1;
+        this.readIndex = 0;
+    }
+
+    public PacketCustomPayload toPacketCustomPayload() {
+        return new PacketCustomPayload("HALPLIBE", buffer);
     }
 
     @Deprecated

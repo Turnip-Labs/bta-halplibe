@@ -5,12 +5,14 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.entity.player.Player;
 import net.minecraft.core.net.packet.Packet;
+import net.minecraft.core.net.packet.PacketCustomPayload;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.entity.player.PlayerServer;
 import org.jetbrains.annotations.NotNull;
 import turniplabs.halplibe.helper.EnvironmentHelper;
 
 import java.lang.reflect.InvocationTargetException;
+import java.nio.ByteBuffer;
 import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
@@ -125,9 +127,12 @@ public final class NetworkHandler
 	}
 
 	@Environment(EnvType.SERVER)
-	public static void sendToPlayerMessagesConfiguration(Player player)
-	{
-		((PlayerServer)player).playerNetServerHandler.sendPacket(encode(new MessageIdsNetworkMessage(packetIds)));
+	public static void sendToPlayerMessagesConfiguration(Player player) {
+		((PlayerServer) player).playerNetServerHandler.sendPacket(
+				encode(
+						new MessageIdsNetworkMessage(packetIds)
+				).toPacketCustomPayload()
+		);
 	}
 
 	/**
