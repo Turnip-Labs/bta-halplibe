@@ -14,6 +14,7 @@
     "accessors.WeightedRandomBagEntryAccessor"
   ],
   "client": [
+    "AtlasStitcherMixin",
     "MinecraftMixin",
     "PacketHandlerClientMixin",
     "accessors.EntityFireflyFXAccessor",
