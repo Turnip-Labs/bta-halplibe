@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import turniplabs.halplibe.helper.network.NetworkHandler;
 
 @Mixin(value = PacketHandlerLogin.class, remap = false)
-public class PacketHandlerLoginMixin {
+public abstract class PacketHandlerLoginMixin {
 		@Inject(method = "doLogin(Lnet/minecraft/core/net/packet/PacketLogin;)V", at = @At(value = "INVOKE",
 			target = "Lnet/minecraft/server/net/handler/PacketHandlerServer;sendPacket(Lnet/minecraft/core/net/packet/Packet;)V",
 			ordinal = 0, shift = At.Shift.AFTER),

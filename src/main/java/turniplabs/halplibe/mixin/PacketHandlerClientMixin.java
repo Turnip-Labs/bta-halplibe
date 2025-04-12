@@ -12,7 +12,7 @@ import turniplabs.halplibe.helper.network.UniversalPacket;
 import turniplabs.halplibe.util.RecipeEntrypoint;
 
 @Mixin(value = PacketHandlerClient.class,remap = false)
-public class PacketHandlerClientMixin {
+public abstract class PacketHandlerClientMixin {
     @Inject(method = "handleLogin", at = @At(value = "TAIL"))
     public void handleLogin(PacketLogin packet1login, CallbackInfo ci) {
         FabricLoader.getInstance().getEntrypoints("recipesReady", RecipeEntrypoint.class).forEach(RecipeEntrypoint::initNamespaces);
