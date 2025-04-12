@@ -15,6 +15,7 @@
   ],
   "client": [
     "AtlasStitcherMixin",
+    "GameSettingsMixin",
     "MinecraftMixin",
     "PacketHandlerClientMixin",
     "accessors.EntityFireflyFXAccessor",
