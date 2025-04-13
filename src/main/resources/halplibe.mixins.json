@@ -9,7 +9,6 @@
     "accessors.BlockAccessor",
     "accessors.BlocksAccessor",
     "accessors.LanguageAccessor",
-    "accessors.PacketHandlerServerAccessor",
     "accessors.WeightedRandomBagAccessor",
     "accessors.WeightedRandomBagEntryAccessor"
   ],
@@ -27,6 +26,7 @@
     "models.TileEntityRendererDispatcherMixin"
   ],
   "server": [
+    "accessors.PacketHandlerServerAccessor",
     "MinecraftServerMixin",
     "PacketHandlerLoginMixin",
     "PacketHandlerServerMixin"
