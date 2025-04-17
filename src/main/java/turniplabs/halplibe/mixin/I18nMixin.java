@@ -12,15 +12,15 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import turniplabs.halplibe.HalpLibe;
 import turniplabs.halplibe.mixin.accessors.LanguageAccessor;
-import turniplabs.halplibe.util.DirectoryManager;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URI;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.*;
-import java.util.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Mixin(value = I18n.class, remap = false)
@@ -30,64 +30,23 @@ public abstract class I18nMixin {
     private Language currentLanguage;
 
     @Unique
-    private static String[] filesInDir(String directory) {
-        List<String> paths = new ArrayList<>();
-        if (!directory.endsWith("/")) {
-            directory = directory + "/";
+    private void loadLangFile(Path path, boolean subFolder) {
+        String fileName = subFolder ? path.getParent().getFileName().toString() : path.getFileName().toString();
+        Language currentLanguage = this.currentLanguage;
+        Language defaultLanguage = Language.Default.INSTANCE;
+
+        if (Files.isRegularFile(path) && fileName.endsWith(".lang")) {
+            try (InputStreamReader reader = new InputStreamReader(path.toUri().toURL().openStream(), StandardCharsets.UTF_8)) {
+                if (fileName.contains(defaultLanguage.getId())) {
+                    //noinspection DataFlowIssue (Suppressing IntelliJ ClassCastException warning)
+                    ((LanguageAccessor) defaultLanguage).getEntries().load(reader);
+                } else if (fileName.contains(currentLanguage.getId())) {
+                    ((LanguageAccessor) currentLanguage).getEntries().load(reader);
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
-
-        try {
-            URI uri = Objects.requireNonNull(I18n.class.getResource(directory)).toURI();
-            FileSystem fileSystem = null;
-            Path myPath;
-            if (uri.getScheme().equals("jar")) {
-                try {
-                    fileSystem = FileSystems.getFileSystem(uri);
-                } catch (Exception var9) {
-                    fileSystem = FileSystems.newFileSystem(uri, Collections.emptyMap());
-                }
-
-                myPath = fileSystem.getPath(directory);
-            } else {
-                myPath = Paths.get(uri);
-            }
-
-            Stream<Path> walk = Files.walk(myPath, 1);
-
-            try {
-                Iterator<Path> it = walk.iterator();
-                it.next();
-
-                while (it.hasNext()) {
-                    paths.add(directory + it.next().getFileName().toString());
-                }
-            } catch (Throwable var10) {
-                if (walk != null) {
-                    try {
-                        walk.close();
-                    } catch (Throwable var8) {
-                        var10.addSuppressed(var8);
-                    }
-                }
-
-                throw var10;
-            }
-
-            walk.close();
-
-            if (fileSystem != null) {
-                fileSystem.close();
-            }
-        } catch (Exception ignored) {
-
-        }
-
-        return paths.toArray(new String[0]);
-    }
-
-    @Shadow
-    public static InputStream getResourceAsStream(String path) {
-        return null;
     }
 
     @Inject(
@@ -95,62 +54,37 @@ public abstract class I18nMixin {
             at = @At("TAIL")
     )
     public void addHalplibeModLangFiles(String languageCode, boolean save, CallbackInfo ci) {
-        Properties entries = ((LanguageAccessor) currentLanguage).getEntries();
         Language defaultLanguage = Language.Default.INSTANCE;
-        Properties defaultEntries = ((LanguageAccessor) defaultLanguage).getEntries(); //if you see a ClassCastException warning here, it is wrong, nothing happens
         String defaultLangId = defaultLanguage.getId();
         String currentLangId = currentLanguage.getId();
         HalpLibe.LOGGER.debug("Current lang: " + currentLangId);
+
         for (ModContainer mod : FabricLoader.getInstance().getAllMods()) {
-            String path = DirectoryManager.getLanguageDirectory(mod.getMetadata().getId());
-            String[] rootLangs = filesInDir(path);
-            String[] subCurrentLangs = filesInDir(path + currentLangId + "/");
-            String[] subDefaultLangs = filesInDir(path + defaultLangId + "/");
-            HalpLibe.LOGGER.debug(mod.getMetadata().getId() + " contains " + (rootLangs.length + subDefaultLangs.length + subCurrentLangs.length) + " language files.");
-            HalpLibe.LOGGER.debug(Arrays.toString(rootLangs));
-            HalpLibe.LOGGER.debug(Arrays.toString(subCurrentLangs));
-            HalpLibe.LOGGER.debug(Arrays.toString(subDefaultLangs));
-            for (String lang : rootLangs) {
-                if (lang.contains(currentLangId)) {
-                    try (InputStream stream = getResourceAsStream(lang)) {
-                        if (stream != null) {
-                            InputStreamReader r = new InputStreamReader(stream, StandardCharsets.UTF_8);
-                            entries.load(r);
+            String modId = mod.getMetadata().getId();
+            Optional<Path> optionalPath = mod.findPath("lang/" + modId); // Get the path to lang/modid/ folder
+            if (!optionalPath.isPresent()) continue;
+
+            // Get all files inside folder
+            try (Stream<Path> stream = Files.list(optionalPath.get())) {
+                List<Path> list = stream.collect(Collectors.toList());
+
+                for (Path p : list) {
+                    String fileName = p.getFileName().toString();
+                    // Skip if it doesn't match any lang ID
+                    if(!(fileName.contains(currentLangId) || fileName.contains(defaultLangId))) continue;
+
+                    if (Files.isDirectory(p)) { // Read subfolder lang files
+                        try (Stream<Path> subStream = Files.list(p)) {
+                            subStream.forEach(subP -> loadLangFile(subP, true)); // Try to read lang files in subdirectory
+                        } catch (IOException e) {
+                            HalpLibe.LOGGER.error("Failed to read .lang files of [{}] in folder {}!", modId, p.getFileName());
                         }
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    }else /* Read root lang file */ {
+                        loadLangFile(p, false);
                     }
                 }
-                if(lang.contains(defaultLangId)){
-                    try (InputStream stream = getResourceAsStream(lang)) {
-                        if (stream != null) {
-                            InputStreamReader r = new InputStreamReader(stream, StandardCharsets.UTF_8);
-                            defaultEntries.load(r);
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-            for (String lang : subCurrentLangs) {
-                try (InputStream stream = getResourceAsStream(lang)) {
-                    if (stream != null) {
-                        InputStreamReader r = new InputStreamReader(stream, StandardCharsets.UTF_8);
-                        entries.load(r);
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            for (String lang : subDefaultLangs) {
-                try (InputStream stream = getResourceAsStream(lang)) {
-                    if (stream != null) {
-                        InputStreamReader r = new InputStreamReader(stream, StandardCharsets.UTF_8);
-                        entries.load(r);
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+            } catch (IOException e) {
+                HalpLibe.LOGGER.error("Failed to read .lang files of [{}]!", modId);
             }
         }
     }
