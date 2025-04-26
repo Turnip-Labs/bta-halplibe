@@ -94,6 +94,11 @@ public final class NetworkHandler
 		packetReaders.put( id, ( context, buf ) -> {
 			T result = decoder.apply( buf );
 			result.handle(context);
+			if (EnvironmentHelper.isServerEnvironment()) {
+				result.handleServerEnv(context);
+			} else {
+				result.handleClientEnv(context);
+			}
 		} );
 	}
 
@@ -115,7 +120,9 @@ public final class NetworkHandler
 	@Environment(EnvType.CLIENT)
 	private static void sendToPlayerLocal(NetworkMessage message)
 	{
-		message.handle(new NetworkMessage.NetworkContext(Minecraft.getMinecraft().thePlayer));
+		NetworkMessage.NetworkContext context = new NetworkMessage.NetworkContext(Minecraft.getMinecraft().thePlayer);
+		message.handle(context);
+		message.handleClientEnv(context);
 	}
 
 	@Environment(EnvType.SERVER)
@@ -228,11 +235,7 @@ public final class NetworkHandler
 		}
 
 		@Override
-		public void handle(NetworkContext context) {
-			if (EnvironmentHelper.isServerEnvironment()) {
-				return;
-			}
-
+		public void handleClientEnv(NetworkContext context) {
 			try {
 				NetworkHandler.packetReaders.clear();
 				NetworkHandler.packetIds.clear();
