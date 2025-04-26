@@ -45,7 +45,8 @@ public class UniversalPacket extends Packet {
     public void read(DataInputStream dis) throws IOException {
         final int length = dis.readInt();
         buffer = new byte[length];
-        writeIndex = dis.read(buffer, 0, length);
+        dis.readFully(buffer, 0, length);
+        writeIndex = length;
     }
 
     /**
