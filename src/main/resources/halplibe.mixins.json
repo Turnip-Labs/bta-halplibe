@@ -9,12 +9,12 @@
     "accessors.BlockAccessor",
     "accessors.BlocksAccessor",
     "accessors.LanguageAccessor",
-    "accessors.PacketHandlerServerAccessor",
     "accessors.WeightedRandomBagAccessor",
     "accessors.WeightedRandomBagEntryAccessor"
   ],
   "client": [
     "AtlasStitcherMixin",
+    "GameSettingsMixin",
     "MinecraftMixin",
     "PacketHandlerClientMixin",
     "accessors.EntityFireflyFXAccessor",
@@ -26,6 +26,7 @@
     "models.TileEntityRendererDispatcherMixin"
   ],
   "server": [
+    "accessors.PacketHandlerServerAccessor",
     "MinecraftServerMixin",
     "PacketHandlerLoginMixin",
     "PacketHandlerServerMixin"

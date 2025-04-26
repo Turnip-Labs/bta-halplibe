@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import turniplabs.halplibe.helper.network.UniversalPacket;
 
 @Mixin(value = PacketHandlerServer.class,remap = false)
-public class PacketHandlerServerMixin {
+public abstract class PacketHandlerServerMixin {
     @Inject(method = "handleCustomPayload", at = @At(value = "TAIL"))
     public void handleCustomPayload(PacketCustomPayload customPayloadPacket, CallbackInfo ci) {
         if ("HALPLIBE".equals(customPayloadPacket.channel)) {

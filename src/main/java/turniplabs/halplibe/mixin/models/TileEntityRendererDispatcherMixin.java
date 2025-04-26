@@ -2,7 +2,6 @@ package turniplabs.halplibe.mixin.models;
 
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.render.TileEntityRenderDispatcher;
-import net.minecraft.client.render.item.model.ItemModelDispatcher;
 import net.minecraft.client.render.tileentity.TileEntityRenderer;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -17,7 +16,7 @@ import turniplabs.halplibe.util.ModelEntrypoint;
 import java.util.Map;
 
 @Mixin(value = TileEntityRenderDispatcher.class, remap = false)
-public class TileEntityRendererDispatcherMixin {
+public abstract class TileEntityRendererDispatcherMixin {
     @Shadow @Final private Map<Class<?>, TileEntityRenderer<?>> renderers;
 
     @Unique
