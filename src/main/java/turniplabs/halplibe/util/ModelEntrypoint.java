@@ -10,9 +10,24 @@ import net.minecraft.client.render.item.model.ItemModelDispatcher;
 
 @Environment(EnvType.CLIENT)
 public interface ModelEntrypoint {
+    /**
+     * The entrypoint name inside {@code fabric.mod.json} is {@code initModels}.
+     */
     void initBlockModels(BlockModelDispatcher dispatcher);
+    /**
+     * The entrypoint name inside {@code fabric.mod.json} is {@code initModels}.
+     */
     void initItemModels(ItemModelDispatcher dispatcher);
+    /**
+     * The entrypoint name inside {@code fabric.mod.json} is {@code initModels}.
+     */
     void initEntityModels(EntityRenderDispatcher dispatcher);
+    /**
+     * The entrypoint name inside {@code fabric.mod.json} is {@code initModels}.
+     */
     void initTileEntityModels(TileEntityRenderDispatcher dispatcher);
+    /**
+     * The entrypoint name inside {@code fabric.mod.json} is {@code initModels}.
+     */
     void initBlockColors(BlockColorDispatcher dispatcher);
 }
