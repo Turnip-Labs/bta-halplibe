@@ -49,7 +49,7 @@ public interface NetworkMessage {
 	 *
 	 * @param context An intermediary representation of Packet handler common on both Client and Server environment.
 	 */
-	@Environment(EnvType.SERVER)
+	@Environment(EnvType.CLIENT)
 	default void handleClientEnv(NetworkContext context) {}
 
 	class NetworkContext {
