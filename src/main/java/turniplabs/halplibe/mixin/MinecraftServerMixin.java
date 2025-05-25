@@ -9,6 +9,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import turniplabs.halplibe.helper.network.NetworkHandler;
+import turniplabs.halplibe.mixin.accessors.ItemsAccessor;
 import turniplabs.halplibe.util.BlockInitEntrypoint;
 import turniplabs.halplibe.util.GameStartEntrypoint;
 import turniplabs.halplibe.util.ItemInitEntrypoint;
@@ -44,6 +45,11 @@ public abstract class MinecraftServerMixin {
     @Inject(method = "startServer", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/item/Items;init()V", shift = At.Shift.AFTER))
     public void afterItemInitEntrypoint(CallbackInfoReturnable<Boolean> cir) {
         FabricLoader.getInstance().getEntrypoints("afterItemInit", ItemInitEntrypoint.class).forEach(ItemInitEntrypoint::afterItemInit);
+    }
+
+    @Inject(method = "startServer", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/achievement/stat/StatList;init()V"))
+    public void initStats(CallbackInfoReturnable<Boolean> cir) {
+        ItemsAccessor.invokeInitStats();
     }
 
     /*

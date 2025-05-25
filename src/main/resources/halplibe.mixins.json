@@ -5,9 +5,11 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "I18nMixin",
+    "ItemsMixin",
     "MobCreeperMixin",
     "accessors.BlockAccessor",
     "accessors.BlocksAccessor",
+    "accessors.ItemsAccessor",
     "accessors.LanguageAccessor",
     "accessors.WeightedRandomBagAccessor",
     "accessors.WeightedRandomBagEntryAccessor"
