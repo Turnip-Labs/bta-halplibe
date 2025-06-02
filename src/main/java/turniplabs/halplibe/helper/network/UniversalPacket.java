@@ -5,6 +5,7 @@ import com.mojang.nbt.tags.CompoundTag;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.net.handler.PacketHandler;
 import net.minecraft.core.net.packet.Packet;
 import net.minecraft.core.net.packet.PacketCustomPayload;
@@ -15,6 +16,7 @@ import turniplabs.halplibe.mixin.accessors.PacketHandlerServerAccessor;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.UUID;
 
 /**
  * UniversalPacket is a general purpose packet made to transport multiple message into the same PacketType
@@ -265,6 +267,30 @@ public class UniversalPacket extends Packet {
                 throw new RuntimeException(e);
             }
         }
+    }
+
+    @SuppressWarnings("unused")
+    public void writeUUID(UUID uuid) {
+        writeLong(uuid.getMostSignificantBits());
+        writeLong(uuid.getLeastSignificantBits());
+    }
+
+    @SuppressWarnings("unused")
+    public UUID readUUID() {
+        return new UUID(readLong(), readLong());
+    }
+
+    @SuppressWarnings("unused")
+    public void writeItemStack(ItemStack itemStack) {
+        writeShort((short) itemStack.itemID);
+        writeByte(itemStack.stackSize);
+        writeShort((short) itemStack.getMetadata());
+        writeCompoundTag(itemStack.getData());
+    }
+
+    @SuppressWarnings("unused")
+    public ItemStack readItemStack() {
+        return new ItemStack(readShort(), readByte(), readShort(), readCompoundTag());
     }
 
     @SuppressWarnings("unused")
