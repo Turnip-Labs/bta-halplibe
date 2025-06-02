@@ -35,7 +35,7 @@ public class UniversalPacket extends Packet {
 
     public UniversalPacket(PacketCustomPayload packetCustomPayload) {
         this.buffer = packetCustomPayload.data;
-        this.writeIndex = packetCustomPayload.data.length - 1;
+        this.writeIndex = packetCustomPayload.data.length;
         this.readIndex = 0;
     }
 
