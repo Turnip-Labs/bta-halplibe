@@ -1,6 +1,9 @@
 package turniplabs.halplibe.helper.network;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.core.entity.player.Player;
+import turniplabs.halplibe.helper.EnvironmentHelper;
 
 import javax.annotation.Nonnull;
 
@@ -22,11 +25,32 @@ public interface NetworkMessage {
 	void decodeFromUniversalPacket(@Nonnull UniversalPacket packet );
 
 	/**
-	 * Handle this {@link NetworkMessage}.
+	 * Is called when this {@link NetworkMessage} is received.
+	 * This is common for both Env and is the recommended handle if you don't try to use object exclusive to a specific Env
 	 *
 	 * @param context An intermediary representation of Packet handler common on both Client and Server environment.
 	 */
-	void handle(NetworkContext context);
+	default void handle(NetworkContext context) {}
+
+	/**
+	 * Is called when this {@link NetworkMessage} is received with an extra check for preventing loading unavailable class for Server Env.
+	 * This is called after the common handle method.
+	 * NOTE: Single player doesn't execute this since Server Env is never available
+	 *
+	 * @param context An intermediary representation of Packet handler common on both Client and Server environment.
+	 */
+	@Environment(EnvType.SERVER)
+	default void handleServerEnv(NetworkContext context) {}
+
+	/**
+	 * Is called when this {@link NetworkMessage} is received with an extra check for preventing loading unavailable class for Client Env.
+	 * This is called after the common handle method.
+	 * NOTE: Single player does execute this since Client Env is always available
+	 *
+	 * @param context An intermediary representation of Packet handler common on both Client and Server environment.
+	 */
+	@Environment(EnvType.CLIENT)
+	default void handleClientEnv(NetworkContext context) {}
 
 	class NetworkContext {
 		/**
