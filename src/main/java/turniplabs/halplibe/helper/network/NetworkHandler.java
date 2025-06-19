@@ -156,12 +156,8 @@ public final class NetworkHandler
 	}
 
 	@Environment(EnvType.SERVER)
-	public static void sendToPlayerMessagesConfiguration(Player player) {
-		((PlayerServer) player).playerNetServerHandler.sendPacket(
-				generateCompatibilityNetworkMessagePacket(
-						new MessageIdsNetworkMessage(packetIds)
-				)
-		);
+	public static PacketCustomPayload getMessagesConfigurationPacket() {
+		return generateCompatibilityNetworkMessagePacket(new MessageIdsNetworkMessage(packetIds));
 	}
 
 	/**
