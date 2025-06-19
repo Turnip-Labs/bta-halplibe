@@ -39,6 +39,11 @@ public class UniversalPacket extends Packet {
         this.readIndex = 0;
     }
 
+    /**
+     * Convert a UniversalPacket to a PacketCustomPayload.
+     * <p>
+     * This method is only intended to be used by the NetworkHandler since the MessageId will not be inserted for be sent to the network.
+     */
     public PacketCustomPayload toPacketCustomPayload() {
         return new PacketCustomPayload("HALPLIBE", buffer);
     }
