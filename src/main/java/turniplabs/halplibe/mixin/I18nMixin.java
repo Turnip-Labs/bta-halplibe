@@ -31,16 +31,16 @@ public abstract class I18nMixin {
 
     @Unique
     private void loadLangFile(Path path, boolean subFolder) {
-        String fileName = subFolder ? path.getParent().getFileName().toString() : path.getFileName().toString();
+        String langCode = subFolder ? path.getParent().getFileName().toString() : path.getFileName().toString();
         Language currentLanguage = this.currentLanguage;
         Language defaultLanguage = Language.Default.INSTANCE;
 
-        if (Files.isRegularFile(path) && fileName.endsWith(".lang")) {
+        if (Files.isRegularFile(path) && path.toString().endsWith(".lang")) {
             try (InputStreamReader reader = new InputStreamReader(path.toUri().toURL().openStream(), StandardCharsets.UTF_8)) {
-                if (fileName.contains(defaultLanguage.getId())) {
+                if (langCode.contains(defaultLanguage.getId())) {
                     //noinspection DataFlowIssue (Suppressing IntelliJ ClassCastException warning)
                     ((LanguageAccessor) defaultLanguage).getEntries().load(reader);
-                } else if (fileName.contains(currentLanguage.getId())) {
+                } else if (langCode.contains(currentLanguage.getId())) {
                     ((LanguageAccessor) currentLanguage).getEntries().load(reader);
                 }
             } catch (IOException e) {
