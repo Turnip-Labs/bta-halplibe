@@ -146,7 +146,7 @@ public abstract class I18nMixin {
                 try (InputStream stream = getResourceAsStream(lang)) {
                     if (stream != null) {
                         InputStreamReader r = new InputStreamReader(stream, StandardCharsets.UTF_8);
-                        entries.load(r);
+                        defaultEntries.load(r);
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
