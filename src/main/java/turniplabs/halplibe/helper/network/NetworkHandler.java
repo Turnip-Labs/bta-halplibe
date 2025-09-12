@@ -9,6 +9,7 @@ import net.minecraft.core.net.packet.PacketCustomPayload;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.entity.player.PlayerServer;
 import org.jetbrains.annotations.NotNull;
+import turniplabs.halplibe.HalpLibe;
 import turniplabs.halplibe.helper.EnvironmentHelper;
 
 import java.lang.reflect.InvocationTargetException;
@@ -331,15 +332,16 @@ public final class NetworkHandler
 
 			final short size = packet.readShort();
 
-			try {
-				for (int i = 0; i < size; i++) {
-					final short id = packet.readShort();
-					final Class<?> messageClass = Class.forName(packet.readString());
+			for (int i = 0; i < size; i++) {
+				final short id = packet.readShort();
+				final String className = packet.readString();
+				try {
+					final Class<?> messageClass = Class.forName(className);
 
 					this.packetIds.put(messageClass, id);
+				} catch (ClassNotFoundException e) {
+					HalpLibe.LOGGER.warn("NetworkMessage {} from server couldn't be found on client", className);
 				}
-			} catch (ClassNotFoundException e) {
-				throw new RuntimeException(e);
 			}
 		}
 
