@@ -10,7 +10,7 @@ buildscript {
 }
 
 plugins {
-	id 'fabric-loom' version '1.10.0-bta'
+	id 'fabric-loom' version '1.13.0-bta'
 	id 'java'
 	id 'maven-publish'
 	id "com.modrinth.minotaur" version "2.+"
@@ -32,7 +32,7 @@ switch (OperatingSystem.current()) {
 }
 
 group = project.mod_group
-archivesBaseName = project.mod_name
+base.archivesName = project.mod_name
 version = project.mod_version
 
 loom {
@@ -194,7 +194,7 @@ if(hasProperty("modrinthToken")){
 		uploadFile = remapJar // With Loom, this MUST be set to `remapJar` instead of `jar`!
 		additionalFiles = [remapSourcesJar]
 		gameVersions = ["b1.7.3"] // Must be an array, even with only one version
-		loaders = ["fabric"] // Must also be an array - no need to specify this if you're using Loom or ForgeGradle
+		loaders = ["bta-babric"] // Must also be an array - no need to specify this if you're using Loom or ForgeGradle
 		changelog = Files.readString(java.nio.file.Path.of("${rootProject.projectDir}/CHANGELOG.md"))
 		dependencies { // A special DSL for creating dependencies
 			// scope.type
