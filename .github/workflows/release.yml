@@ -36,6 +36,11 @@ jobs:
       - name: Build jars
         run: ./gradlew clean jar sourcesJar
 
+      - name: Configure git user
+        run: |
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
+
       - name: Create Git tag (v<mod_version> on commitish 7.3)
         id: tag
         run: |
