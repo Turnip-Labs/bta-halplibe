@@ -6,7 +6,7 @@ import net.minecraft.core.entity.monster.MobCreeper;
 import net.minecraft.core.entity.monster.MobMonster;
 import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.world.World;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -15,8 +15,7 @@ import turniplabs.halplibe.helper.SpecialMobDropHelper;
 
 @Mixin(value = MobCreeper.class,remap = false)
 public abstract class MobCreeperMixin extends MobMonster {
-
-    private MobCreeperMixin(@Nullable World world) {
+    protected MobCreeperMixin(@Nullable World world) {
         super(world);
     }
 

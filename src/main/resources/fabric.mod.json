@@ -28,11 +28,15 @@
   "mixins": [
       "halplibe.mixins.json"
   ],
-  "accessWidener": "halplibe.accesswidener",
+  "accessWidener": "halplibe.classtweaker",
 
   "depends": {
+    "fabricloader": ">=${fabricloader}",
+    "minecraft": "*",
+    "java": ">=${java}"
   },
   "suggests": {
+    "modmenu": ">=${modmenu}"
   },
   "custom": {
     "modmenu:api": true

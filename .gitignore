@@ -1,7 +1,8 @@
-/run/
-/out/
-/.idea/
-/build/
-/.gradle/
-/local-lib/
-/run-server/
+.gradle/
+.idea/
+.vscode/
+bin/
+build/
+out/
+run/
+run-server/

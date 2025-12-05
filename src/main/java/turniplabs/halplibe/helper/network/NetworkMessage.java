@@ -3,9 +3,7 @@ package turniplabs.halplibe.helper.network;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.core.entity.player.Player;
-import turniplabs.halplibe.helper.EnvironmentHelper;
-
-import javax.annotation.Nonnull;
+import org.jspecify.annotations.NonNull;
 
 public interface NetworkMessage {
 	/**
@@ -14,7 +12,7 @@ public interface NetworkMessage {
 	 *
 	 * @param packet The packet to write data to.
 	 */
-	void encodeToUniversalPacket(@Nonnull UniversalPacket packet );
+	void encodeToUniversalPacket(@NonNull UniversalPacket packet );
 
 	/**
 	 * Decode the UniversalPacket into your NetworkMessage.
@@ -22,7 +20,7 @@ public interface NetworkMessage {
 	 *
 	 * @param packet The packet to read data from.
 	 */
-	void decodeFromUniversalPacket(@Nonnull UniversalPacket packet );
+	void decodeFromUniversalPacket(@NonNull UniversalPacket packet );
 
 	/**
 	 * Is called when this {@link NetworkMessage} is received.

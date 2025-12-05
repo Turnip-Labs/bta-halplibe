@@ -17,7 +17,7 @@ import net.minecraft.core.block.BlockLogic;
 import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.entity.Entity;
 import net.minecraft.core.item.Item;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import java.util.Map;
 import java.util.function.Supplier;
@@ -34,23 +34,23 @@ public class ModelHelper {
     public static TileEntityRenderDispatcher tileEntityRenderDispatcher;
     public static BlockColorDispatcher blockColorDispatcher;
 
-    public static void setBlockModel(@NotNull Block<? extends BlockLogic> block, @NotNull Supplier<BlockModel<?>> func) {
+    public static void setBlockModel(@NonNull Block<? extends BlockLogic> block, @NonNull Supplier<BlockModel<?>> func) {
         blockModelDispatcher.addDispatch(block,func.get());
     }
 
-    public static void setBlockColor(@NotNull Block<? extends BlockLogic> block, @NotNull Supplier<BlockColor> func) {
+    public static void setBlockColor(@NonNull Block<? extends BlockLogic> block, @NonNull Supplier<BlockColor> func) {
         blockColorDispatcher.addDispatch(block,func.get());
     }
 
-    public static void setItemModel(@NotNull Item item, @NotNull Supplier<ItemModel> func) {
+    public static void setItemModel(@NonNull Item item, @NonNull Supplier<ItemModel> func) {
         itemModelDispatcher.addDispatch(item,func.get());
     }
 
-    public static void setEntityModel(@NotNull Class<? extends Entity> entity, @NotNull Supplier<EntityRenderer<?>> func) {
+    public static void setEntityModel(@NonNull Class<? extends Entity> entity, @NonNull Supplier<EntityRenderer<?>> func) {
         entityRenderers.put(entity, func.get());
     }
 
-    public static void setTileEntityModel(@NotNull Class<? extends TileEntity> tileEntity, @NotNull Supplier<TileEntityRenderer<?>> func) {
+    public static void setTileEntityModel(@NonNull Class<? extends TileEntity> tileEntity, @NonNull Supplier<TileEntityRenderer<?>> func) {
         tileEntityRenderers.put(tileEntity, func.get());
     }
 

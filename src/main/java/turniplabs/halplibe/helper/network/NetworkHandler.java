@@ -8,7 +8,7 @@ import net.minecraft.core.net.packet.Packet;
 import net.minecraft.core.net.packet.PacketCustomPayload;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.entity.player.PlayerServer;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import turniplabs.halplibe.HalpLibe;
 import turniplabs.halplibe.helper.EnvironmentHelper;
 
@@ -317,7 +317,7 @@ public final class NetworkHandler
 		}
 
 		@Override
-		public void encodeToUniversalPacket(@NotNull UniversalPacket packet) {
+		public void encodeToUniversalPacket(@NonNull UniversalPacket packet) {
 			packet.writeShort((short) packetIds.size());
 
 			for (Map.Entry<Class<?>, Short> entry : packetIds.entrySet()) {
@@ -327,7 +327,7 @@ public final class NetworkHandler
 		}
 
 		@Override
-		public void decodeFromUniversalPacket(@NotNull UniversalPacket packet) {
+		public void decodeFromUniversalPacket(@NonNull UniversalPacket packet) {
 			this.packetIds = new HashMap<>();
 
 			final short size = packet.readShort();
