@@ -1,7 +1,5 @@
 package turniplabs.halplibe.helper;
 
-import net.minecraft.client.render.item.model.ItemModelBlock;
-import net.minecraft.client.render.item.model.ItemModelStandard;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.BlockLogic;
 import net.minecraft.core.block.BlockLogicFire;
@@ -13,11 +11,9 @@ import net.minecraft.core.data.tag.Tag;
 import net.minecraft.core.item.Item;
 import net.minecraft.core.item.block.ItemBlock;
 import net.minecraft.core.sound.BlockSound;
-import net.minecraft.core.util.helper.Side;
 import org.apache.commons.lang3.ArrayUtils;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import turniplabs.halplibe.HalpLibe;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import turniplabs.halplibe.mixin.accessors.BlockAccessor;
 import turniplabs.halplibe.mixin.accessors.BlocksAccessor;
 import turniplabs.halplibe.util.registry.IdSupplier;
@@ -27,12 +23,11 @@ import turniplabs.halplibe.util.toml.Toml;
 
 import java.util.*;
 import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 public final class BlockBuilder implements Cloneable {
 
-    private final @NotNull String modId;
+    private final @NonNull String modId;
     private @Nullable Float hardness = null;
     private @Nullable Float resistance = null;
     private @Nullable Integer luminance = null;
@@ -47,12 +42,12 @@ public final class BlockBuilder implements Cloneable {
     private @Nullable BlockSound blockSound = null;
     private @Nullable BlockLambda<ItemBlock<?>> customBlockItem = null;
     private @Nullable Tag<Block<?>>[] tags = null;
-    private String @NotNull [] textures = new String[6];
+    private String @NonNull [] textures = new String[6];
     private @Nullable String itemIcon = null;
     private @Nullable Supplier<TileEntity> entitySupplier = null;
 
 
-    public BlockBuilder(@NotNull String modId) {
+    public BlockBuilder(@NonNull String modId) {
         this.modId = modId;
     }
 

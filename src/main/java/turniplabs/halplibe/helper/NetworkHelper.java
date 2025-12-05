@@ -1,7 +1,7 @@
 package turniplabs.halplibe.helper;
 
 import net.minecraft.core.net.packet.Packet;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import turniplabs.halplibe.HalpLibe;
 
 import java.lang.reflect.Field;
@@ -45,7 +45,7 @@ public final class NetworkHelper {
         }
 
         @Override
-        public int compareTo(@NotNull NetworkEntry o) {
+        public int compareTo(@NonNull NetworkEntry o) {
             String mname = clazz.getName();
             String oname = o.clazz.getName();
 

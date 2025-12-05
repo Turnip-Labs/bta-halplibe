@@ -24,7 +24,7 @@ import net.minecraft.core.data.registry.recipe.adapter.WeightedRandomBagJsonAdap
 import net.minecraft.core.data.registry.recipe.adapter.WeightedRandomLootObjectJsonAdapter;
 import net.minecraft.core.item.IItemConvertible;
 import net.minecraft.core.item.ItemStack;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import turniplabs.halplibe.helper.recipeBuilders.RecipeBuilderBlastFurnace;
 import turniplabs.halplibe.helper.recipeBuilders.RecipeBuilderFurnace;
 import turniplabs.halplibe.helper.recipeBuilders.RecipeBuilderShaped;
@@ -63,7 +63,7 @@ public final class RecipeBuilder {
      * @param modID modId for namespace (or 'minecraft' for vanilla namespace)
      * @return Returns existing recipeNamespace if it already exists, or creates one and returns it if it does not exist.
      */
-    @NotNull
+    @NonNull
     public static RecipeNamespace getRecipeNamespace(String modID){
         if (Registries.RECIPES.getItem(modID) != null){
             return Registries.RECIPES.getItem(modID);
@@ -79,7 +79,7 @@ public final class RecipeBuilder {
      * @param symbol {@link RecipeSymbol} which represents the workstation
      * @return {@link RecipeGroup} Returns existing RecipeGroup if it already exists, or creates one and returns it if it does not exist.
      */
-    @NotNull
+    @NonNull
     public static RecipeGroup<?> getRecipeGroup(String modID, String key, RecipeSymbol symbol){
         return getRecipeGroup(getRecipeNamespace(modID), key, symbol);
     }
@@ -89,7 +89,7 @@ public final class RecipeBuilder {
      * @param symbol {@link RecipeSymbol} which represents the workstation
      * @return {@link RecipeGroup} Returns existing RecipeGroup if it already exists, or creates one and returns it if it does not exist.
      */
-    @NotNull
+    @NonNull
     public static RecipeGroup<?> getRecipeGroup(RecipeNamespace namespace, String key, RecipeSymbol symbol){
         if (namespace.getItem(key) != null){
             return namespace.getItem(key);
@@ -111,7 +111,7 @@ public final class RecipeBuilder {
      * @param key Group key
      * @return Returns the existing ItemGroup if it exists, or create one and return that if it doesn't yet exist.
      */
-    @NotNull
+    @NonNull
     public static List<ItemStack> getItemGroup(String modID, String key){
         List<ItemStack> group = Registries.ITEM_GROUPS.getItem(String.format("%s:%s", modID, key));
         if (group == null){

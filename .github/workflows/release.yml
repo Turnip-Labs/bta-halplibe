@@ -1,0 +1,65 @@
+name: Release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - name: validate gradle wrapper
+        uses: gradle/actions/wrapper-validation@v5
+      - name: Read mod_version from gradle.properties
+        id: vars
+        run: |
+          VERSION=$(grep '^mod_version = ' gradle.properties | cut -d'=' -f2 | tr -d '[:space:]')
+          if [ -z "$VERSION" ]; then
+            echo "mod_version not found in gradle.properties"
+            exit 1
+          fi
+          echo "VERSION=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Set up JDK
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Make Gradle wrapper executable
+        run: chmod +x ./gradlew
+
+      - name: Build jars
+        run: ./gradlew clean jar sourcesJar
+
+      - name: Configure git user
+        run: |
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
+
+      - name: Create Git tag (v<mod_version> on commitish 7.3)
+        id: tag
+        run: |
+          TAG="v${{ steps.vars.outputs.VERSION }}"
+          COMMITISH="7.3"
+
+          git tag -a "$TAG" -m "Release $TAG" "$COMMITISH"
+          git push origin "$TAG"
+
+          echo "TAG=$TAG" >> "$GITHUB_OUTPUT"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.tag.outputs.TAG }}
+          name: HalpLibe ${{ steps.vars.outputs.VERSION }}
+          body_path: CHANGELOG.md
+          files: |
+            build/libs/*-${{ steps.vars.outputs.VERSION }}.jar
+            build/libs/*-${{ steps.vars.outputs.VERSION }}-sources.jar
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

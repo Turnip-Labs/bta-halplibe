@@ -1,7 +1,7 @@
 package turniplabs.halplibe.util;
 
 import net.minecraft.core.item.ItemStack;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import java.util.LinkedHashMap;
 
@@ -37,7 +37,7 @@ public class CreativeEntry implements Comparable<CreativeEntry> {
     }
 
     @Override
-    public int compareTo(@NotNull CreativeEntry o) {
+    public int compareTo(@NonNull CreativeEntry o) {
         return priority - o.priority;
     }
 }

@@ -9,7 +9,7 @@ import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.net.handler.PacketHandler;
 import net.minecraft.core.net.packet.Packet;
 import net.minecraft.core.net.packet.PacketCustomPayload;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import turniplabs.halplibe.helper.EnvironmentHelper;
 import turniplabs.halplibe.mixin.accessors.PacketHandlerServerAccessor;
 
@@ -314,7 +314,7 @@ public class UniversalPacket extends Packet {
             }
 
             @Override
-            public int read(byte @NotNull [] b, int off, int len) {
+            public int read(byte @NonNull [] b, int off, int len) {
                 if (remaining <= 0) {
                     return -1;
                 }
