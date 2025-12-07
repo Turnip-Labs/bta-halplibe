@@ -5,6 +5,7 @@ import net.minecraft.core.item.Item;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jspecify.annotations.Nullable;
+import turniplabs.halplibe.mixin.accessors.ItemDamageAccessor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -137,7 +138,7 @@ public final class ItemBuilder implements Cloneable {
         }
 
         if (maxDamage != null){
-            item.setMaxDamage(maxDamage);
+            ((ItemDamageAccessor) item).callSetMaxDamage(maxDamage);
         }
 
         List<String> newTokens = new ArrayList<>();

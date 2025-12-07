@@ -10,6 +10,7 @@
     "PacketCustomPayloadMixin",
     "accessors.BlockAccessor",
     "accessors.BlocksAccessor",
+    "accessors.ItemDamageAccessor",
     "accessors.ItemsAccessor",
     "accessors.LanguageAccessor",
     "accessors.WeightedRandomBagAccessor",
@@ -29,10 +30,10 @@
     "models.TileEntityRendererDispatcherMixin"
   ],
   "server": [
-    "accessors.PacketHandlerServerAccessor",
     "MinecraftServerMixin",
     "PacketHandlerLoginMixin",
-    "PacketHandlerServerMixin"
+    "PacketHandlerServerMixin",
+    "accessors.PacketHandlerServerAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

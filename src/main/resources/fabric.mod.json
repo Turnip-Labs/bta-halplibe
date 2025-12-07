@@ -28,7 +28,6 @@
   "mixins": [
       "halplibe.mixins.json"
   ],
-  "accessWidener": "halplibe.classtweaker",
 
   "depends": {
     "fabricloader": ">=${fabricloader}",
