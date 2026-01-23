@@ -17,6 +17,8 @@ import turniplabs.halplibe.util.ModelEntrypoint;
 import turniplabs.halplibe.util.TomlConfigHandler;
 import turniplabs.halplibe.util.toml.Toml;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 
 public class HalpLibe implements ModInitializer, PreLaunchEntrypoint {
@@ -26,8 +28,39 @@ public class HalpLibe implements ModInitializer, PreLaunchEntrypoint {
     public static final boolean isClient = FabricLoader.getInstance().getEnvironmentType().equals(EnvType.CLIENT);
     public static final TomlConfigHandler CONFIG;
     static {
-        Toml toml = new Toml();
-        CONFIG = new TomlConfigHandler(MOD_ID, toml);
+        Toml defaultConfig = new Toml("Halplibe configuration file.");
+        defaultConfig.addEntry("recoveryMode",false);
+        CONFIG = new TomlConfigHandler(MOD_ID, new Toml("Halplibe configuration file."), false);
+        File configFile = CONFIG.getConfigFile();
+
+        boolean changed = false;
+        if (CONFIG.getConfigFile().exists()) {
+            CONFIG.loadConfig();
+            Toml rawConfig = CONFIG.getRawParsed();
+            CONFIG.setDefaults(rawConfig);
+
+            if(!rawConfig.contains("recoveryMode")) {
+                rawConfig.addEntry("recoveryMode",false);
+                changed = true;
+            }
+
+            if(changed){
+                CONFIG.setDefaults(rawConfig);
+                CONFIG.writeConfig();
+                CONFIG.loadConfig();
+            }
+        } else {
+            CONFIG.setDefaults(defaultConfig);
+            try {
+                configFile.getParentFile().mkdirs();
+                configFile.createNewFile();
+                CONFIG.writeConfig();
+                CONFIG.loadConfig();
+            } catch (IOException e) {
+                throw new RuntimeException("Failed to generate config!", e);
+            }
+
+        }
     }
 
     @SuppressWarnings("unused")

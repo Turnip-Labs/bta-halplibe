@@ -1,0 +1,1 @@
+- Added a basic recovery mode that should prevent some scenarios where a world becomes inaccessible due to instantly crashing upon load.

@@ -14,7 +14,8 @@
     "accessors.ItemsAccessor",
     "accessors.LanguageAccessor",
     "accessors.WeightedRandomBagAccessor",
-    "accessors.WeightedRandomBagEntryAccessor"
+    "accessors.WeightedRandomBagEntryAccessor",
+    "recovery.WorldMixin"
   ],
   "client": [
     "AtlasStitcherMixin",
@@ -27,7 +28,9 @@
     "models.BlockModelDispatcherMixin",
     "models.EntityRenderDispatcherMixin",
     "models.ItemModelDispatcherMixin",
-    "models.TileEntityRendererDispatcherMixin"
+    "models.TileEntityRendererDispatcherMixin",
+    "recovery.HudIngameMixin",
+    "recovery.TileEntityRenderDispatcherMixin"
   ],
   "server": [
     "MinecraftServerMixin",

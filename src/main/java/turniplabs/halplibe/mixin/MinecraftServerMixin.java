@@ -2,12 +2,14 @@ package turniplabs.halplibe.mixin;
 
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Global;
+import net.minecraft.core.lang.I18n;
 import net.minecraft.server.MinecraftServer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import turniplabs.halplibe.HalpLibe;
 import turniplabs.halplibe.helper.network.NetworkHandler;
 import turniplabs.halplibe.mixin.accessors.ItemsAccessor;
 import turniplabs.halplibe.util.BlockInitEntrypoint;
@@ -50,6 +52,14 @@ public abstract class MinecraftServerMixin {
     @Inject(method = "startServer", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/achievement/stat/StatList;init()V"))
     public void initStats(CallbackInfoReturnable<Boolean> cir) {
         ItemsAccessor.invokeInitStats();
+
+        //before game start is too early and after game start is too late so thats why this is here
+        if(HalpLibe.CONFIG.getBoolean("recoveryMode")) {
+            HalpLibe.LOGGER.warn(I18n.getInstance().translateKey("halplibe.recoveryMode"));
+            HalpLibe.LOGGER.warn(I18n.getInstance().translateKey("halplibe.recoveryMode.text"));
+            HalpLibe.LOGGER.warn(I18n.getInstance().translateKey("halplibe.recoveryMode.text2"));
+            HalpLibe.LOGGER.warn(I18n.getInstance().translateKey("halplibe.recoveryMode.action1"));
+        }
     }
 
     /*

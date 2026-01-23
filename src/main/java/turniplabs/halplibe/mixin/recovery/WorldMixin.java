@@ -1,0 +1,18 @@
+package turniplabs.halplibe.mixin.recovery;
+
+import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
+import net.minecraft.core.block.entity.TileEntity;
+import net.minecraft.core.world.World;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import turniplabs.halplibe.HalpLibe;
+
+@Mixin(value = World.class,remap = false)
+public class WorldMixin {
+
+    @WrapWithCondition(method = "updateEntities", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/block/entity/TileEntity;tick()V"))
+    public boolean disableTickingTileEntities(TileEntity instance) {
+        return !HalpLibe.CONFIG.getBoolean("recoveryMode");
+    }
+
+}

@@ -1,0 +1,6 @@
+halplibe.recoveryMode=/!\\ Recovery Mode /!\\
+halplibe.recoveryMode.text=Recovery mode disables certain parts of the game to prevent crash loops.
+halplibe.recoveryMode.text2=The following actions have been taken:
+halplibe.recoveryMode.action1=- Tile entity ticking disabled.
+halplibe.recoveryMode.action2=- Tile entity rendering disabled.
+halplibe.recoveryMode.text3=Click anywhere outside this popup to close.
