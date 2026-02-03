@@ -4,7 +4,7 @@
 # Check this on https://github.com/FabricMC/fabric-loom/releases/latest/
 loom = "1.15-SNAPSHOT"
 # Check this on https://plugins.gradle.org/plugin/com.smushytaco.lwjgl3/
-lwjglPlugin = "1.0.1"
+lwjglPlugin = "1.0.2"
 # Check this on https://plugins.gradle.org/plugin/com.modrinth.minotaur/
 minotaur = "2.8.10"
 ##########################################################################
