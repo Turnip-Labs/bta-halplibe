@@ -1,7 +1,7 @@
 package turniplabs.halplibe.mixin.models;
 
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.render.TileEntityRenderDispatcher;
+import net.minecraft.client.render.EntityRendererDispatcher;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -10,17 +10,17 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import turniplabs.halplibe.helper.ModelHelper;
 import turniplabs.halplibe.util.ModelEntrypoint;
 
-@Mixin(value = TileEntityRenderDispatcher.class)
-public abstract class TileEntityRendererDispatcherMixin {
+@Mixin(value = EntityRendererDispatcher.class)
+public abstract class EntityRendererDispatcherMixin {
 
     @Unique
-    private final TileEntityRenderDispatcher thisAs = (TileEntityRenderDispatcher) (Object) this;
+    private final EntityRendererDispatcher thisAs = (EntityRendererDispatcher) (Object) this;
 
     @Inject(method = "reload", at = @At(value = "TAIL"))
     private void addQueuedModels(CallbackInfo ci) {
-        ModelHelper.tileEntityRenderDispatcher = thisAs;
+        ModelHelper.entityRendererDispatcher = thisAs;
         FabricLoader.getInstance()
                 .getEntrypoints("initModels", ModelEntrypoint.class)
-                .forEach(e -> e.initTileEntityModels(thisAs));
+                .forEach(e -> e.initEntityModels(thisAs));
     }
 }

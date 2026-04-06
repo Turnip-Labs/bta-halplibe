@@ -33,7 +33,7 @@ public class UniversalPacket extends Packet {
         this.readIndex = 0;
     }
 
-    public UniversalPacket(PacketCustomPayload packetCustomPayload) {
+    public UniversalPacket(@NonNull PacketCustomPayload packetCustomPayload) {
         this.buffer = packetCustomPayload.data;
         this.writeIndex = packetCustomPayload.data.length;
         this.readIndex = 0;
@@ -61,13 +61,13 @@ public class UniversalPacket extends Packet {
      * since this method add an extra 4 bytes to every packet
      */
     @Deprecated
-    public void write(DataOutputStream dos) throws IOException {
+    public void write(@NonNull DataOutputStream dos) throws IOException {
         dos.writeInt(this.buffer.length);
         dos.write(this.buffer);
     }
 
     @SuppressWarnings("unused")
-    public void rawWrite(DataOutputStream dos) throws IOException {
+    public void rawWrite(@NonNull DataOutputStream dos) throws IOException {
         dos.write(this.buffer);
     }
 
@@ -82,7 +82,7 @@ public class UniversalPacket extends Packet {
     @Environment(EnvType.SERVER)
     private void handlePacketServer(PacketHandler packetHandler) {
         NetworkHandler.internalReceiveUniversalPacket(new NetworkMessage.NetworkContext((
-                (PacketHandlerServerAccessor)packetHandler).getPlayerEntity()
+                (PacketHandlerServerAccessor) packetHandler).getPlayerEntity()
         ), this);
     }
 
@@ -115,7 +115,7 @@ public class UniversalPacket extends Packet {
     }
 
     @SuppressWarnings("unused")
-    public void writeBytes(int... values) {
+    public void writeBytes(int @NonNull ... values) {
         ensureCapacity(values.length);
         for (int value : values) {
             buffer[writeIndex++] = (byte) value;
@@ -123,7 +123,7 @@ public class UniversalPacket extends Packet {
     }
 
     @SuppressWarnings("unused")
-    public void writeBytes(byte... values) {
+    public void writeBytes(byte @NonNull ... values) {
         ensureCapacity(values.length);
         for (int value : values) {
             buffer[writeIndex++] = (byte) value;
@@ -131,7 +131,7 @@ public class UniversalPacket extends Packet {
     }
 
     @SuppressWarnings("unused")
-    public void readBytes(byte[] destination, int length) {
+    public void readBytes(byte @NonNull [] destination, int length) {
         if (length > destination.length) {
             throw new IllegalArgumentException("");
         }
@@ -173,7 +173,7 @@ public class UniversalPacket extends Packet {
     }
 
     @SuppressWarnings("unused")
-    public void writeString(String value) {
+    public void writeString(@NonNull String value) {
         byte[] stringBytes = value.getBytes(StandardCharsets.UTF_8);
         writeInt(stringBytes.length);
         ensureCapacity(stringBytes.length);
@@ -233,13 +233,13 @@ public class UniversalPacket extends Packet {
     }
 
     @SuppressWarnings("unused")
-    public void writeEnumConstant(Enum<?> instance) {
+    public void writeEnumConstant(@NonNull Enum<?> instance) {
         int ordinal = instance.ordinal();
         this.writeByte(ordinal);
     }
 
     @SuppressWarnings("unused")
-    public <T extends Enum<T>> T readEnumConstant(Class<T> enumClass) {
+    public <T extends Enum<T>> T readEnumConstant(@NonNull Class<T> enumClass) {
         int ordinal = this.readByte();
         T[] enumConstants = enumClass.getEnumConstants();
         return enumConstants[ordinal];
@@ -254,7 +254,7 @@ public class UniversalPacket extends Packet {
             throw new RuntimeException(e);
         }
         byte[] buffer = baos.toByteArray();
-        writeShort((short)buffer.length);
+        writeShort((short) buffer.length);
         writeBytes(buffer);
     }
 
@@ -275,7 +275,7 @@ public class UniversalPacket extends Packet {
     }
 
     @SuppressWarnings("unused")
-    public void writeUUID(UUID uuid) {
+    public void writeUUID(@NonNull UUID uuid) {
         writeLong(uuid.getMostSignificantBits());
         writeLong(uuid.getLeastSignificantBits());
     }
@@ -286,7 +286,7 @@ public class UniversalPacket extends Packet {
     }
 
     @SuppressWarnings("unused")
-    public void writeItemStack(ItemStack itemStack) {
+    public void writeItemStack(@NonNull ItemStack itemStack) {
         writeShort((short) itemStack.itemID);
         writeByte(itemStack.stackSize);
         writeShort((short) itemStack.getMetadata());

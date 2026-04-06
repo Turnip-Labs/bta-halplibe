@@ -12,21 +12,25 @@ import turniplabs.halplibe.helper.RecipeBuilder;
 import java.util.Arrays;
 import java.util.HashMap;
 
-public class RecipeBuilderShaped extends RecipeBuilderBase{
+public class RecipeBuilderShaped extends RecipeBuilderBase {
     protected String[] shape;
     protected int width;
     protected int height;
     protected boolean consumeContainer = false;
     protected final HashMap<Character, RecipeSymbol> symbolShapedMap = new HashMap<>();
+
     /**
      * Used for creating new shaped workbench recipes.
+     *
      * @param modID Namespace to create recipe under
      */
-    public RecipeBuilderShaped(String modID){
+    public RecipeBuilderShaped(String modID) {
         super(modID);
     }
+
     /**
      * Used for creating new shaped workbench recipes.
+     *
      * @param modID Namespace to create recipe under
      * @param shape Recipe shape in symbol representation
      */
@@ -47,26 +51,28 @@ public class RecipeBuilderShaped extends RecipeBuilderBase{
      *       .addInput('P', Block.planksOak)
      *       .create("chest_planks_oak", Block.chestPlanksOak.getDefaultStack());
      * }</pre>
+     *
      * @param shapeTemplate Recipe shape in symbol representation
      * @return Copy of {@link RecipeBuilderShaped}
      */
     @SuppressWarnings({"unused"})
-    public RecipeBuilderShaped setShape(String... shapeTemplate){
+    public RecipeBuilderShaped setShape(String... shapeTemplate) {
         RecipeBuilderShaped builder = this.clone(this);
         builder.setShapeLocal(shapeTemplate);
         return builder;
     }
-    protected void setShapeLocal(String... shape){
-        if (shape == null){
+
+    protected void setShapeLocal(String... shape) {
+        if (shape == null) {
             throw new IllegalArgumentException("Shape Template cannot be set to null!");
         }
-        if (shape.length == 0){
+        if (shape.length == 0) {
             throw new IllegalArgumentException("Shape Template cannot have a size of 0!");
         }
-        if (shape.length > 3){
+        if (shape.length > 3) {
             throw new IllegalArgumentException("Shape Template height cannot exceed 3!\n" + Arrays.toString(shape));
         }
-        if (shape[0].length() > 3){
+        if (shape[0].length() > 3) {
             throw new IllegalArgumentException("Shape Template width cannot exceed 3!\n" + Arrays.toString(shape));
         }
         this.height = shape.length;
@@ -83,7 +89,7 @@ public class RecipeBuilderShaped extends RecipeBuilderBase{
             StringBuilder builder = new StringBuilder();
             String row = shape[y];
             for (int x = 0; x < width; x++) {
-                if (x >= row.length()){
+                if (x >= row.length()) {
                     builder.append(" ");
                 } else {
                     builder.append(row.charAt(x));
@@ -110,11 +116,12 @@ public class RecipeBuilderShaped extends RecipeBuilderBase{
      *       .setConsumeContainer(false) // Recipe will return empty buckets when crafted
      *       .create("cake", Item.cake.getDefaultStack());
      * }</pre>
+     *
      * @param consumeContainer Should consume ContainerItem
      * @return Copy of {@link RecipeBuilderShaped}
      */
     @SuppressWarnings({"unused"})
-    public RecipeBuilderShaped setConsumeContainer(boolean consumeContainer){
+    public RecipeBuilderShaped setConsumeContainer(boolean consumeContainer) {
         RecipeBuilderShaped builder = this.clone(this);
         builder.consumeContainer = consumeContainer;
         return builder;
@@ -122,23 +129,25 @@ public class RecipeBuilderShaped extends RecipeBuilderBase{
 
     /**
      * Assigns an item to an item symbol defined in the shape (see {@link #setShape(String...)})
+     *
      * @param templateSymbol Item symbol character
-     * @param stack Stack to assign
+     * @param stack          Stack to assign
      * @return Copy of {@link RecipeBuilderShaped}
      */
     @SuppressWarnings({"unused"})
-    public RecipeBuilderShaped addInput(char templateSymbol, IItemConvertible stack){
+    public RecipeBuilderShaped addInput(char templateSymbol, IItemConvertible stack) {
         return addInput(templateSymbol, stack, 0);
     }
 
     /**
      * Assigns an item to an item symbol defined in the shape (see {@link #setShape(String...)})
+     *
      * @param templateSymbol Item symbol character
-     * @param stack Stack to assign
+     * @param stack          Stack to assign
      * @return Copy of {@link RecipeBuilderShaped}
      */
     @SuppressWarnings({"unused"})
-    public RecipeBuilderShaped addInput(char templateSymbol, IItemConvertible stack, int meta){
+    public RecipeBuilderShaped addInput(char templateSymbol, IItemConvertible stack, int meta) {
         ItemStack _stack = stack.getDefaultStack();
         _stack.setMetadata(meta);
         return addInput(templateSymbol, _stack);
@@ -146,19 +155,21 @@ public class RecipeBuilderShaped extends RecipeBuilderBase{
 
     /**
      * Assigns an item to an item symbol defined in the shape (see {@link #setShape(String...)})
+     *
      * @param templateSymbol Item symbol character
-     * @param stack Stack to assign
+     * @param stack          Stack to assign
      * @return Copy of {@link RecipeBuilderShaped}
      */
     @SuppressWarnings({"unused"})
-    public RecipeBuilderShaped addInput(char templateSymbol, ItemStack stack){
+    public RecipeBuilderShaped addInput(char templateSymbol, ItemStack stack) {
         return addInput(templateSymbol, new RecipeSymbol(stack));
     }
 
     /**
      * Assigns an itemGroup to an item symbol defined in the shape (see {@link #setShape(String...)})
+     *
      * @param templateSymbol Item symbol character
-     * @param itemGroup ItemGroup key to assign
+     * @param itemGroup      ItemGroup key to assign
      * @return Copy of {@link RecipeBuilderShaped}
      */
     @SuppressWarnings({"unused"})
@@ -168,13 +179,15 @@ public class RecipeBuilderShaped extends RecipeBuilderBase{
 
     /**
      * Assigns an item to an item symbol defined in the shape (see {@link #setShape(String...)})
+     *
      * @param templateSymbol Item symbol character
-     * @param symbol {@link RecipeSymbol} to assign
+     * @param symbol         {@link RecipeSymbol} to assign
      * @return Copy of {@link RecipeBuilderShaped}
      */
     @SuppressWarnings({"unused"})
-    public RecipeBuilderShaped addInput(char templateSymbol, RecipeSymbol symbol){
-        if (templateSymbol == ' ') throw new IllegalArgumentException("Cannot assign item to protected symbol ' ' pick a different symbol for your recipe input");
+    public RecipeBuilderShaped addInput(char templateSymbol, RecipeSymbol symbol) {
+        if (templateSymbol == ' ')
+            throw new IllegalArgumentException("Cannot assign item to protected symbol ' ' pick a different symbol for your recipe input");
         RecipeBuilderShaped builder = this.clone(this);
         symbolShapedMap.put(templateSymbol, symbol);
         return builder;
@@ -182,7 +195,8 @@ public class RecipeBuilderShaped extends RecipeBuilderBase{
 
     @SuppressWarnings({"unchecked", "unused"})
     public void create(String recipeID, ItemStack outputStack) {
-        if (shape == null) throw new RuntimeException("Shaped recipe: " + recipeID + " attempted to build without a assigned shape!!");
+        if (shape == null)
+            throw new RuntimeException("Shaped recipe: " + recipeID + " attempted to build without a assigned shape!!");
         RecipeSymbol[] recipe = new RecipeSymbol[height * width];
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
@@ -191,11 +205,11 @@ public class RecipeBuilderShaped extends RecipeBuilderBase{
                     cha = shape[y].charAt(x);
                 }
                 RecipeSymbol tempplate = symbolShapedMap.get(cha);
-                if (tempplate == null){
+                if (tempplate == null) {
                     recipe[x + y * width] = null;
                 } else {
-                    if(tempplate.getItemGroup() == null){
-                        RecipeSymbol s =  new RecipeSymbol(cha == null ? ' ' : cha, tempplate.getStack());
+                    if (tempplate.getItemGroup() == null) {
+                        RecipeSymbol s = new RecipeSymbol(cha == null ? ' ' : cha, tempplate.getStack());
                         recipe[x + y * width] = s;
                     } else {
                         recipe[x + y * width] = new RecipeSymbol(cha == null ? ' ' : cha, tempplate.getStack(), tempplate.getItemGroup());

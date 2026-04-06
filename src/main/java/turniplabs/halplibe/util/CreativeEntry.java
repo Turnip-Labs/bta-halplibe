@@ -4,10 +4,11 @@ import net.minecraft.core.item.ItemStack;
 import org.jspecify.annotations.NonNull;
 
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class CreativeEntry implements Comparable<CreativeEntry> {
-    public static final LinkedHashMap<String, CreativeEntry> priorityEntryMap = new LinkedHashMap<>();
-    public static final LinkedHashMap<String, CreativeEntry> childEntryMap = new LinkedHashMap<>();
+    public static final Map<String, CreativeEntry> priorityEntryMap = new LinkedHashMap<>();
+    public static final Map<String, CreativeEntry> childEntryMap = new LinkedHashMap<>();
     public static void addEntry(CreativeEntry entry){
         String key = entry.stackToAdd.toString();
         if (entry.parentStack != null){

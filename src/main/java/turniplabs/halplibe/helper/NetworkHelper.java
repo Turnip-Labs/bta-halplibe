@@ -28,22 +28,13 @@ public final class NetworkHelper {
     public static int getLastPacketId() {
         return lastPacket;
     }
-    public static boolean useExtendedPacketID(){
+
+    public static boolean useExtendedPacketID() {
         return getLastPacketId() > 255;
     }
 
     // this class is likely more or less redundant, I'm just using it to try to minimize issues from mod load ordering
-    public static final class NetworkEntry implements Comparable<NetworkEntry> {
-        public final Class<? extends Packet> clazz;
-
-        public final boolean toServer, toClient;
-
-        public NetworkEntry(Class<? extends Packet> clazz, boolean toServer, boolean toClient) {
-            this.clazz = clazz;
-            this.toServer = toServer;
-            this.toClient = toClient;
-        }
-
+    public record NetworkEntry(Class<? extends Packet> clazz, boolean toServer, boolean toClient) implements Comparable<NetworkEntry> {
         @Override
         public int compareTo(@NonNull NetworkEntry o) {
             String mname = clazz.getName();
@@ -66,6 +57,7 @@ public final class NetworkHelper {
     private static int lastPacket = 0;
     private static final Map<Integer, Class<? extends Packet>> map;
     private static final Method addMapping;
+
     static {
         try {
             Field f = Packet.class.getDeclaredField("packetIdToClassMap");
@@ -93,9 +85,9 @@ public final class NetworkHelper {
             addMapping.setAccessible(false);
 
             locked = true;
-            HalpLibe.LOGGER.info("Successfully registered packet " + packet.getName() + " with id " + latestId);
+            HalpLibe.LOGGER.info("Successfully registered packet {} with id {}", packet.getName(), latestId);
         } catch (Throwable ignored) {
-            HalpLibe.LOGGER.warn("Packet Registration failed for packet " + packet.getName());
+            HalpLibe.LOGGER.warn("Packet Registration failed for packet {}", packet.getName());
         }
     }
 }

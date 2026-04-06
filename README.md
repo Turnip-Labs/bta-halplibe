@@ -30,3 +30,5 @@ dependencies {
 - youngsditch
 - sunsetsatellite
 - useless
+- LukeisStuff
+- big sir

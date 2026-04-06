@@ -1,11 +1,11 @@
 package turniplabs.halplibe.mixin.accessors;
 
-import net.minecraft.client.entity.particle.ParticleFirefly;
+import net.minecraft.client.render.particle.ParticleFirefly;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
-@Mixin(value = ParticleFirefly.class, remap = false)
+@Mixin(value = ParticleFirefly.class)
 public interface EntityFireflyFXAccessor {
     @Accessor
     void setMidR(float midR);

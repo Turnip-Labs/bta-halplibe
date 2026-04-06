@@ -8,12 +8,14 @@ import turniplabs.halplibe.helper.RecipeBuilder;
 
 public class BlastFurnaceModifier {
     protected RecipeGroup<RecipeEntryBlastFurnace> recipeGroup;
+
     @SuppressWarnings("unchecked")
-    public BlastFurnaceModifier(String namespace){
+    public BlastFurnaceModifier(String namespace) {
         recipeGroup = (RecipeGroup<RecipeEntryBlastFurnace>) RecipeBuilder.getRecipeGroup(namespace, "blast_furnace", new RecipeSymbol(Blocks.FURNACE_BLAST_ACTIVE.getDefaultStack()));
     }
-    @SuppressWarnings({"unchecked", "unused"})
-    public BlastFurnaceModifier removeRecipe(String recipeID){
+
+    @SuppressWarnings({"unused"})
+    public BlastFurnaceModifier removeRecipe(String recipeID) {
         recipeGroup.unregister(recipeID);
         return this;
     }

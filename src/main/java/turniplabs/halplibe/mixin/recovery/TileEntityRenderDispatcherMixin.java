@@ -1,5 +1,7 @@
 package turniplabs.halplibe.mixin.recovery;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.render.TileEntityRenderDispatcher;
 import net.minecraft.client.render.tileentity.TileEntityRenderer;
 import org.spongepowered.asm.mixin.Final;
@@ -12,6 +14,7 @@ import turniplabs.halplibe.HalpLibe;
 
 import java.util.Map;
 
+@Environment(EnvType.CLIENT)
 @Mixin(value = TileEntityRenderDispatcher.class,remap = false)
 public class TileEntityRenderDispatcherMixin {
 

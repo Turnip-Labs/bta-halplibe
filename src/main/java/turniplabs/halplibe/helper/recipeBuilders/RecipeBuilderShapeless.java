@@ -12,10 +12,12 @@ import turniplabs.halplibe.helper.RecipeBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecipeBuilderShapeless extends RecipeBuilderBase{
+public class RecipeBuilderShapeless extends RecipeBuilderBase {
     private final List<RecipeSymbol> symbolShapelessList = new ArrayList<>();
+
     /**
      * Used for creating new shapeless workbench recipes.
+     *
      * @param modID Namespace to create recipe under
      */
     public RecipeBuilderShapeless(String modID) {
@@ -27,17 +29,17 @@ public class RecipeBuilderShapeless extends RecipeBuilderBase{
      * @return Copy of {@link RecipeBuilderShapeless}
      */
     @SuppressWarnings({"unused"})
-    public RecipeBuilderShapeless addInput(IItemConvertible stack){
+    public RecipeBuilderShapeless addInput(IItemConvertible stack) {
         return addInput(stack, 0);
     }
 
     /**
      * @param stack Item to add to recipe's item list
-     * @param meta Required meta of the item
+     * @param meta  Required meta of the item
      * @return Copy of {@link RecipeBuilderShapeless}
      */
     @SuppressWarnings({"unused"})
-    public RecipeBuilderShapeless addInput(IItemConvertible stack, int meta){
+    public RecipeBuilderShapeless addInput(IItemConvertible stack, int meta) {
         ItemStack _stack = stack.getDefaultStack();
         _stack.setMetadata(meta);
         return addInput(_stack);
@@ -48,7 +50,7 @@ public class RecipeBuilderShapeless extends RecipeBuilderBase{
      * @return Copy of {@link RecipeBuilderShapeless}
      */
     @SuppressWarnings({"unused"})
-    public RecipeBuilderShapeless addInput(String itemGroup){
+    public RecipeBuilderShapeless addInput(String itemGroup) {
         return addInput(new RecipeSymbol(itemGroup));
     }
 
@@ -57,7 +59,7 @@ public class RecipeBuilderShapeless extends RecipeBuilderBase{
      * @return Copy of {@link RecipeBuilderShapeless}
      */
     @SuppressWarnings({"unused"})
-    public RecipeBuilderShapeless addInput(ItemStack stack){
+    public RecipeBuilderShapeless addInput(ItemStack stack) {
         return addInput(new RecipeSymbol(stack));
     }
 
@@ -66,11 +68,12 @@ public class RecipeBuilderShapeless extends RecipeBuilderBase{
      * @return Copy of {@link RecipeBuilderShapeless}
      */
     @SuppressWarnings({"unused"})
-    public RecipeBuilderShapeless addInput(RecipeSymbol symbol){
+    public RecipeBuilderShapeless addInput(RecipeSymbol symbol) {
         RecipeBuilderShapeless builder = this.clone(this);
         symbolShapelessList.add(symbol);
         return builder;
     }
+
     @Override
     @SuppressWarnings({"unused", "unchecked"})
     public void create(String recipeID, ItemStack outputStack) {

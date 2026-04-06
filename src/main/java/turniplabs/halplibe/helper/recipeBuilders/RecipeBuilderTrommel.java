@@ -12,11 +12,13 @@ import turniplabs.halplibe.helper.RecipeBuilder;
 
 import java.util.Objects;
 
-public class RecipeBuilderTrommel extends RecipeBuilderBase{
+public class RecipeBuilderTrommel extends RecipeBuilderBase {
     protected RecipeSymbol input;
     protected WeightedRandomBag<WeightedRandomLootObject> bag = new WeightedRandomBag<>();
+
     /**
      * Used for creating new trommel recipes.
+     *
      * @param modID Namespace to create recipe under
      */
     public RecipeBuilderTrommel(String modID) {
@@ -25,52 +27,57 @@ public class RecipeBuilderTrommel extends RecipeBuilderBase{
 
     /**
      * Trommel recipes can only have one input
+     *
      * @param item Input item
      * @return Copy of {@link RecipeBuilderTrommel}
      */
     @SuppressWarnings({"unused"})
-    public RecipeBuilderTrommel setInput(IItemConvertible item){
+    public RecipeBuilderTrommel setInput(IItemConvertible item) {
         return setInput(item, 0);
     }
 
     /**
      * Trommel recipes can only have one input
+     *
      * @param item Input item
      * @param meta Required metadata of input item
      * @return Copy of {@link RecipeBuilderTrommel}
      */
     @SuppressWarnings({"unused"})
-    public RecipeBuilderTrommel setInput(IItemConvertible item, int meta){
+    public RecipeBuilderTrommel setInput(IItemConvertible item, int meta) {
         return setInput(new ItemStack(item, 1, meta));
     }
 
     /**
      * Trommel recipes can only have one input
+     *
      * @param input Input {@link ItemStack}
      * @return Copy of {@link RecipeBuilderTrommel}
      */
     @SuppressWarnings({"unused"})
-    public RecipeBuilderTrommel setInput(ItemStack input){
+    public RecipeBuilderTrommel setInput(ItemStack input) {
         return setInput(new RecipeSymbol(input));
     }
 
     /**
      * Trommel recipes can only have one input
+     *
      * @param itemGroup Input itemGroup
      * @return Copy of {@link RecipeBuilderTrommel}
      */
     @SuppressWarnings({"unused"})
-    public RecipeBuilderTrommel setInput(String itemGroup){
+    public RecipeBuilderTrommel setInput(String itemGroup) {
         return setInput(new RecipeSymbol(itemGroup));
     }
 
     /**
      * Trommel recipes can only have one input
+     *
      * @param input Input {@link RecipeSymbol}
      * @return Copy of {@link RecipeBuilderTrommel}
      */
     @SuppressWarnings({"unused"})
-    public RecipeBuilderTrommel setInput(RecipeSymbol input){
+    public RecipeBuilderTrommel setInput(RecipeSymbol input) {
         RecipeBuilderTrommel builder = this.clone(this);
         builder.input = Objects.requireNonNull(input, "Input symbol must not be null!");
         return builder;
@@ -90,12 +97,13 @@ public class RecipeBuilderTrommel extends RecipeBuilderBase{
      *          .addEntry(new WeightedRandomLootObject(Item.quartz.getDefaultStack()), 0.3)
      *          .create("dirt");
      * }</pre>
+     *
      * @param lootObject {@link WeightedRandomLootObject} provides possible outs
-     * @param weight Comparative probability that this loot object will be selected, higher weights means more likely
+     * @param weight     Comparative probability that this loot object will be selected, higher weights means more likely
      * @return Copy of {@link RecipeBuilderTrommel}
      */
     @SuppressWarnings({"unused"})
-    public RecipeBuilderTrommel addEntry(WeightedRandomLootObject lootObject, double weight){
+    public RecipeBuilderTrommel addEntry(WeightedRandomLootObject lootObject, double weight) {
         RecipeBuilderTrommel builder = this.clone(this);
         builder.bag.addEntry(lootObject, weight);
         return builder;
@@ -103,6 +111,7 @@ public class RecipeBuilderTrommel extends RecipeBuilderBase{
 
     /**
      * Creates a new recipe from the provided builder arguments.
+     *
      * @param recipeID Recipe identifier to assign to the created recipe
      */
     @SuppressWarnings({"unused", "unchecked"})
@@ -112,6 +121,7 @@ public class RecipeBuilderTrommel extends RecipeBuilderBase{
         ((RecipeGroup<RecipeEntryTrommel>) RecipeBuilder.getRecipeGroup(modID, "trommel", new RecipeSymbol(Blocks.TROMMEL_ACTIVE.getDefaultStack())))
                 .register(recipeID, new RecipeEntryTrommel(input, bag));
     }
+
     @Override
     public void create(String recipeID, ItemStack outputStack) throws IllegalArgumentException {
         // Standard create method doesn't apply to this class

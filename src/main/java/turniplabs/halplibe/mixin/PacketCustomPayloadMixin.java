@@ -10,7 +10,7 @@ import java.io.IOException;
 
 import static net.minecraft.core.net.packet.Packet.readStringUTF8;
 
-@Mixin(value = PacketCustomPayload.class, remap = false)
+@Mixin(value = PacketCustomPayload.class)
 public class PacketCustomPayloadMixin {
     @Shadow
     public String channel;

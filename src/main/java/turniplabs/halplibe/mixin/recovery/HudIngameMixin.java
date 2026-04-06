@@ -2,7 +2,6 @@ package turniplabs.halplibe.mixin.recovery;
 
 import net.minecraft.client.gui.hud.HudIngame;
 import net.minecraft.core.lang.I18n;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -10,24 +9,17 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import turniplabs.halplibe.HalpLibe;
 
-@Mixin(value = HudIngame.class,remap = false)
+@Mixin(value = HudIngame.class)
 public abstract class HudIngameMixin {
 
     @Shadow
-    protected abstract void drawDebugScreenLine(String string);
-
-    @Shadow
-    protected abstract void drawDebugScreenLineRight(String string);
+    protected abstract void drawDebugScreenLineRight(CharSequence string);
 
     @Shadow
     private int debugLine;
 
     @Shadow
     private int debugLineRight;
-
-    @Shadow
-    @Final
-    private int debugLineHeight;
 
     @Shadow
     private int debugOffset;
@@ -37,7 +29,7 @@ public abstract class HudIngameMixin {
 
     @Inject(method = "renderGameOverlay", at = @At("TAIL"))
     public void renderGameOverlay(float partialTicks, boolean flag, int mouseX, int mouseY, CallbackInfo ci) {
-        if(HalpLibe.CONFIG.getBoolean("recoveryMode")){
+        if (HalpLibe.CONFIG.getBoolean("recoveryMode")) {
             drawDebugScreenLineRight(I18n.getInstance().translateKey("halplibe.recoveryMode"));
             drawDebugScreenLineRight(I18n.getInstance().translateKey("halplibe.recoveryMode.action1"));
             drawDebugScreenLineRight(I18n.getInstance().translateKey("halplibe.recoveryMode.action2"));

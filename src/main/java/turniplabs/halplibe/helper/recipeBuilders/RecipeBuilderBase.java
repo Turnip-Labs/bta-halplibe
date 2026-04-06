@@ -1,19 +1,22 @@
 package turniplabs.halplibe.helper.recipeBuilders;
 
-import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.item.IItemConvertible;
+import net.minecraft.core.item.ItemStack;
 
 import java.util.Objects;
 
 public abstract class RecipeBuilderBase implements Cloneable {
     protected String modID;
-    public RecipeBuilderBase(String modID){
+
+    protected RecipeBuilderBase(String modID) {
         this.modID = Objects.requireNonNull(modID, "ModID must not be null!");
     }
+
     @SuppressWarnings({"unchecked", "unused"})
-    public <T> T clone(T object){
+    public <T> T clone(T object) {
         return (T) clone();
     }
+
     @Override
     public RecipeBuilderBase clone() {
         try {
@@ -26,8 +29,9 @@ public abstract class RecipeBuilderBase implements Cloneable {
 
     /**
      * Creates a new recipe from the provided builder arguments.
+     *
      * @param recipeID Recipe identifier to assign to the created recipe
-     * @param output Result of crafting the specified recipe
+     * @param output   Result of crafting the specified recipe
      */
     @SuppressWarnings({"unused"})
     public void create(String recipeID, IItemConvertible output) {
@@ -36,7 +40,8 @@ public abstract class RecipeBuilderBase implements Cloneable {
 
     /**
      * Creates a new recipe from the provided builder arguments.
-     * @param recipeID Recipe identifier to assign to the created recipe
+     *
+     * @param recipeID    Recipe identifier to assign to the created recipe
      * @param outputStack Result of crafting the specified recipe
      */
     @SuppressWarnings({"unused"})

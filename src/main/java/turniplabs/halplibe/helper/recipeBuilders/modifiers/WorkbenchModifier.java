@@ -12,7 +12,7 @@ public class WorkbenchModifier {
     public WorkbenchModifier(String namespace){
         recipeGroup = (RecipeGroup<RecipeEntryCrafting<?, ?>>) RecipeBuilder.getRecipeGroup(namespace, "workbench", new RecipeSymbol(Blocks.WORKBENCH.getDefaultStack()));
     }
-    @SuppressWarnings({"unchecked", "unused"})
+    @SuppressWarnings({"unused"})
     public WorkbenchModifier removeRecipe(String recipeID){
         recipeGroup.unregister(recipeID);
         return this;

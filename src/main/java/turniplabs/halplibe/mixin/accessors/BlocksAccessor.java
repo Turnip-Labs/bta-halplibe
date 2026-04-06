@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
-@Mixin(value = Blocks.class, remap = false)
+@Mixin(value = Blocks.class)
 public interface BlocksAccessor {
     @Accessor("hasInit")
     static boolean hasInit() {

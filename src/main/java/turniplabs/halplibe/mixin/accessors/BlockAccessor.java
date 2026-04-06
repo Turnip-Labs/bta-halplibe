@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 import java.util.function.Supplier;
 
-@Mixin(value = Block.class, remap = false)
+@Mixin(value = Block.class)
 public interface BlockAccessor {
     @Accessor("statParent")
     Supplier<@NonNull IItemConvertible> getStatParent();

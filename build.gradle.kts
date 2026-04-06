@@ -18,12 +18,13 @@ base.archivesName = modName
 group = modGroup.get()
 version = modVersion.get()
 loom {
-    customMinecraftMetadata.set("https://downloads.betterthanadventure.net/bta-client/${libs.versions.btaChannel.get()}/v${libs.versions.bta.get()}/manifest.json")
+    customMinecraftMetadata.set("https://downloads.betterthanadventure.net/bta-client/${libs.versions.btaChannel.get()}/${libs.versions.bta.get()}/manifest.json")
 }
 repositories {
     mavenCentral()
     maven("https://maven.fabricmc.net/") { name = "Fabric" }
     maven("https://maven.thesignalumproject.net/infrastructure") { name = "SignalumMavenInfrastructure" }
+    maven("https://maven.thesignalumproject.net/nightly") { name = "signalumMavenNightly" }
     maven("https://maven.thesignalumproject.net/releases") { name = "SignalumMavenReleases" }
     ivy("https://github.com/Better-than-Adventure") {
         patternLayout { artifact("[organisation]/releases/download/[revision]/[module]-bta-[revision].jar") }
@@ -51,7 +52,7 @@ dependencies {
 
     runtimeOnly(libs.clientJar)
     implementation(libs.loader)
-    implementation(libs.modMenu)
+    implementation("turniplabs:modmenu-bta:5.0.0+nightly.2026.04.03")
     implementation(libs.legacyLwjgl)
 
     implementation(libs.slf4jApi)

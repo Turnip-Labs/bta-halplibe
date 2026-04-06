@@ -1,10 +1,13 @@
 package turniplabs.halplibe.mixin.accessors;
 
-import net.minecraft.client.entity.particle.Particle;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.client.render.particle.Particle;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
-@Mixin(value = Particle.class, remap = false)
+@Environment(EnvType.CLIENT)
+@Mixin(value = Particle.class)
 public interface EntityFXAccessor {
     @Accessor
     void setRCol(float particleRed);

@@ -1,5 +1,7 @@
 package turniplabs.halplibe.mixin;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Global;
 import net.minecraft.core.lang.I18n;
@@ -17,25 +19,28 @@ import turniplabs.halplibe.util.GameStartEntrypoint;
 import turniplabs.halplibe.util.ItemInitEntrypoint;
 import turniplabs.halplibe.util.RecipeEntrypoint;
 
-@Mixin(value = MinecraftServer.class, remap = false)
+@Environment(EnvType.SERVER)
+@Mixin(value = MinecraftServer.class)
 public abstract class MinecraftServerMixin {
-    @Shadow private static MinecraftServer instance;
+    @Shadow
+    private static MinecraftServer instance;
 
-    @Inject(method = "startServer", at = @At(value = "INVOKE",target = "Lnet/minecraft/core/data/DataLoader;loadRecipesFromFile(Ljava/lang/String;)V", ordinal = 3, shift = At.Shift.AFTER))
-    public void recipeEntrypoint(CallbackInfoReturnable<Boolean> cir){
+    @Inject(method = "startServer", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/data/DataLoader;loadRecipesFromFile(Ljava/lang/String;)V", ordinal = 3, shift = At.Shift.AFTER))
+    public void recipeEntrypoint(CallbackInfoReturnable<Boolean> cir) {
         FabricLoader.getInstance().getEntrypoints("recipesReady", RecipeEntrypoint.class).forEach(RecipeEntrypoint::initNamespaces);
         FabricLoader.getInstance().getEntrypoints("recipesReady", RecipeEntrypoint.class).forEach(RecipeEntrypoint::onRecipesReady);
     }
+
     @Inject(method = "startServer", at = @At("HEAD"))
-    public void beforeGameStartEntrypoint(CallbackInfoReturnable<Boolean> cir){
-        instance = (MinecraftServer)(Object)this;
+    public void beforeGameStartEntrypoint(CallbackInfoReturnable<Boolean> cir) {
+        instance = (MinecraftServer) (Object) this;
         Global.isServer = true;
         NetworkHandler.internalNetworkHandlerSetup();
         FabricLoader.getInstance().getEntrypoints("beforeGameStart", GameStartEntrypoint.class).forEach(GameStartEntrypoint::beforeGameStart);
     }
 
     @Inject(method = "startServer", at = @At("TAIL"))
-    public void afterGameStartEntrypoint(CallbackInfoReturnable<Boolean> cir){
+    public void afterGameStartEntrypoint(CallbackInfoReturnable<Boolean> cir) {
         FabricLoader.getInstance().getEntrypoints("afterGameStart", GameStartEntrypoint.class).forEach(GameStartEntrypoint::afterGameStart);
     }
 
@@ -54,7 +59,7 @@ public abstract class MinecraftServerMixin {
         ItemsAccessor.invokeInitStats();
 
         //before game start is too early and after game start is too late so thats why this is here
-        if(HalpLibe.CONFIG.getBoolean("recoveryMode")) {
+        if (HalpLibe.CONFIG.getBoolean("recoveryMode")) {
             HalpLibe.LOGGER.warn(I18n.getInstance().translateKey("halplibe.recoveryMode"));
             HalpLibe.LOGGER.warn(I18n.getInstance().translateKey("halplibe.recoveryMode.text"));
             HalpLibe.LOGGER.warn(I18n.getInstance().translateKey("halplibe.recoveryMode.text2"));

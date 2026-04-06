@@ -1,33 +1,28 @@
 package turniplabs.halplibe.helper;
 
-import net.minecraft.core.block.Block;
-import net.minecraft.core.block.BlockLogic;
-import net.minecraft.core.block.BlockLogicFire;
-import net.minecraft.core.block.BlockLogicSupplier;
-import net.minecraft.core.block.Blocks;
+import net.minecraft.core.block.*;
 import net.minecraft.core.block.entity.TileEntity;
+import net.minecraft.core.block.material.MaterialColor;
 import net.minecraft.core.block.tag.BlockTags;
 import net.minecraft.core.data.tag.Tag;
-import net.minecraft.core.item.Item;
+import net.minecraft.core.item.IItemConvertible;
 import net.minecraft.core.item.block.ItemBlock;
 import net.minecraft.core.sound.BlockSound;
 import org.apache.commons.lang3.ArrayUtils;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
-import turniplabs.halplibe.mixin.accessors.BlockAccessor;
 import turniplabs.halplibe.mixin.accessors.BlocksAccessor;
 import turniplabs.halplibe.util.registry.IdSupplier;
 import turniplabs.halplibe.util.registry.RunLengthConfig;
 import turniplabs.halplibe.util.registry.RunReserves;
 import turniplabs.halplibe.util.toml.Toml;
 
-import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public final class BlockBuilder implements Cloneable {
-
     private final @NonNull String modId;
+
     private @Nullable Float hardness = null;
     private @Nullable Float resistance = null;
     private @Nullable Integer luminance = null;
@@ -36,16 +31,17 @@ public final class BlockBuilder implements Cloneable {
     private boolean immovable = false;
     private boolean useInternalLight = false;
     private boolean visualUpdateOnMetadata = false;
-    private @Nullable Boolean tickOnLoad = null;
+    private @Nullable Boolean ticking = null;
     private boolean infiniburn = false;
     private int @Nullable [] flammability = null;
     private @Nullable BlockSound blockSound = null;
     private @Nullable BlockLambda<ItemBlock<?>> customBlockItem = null;
     private @Nullable Tag<Block<?>>[] tags = null;
-    private String @NonNull [] textures = new String[6];
-    private @Nullable String itemIcon = null;
     private @Nullable Supplier<TileEntity> entitySupplier = null;
-
+    private boolean disableStats = false;
+    private @Nullable Float particleGravity = null;
+    private @Nullable MaterialColor overrideColor = null;
+    private @Nullable Supplier<IItemConvertible> statParent = null;
 
     public BlockBuilder(@NonNull String modId) {
         this.modId = modId;
@@ -55,10 +51,7 @@ public final class BlockBuilder implements Cloneable {
     public BlockBuilder clone() {
         try {
             // none of the fields are mutated so this should be fine
-            BlockBuilder builder = (BlockBuilder) super.clone();
-            builder.textures = new String[6];
-            System.arraycopy(textures, 0, builder.textures, 0, textures.length);
-            return builder;
+            return (BlockBuilder) super.clone();
         } catch (CloneNotSupportedException e) {
             throw new AssertionError();
         }
@@ -66,22 +59,23 @@ public final class BlockBuilder implements Cloneable {
 
     /**
      * Sets the block to be a TileEntity Block which creates the provided tile entities on placement
+     *
      * @param tileEntitySupplier supplier of TileEntity instances for the block to create when placed
      * @return @return Copy of {@link ItemBuilder}
      */
     @SuppressWarnings("unused")
-    public BlockBuilder setTileEntity(@Nullable Supplier<TileEntity> tileEntitySupplier) {
-        BlockBuilder builder = clone();
-        builder.entitySupplier = tileEntitySupplier;
-        return builder;
+    public @NonNull BlockBuilder setTileEntity(@Nullable Supplier<TileEntity> tileEntitySupplier) {
+        BlockBuilder blockBuilder = clone();
+        blockBuilder.entitySupplier = tileEntitySupplier;
+        return blockBuilder;
     }
 
     /**
      * Sets how long it takes to break the block.
      */
     @SuppressWarnings({"unused"})
-    public BlockBuilder setHardness(float hardness) {
-        BlockBuilder blockBuilder = this.clone();
+    public @NonNull BlockBuilder setHardness(float hardness) {
+        BlockBuilder blockBuilder = clone();
         blockBuilder.hardness = hardness;
         return blockBuilder;
     }
@@ -90,8 +84,8 @@ public final class BlockBuilder implements Cloneable {
      * Sets the block's resistance against explosions.
      */
     @SuppressWarnings({"unused"})
-    public BlockBuilder setResistance(float resistance) {
-        BlockBuilder blockBuilder = this.clone();
+    public @NonNull BlockBuilder setResistance(float resistance) {
+        BlockBuilder blockBuilder = clone();
         blockBuilder.resistance = resistance;
         return blockBuilder;
     }
@@ -102,8 +96,8 @@ public final class BlockBuilder implements Cloneable {
      * @param luminance ranges from 0 to 15
      */
     @SuppressWarnings({"unused"})
-    public BlockBuilder setLuminance(int luminance) {
-        BlockBuilder blockBuilder = this.clone();
+    public @NonNull BlockBuilder setLuminance(int luminance) {
+        BlockBuilder blockBuilder = clone();
         blockBuilder.luminance = luminance;
         return blockBuilder;
     }
@@ -117,8 +111,8 @@ public final class BlockBuilder implements Cloneable {
      * @param lightOpacity ranges from 0 to 15
      */
     @SuppressWarnings({"unused"})
-    public BlockBuilder setLightOpacity(int lightOpacity) {
-        BlockBuilder blockBuilder = this.clone();
+    public @NonNull BlockBuilder setLightOpacity(int lightOpacity) {
+        BlockBuilder blockBuilder = clone();
         blockBuilder.lightOpacity = lightOpacity;
         return blockBuilder;
     }
@@ -127,8 +121,8 @@ public final class BlockBuilder implements Cloneable {
      * Sets the block's slipperiness, 0.6 is default, 0.98 is ice.
      */
     @SuppressWarnings({"unused"})
-    public BlockBuilder setSlipperiness(float slipperiness) {
-        BlockBuilder blockBuilder = this.clone();
+    public @NonNull BlockBuilder setSlipperiness(float slipperiness) {
+        BlockBuilder blockBuilder = clone();
         blockBuilder.slipperiness = slipperiness;
         return blockBuilder;
     }
@@ -142,8 +136,8 @@ public final class BlockBuilder implements Cloneable {
      *                          to ash and disappear
      */
     @SuppressWarnings({"unused"})
-    public BlockBuilder setFlammability(int chanceToCatchFire, int chanceToDegrade) {
-        BlockBuilder blockBuilder = this.clone();
+    public @NonNull BlockBuilder setFlammability(int chanceToCatchFire, int chanceToDegrade) {
+        BlockBuilder blockBuilder = clone();
         blockBuilder.flammability = new int[]{chanceToCatchFire, chanceToDegrade};
         return blockBuilder;
     }
@@ -152,8 +146,8 @@ public final class BlockBuilder implements Cloneable {
      * Makes a block unable to be moved by pistons.
      */
     @SuppressWarnings({"unused"})
-    public BlockBuilder setImmovable() {
-        BlockBuilder blockBuilder = this.clone();
+    public @NonNull BlockBuilder setImmovable() {
+        BlockBuilder blockBuilder = clone();
         blockBuilder.immovable = true;
         return blockBuilder;
     }
@@ -162,8 +156,8 @@ public final class BlockBuilder implements Cloneable {
      * Makes a block unable to be broken.
      */
     @SuppressWarnings({"unused"})
-    public BlockBuilder setUnbreakable() {
-        BlockBuilder blockBuilder = this.clone();
+    public @NonNull BlockBuilder setUnbreakable() {
+        BlockBuilder blockBuilder = clone();
         blockBuilder.hardness = -1.0f;
         return blockBuilder;
     }
@@ -172,8 +166,8 @@ public final class BlockBuilder implements Cloneable {
      * Makes fire burn indefinitely on top of the block.
      */
     @SuppressWarnings({"unused"})
-    public BlockBuilder setInfiniburn() {
-        BlockBuilder blockBuilder = this.clone();
+    public @NonNull BlockBuilder setInfiniburn() {
+        BlockBuilder blockBuilder = clone();
         blockBuilder.infiniburn = true;
         return blockBuilder;
     }
@@ -184,38 +178,19 @@ public final class BlockBuilder implements Cloneable {
      * blocks that allow light to pass through them.
      */
     @SuppressWarnings({"unused"})
-    public BlockBuilder setUseInternalLight() {
-        BlockBuilder blockBuilder = this.clone();
+    public @NonNull BlockBuilder setUseInternalLight() {
+        BlockBuilder blockBuilder = clone();
         blockBuilder.useInternalLight = true;
         return blockBuilder;
     }
 
     /**
-     * Makes the block receive a visual update when the metadata of that block changes.
-     */
-    @SuppressWarnings({"unused"})
-    public BlockBuilder setVisualUpdateOnMetadata() {
-        BlockBuilder blockBuilder = this.clone();
-        blockBuilder.visualUpdateOnMetadata = true;
-        return blockBuilder;
-    }
-
-    /**
      * Makes the block receive a tick update when the game loads the chunk the block is in.
      */
     @SuppressWarnings({"unused"})
-    public BlockBuilder setTickOnLoad() {
-        BlockBuilder blockBuilder = this.clone();
-        blockBuilder.tickOnLoad = true;
-        return blockBuilder;
-    }
-    /**
-     * Makes the block receive a tick update when the game loads the chunk the block is in.
-     */
-    @SuppressWarnings({"unused"})
-    public BlockBuilder setTicking(boolean ticking) {
-        BlockBuilder blockBuilder = this.clone();
-        blockBuilder.tickOnLoad = ticking;
+    public @NonNull BlockBuilder setTicking(boolean ticking) {
+        BlockBuilder blockBuilder = clone();
+        blockBuilder.ticking = ticking;
         return blockBuilder;
     }
 
@@ -229,8 +204,8 @@ public final class BlockBuilder implements Cloneable {
      * }</pre>
      */
     @SuppressWarnings({"unused"})
-    public BlockBuilder setBlockSound(BlockSound blockSound) {
-        BlockBuilder blockBuilder = this.clone();
+    public @NonNull BlockBuilder setBlockSound(BlockSound blockSound) {
+        BlockBuilder blockBuilder = clone();
         blockBuilder.blockSound = blockSound;
         return blockBuilder;
     }
@@ -245,8 +220,8 @@ public final class BlockBuilder implements Cloneable {
      * }</pre>
      */
     @SuppressWarnings({"unused"})
-    public BlockBuilder setBlockItem(BlockLambda<ItemBlock<?>> customBlockItem) {
-        BlockBuilder blockBuilder = this.clone();
+    public @NonNull BlockBuilder setBlockItem(BlockLambda<ItemBlock<?>> customBlockItem) {
+        BlockBuilder blockBuilder = clone();
         blockBuilder.customBlockItem = customBlockItem;
         return blockBuilder;
     }
@@ -256,8 +231,8 @@ public final class BlockBuilder implements Cloneable {
      */
     @SafeVarargs
     @SuppressWarnings({"unused"})
-    public final BlockBuilder setTags(Tag<Block<?>>... tags) {
-        BlockBuilder blockBuilder = this.clone();
+    public final @NonNull BlockBuilder setTags(Tag<Block<?>>... tags) {
+        BlockBuilder blockBuilder = clone();
         blockBuilder.tags = tags;
         return blockBuilder;
     }
@@ -267,22 +242,60 @@ public final class BlockBuilder implements Cloneable {
      */
     @SafeVarargs
     @SuppressWarnings({"unused"})
-    public final BlockBuilder addTags(Tag<Block<?>>... tags) {
-        BlockBuilder blockBuilder = this.clone();
+    public final @NonNull BlockBuilder addTags(Tag<Block<?>>... tags) {
+        BlockBuilder blockBuilder = clone();
         blockBuilder.tags = ArrayUtils.addAll(this.tags, tags);
         return blockBuilder;
     }
 
     /**
-     * Generates a block with the specified configuration
-     * @param name Underscore separated name (eg `waxed_lightly_weathered_cut_copper_stairs`)
-     * @param numericId Numeric id of the block must be in the range [0, 16383]
-     * @param blockLogicSupplier {@link BlockLogic} that will be assigned to the Block on creation
-     * @return Returns the {@link Block} after registration and configuration
+     * Disables stats for a block.
      */
     @SuppressWarnings({"unused"})
-    public <T extends BlockLogic> Block<T> build(String name, int numericId, BlockLogicSupplier<T> blockLogicSupplier) {
-        return build(name.replace("_", "."), name, numericId, blockLogicSupplier);
+    public @NonNull BlockBuilder setDisableStats() {
+        BlockBuilder blockBuilder = clone();
+        blockBuilder.disableStats = true;
+        return blockBuilder;
+    }
+
+    /**
+     * Sets the gravity applied to block particles.
+     */
+    @SuppressWarnings({"unused"})
+    public @NonNull BlockBuilder setParticleGravity(float particleGravity) {
+        BlockBuilder blockBuilder = clone();
+        blockBuilder.particleGravity = particleGravity;
+        return blockBuilder;
+    }
+
+    /**
+     * Makes the block receive a visual update when the metadata of that block changes.
+     */
+    @SuppressWarnings({"unused"})
+    public @NonNull BlockBuilder setVisualUpdateOnMetadata() {
+        BlockBuilder blockBuilder = this.clone();
+        blockBuilder.visualUpdateOnMetadata = true;
+        return blockBuilder;
+    }
+
+    /**
+     * Overrides the block color used for the map.
+     */
+    @SuppressWarnings({"unused"})
+    public @NonNull BlockBuilder setOverrideColor(MaterialColor overrideColor) {
+        BlockBuilder blockBuilder = clone();
+        blockBuilder.overrideColor = overrideColor;
+        return blockBuilder;
+    }
+
+    /**
+     * Sets the parent item used for statistics.
+     */
+    @SuppressWarnings({"unused"})
+    public @NonNull BlockBuilder setStatParent(Supplier<IItemConvertible> statParent) {
+        BlockBuilder blockBuilder = clone();
+        blockBuilder.statParent = statParent;
+        return blockBuilder;
     }
 
     /**
@@ -293,91 +306,67 @@ public final class BlockBuilder implements Cloneable {
      * @param blockLogicSupplier {@link BlockLogic} that will be assigned to the Block on creation
      * @return Returns the {@link Block} after registration and configuration
      */
-    @SuppressWarnings({"unused"})
-    public <T extends BlockLogic> Block<T> build(String translationKey, String name, int numericId, BlockLogicSupplier<T> blockLogicSupplier) {
-        Block<T> block = Blocks.register(String.format("%s.%s", modId, translationKey), String.format("%s:block/%s", modId, name), numericId, blockLogicSupplier);
-        if (hardness != null) {
-            block.withHardness(hardness);
-        }
+    public <T extends BlockLogic> @NonNull Block<T> build(String translationKey, String name, int numericId, BlockLogicSupplier<T> blockLogicSupplier) {
+        Block<T> block = Blocks.register(
+                String.format("%s.%s", modId, translationKey),
+                String.format("%s:block/%s", modId, name),
+                numericId,
+                blockLogicSupplier
+        );
 
-        if (resistance != null) {
-            block.withBlastResistance(resistance);
-        }
-
-        if (luminance != null) {
-            block.withLightEmission(luminance);
-        }
-
-        if (lightOpacity != null) {
-            block.withLightBlock(lightOpacity);
-        }
-
-        if (slipperiness != null) {
-            block.friction = slipperiness;
-        }
-
+        if (hardness != null) block.withHardness(hardness);
+        if (resistance != null) block.withBlastResistance(resistance);
+        if (luminance != null) block.withLightEmission(luminance);
+        if (lightOpacity != null) block.withLightBlock(lightOpacity);
+        if (slipperiness != null) block.friction = slipperiness;
+        if (particleGravity != null) block.blockParticleGravity = particleGravity;
         block.withLitInteriorSurface(useInternalLight);
-
-        if (immovable) {
-            block.withImmovableFlagSet();
-        }
-
-        if (flammability != null) {
-            BlockLogicFire.setFlammable(block, flammability[0], flammability[1]);
-        }
-
-        if (infiniburn) {
-            block.withTags(BlockTags.INFINITE_BURN);
-        }
-
-        if (visualUpdateOnMetadata) {
-            block.withDisabledNeighborNotifyOnMetadataChange();
-        }
-
-        if (tickOnLoad != null){
-            block.setTicking(tickOnLoad);
-        }
-
-        if (blockSound != null) {
-            block.withSound(blockSound);
-        }
-
-        if (entitySupplier != null) {
-            block.withEntity(entitySupplier);
-        }
-
-        //Assignment.queueBlockColor(block, blockColor);
-
-        if (tags != null) {
-            block.withTags(tags);
-        }
-
-        if (customBlockItem != null) {
-            block.setBlockItem(() -> customBlockItem.run(block));
-        }
+        if (immovable) block.withImmovableFlagSet();
+        if (infiniburn) block.withTags(BlockTags.INFINITE_BURN);
+        if (ticking != null) block.setTicking(ticking);
+        if (visualUpdateOnMetadata) block.withDisabledNeighborNotifyOnMetadataChange();
+        if (overrideColor != null) block.withOverrideColor(overrideColor);
+        if (blockSound != null) block.withSound(blockSound);
+        if (entitySupplier != null) block.withEntity(entitySupplier);
+        if (tags != null) block.withTags(tags);
+        if (customBlockItem != null) block.setBlockItem(() -> customBlockItem.run(block));
+        if (flammability != null) BlockLogicFire.setFlammable(block, flammability[0], flammability[1]);
+        if (disableStats) block.withDisabledStats();
+        if (statParent != null) block.setStatParent(statParent);
 
         if (BlocksAccessor.hasInit()) {
             block.init();
-
-            Item item = block.blockItemSupplier.get();
-            if (((BlockAccessor)(Object)block).getStatParent() != null) {
-                item.setStatParent(((BlockAccessor)(Object)block).getStatParent());
-            }
-            Item.itemsList[item.id] = item;
-
-
             block.getLogic().initializeBlock();
             BlocksAccessor.cacheBlock(block);
         }
 
         return block;
     }
-    
+
+    /**
+     * Convenience method: Pass name with underscores, ex. log_apple
+     * automatically converts to log.apple for translation key.
+     */
+    @SuppressWarnings({"unused"})
+    public <T extends BlockLogic> @NonNull Block<T> build(String identifier, int numericId, BlockLogicSupplier<T> logicSupplier) {
+        String translationKey;
+        String name;
+        if (identifier.contains(".")) {
+            translationKey = identifier;
+            name = identifier.replace(".", "_");
+        } else {
+            translationKey = identifier.replace("_", ".");
+            name = identifier;
+        }
+        return build(translationKey, name, numericId, logicSupplier);
+    }
+
     @FunctionalInterface
     public interface BlockLambda<T> {
         T run(Block<?> block);
     }
-    public static class Registry{
+
+    public static class Registry {
         public static int highestVanilla;
 
         private static final RunReserves reserves = new RunReserves(
@@ -387,6 +376,7 @@ public final class BlockBuilder implements Cloneable {
 
         /**
          * Should be called in a runnable scheduled with {@link IdSupplierHelper#scheduleRegistry(boolean, Runnable)}
+         *
          * @param count the amount of needed blocks for the mod
          * @return the first available slot to register in
          */
@@ -419,6 +409,7 @@ public final class BlockBuilder implements Cloneable {
 
         /**
          * Allows halplibe to automatically figure out where to insert the runs
+         *
          * @param modId     an identifier for the mod, can be anything, but should be something the user can identify
          * @param runs      a toml object representing configured registry runs
          * @param neededIds the number of needed ids
