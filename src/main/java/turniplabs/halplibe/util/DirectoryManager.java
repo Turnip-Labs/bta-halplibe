@@ -14,6 +14,7 @@ public class DirectoryManager {
     public static final List<String> allKeys = new ArrayList<>();
     public static final String BLOCK_TEXTURES = registerKey("halplibe:block_textures");
     public static final String ITEM_TEXTURES = registerKey("halplibe:item_textures");
+    public static final String ENTITY_TEXTURES = registerKey("halplibe:entity_textures");
     public static final String PARTICLE_TEXTURES = registerKey("halplibe:particle_textures");
     public static final String LANGUAGE = registerKey("halplibe:language");
     public static final String SOUND = registerKey("halplibe:sound");
@@ -21,6 +22,8 @@ public class DirectoryManager {
     public static final String STREAMING = registerKey("halplibe:streaming");
     public static final String CAVE_MUSIC = registerKey("halplibe:cave_music");
     public static final String ARMOR = registerKey("halplibe:armor");
+    public static final String BLOCK_MODELS = registerKey("halplibe:block_models");
+    public static final String ENTITY_MODELS = registerKey("halplibe:entity_models");
     public static final FabricLoader fl = FabricLoader.getInstance();
 
     static {
@@ -62,6 +65,10 @@ public class DirectoryManager {
         return getDirectory(ITEM_TEXTURES, modID, "/assets/%s/textures/item/");
     }
 
+    public static String getEntityTextureDirectory(String modID) {
+        return getDirectory(ENTITY_TEXTURES, modID, "/assets/%s/textures/entity/");
+    }
+
     public static String getParticleTextureDirectory(String modID) {
         return getDirectory(PARTICLE_TEXTURES, modID, "/assets/%s/textures/particle/");
     }
@@ -88,5 +95,13 @@ public class DirectoryManager {
 
     public static String getArmorDirectory(String modID) {
         return getDirectory(ARMOR, modID, "/assets/%s/textures/armor/");
+    }
+
+    public static String getBlockModelDirectory(String modID) {
+        return getDirectory(BLOCK_MODELS, modID, "/assets/%s/models/block/");
+    }
+
+    public static String getEntityModelDirectory(String modID) {
+        return getDirectory(ENTITY_MODELS, modID, "/assets/%s/models/entity/");
     }
 }
