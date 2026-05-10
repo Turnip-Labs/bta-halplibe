@@ -16,7 +16,7 @@ gradleJava = "21"
 ##########################################################################
 # Mod Dependencies
 # Check this on https://downloads.betterthanadventure.net/bta-client/
-bta = "2026-04-08"
+bta = "2026-05-09"
 # Options are release, prerelease, nightly, and misc.
 btaChannel = "nightly"
 # Check this on https://maven.thesignalumproject.net/#/infrastructure/net/fabricmc/fabric-loader/

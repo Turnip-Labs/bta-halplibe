@@ -4,6 +4,9 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.entrypoint.PreLaunchEntrypoint;
+import net.minecraft.client.render.texture.stitcher.TextureRegistry;
+import net.minecraft.core.data.registry.Registries;
+import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import turniplabs.halplibe.util.TomlConfigHandler;
@@ -13,7 +16,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class HalpLibe implements ModInitializer, PreLaunchEntrypoint {
-    public static final String MOD_ID = "halplibe";
+    public static final String MOD_ID = HalpLibe.registerMod("halplibe", false);
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
     public static final boolean isClient = FabricLoader.getInstance().getEnvironmentType().equals(EnvType.CLIENT);
     public static final TomlConfigHandler CONFIG;
@@ -67,5 +70,17 @@ public class HalpLibe implements ModInitializer, PreLaunchEntrypoint {
     @Override
     public void onPreLaunch() {
 
+    }
+
+    public static @NonNull String registerMod(@NonNull String modId) {
+        return registerMod(modId, true);
+    }
+
+    public static @NonNull String registerMod(@NonNull String modId, boolean preloadAssets) {
+        if (!preloadAssets && isClient) {
+            TextureRegistry.excludedNamespaces.add(modId);
+        }
+        Registries.NAMESPACES.register(modId, modId);
+        return modId;
     }
 }
