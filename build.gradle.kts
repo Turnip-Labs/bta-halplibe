@@ -52,7 +52,7 @@ dependencies {
 
     runtimeOnly(libs.clientJar)
     implementation(libs.loader)
-    implementation("turniplabs:modmenu-bta:5.0.0+nightly.2026.04.03")
+    implementation(libs.modMenu)
     implementation(libs.legacyLwjgl)
 
     implementation(libs.slf4jApi)
