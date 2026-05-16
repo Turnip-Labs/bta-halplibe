@@ -11,6 +11,8 @@ import net.minecraft.core.sound.BlockSound;
 import org.apache.commons.lang3.ArrayUtils;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
+import turniplabs.halplibe.helper.creativeInventory.CreativeInventoryPlacement;
+import turniplabs.halplibe.helper.creativeInventory.CreativeInventoryRegistry;
 import turniplabs.halplibe.mixin.accessors.BlocksAccessor;
 import turniplabs.halplibe.util.registry.IdSupplier;
 import turniplabs.halplibe.util.registry.RunLengthConfig;
@@ -42,6 +44,7 @@ public final class BlockBuilder implements Cloneable {
     private @Nullable Float particleGravity = null;
     private @Nullable MaterialColor overrideColor = null;
     private @Nullable Supplier<IItemConvertible> statParent = null;
+    private @Nullable CreativeInventoryPlacement creativeInventoryPlacement = null;
 
     public BlockBuilder(@NonNull String modId) {
         this.modId = modId;
@@ -299,6 +302,14 @@ public final class BlockBuilder implements Cloneable {
     }
 
     /**
+     * Adds block to the creative inventory based on the placement construct
+     */
+    public BlockBuilder setCreativeInventoryPlacement(@Nullable CreativeInventoryPlacement creativeInventoryPlacement) {
+        this.creativeInventoryPlacement = creativeInventoryPlacement;
+        return this;
+    }
+
+    /**
      * Generates a block with the specified configuration
      * @param translationKey Dot separated identifier to use for translation (eg `cracked.polished.blackstone.bricks`)
      * @param name Underscore separated name (eg `waxed_lightly_weathered_cut_copper_stairs`)
@@ -333,6 +344,10 @@ public final class BlockBuilder implements Cloneable {
         if (flammability != null) BlockLogicFire.setFlammable(block, flammability[0], flammability[1]);
         if (disableStats) block.withDisabledStats();
         if (statParent != null) block.setStatParent(statParent);
+
+        if (creativeInventoryPlacement != null) {
+            CreativeInventoryRegistry.INSTANCE.register(block, creativeInventoryPlacement);
+        }
 
         if (BlocksAccessor.hasInit()) {
             block.init();

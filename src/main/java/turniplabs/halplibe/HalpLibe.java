@@ -20,6 +20,7 @@ public class HalpLibe implements ModInitializer, PreLaunchEntrypoint {
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
     public static final boolean isClient = FabricLoader.getInstance().getEnvironmentType().equals(EnvType.CLIENT);
     public static final TomlConfigHandler CONFIG;
+
     static {
         Toml defaultConfig = new Toml("Halplibe configuration file.");
         defaultConfig.addEntry("recoveryMode",false);

@@ -5,6 +5,8 @@ import net.minecraft.core.item.Item;
 import org.apache.commons.lang3.ArrayUtils;
 import org.jetbrains.annotations.Nullable;
 import org.jspecify.annotations.NonNull;
+import turniplabs.halplibe.helper.creativeInventory.CreativeInventoryPlacement;
+import turniplabs.halplibe.helper.creativeInventory.CreativeInventoryRegistry;
 import turniplabs.halplibe.mixin.accessors.ItemDamageAccessor;
 
 import java.util.function.Supplier;
@@ -19,6 +21,8 @@ public final class ItemBuilder implements Cloneable {
     private Integer maxDamage = null;
     @Nullable
     private Supplier<Item> containerItemSupplier = null;
+    private @NonNull CreativeInventoryPlacement creativeInventoryPlacement = null;
+
 
     public ItemBuilder(@NonNull String modId) {
         this.modId = modId;
@@ -114,6 +118,14 @@ public final class ItemBuilder implements Cloneable {
     }
 
     /**
+     * Adds item to the creative inventory based on the placement construct
+     */
+    public ItemBuilder setCreativeInventoryPlacement(@NonNull CreativeInventoryPlacement creativeInventoryPlacement) {
+        this.creativeInventoryPlacement = creativeInventoryPlacement;
+        return this;
+    }
+
+    /**
      * Applies the builder configuration to the supplied item.
      *
      * @param item Input item object
@@ -125,6 +137,10 @@ public final class ItemBuilder implements Cloneable {
         if (stackSize != null) item.setMaxStackSize(stackSize);
         if (containerItemSupplier != null) item.setContainerItem(containerItemSupplier.get());
         if (maxDamage != null) ((ItemDamageAccessor) item).callSetMaxDamage(maxDamage);
+
+        if (creativeInventoryPlacement != null) {
+            CreativeInventoryRegistry.INSTANCE.register(item, creativeInventoryPlacement);
+        }
 
         return item;
     }
