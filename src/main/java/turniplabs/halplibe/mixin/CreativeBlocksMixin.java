@@ -39,14 +39,13 @@ public abstract class CreativeBlocksMixin {
             for (ItemStack stack : toAdd) {
                 list.add(++i, stack);
             }
-
-            if (inList.getItem().id == Blocks.TROMMEL_IDLE.id()) {
-                var benches = CreativeInventoryRegistry.INSTANCE.getAllFor(CreativeInventoryCategory.WORKBENCHES);
-                for (ItemStack bench : benches) {
-                    list.add(++i, bench);
-                }
-            }
         }
+    }
+
+    @WrapMethod(method = "addWorkstationsAndGlass")
+    private static void addWorkstationsAndGlass(List<ItemStack> list, Operation<Void> original) {
+        original.call(list);
+        list.addAll(CreativeInventoryRegistry.INSTANCE.getAllFor(CreativeInventoryCategory.WORKBENCHES));
     }
 
     @WrapMethod(method = "addStoneTypes")
