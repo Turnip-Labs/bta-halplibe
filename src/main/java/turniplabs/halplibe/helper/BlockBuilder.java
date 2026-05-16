@@ -30,7 +30,6 @@ public final class BlockBuilder implements Cloneable {
     private @Nullable Integer luminance = null;
     private @Nullable Integer lightOpacity = null;
     private @Nullable Float slipperiness = null;
-    private boolean immovable = false;
     private boolean useInternalLight = false;
     private boolean visualUpdateOnMetadata = false;
     private @Nullable Boolean ticking = null;
@@ -142,16 +141,6 @@ public final class BlockBuilder implements Cloneable {
     public @NonNull BlockBuilder setFlammability(int chanceToCatchFire, int chanceToDegrade) {
         BlockBuilder blockBuilder = clone();
         blockBuilder.flammability = new int[]{chanceToCatchFire, chanceToDegrade};
-        return blockBuilder;
-    }
-
-    /**
-     * Makes a block unable to be moved by pistons.
-     */
-    @SuppressWarnings({"unused"})
-    public @NonNull BlockBuilder setImmovable() {
-        BlockBuilder blockBuilder = clone();
-        blockBuilder.immovable = true;
         return blockBuilder;
     }
 
@@ -305,8 +294,9 @@ public final class BlockBuilder implements Cloneable {
      * Adds block to the creative inventory based on the placement construct
      */
     public BlockBuilder setCreativeInventoryPlacement(@Nullable CreativeInventoryPlacement creativeInventoryPlacement) {
-        this.creativeInventoryPlacement = creativeInventoryPlacement;
-        return this;
+        BlockBuilder blockBuilder = clone();
+        blockBuilder.creativeInventoryPlacement = creativeInventoryPlacement;
+        return blockBuilder;
     }
 
     /**
@@ -332,7 +322,6 @@ public final class BlockBuilder implements Cloneable {
         if (slipperiness != null) block.friction = slipperiness;
         if (particleGravity != null) block.blockParticleGravity = particleGravity;
         block.withLitInteriorSurface(useInternalLight);
-        if (immovable) block.withImmovableFlagSet();
         if (infiniburn) block.withTags(BlockTags.INFINITE_BURN);
         if (ticking != null) block.setTicking(ticking);
         if (visualUpdateOnMetadata) block.withDisabledNeighborNotifyOnMetadataChange();

@@ -14,8 +14,7 @@
     "accessors.LanguageAccessor",
     "accessors.WeightedRandomBagAccessor",
     "accessors.WeightedRandomBagEntryAccessor",
-    "creativeInventory.CreativeBlocksMixin",
-    "creativeInventory.CreativeItemsMixin",
+    "CreativeBlocksMixin",
     "recovery.WorldMixin"
   ],
   "client": [

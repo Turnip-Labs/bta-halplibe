@@ -121,8 +121,9 @@ public final class ItemBuilder implements Cloneable {
      * Adds item to the creative inventory based on the placement construct
      */
     public ItemBuilder setCreativeInventoryPlacement(@NonNull CreativeInventoryPlacement creativeInventoryPlacement) {
-        this.creativeInventoryPlacement = creativeInventoryPlacement;
-        return this;
+        ItemBuilder itemBuilder = this.clone();
+        itemBuilder.creativeInventoryPlacement = creativeInventoryPlacement;
+        return itemBuilder;
     }
 
     /**
