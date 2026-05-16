@@ -131,7 +131,7 @@ configurations.configureEach { exclude(group = "org.lwjgl.lwjgl") }
 
 publishing {
     repositories {
-        maven("https://maven.thesignalumproject.net/releases") {
+        maven("https://maven.thesignalumproject.net/nightly") {
             name = "signalumMaven"
             credentials(PasswordCredentials::class)
             authentication {
