@@ -32,14 +32,14 @@ public sealed class CreativeInventoryPlacement {
     }
 
     public static final class After extends CreativeInventoryPlacement {
-        private final IItemConvertible entry;
+        private final Supplier<IItemConvertible> entry;
 
-        public After(IItemConvertible entry) {
+        public After(Supplier<IItemConvertible> entry) {
             this.entry = entry;
         }
 
         public IItemConvertible getEntry() {
-            return entry;
+            return entry.get();
         }
     }
 }
