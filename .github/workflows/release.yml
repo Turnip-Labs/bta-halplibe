@@ -41,11 +41,11 @@ jobs:
           git config user.name "${{ github.actor }}"
           git config user.email "${{ github.actor }}@users.noreply.github.com"
 
-      - name: Create Git tag (v<mod_version> on commitish 7.3)
+      - name: Create Git tag (v<mod_version> on commitish 8.0)
         id: tag
         run: |
           TAG="v${{ steps.vars.outputs.VERSION }}"
-          COMMITISH="7.3"
+          COMMITISH="8.0"
 
           git tag -a "$TAG" -m "Release $TAG" "$COMMITISH"
           git push origin "$TAG"
