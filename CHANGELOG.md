@@ -1,1 +1,1 @@
-- This release has no actual changes to the mod, and only exists to hopefully fix build metadata on the maven repository.
+- Fix options init entrypoint.

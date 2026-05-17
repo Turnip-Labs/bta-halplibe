@@ -14,12 +14,10 @@ import turniplabs.halplibe.util.OptionsInitEntrypoint;
 @Mixin(value = GameSettings.class)
 public abstract class GameSettingsMixin {
 
-    @Inject(method = "<init>", at = @At("RETURN"))
-    public void onGameSettingsInit(CallbackInfo ci) {
-        GameSettings settings = (GameSettings) (Object) this;
-
+    @Inject(method = "<clinit>", at = @At("RETURN"))
+    private static void onGameSettingsInit(CallbackInfo ci) {
         FabricLoader.getInstance()
                 .getEntrypoints("initOptions", OptionsInitEntrypoint.class)
-                .forEach(e -> e.initOptions(settings));
+                .forEach(OptionsInitEntrypoint::initOptions);
     }
 }
