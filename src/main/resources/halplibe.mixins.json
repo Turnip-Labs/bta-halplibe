@@ -4,6 +4,7 @@
   "package": "turniplabs.halplibe.mixin",
   "compatibilityLevel": "JAVA_${java}",
   "mixins": [
+    "CreativeBlocksMixin",
     "ItemsMixin",
     "MobCreeperMixin",
     "PacketCustomPayloadMixin",
@@ -14,10 +15,10 @@
     "accessors.LanguageAccessor",
     "accessors.WeightedRandomBagAccessor",
     "accessors.WeightedRandomBagEntryAccessor",
-    "CreativeBlocksMixin",
     "recovery.WorldMixin"
   ],
   "client": [
+    "ExceptionPopupElementMixin",
     "GameSettingsMixin",
     "MinecraftMixin",
     "PacketHandlerClientMixin",
