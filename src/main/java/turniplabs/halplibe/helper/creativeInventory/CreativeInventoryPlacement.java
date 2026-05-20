@@ -6,7 +6,13 @@ import net.minecraft.core.item.ItemStack;
 import java.util.List;
 import java.util.function.Supplier;
 
-public sealed class CreativeInventoryPlacement {
+// Hey uh. If you want a custom "category" you can just create an After inventory placement instance and save it somewhere.
+//
+// If you need a new kind of placement all together you will have to mixin into the registry,
+// then you write a mixin to splice the inventory list.
+// - Khep
+
+public abstract class CreativeInventoryPlacement {
 
     private Supplier<List<ItemStack>> customSupplier = null;
 

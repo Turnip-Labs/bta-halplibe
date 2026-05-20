@@ -12,6 +12,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import turniplabs.halplibe.HalpLibe;
+import turniplabs.halplibe.helper.creativeInventory.CreativeInventoryRegistry;
 import turniplabs.halplibe.helper.network.NetworkHandler;
 import turniplabs.halplibe.mixin.accessors.ItemsAccessor;
 import turniplabs.halplibe.util.BlockInitEntrypoint;
@@ -41,6 +42,8 @@ public abstract class MinecraftServerMixin {
 
     @Inject(method = "startServer", at = @At("TAIL"))
     public void afterGameStartEntrypoint(CallbackInfoReturnable<Boolean> cir) {
+        CreativeInventoryRegistry.INSTANCE.bakeAll();
+
         FabricLoader.getInstance().getEntrypoints("afterGameStart", GameStartEntrypoint.class).forEach(GameStartEntrypoint::afterGameStart);
     }
 
