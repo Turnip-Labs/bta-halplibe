@@ -13,12 +13,12 @@ public class BaseEvent<L> implements Event<L>, Emitter<L> {
     protected final @NonNull List<L> listeners = new ArrayList<>();
 
     @Override
-    public void emit(@NonNull Consumer<L> consumer) {
+    public void emit(@NonNull final Consumer<L> consumer) {
         listeners.forEach(consumer);
     }
 
     @Override
-    public void listen(@NonNull L listener) {
+    public void listen(@NonNull final L listener) {
         listeners.add(listener);
     }
 }
