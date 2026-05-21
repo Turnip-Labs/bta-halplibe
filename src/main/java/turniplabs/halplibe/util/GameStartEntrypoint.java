@@ -1,5 +1,6 @@
 package turniplabs.halplibe.util;
 
+@Deprecated
 public interface GameStartEntrypoint {
 
     /**

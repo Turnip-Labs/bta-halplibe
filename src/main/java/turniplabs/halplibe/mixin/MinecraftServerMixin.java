@@ -12,6 +12,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import turniplabs.halplibe.HalpLibe;
+import turniplabs.halplibe.event.defs.CommonEvents;
+import turniplabs.halplibe.event.defs.ServerEvents;
 import turniplabs.halplibe.helper.creativeInventory.CreativeInventoryRegistry;
 import turniplabs.halplibe.helper.network.NetworkHandler;
 import turniplabs.halplibe.mixin.accessors.ItemsAccessor;
@@ -29,7 +31,9 @@ public abstract class MinecraftServerMixin {
     @Inject(method = "startServer", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/data/DataLoader;loadRecipesFromFile(Ljava/lang/String;)V", ordinal = 3, shift = At.Shift.AFTER))
     public void recipeEntrypoint(CallbackInfoReturnable<Boolean> cir) {
         FabricLoader.getInstance().getEntrypoints("recipesReady", RecipeEntrypoint.class).forEach(RecipeEntrypoint::initNamespaces);
+        CommonEvents.RECIPES_NAMESPACE_INIT.emit(Runnable::run);
         FabricLoader.getInstance().getEntrypoints("recipesReady", RecipeEntrypoint.class).forEach(RecipeEntrypoint::onRecipesReady);
+        CommonEvents.RECIPES_READY.emit(Runnable::run);
     }
 
     @Inject(method = "startServer", at = @At("HEAD"))
@@ -38,6 +42,8 @@ public abstract class MinecraftServerMixin {
         Global.isServer = true;
         NetworkHandler.internalNetworkHandlerSetup();
         FabricLoader.getInstance().getEntrypoints("beforeGameStart", GameStartEntrypoint.class).forEach(GameStartEntrypoint::beforeGameStart);
+        ServerEvents.BEFORE_SERVER_START.emit(Runnable::run);
+        CommonEvents.BEFORE_GAME_START.emit(Runnable::run);
     }
 
     @Inject(method = "startServer", at = @At("TAIL"))
@@ -45,16 +51,20 @@ public abstract class MinecraftServerMixin {
         CreativeInventoryRegistry.INSTANCE.bakeAll();
 
         FabricLoader.getInstance().getEntrypoints("afterGameStart", GameStartEntrypoint.class).forEach(GameStartEntrypoint::afterGameStart);
+        ServerEvents.AFTER_SERVER_START.emit(Runnable::run);
+        CommonEvents.AFTER_GAME_START.emit(Runnable::run);
     }
 
     @Inject(method = "startServer", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/block/Blocks;init()V", shift = At.Shift.AFTER))
     public void afterBlockInitEntrypoint(CallbackInfoReturnable<Boolean> cir) {
         FabricLoader.getInstance().getEntrypoints("afterBlockInit", BlockInitEntrypoint.class).forEach(BlockInitEntrypoint::afterBlockInit);
+        CommonEvents.AFTER_BLOCK_INIT.emit(Runnable::run);
     }
 
     @Inject(method = "startServer", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/item/Items;init()V", shift = At.Shift.AFTER))
     public void afterItemInitEntrypoint(CallbackInfoReturnable<Boolean> cir) {
         FabricLoader.getInstance().getEntrypoints("afterItemInit", ItemInitEntrypoint.class).forEach(ItemInitEntrypoint::afterItemInit);
+        CommonEvents.AFTER_ITEM_INIT.emit(Runnable::run);
     }
 
     @Inject(method = "startServer", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/achievement/stat/StatList;init()V"))

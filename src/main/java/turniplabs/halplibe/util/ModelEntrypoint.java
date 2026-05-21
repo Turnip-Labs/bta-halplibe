@@ -8,6 +8,7 @@ import net.minecraft.client.render.block.color.BlockColorDispatcher;
 import net.minecraft.client.render.block.model.BlockModelDispatcher;
 import net.minecraft.client.render.item.model.ItemModelDispatcher;
 
+@Deprecated
 @Environment(EnvType.CLIENT)
 public interface ModelEntrypoint {
     /**
