@@ -1,1 +1,3 @@
-- Fix options init entrypoint.
+- Lang keys of items now include the mod id.
+- Added installed mods to crash reports.
+- Creative inventory fixes. (by kheprep)
