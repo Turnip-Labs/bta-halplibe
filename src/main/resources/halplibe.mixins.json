@@ -10,6 +10,7 @@
     "PacketCustomPayloadMixin",
     "accessors.BlockAccessor",
     "accessors.BlocksAccessor",
+    "accessors.ItemAccessor",
     "accessors.ItemDamageAccessor",
     "accessors.ItemsAccessor",
     "accessors.LanguageAccessor",

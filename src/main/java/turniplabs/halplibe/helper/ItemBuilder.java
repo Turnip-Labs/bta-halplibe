@@ -3,13 +3,19 @@ package turniplabs.halplibe.helper;
 import net.minecraft.core.data.tag.Tag;
 import net.minecraft.core.item.Item;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 import org.jspecify.annotations.NonNull;
 import turniplabs.halplibe.helper.creativeInventory.CreativeInventoryPlacement;
 import turniplabs.halplibe.helper.creativeInventory.CreativeInventoryRegistry;
+import turniplabs.halplibe.mixin.accessors.ItemAccessor;
 import turniplabs.halplibe.mixin.accessors.ItemDamageAccessor;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public final class ItemBuilder implements Cloneable {
     private final @NonNull String modId;
@@ -134,6 +140,14 @@ public final class ItemBuilder implements Cloneable {
      */
     @SuppressWarnings("unused")
     public <T extends Item> T build(T item) {
+        List<String> tokens;
+
+        if (overrideKey != null){
+            tokens = Arrays.stream(overrideKey.split("\\.")).collect(Collectors.toList());
+        } else {
+            tokens = Arrays.stream(item.getKey().split("\\.")).collect(Collectors.toList());
+        }
+
         if (tags != null) item.withTags(tags);
         if (stackSize != null) item.setMaxStackSize(stackSize);
         if (containerItemSupplier != null) item.setContainerItem(containerItemSupplier.get());
@@ -142,6 +156,14 @@ public final class ItemBuilder implements Cloneable {
         if (creativeInventoryPlacement != null) {
             CreativeInventoryRegistry.INSTANCE.register(item, creativeInventoryPlacement);
         }
+
+        List<String> newTokens = new ArrayList<>();
+        newTokens.add(modId);
+        newTokens.addAll(tokens.subList(1, tokens.size()));
+
+        Item.nameToIdMap.remove(item.getKey(), item.id);
+        ((ItemAccessor) item).setKey(StringUtils.join(newTokens, "."));
+        Item.nameToIdMap.put(item.getKey(), item.id);
 
         return item;
     }

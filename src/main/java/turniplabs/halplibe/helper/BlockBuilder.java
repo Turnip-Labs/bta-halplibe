@@ -31,7 +31,6 @@ public final class BlockBuilder implements Cloneable {
     private @Nullable Integer lightOpacity = null;
     private @Nullable Float slipperiness = null;
     private boolean useInternalLight = false;
-    private boolean visualUpdateOnMetadata = false;
     private @Nullable Boolean ticking = null;
     private boolean infiniburn = false;
     private int @Nullable [] flammability = null;
@@ -261,16 +260,6 @@ public final class BlockBuilder implements Cloneable {
     }
 
     /**
-     * Makes the block receive a visual update when the metadata of that block changes.
-     */
-    @SuppressWarnings({"unused"})
-    public @NonNull BlockBuilder setVisualUpdateOnMetadata() {
-        BlockBuilder blockBuilder = this.clone();
-        blockBuilder.visualUpdateOnMetadata = true;
-        return blockBuilder;
-    }
-
-    /**
      * Overrides the block color used for the map.
      */
     @SuppressWarnings({"unused"})
@@ -324,7 +313,6 @@ public final class BlockBuilder implements Cloneable {
         block.withLitInteriorSurface(useInternalLight);
         if (infiniburn) block.withTags(BlockTags.INFINITE_BURN);
         if (ticking != null) block.setTicking(ticking);
-        if (visualUpdateOnMetadata) block.withDisabledNeighborNotifyOnMetadataChange();
         if (overrideColor != null) block.withOverrideColor(overrideColor);
         if (blockSound != null) block.withSound(blockSound);
         if (entitySupplier != null) block.withEntity(entitySupplier);
