@@ -56,7 +56,8 @@ dependencies {
     implementation(libs.legacyLwjgl)
 
     implementation(libs.slf4jApi)
-    implementation(libs.guava)
+    compileOnly(libs.jspecify)
+    compileOnly(libs.errorprone)
     implementation(libs.log4j.slf4j2.impl)
     implementation(libs.log4j.core)
     implementation(libs.log4j.api)

@@ -30,7 +30,8 @@ legacyLwjgl = "1.0.6"
 # Check this on https://central.sonatype.com/artifact/org.slf4j/slf4j-api/
 slf4jApi = "2.0.17"
 # Check this on https://central.sonatype.com/artifact/com.google.guava/guava/
-guava = "33.5.0-jre"
+jspecify = "1.0.0"
+errorprone = "2.49.0"
 # Check this on https://central.sonatype.com/artifact/org.apache.logging.log4j/log4j-api/
 log4j = "2.20.0"
 # This should match the version used by the current BTA release.
@@ -42,7 +43,8 @@ loader = { group = "net.fabricmc", name = "fabric-loader", version.ref = "loader
 modMenu = { group = "turniplabs", name = "modmenu-bta", version.ref = "modMenu" }
 legacyLwjgl = { group = "com.github.Better-than-Adventure", name = "legacy-lwjgl3", version.ref = "legacyLwjgl" }
 slf4jApi = { group = "org.slf4j", name = "slf4j-api", version.ref = "slf4jApi" }
-guava = { group = "com.google.guava", name = "guava", version.ref = "guava" }
+jspecify = { group = "org.jspecify", name = "jspecify", version.ref = "jspecify" }
+errorprone = { group = "com.google.errorprone", name = "error_prone_annotations", version.ref = "errorprone" }
 log4j-slf4j2-impl = { group = "org.apache.logging.log4j", name = "log4j-slf4j2-impl", version.ref = "log4j" }
 log4j-core = { group = "org.apache.logging.log4j", name = "log4j-core", version.ref = "log4j" }
 log4j-api = { group = "org.apache.logging.log4j", name = "log4j-api", version.ref = "log4j" }
