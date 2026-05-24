@@ -61,10 +61,6 @@ dependencies {
     implementation(libs.log4j.core)
     implementation(libs.log4j.api)
     implementation(libs.log4j.api12)
-    implementation(libs.gson)
-
-    implementation(libs.commonsLang3)
-    include(libs.commonsLang3)
 }
 java {
     toolchain {
@@ -121,9 +117,14 @@ tasks {
             "java" to libs.versions.java.get(),
             "modmenu" to libs.versions.modMenu.get()
         )
-        inputs.properties(resourceMap)
-        filesMatching("fabric.mod.json") { expand(resourceMap) }
-        filesMatching("**/*.mixins.json") { expand(resourceMap.filterKeys { it == "java" }) }
+        duplicatesStrategy = DuplicatesStrategy.INCLUDE
+        with(copySpec {
+            from("src/main/resources/") {
+                include("fabric.mod.json")
+                include("*.mixins.json")
+                expand(resourceMap)
+            }
+        })
     }
 }
 // Removes LWJGL2 dependencies

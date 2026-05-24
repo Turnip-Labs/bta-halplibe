@@ -2,8 +2,6 @@ package turniplabs.halplibe.helper;
 
 import net.minecraft.core.data.tag.Tag;
 import net.minecraft.core.item.Item;
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 import org.jspecify.annotations.NonNull;
 import turniplabs.halplibe.helper.creativeInventory.CreativeInventoryPlacement;
@@ -119,7 +117,7 @@ public final class ItemBuilder implements Cloneable {
     @SuppressWarnings({"unused"})
     public final @NonNull ItemBuilder addTags(Tag<Item>... tags) {
         ItemBuilder itemBuilder = this.clone();
-        itemBuilder.tags = ArrayUtils.addAll(this.tags, tags);
+        itemBuilder.tags = tags;
         return itemBuilder;
     }
 
@@ -162,7 +160,7 @@ public final class ItemBuilder implements Cloneable {
         newTokens.addAll(tokens.subList(1, tokens.size()));
 
         Item.nameToIdMap.remove(item.getKey(), item.id);
-        ((ItemAccessor) item).setKey(StringUtils.join(newTokens, "."));
+        ((ItemAccessor) item).setKey(String.join(".", newTokens));
         Item.nameToIdMap.put(item.getKey(), item.id);
 
         return item;

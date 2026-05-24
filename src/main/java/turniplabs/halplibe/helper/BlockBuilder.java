@@ -8,7 +8,6 @@ import net.minecraft.core.data.tag.Tag;
 import net.minecraft.core.item.IItemConvertible;
 import net.minecraft.core.item.block.ItemBlock;
 import net.minecraft.core.sound.BlockSound;
-import org.apache.commons.lang3.ArrayUtils;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import turniplabs.halplibe.helper.creativeInventory.CreativeInventoryPlacement;
@@ -235,7 +234,7 @@ public final class BlockBuilder implements Cloneable {
     @SuppressWarnings({"unused"})
     public final @NonNull BlockBuilder addTags(Tag<Block<?>>... tags) {
         BlockBuilder blockBuilder = clone();
-        blockBuilder.tags = ArrayUtils.addAll(this.tags, tags);
+        blockBuilder.tags = tags;
         return blockBuilder;
     }
 
