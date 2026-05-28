@@ -4,7 +4,7 @@
   "package": "turniplabs.halplibe.mixin",
   "compatibilityLevel": "JAVA_${java}",
   "mixins": [
-    "CreativeBlocksMixin",
+    "CreativeMenuContentsMixin",
     "ItemsMixin",
     "MobCreeperMixin",
     "PacketCustomPayloadMixin",

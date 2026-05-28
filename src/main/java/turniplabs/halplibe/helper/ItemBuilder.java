@@ -2,6 +2,7 @@ package turniplabs.halplibe.helper;
 
 import net.minecraft.core.data.tag.Tag;
 import net.minecraft.core.item.Item;
+import net.minecraft.core.item.tag.ItemTags;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
@@ -153,11 +154,12 @@ public final class ItemBuilder implements Cloneable {
         if (containerItemSupplier != null) item.setContainerItem(containerItemSupplier.get());
         if (maxDamage != null) ((ItemDamageAccessor) item).callSetMaxDamage(maxDamage);
 
-        if (creativeInventoryPlacement != null) {
+        if (creativeInventoryPlacement != null && !item.hasTag(ItemTags.NOT_IN_CREATIVE_MENU)) {
             CreativeInventoryRegistry.INSTANCE.register(item, creativeInventoryPlacement);
         }
 
         List<String> newTokens = new ArrayList<>();
+        newTokens.add("item");
         newTokens.add(modId);
         newTokens.addAll(tokens.subList(1, tokens.size()));
 

@@ -322,7 +322,7 @@ public final class BlockBuilder implements Cloneable {
         if (disableStats) block.withDisabledStats();
         if (statParent != null) block.setStatParent(statParent);
 
-        if (creativeInventoryPlacement != null) {
+        if (creativeInventoryPlacement != null && !block.hasTag(BlockTags.NOT_IN_CREATIVE_MENU)) {
             CreativeInventoryRegistry.INSTANCE.register(block, creativeInventoryPlacement);
         }
 
