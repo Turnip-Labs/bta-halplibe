@@ -47,10 +47,11 @@ public final class ItemBuilder implements Cloneable {
      * @param key Override translation key for the {@link Item}
      * @return Copy of {@link ItemBuilder}
      */
+    @Deprecated
     @SuppressWarnings({"unused"})
     public ItemBuilder setKey(String key) {
         ItemBuilder builder = this.clone();
-        builder.overrideKey = "item." + key;
+        builder.overrideKey = key;
         return builder;
     }
 
