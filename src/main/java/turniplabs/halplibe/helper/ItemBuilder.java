@@ -158,6 +158,7 @@ public final class ItemBuilder implements Cloneable {
         }
 
         List<String> newTokens = new ArrayList<>();
+        newTokens.add("item");
         newTokens.add(modId);
         newTokens.addAll(tokens.subList(1, tokens.size()));
 
