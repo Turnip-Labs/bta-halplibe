@@ -19,7 +19,6 @@ import java.util.function.Supplier;
 
 @SuppressWarnings("unused")
 public final class SimpleBus implements EventBus {
-    private final Map<Class<?>, List<ListenerData>> listenerMap = new HashMap<>();
     private final Logger logger;
     private int mappingId = 0;
     private final Map<Class<? extends Signal>, Mapping<? extends Signal>> mappings = new HashMap<>();
@@ -31,62 +30,43 @@ public final class SimpleBus implements EventBus {
 
     @Override
     public void post(@NonNull final Signal event) {
-        Class<?> currentClass = event.getClass();
-        while (Signal.class.isAssignableFrom(currentClass)) {
-            final List<ListenerData> consumerList = listenerMap.get(currentClass);
+        forEachSuperUntil(event.getClass(), Signal.class, cls -> {
+            final Mapping<Signal> mapping = getMapping(cls);
+            final List<ListenerData> listeners = mappedListeners.get(mapping.id());
 
-            final boolean cancelled = forEachUntil(consumerList, s -> s.accept(event), s -> event.isCancelled());
-            if (cancelled) return;
-
-            currentClass = currentClass.getSuperclass();
-        }
-
-        final List<ListenerData> consumerList = listenerMap.get(Signal.class);
-        if (consumerList != null) consumerList.forEach(consumer -> consumer.accept(event));
+            return forEachUntil(listeners, l -> l.accept(event), l -> event.isCancelled());
+        });
     }
 
     @Override
     public void post(@NonNull final Supplier<Signal> eventSupplier) {
-        final Signal event = eventSupplier.get();
-
-        Class<?> currentClass = event.getClass();
-        while (Signal.class.isAssignableFrom(currentClass)) {
-            final List<ListenerData> consumerList = listenerMap.get(currentClass);
-
-            final boolean cancelled = forEachUntil(consumerList, s -> s.accept(event), s -> event.isCancelled());
-            if (cancelled) return;
-
-            currentClass = currentClass.getSuperclass();
-        }
-
-        final List<ListenerData> consumerList = listenerMap.get(Signal.class);
-        if (consumerList != null) consumerList.forEach(consumer -> consumer.accept(event));
+        post(eventSupplier.get());
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void postNoPropagate(@NonNull Signal event) {
-        final List<ListenerData> consumerList = listenerMap.get(event.getClass());
-        forEachUntil(consumerList, s -> s.accept(event), s -> event.isCancelled());
+        final Mapping<Signal> mapping = (Mapping<Signal>) getMapping(event.getClass());
+        postNoPropagate(mapping, event);
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void postNoPropagate(@NonNull Supplier<Signal> eventSupplier) {
         final Signal event = eventSupplier.get();
-        final List<ListenerData> consumerList = listenerMap.get(event.getClass());
-        forEachUntil(consumerList, s -> s.accept(event), s -> event.isCancelled());
+        final Mapping<Signal> mapping = (Mapping<Signal>) getMapping(event.getClass());
+        postNoPropagate(mapping, event);
     }
 
     @Override
-    public <T extends Signal> void postMapped(@NonNull Mapping<T> mapping, @NonNull T event) {
-        final List<ListenerData> consumerList = mappedListeners.get(mapping.id());
-        forEachUntil(consumerList, s -> s.accept(event), s -> event.isCancelled());
+    public <T extends Signal> void postNoPropagate(@NonNull Mapping<T> mapping, @NonNull T event) {
+        final List<ListenerData> listeners = mappedListeners.get(mapping.id());
+        forEachUntil(listeners, l -> l.accept(event), l -> event.isCancelled());
     }
 
     @Override
-    public <T extends Signal> void postMapped(@NonNull Mapping<T> mapping, @NonNull Supplier<T> eventSupplier) {
-        final Signal event = eventSupplier.get();
-        final List<ListenerData> consumerList = mappedListeners.get(mapping.id());
-        forEachUntil(consumerList, s -> s.accept(event), s -> event.isCancelled());
+    public <T extends Signal> void postNoPropagate(@NonNull Mapping<T> mapping, @NonNull Supplier<T> eventSupplier) {
+        postNoPropagate(mapping, eventSupplier.get());
     }
 
     private static <T> boolean forEachUntil(
@@ -104,6 +84,38 @@ public final class SimpleBus implements EventBus {
         }
 
         return false;
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <C extends S, S> void forEachSuper(
+            @NonNull final Class<C> start,
+            @NonNull final Class<S> end,
+            @NonNull final Consumer<Class<S>> consumer
+    ) {
+        Class<S> currentClass = (Class<S>) start;
+
+        while (currentClass != null && end.isAssignableFrom(currentClass)) {
+            consumer.accept(currentClass);
+            currentClass = (Class<S>) currentClass.getSuperclass();
+        }
+
+        if (end.isInterface()) consumer.accept(end);
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <C extends S, S> void forEachSuperUntil(
+            @NonNull final Class<C> start,
+            @NonNull final Class<S> end,
+            @NonNull final Predicate<Class<S>> exitCondition
+    ) {
+        Class<S> currentClass = (Class<S>) start;
+
+        while (end.isAssignableFrom(currentClass)) {
+            if (exitCondition.test(currentClass)) return;
+            currentClass = (Class<S>) currentClass.getSuperclass();
+        }
+
+        if (end.isInterface()) exitCondition.test(end);
     }
 
     @Override
@@ -141,18 +153,11 @@ public final class SimpleBus implements EventBus {
     @SuppressWarnings("unchecked")
     public <T extends Signal> @NonNull Mapping<T> getMapping(@NonNull Class<T> signalClass) {
         final Mapping<T> mapping = (Mapping<T>) mappings.get(signalClass);
-        if (mapping != null) {
-            final List<ListenerData> listeners = listenerMap.get(signalClass);
-            if (listeners != null) mappedListeners.set(mapping.id(), listeners);
-            return mapping;
-        }
+        if (mapping != null) return mapping;
 
         final Mapping<T> newMapping = new Mapping<>(mappingId++);
         mappings.put(signalClass, newMapping);
-        mappedListeners.add(Collections.emptyList());
-
-        final List<ListenerData> listeners = listenerMap.get(signalClass);
-        if (listeners != null) mappedListeners.set(newMapping.id(), listeners);
+        mappedListeners.add(new ArrayList<>());
 
         return newMapping;
     }
@@ -184,12 +189,13 @@ public final class SimpleBus implements EventBus {
                 final CallSite cs = LambdaMetafactory.metafactory(lu, "accept", factoryType, templateType, handle, handleType);
                 final Object lambda = isStatic ? cs.dynamicInvoker().invoke() : cs.dynamicInvoker().invoke(instance);
 
-                final Class<?> paramType = handleType.parameterType(0);
-                final List<ListenerData> consumerList = listenerMap.computeIfAbsent(paramType, key -> new ArrayList<>());
-                consumerList.add(new ListenerData((Consumer<Signal>) lambda, cls, isStatic ? null : instance));
+                final Class<? extends Signal> paramType = (Class<? extends Signal>) handleType.parameterType(0);
+
+                forEachSuper(paramType, Signal.class, this::getMapping);
 
                 final Mapping<?> mapping = mappings.get(paramType);
-                if (mapping != null) mappedListeners.set(mapping.id(), consumerList);
+                final List<ListenerData> listeners = mappedListeners.get(mapping.id());
+                listeners.add(new ListenerData((Consumer<Signal>) lambda, cls, isStatic ? null : instance));
 
             } catch (Throwable e) {
                 logger.error("Failed to register listener:\n{}", e.getMessage());
@@ -216,7 +222,8 @@ public final class SimpleBus implements EventBus {
                     continue;
                 }
 
-                final List<ListenerData> listenerData = listenerMap.get(handleType.parameterType(0));
+                final Mapping<?> mapping = mappings.get(handleType.parameterType(0));
+                final List<ListenerData> listenerData = mappedListeners.get(mapping.id());
                 final int size = listenerData.size();
                 for (int i = size - 1; i >= 0; --i) {
                     final ListenerData data = listenerData.get(i);

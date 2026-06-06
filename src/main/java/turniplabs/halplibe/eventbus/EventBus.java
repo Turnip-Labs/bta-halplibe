@@ -12,8 +12,8 @@ public interface EventBus {
     void postNoPropagate(@NonNull Signal event);
     void postNoPropagate(@NonNull Supplier<Signal> eventSupplier);
 
-    <T extends Signal> void postMapped(@NonNull Mapping<T> mapping, @NonNull T event);
-    <T extends Signal> void postMapped(@NonNull Mapping<T> mapping, @NonNull Supplier<T> eventSupplier);
+    <T extends Signal> void postNoPropagate(@NonNull Mapping<T> mapping, @NonNull T event);
+    <T extends Signal> void postNoPropagate(@NonNull Mapping<T> mapping, @NonNull Supplier<T> eventSupplier);
 
     void registerStaticListeners(@NonNull Class<?> cls);
     void registerInstanceListeners(@NonNull Object instance);
