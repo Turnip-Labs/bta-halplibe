@@ -17,6 +17,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import turniplabs.halplibe.HalpLibe;
 import turniplabs.halplibe.event.defs.ClientEvents;
 import turniplabs.halplibe.event.defs.CommonEvents;
+import turniplabs.halplibe.eventbus.defs.client.AfterClientStart;
+import turniplabs.halplibe.eventbus.defs.client.BeforeClientStart;
 import turniplabs.halplibe.helper.creativeInventory.CreativeInventoryRegistry;
 import turniplabs.halplibe.helper.network.NetworkHandler;
 import turniplabs.halplibe.mixin.accessors.ItemsAccessor;
@@ -47,6 +49,7 @@ public abstract class MinecraftMixin {
         FabricLoader.getInstance().getEntrypoints("beforeClientStart", ClientStartEntrypoint.class).forEach(ClientStartEntrypoint::beforeClientStart);
         FabricLoader.getInstance().getEntrypoints("beforeGameStart", GameStartEntrypoint.class).forEach(GameStartEntrypoint::beforeGameStart);
         ClientEvents.BEFORE_CLIENT_START.emit(Runnable::run);
+        HalpLibe.BUS.post(new BeforeClientStart());
         CommonEvents.BEFORE_GAME_START.emit(Runnable::run);
     }
 
@@ -58,6 +61,7 @@ public abstract class MinecraftMixin {
         FabricLoader.getInstance().getEntrypoints("afterGameStart", GameStartEntrypoint.class).forEach(GameStartEntrypoint::afterGameStart);
         FabricLoader.getInstance().getEntrypoints("afterClientStart", ClientStartEntrypoint.class).forEach(ClientStartEntrypoint::afterClientStart);
         ClientEvents.AFTER_CLIENT_START.emit(Runnable::run);
+        HalpLibe.BUS.post(new AfterClientStart());
         CommonEvents.AFTER_GAME_START.emit(Runnable::run);
         if (HalpLibe.CONFIG.getBoolean("recoveryMode")) {
             PopupScreen popup = new PopupBuilder(this.currentScreen, 246)
