@@ -11,10 +11,7 @@ import turniplabs.halplibe.eventbus.Signal;
 import java.lang.invoke.*;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -24,6 +21,9 @@ import java.util.function.Supplier;
 public final class SimpleBus implements EventBus {
     private final Map<Class<?>, List<ListenerData>> listenerMap = new HashMap<>();
     private final Logger logger;
+    private int mappingId = 0;
+    private final Map<Class<? extends Signal>, Mapping<? extends Signal>> mappings = new HashMap<>();
+    private final List<@NonNull List<ListenerData>> mappedListeners = new ArrayList<>();
 
     public SimpleBus(@NonNull final String name) {
         logger = LoggerFactory.getLogger(name);
@@ -76,6 +76,19 @@ public final class SimpleBus implements EventBus {
         forEachUntil(consumerList, s -> s.accept(event), s -> event.isCancelled());
     }
 
+    @Override
+    public <T extends Signal> void postMapped(@NonNull Mapping<T> mapping, @NonNull T event) {
+        final List<ListenerData> consumerList = mappedListeners.get(mapping.id());
+        forEachUntil(consumerList, s -> s.accept(event), s -> event.isCancelled());
+    }
+
+    @Override
+    public <T extends Signal> void postMapped(@NonNull Mapping<T> mapping, @NonNull Supplier<T> eventSupplier) {
+        final Signal event = eventSupplier.get();
+        final List<ListenerData> consumerList = mappedListeners.get(mapping.id());
+        forEachUntil(consumerList, s -> s.accept(event), s -> event.isCancelled());
+    }
+
     private static <T> boolean forEachUntil(
             @Nullable final List<T> list,
             @NonNull final Consumer<T> consumer,
@@ -124,6 +137,26 @@ public final class SimpleBus implements EventBus {
         removeListenersInternal(cls, instance, true);
     }
 
+    @Override
+    @SuppressWarnings("unchecked")
+    public <T extends Signal> @NonNull Mapping<T> getMapping(@NonNull Class<T> signalClass) {
+        final Mapping<T> mapping = (Mapping<T>) mappings.get(signalClass);
+        if (mapping != null) {
+            final List<ListenerData> listeners = listenerMap.get(signalClass);
+            if (listeners != null) mappedListeners.set(mapping.id(), listeners);
+            return mapping;
+        }
+
+        final Mapping<T> newMapping = new Mapping<>(mappingId++);
+        mappings.put(signalClass, newMapping);
+        mappedListeners.add(Collections.emptyList());
+
+        final List<ListenerData> listeners = listenerMap.get(signalClass);
+        if (listeners != null) mappedListeners.set(newMapping.id(), listeners);
+
+        return newMapping;
+    }
+
     @SuppressWarnings("unchecked")
     private void registerListenersInternal(@NonNull final Class<?> cls, @Nullable final Object instance, boolean registerBoth) {
         for (final Method method : cls.getMethods()) {
@@ -154,6 +187,9 @@ public final class SimpleBus implements EventBus {
                 final Class<?> paramType = handleType.parameterType(0);
                 final List<ListenerData> consumerList = listenerMap.computeIfAbsent(paramType, key -> new ArrayList<>());
                 consumerList.add(new ListenerData((Consumer<Signal>) lambda, cls, isStatic ? null : instance));
+
+                final Mapping<?> mapping = mappings.get(paramType);
+                if (mapping != null) mappedListeners.set(mapping.id(), consumerList);
 
             } catch (Throwable e) {
                 logger.error("Failed to register listener:\n{}", e.getMessage());
