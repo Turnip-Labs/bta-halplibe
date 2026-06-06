@@ -1,5 +1,8 @@
 {
   "required": true,
+  "mixinextras": {
+    "minVersion": "0.5.0"
+  },
   "minVersion": "0.8",
   "package": "turniplabs.halplibe.mixin",
   "compatibilityLevel": "JAVA_${java}",
@@ -16,6 +19,7 @@
     "accessors.LanguageAccessor",
     "accessors.WeightedRandomBagAccessor",
     "accessors.WeightedRandomBagEntryAccessor",
+    "deathcause.MobMixin",
     "recovery.WorldMixin"
   ],
   "client": [

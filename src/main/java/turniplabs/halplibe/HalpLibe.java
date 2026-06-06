@@ -9,7 +9,9 @@ import net.minecraft.core.data.registry.Registries;
 import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import turniplabs.halplibe.helper.network.NetworkHandler;
 import turniplabs.halplibe.util.TomlConfigHandler;
+import turniplabs.halplibe.util.deathcause.DeathCauseNetworkMessage;
 import turniplabs.halplibe.util.toml.Toml;
 
 import java.io.File;
@@ -66,6 +68,8 @@ public class HalpLibe implements ModInitializer, PreLaunchEntrypoint {
     @Override
     public void onInitialize() {
         LOGGER.info("HalpLibe initialized.");
+
+        NetworkHandler.registerNetworkMessage(DeathCauseNetworkMessage::new);
     }
 
     @Override
