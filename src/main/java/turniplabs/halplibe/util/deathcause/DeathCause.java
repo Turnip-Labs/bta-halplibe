@@ -32,8 +32,8 @@ public abstract class DeathCause {
     public DeathCause() {};
 
     public abstract String format(I18n i18n);
-    public abstract void serialize(CompoundTag tag);
-    public abstract void deserialize(CompoundTag tag);
+    public void serialize(CompoundTag tag) {};
+    public void deserialize(CompoundTag tag) {};
 
     public void bind(Mob victim) {
         ((DeathCauseMixinInterface) victim).halplibe$setDeathCause(this);
