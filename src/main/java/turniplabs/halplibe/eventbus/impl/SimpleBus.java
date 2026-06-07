@@ -11,7 +11,10 @@ import turniplabs.halplibe.eventbus.Signal;
 import java.lang.invoke.*;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -30,11 +33,22 @@ public final class SimpleBus implements EventBus {
 
     @Override
     public void post(@NonNull final Signal event) {
+        final Class<?> directClass = event.getClass();
+
+        // Checked at post because this shouldn't be changed by listeners (unlike CANCELLED)
+        final boolean isFinal = event.getState() == Signal.State.FINAL;
+
         forEachSuperUntil(event.getClass(), Signal.class, cls -> {
             final Mapping<Signal> mapping = getMapping(cls);
             final List<ListenerData> listeners = mappedListeners.get(mapping.id());
 
-            return forEachUntil(listeners, l -> l.accept(event), l -> event.isCancelled());
+            if (cls == directClass && isFinal) {
+                listeners.forEach(l -> l.accept(event));
+                mappedListeners.set(mapping.id(), new ArrayList<>());
+                return false;
+            }
+
+            return forEachUntil(listeners, l -> l.accept(event), l -> event.getState() == Signal.State.CANCELLED);
         });
     }
 
@@ -61,7 +75,13 @@ public final class SimpleBus implements EventBus {
     @Override
     public <T extends Signal> void postNoPropagate(@NonNull Mapping<T> mapping, @NonNull T event) {
         final List<ListenerData> listeners = mappedListeners.get(mapping.id());
-        forEachUntil(listeners, l -> l.accept(event), l -> event.isCancelled());
+
+        if (event.getState() == Signal.State.FINAL) {
+            listeners.forEach(l -> l.accept(event));
+            mappedListeners.set(mapping.id(), new ArrayList<>());
+        }else {
+            forEachUntil(listeners, l -> l.accept(event), l -> event.getState() == Signal.State.CANCELLED);
+        }
     }
 
     @Override
