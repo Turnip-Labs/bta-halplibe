@@ -6,8 +6,8 @@ import turniplabs.halplibe.event.impl.SingleEvent;
 
 @Environment(EnvType.SERVER)
 public final class ServerEvents {
-    public static SingleEvent<Runnable> BEFORE_SERVER_START = new SingleEvent<>("BeforeServerStart");
-    public static SingleEvent<Runnable> AFTER_SERVER_START = new SingleEvent<>("AfterServerStart");
+    public static final SingleEvent<Runnable> BEFORE_SERVER_START = new SingleEvent<>("BeforeServerStart");
+    public static final SingleEvent<Runnable> AFTER_SERVER_START = new SingleEvent<>("AfterServerStart");
 
     private ServerEvents() {}
 }
