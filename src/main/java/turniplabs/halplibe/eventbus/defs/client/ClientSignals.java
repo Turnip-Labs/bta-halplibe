@@ -1,8 +1,11 @@
 package turniplabs.halplibe.eventbus.defs.client;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import turniplabs.halplibe.eventbus.FinalSignal;
 import turniplabs.halplibe.eventbus.Signal;
 
+@Environment(EnvType.CLIENT)
 public final class ClientSignals {
 
     public static final class BeforeClientStart extends FinalSignal {}

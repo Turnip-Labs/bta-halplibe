@@ -7,7 +7,9 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import turniplabs.halplibe.HalpLibe;
 import turniplabs.halplibe.event.defs.ClientEvents;
+import turniplabs.halplibe.eventbus.defs.client.ClientSignals;
 import turniplabs.halplibe.util.ModelEntrypoint;
 
 @Mixin(value = ItemModelDispatcher.class)
@@ -22,5 +24,6 @@ public abstract class ItemModelDispatcherMixin {
                 .getEntrypoints("initModels", ModelEntrypoint.class)
                 .forEach(e -> e.initItemModels(instance));
         ClientEvents.ITEM_MODEL_RELOAD.emit(consumer -> consumer.accept(instance));
+        HalpLibe.BUS.post(new ClientSignals.ItemModelReload());
     }
 }
