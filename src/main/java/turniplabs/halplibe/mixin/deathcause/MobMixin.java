@@ -41,10 +41,10 @@ public class MobMixin implements DeathCauseMixinInterface {
             Operation<Void> original,
             @Local(name = "entityKilledBy", type = Entity.class) Entity entityKilledBy
     ) {
+        final var thisAs = (Mob) (Object) this;
 
         // just emulate default behaviour for compatibility's sake.
         if (this.deathCause == null) {
-            final var thisAs = (Mob) (Object) this;
 
             if (entityKilledBy != null) {
 
@@ -88,6 +88,10 @@ public class MobMixin implements DeathCauseMixinInterface {
                     this.deathCause = new DeathCauseRegistry.DeathCauseGeneric(thisAs);
                 }
             }
+        }
+
+        if (thisAs instanceof Player && thisAs.world.rand.nextInt(8000) == 666) {
+            this.deathCause = new DeathCauseRegistry.DeathCauseHerobrine(thisAs);
         }
 
         if (!EnvironmentHelper.isClientWorld()) {
