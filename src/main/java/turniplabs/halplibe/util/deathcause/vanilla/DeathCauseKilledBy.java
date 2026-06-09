@@ -1,4 +1,4 @@
-package turniplabs.halplibe.util.deathcause;
+package turniplabs.halplibe.util.deathcause.vanilla;
 
 import com.mojang.nbt.tags.CompoundTag;
 import net.minecraft.core.entity.Entity;
@@ -6,6 +6,8 @@ import net.minecraft.core.entity.Mob;
 import net.minecraft.core.lang.I18n;
 import net.minecraft.core.net.command.TextFormatting;
 import turniplabs.halplibe.mixin.accessors.LanguageAccessor;
+import turniplabs.halplibe.util.deathcause.DeathCause;
+import turniplabs.halplibe.util.deathcause.EntityName;
 
 public class DeathCauseKilledBy extends DeathCause {
 

@@ -1,11 +1,11 @@
 package turniplabs.halplibe.util.deathcause;
 
-import com.mojang.nbt.tags.CompoundTag;
 import net.minecraft.core.data.registry.Registry;
 import net.minecraft.core.entity.Mob;
-import net.minecraft.core.net.command.TextFormatting;
 import net.minecraft.core.util.HardIllegalArgumentException;
 import net.minecraft.core.util.collection.NamespaceID;
+import turniplabs.halplibe.util.deathcause.vanilla.DeathCauseKilledBy;
+import turniplabs.halplibe.util.deathcause.vanilla.DeathCauseProjectile;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -53,6 +53,7 @@ public class DeathCauseRegistry extends Registry<Supplier<DeathCause>> {
         inst.register("halplibe:fire", DeathCauseFire::new);
         inst.register("halplibe:generic", DeathCauseGeneric::new);
         inst.register("halplibe:killed_by", DeathCauseKilledBy::new);
+        inst.register("halplibe:projectile", DeathCauseProjectile::new);
         inst.register("halplibe:lava", DeathCauseLava::new);
         inst.register("halplibe:spikes", DeathCauseSpikes::new);
     }

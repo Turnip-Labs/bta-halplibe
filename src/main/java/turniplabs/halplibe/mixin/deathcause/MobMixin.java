@@ -8,6 +8,8 @@ import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.core.block.Blocks;
 import net.minecraft.core.entity.Entity;
 import net.minecraft.core.entity.Mob;
+import net.minecraft.core.entity.player.Player;
+import net.minecraft.core.entity.projectile.Projectile;
 import net.minecraft.core.net.command.TextFormatting;
 import net.minecraft.core.world.World;
 import net.minecraft.core.world.pos.TilePos;
@@ -18,6 +20,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import turniplabs.halplibe.helper.EnvironmentHelper;
 import turniplabs.halplibe.helper.network.NetworkHandler;
 import turniplabs.halplibe.util.deathcause.*;
+import turniplabs.halplibe.util.deathcause.vanilla.DeathCauseKilledBy;
+import turniplabs.halplibe.util.deathcause.vanilla.DeathCauseProjectile;
 
 @Mixin(Mob.class)
 public class MobMixin implements DeathCauseMixinInterface {
@@ -43,7 +47,18 @@ public class MobMixin implements DeathCauseMixinInterface {
             final var thisAs = (Mob) (Object) this;
 
             if (entityKilledBy != null) {
-                this.deathCause = new DeathCauseKilledBy(thisAs, entityKilledBy);
+
+                // the projectile death message only triggers if one or both of the entities is a player.
+                if (entityKilledBy instanceof Projectile projectile) {
+                    if (thisAs instanceof Player) {
+                        this.deathCause = new DeathCauseProjectile((Player) thisAs, projectile);
+                    }
+
+                    // so if a skeleton shoots down your dog, just mark it as a skelie.
+                    else this.deathCause = new DeathCauseKilledBy(thisAs, projectile.owner);
+                }
+
+                else this.deathCause = new DeathCauseKilledBy(thisAs, entityKilledBy);
             }
 
             else if (thisAs.isInLava()) {
