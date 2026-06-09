@@ -1,12 +1,10 @@
 package turniplabs.halplibe.util.deathcause;
 
 import com.mojang.nbt.tags.CompoundTag;
-import net.minecraft.core.lang.I18n;
 import org.jspecify.annotations.NonNull;
 import turniplabs.halplibe.helper.network.NetworkMessage;
 import turniplabs.halplibe.helper.network.UniversalPacket;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Objects;
 
 public class DeathCauseNetworkMessage implements NetworkMessage {
@@ -17,7 +15,7 @@ public class DeathCauseNetworkMessage implements NetworkMessage {
     public DeathCauseNetworkMessage() {}
 
     public DeathCauseNetworkMessage(DeathCause deathCause) {
-        this.deathCauseId = DeathCauseRegistry.getInstance().getKey(deathCause.getClass());
+        this.deathCauseId = DeathCauseRegistry.getInstance().getKeyForClass(deathCause.getClass());
         this.deathCauseEncoded = new CompoundTag();
         deathCause.serialize(this.deathCauseEncoded);
     }
@@ -36,19 +34,8 @@ public class DeathCauseNetworkMessage implements NetworkMessage {
 
     @Override
     public void handleClientEnv(NetworkContext context) {
-        final DeathCause deathCause;
-
-        try {
-            deathCause = Objects.requireNonNull(DeathCauseRegistry.getInstance().getItem(this.deathCauseId)).getDeclaredConstructor().newInstance();
-        }
-
-        catch (NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
-
+        final DeathCause deathCause = Objects.requireNonNull(DeathCauseRegistry.getInstance().getItem(this.deathCauseId)).get();
         deathCause.deserialize(this.deathCauseEncoded);
-
-        String deathMessage = deathCause.format(I18n.getInstance());
-        context.player.world.sendGlobalMessage(deathMessage);
+        deathCause.sendMessage(context.player);
     }
 }
