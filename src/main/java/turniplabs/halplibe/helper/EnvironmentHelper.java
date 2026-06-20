@@ -4,11 +4,21 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.Global;
 
 public class EnvironmentHelper {
-    public static boolean isServerEnvironment() {
+
+    /** use isMultiplayerServer */
+    @Deprecated public static boolean isServerEnvironment() { return  isMultiplayerServer(); }
+
+    /** use isSingleplayerClient */
+    @Deprecated public static boolean isSinglePlayer() { return isSingleplayerClient(); }
+
+    /** use isMultiplayerClient */
+    @Deprecated public static boolean isClientWorld() { return isMultiplayerClient(); }
+
+    public static boolean isMultiplayerServer() {
         return Global.isServer;
     }
 
-    public static boolean isSinglePlayer() {
+    public static boolean isSingleplayerClient() {
         if (Global.isServer) {
             return false;
         }
@@ -16,8 +26,7 @@ public class EnvironmentHelper {
         return !Minecraft.getMinecraft().isMultiplayerWorld();
     }
 
-    public static boolean isClientWorld() {
+    public static boolean isMultiplayerClient() {
         return !isSinglePlayer() && !isServerEnvironment();
     }
-
 }
