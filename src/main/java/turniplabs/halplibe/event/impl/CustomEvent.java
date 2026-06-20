@@ -10,17 +10,17 @@ import java.util.function.Function;
 
 @SuppressWarnings("unused")
 public class CustomEvent<L, E> implements IndirectEmitter<E>, Event<L> {
-    protected final @NonNull Function<List<L>, E> emitter;
+    protected final @NonNull E emitter;
     protected final @NonNull List<L> listeners;
 
     public CustomEvent(@NonNull final Function<List<L>, E> emitter) {
-        this.emitter = emitter;
         this.listeners = new ArrayList<>();
+        this.emitter = emitter.apply(this.listeners);
     }
 
     @Override
     public @NonNull E getEmitter() {
-        return emitter.apply(listeners);
+        return emitter;
     }
 
     @Override

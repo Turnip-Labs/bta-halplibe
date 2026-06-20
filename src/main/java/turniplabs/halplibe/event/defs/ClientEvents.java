@@ -14,14 +14,14 @@ import java.util.function.Consumer;
 
 @Environment(EnvType.CLIENT)
 public final class ClientEvents {
-    public static SingleEvent<Runnable> BEFORE_CLIENT_START = new SingleEvent<>("BeforeClientStart");
-    public static SingleEvent<Runnable> AFTER_CLIENT_START = new SingleEvent<>("AfterClientStart");
+    public static final SingleEvent<Runnable> BEFORE_CLIENT_START = new SingleEvent<>("BeforeClientStart");
+    public static final SingleEvent<Runnable> AFTER_CLIENT_START = new SingleEvent<>("AfterClientStart");
 
-    public static BaseEvent<Consumer<BlockModelDispatcher>> BLOCK_MODEL_RELOAD = new BaseEvent<>();
-    public static BaseEvent<Consumer<ItemModelDispatcher>> ITEM_MODEL_RELOAD = new BaseEvent<>();
-    public static BaseEvent<Consumer<EntityRendererDispatcher>> ENTITY_RENDERER_RELOAD = new BaseEvent<>();
-    public static BaseEvent<Consumer<TileEntityRenderDispatcher>> TILE_ENTITY_RENDERER_RELOAD = new BaseEvent<>();
-    public static BaseEvent<Consumer<BlockColorDispatcher>> BLOCK_COLOR_RELOAD = new BaseEvent<>();
+    public static final BaseEvent<Consumer<BlockModelDispatcher>> BLOCK_MODEL_RELOAD = new BaseEvent<>();
+    public static final BaseEvent<Consumer<ItemModelDispatcher>> ITEM_MODEL_RELOAD = new BaseEvent<>();
+    public static final BaseEvent<Consumer<EntityRendererDispatcher>> ENTITY_RENDERER_RELOAD = new BaseEvent<>();
+    public static final BaseEvent<Consumer<TileEntityRenderDispatcher>> TILE_ENTITY_RENDERER_RELOAD = new BaseEvent<>();
+    public static final BaseEvent<Consumer<BlockColorDispatcher>> BLOCK_COLOR_RELOAD = new BaseEvent<>();
 
     private ClientEvents() {}
 }
