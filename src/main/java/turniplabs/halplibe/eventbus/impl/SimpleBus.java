@@ -7,8 +7,12 @@ import org.slf4j.LoggerFactory;
 import turniplabs.halplibe.eventbus.BusListener;
 import turniplabs.halplibe.eventbus.EventBus;
 import turniplabs.halplibe.eventbus.Signal;
+import turniplabs.halplibe.util.meta.MetaFactoryException;
+import turniplabs.halplibe.util.meta.MetaUtils;
+import turniplabs.halplibe.util.meta.MethodTypeMismatch;
 
-import java.lang.invoke.*;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -21,7 +25,7 @@ import java.util.function.Supplier;
 
 
 @SuppressWarnings("unused")
-public final class SimpleBus implements EventBus {
+public sealed class SimpleBus implements EventBus permits SynchronizedSimpleBus {
     private final Logger logger;
     private int mappingId = 0;
     private final Map<Class<? extends Signal>, Mapping<? extends Signal>> mappings = new HashMap<>();
@@ -89,6 +93,7 @@ public final class SimpleBus implements EventBus {
         postNoPropagate(mapping, eventSupplier.get());
     }
 
+    @SuppressWarnings("ForLoopReplaceableByForEach")
     private static <T> boolean forEachUntil(
             @Nullable final List<T> list,
             @NonNull final Consumer<T> consumer,
@@ -160,18 +165,18 @@ public final class SimpleBus implements EventBus {
     }
 
     @Override
-    public void removeInstanceListeners(@NonNull Object instance) {
+    public void removeInstanceListeners(@NonNull final Object instance) {
         removeListenersInternal(instance.getClass(), instance, false);
     }
 
     @Override
-    public <T> void removeListeners(@NonNull Class<T> cls, @NonNull T instance) {
+    public <T> void removeListeners(@NonNull final Class<T> cls, @NonNull final T instance) {
         removeListenersInternal(cls, instance, true);
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public <T extends Signal> @NonNull Mapping<T> getMapping(@NonNull Class<T> signalClass) {
+    public <T extends Signal> @NonNull Mapping<T> getMapping(@NonNull final Class<T> signalClass) {
         final Mapping<T> mapping = (Mapping<T>) mappings.get(signalClass);
         if (mapping != null) return mapping;
 
@@ -183,84 +188,73 @@ public final class SimpleBus implements EventBus {
     }
 
     @SuppressWarnings("unchecked")
-    private void registerListenersInternal(@NonNull final Class<?> cls, @Nullable final Object instance, boolean registerBoth) {
+    private void registerListenersInternal(@NonNull final Class<?> cls, @Nullable final Object instance, final boolean registerBoth) {
+        final MethodType lambdaType = MethodType.methodType(void.class, Signal.class);
+        final MethodHandles.Lookup lu = MethodHandles.lookup();
+
         for (final Method method : cls.getMethods()) {
             try {
                 BusListener listener = method.getAnnotation(BusListener.class);
                 if (listener == null) continue;
-
-                final boolean isStatic = Modifier.isStatic(method.getModifiers());
-                if (!registerBoth && ((isStatic && instance != null) || (!isStatic && instance == null))) continue;
-
-                final MethodHandles.Lookup lu = MethodHandles.lookup();
-                final MethodHandle handle = lu.unreflect(method);
-
-                final MethodType handleType = isStatic ? handle.type() : handle.type().dropParameterTypes(0, 1);
-                if (handleType.parameterCount() != 1 || !Signal.class.isAssignableFrom(handleType.parameterType(0))) {
-                    logger.error("Incorrect BusListener {} method signature '{}' in {}\n\t- Method: {}", isStatic ? "static" : "instance", handleType, cls, method);
+                if (method.getParameterCount() != 1) {
+                    logger.error("Failed to register '{}' as listener in '{}': Incorrect parameter count ({}), expected 1", method, cls, method.getParameterCount());
                     continue;
                 }
 
-                final MethodType templateType = MethodType.methodType(void.class, Object.class);
+                final boolean isStatic = Modifier.isStatic(method.getModifiers());
+                final Class<?> signalType = method.getParameterTypes()[0];
 
-                final Class<?> declaring = Consumer.class;
-                final MethodType factoryType = isStatic ? MethodType.methodType(declaring) : MethodType.methodType(declaring, method.getDeclaringClass());
+                final Consumer<Signal> lambda = MetaUtils.createLambda(
+                        lu, method, instance, Consumer.class, "accept", lambdaType
+                );
+                if (lambda == null) {
+                    logger.error("Failed to register '{}' as listener in '{}': Unknown error", method, cls);
+                    continue;
+                }
 
-                final CallSite cs = LambdaMetafactory.metafactory(lu, "accept", factoryType, templateType, handle, handleType);
-                final Object lambda = isStatic ? cs.dynamicInvoker().invoke() : cs.dynamicInvoker().invoke(instance);
-
-                final Class<? extends Signal> paramType = (Class<? extends Signal>) handleType.parameterType(0);
-
+                final Class<? extends Signal> paramType = (Class<? extends Signal>) signalType;
                 forEachSuper(paramType, Signal.class, this::getMapping);
 
                 final Mapping<?> mapping = mappings.get(paramType);
                 final List<ListenerData> listeners = mappedListeners.get(mapping.id());
-                listeners.add(new ListenerData((Consumer<Signal>) lambda, cls, isStatic ? null : instance));
-
-            } catch (Throwable e) {
-                logger.error("Failed to register listener:\n{}", e.getMessage());
+                listeners.add(new ListenerData(lambda, cls, isStatic ? null : instance));
+            } catch (MethodTypeMismatch | MetaFactoryException e) {
+                logger.error("Failed to register '{}' as listener in '{}': {}", method, cls, e.getMessage());
             }
         }
     }
 
-    private void removeListenersInternal(@NonNull final Class<?> cls, @Nullable final Object instance, boolean removeBoth) {
+    private void removeListenersInternal(@NonNull final Class<?> cls, @Nullable final Object instance, final boolean removeBoth) {
         final ListenerData dataKey = new ListenerData(null, cls, instance);
+        final MethodType lambdaType = MethodType.methodType(void.class, Signal.class);
 
         for (final Method method : cls.getMethods()) {
-            try {
-                BusListener listener = method.getAnnotation(BusListener.class);
-                if (listener == null) continue;
+            BusListener listener = method.getAnnotation(BusListener.class);
+            if (listener == null || method.getParameterCount() != 1) continue;
 
-                final boolean isStatic = Modifier.isStatic(method.getModifiers());
-                if (!removeBoth && ((isStatic && instance != null) || (!isStatic && instance == null))) continue;
+            final boolean isStatic = Modifier.isStatic(method.getModifiers());
+            if (!removeBoth && ((isStatic && instance != null) || (!isStatic && instance == null))) continue;
 
-                final MethodHandles.Lookup lu = MethodHandles.lookup();
-                final MethodHandle handle = lu.unreflect(method);
+            final MethodType type = MetaUtils.getMethodType(method);
+            if(!MetaUtils.isTypeAssignableFrom(lambdaType, type)) continue;
 
-                final MethodType handleType = isStatic ? handle.type() : handle.type().dropParameterTypes(0, 1);
-                if (handleType.parameterCount() != 1 || !Signal.class.isAssignableFrom(handleType.parameterType(0))) {
-                    continue;
+            final Mapping<?> mapping = mappings.get(type.parameterType(0));
+            final List<ListenerData> listenerData = mappedListeners.get(mapping.id());
+            final int size = listenerData.size();
+            for (int i = size - 1; i >= 0; --i) {
+                final ListenerData data = listenerData.get(i);
+
+                if (dataKey.equals(data) || dataKey.isSameStatic(data)) {
+                    final int lastIdx = listenerData.size() - 1;
+                    final ListenerData last = listenerData.get(lastIdx);
+                    listenerData.set(i, last);
+                    listenerData.remove(lastIdx);
                 }
-
-                final Mapping<?> mapping = mappings.get(handleType.parameterType(0));
-                final List<ListenerData> listenerData = mappedListeners.get(mapping.id());
-                final int size = listenerData.size();
-                for (int i = size - 1; i >= 0; --i) {
-                    final ListenerData data = listenerData.get(i);
-
-                    if (dataKey.equals(data) || dataKey.isSameStatic(data)) {
-                        final int lastIdx = listenerData.size() - 1;
-                        final ListenerData last = listenerData.get(lastIdx);
-                        listenerData.set(i, last);
-                        listenerData.remove(lastIdx);
-                    }
-                }
-
-            } catch (IllegalAccessException ignored) {}
+            }
         }
     }
 
-    public record ListenerData (Consumer<Signal> consumer, Class<?> cls, Object instance) {
+    private record ListenerData (Consumer<Signal> consumer, Class<?> cls, Object instance) {
         @Override
         public boolean equals(Object obj) {
             return obj instanceof ListenerData data && data.cls == this.cls && data.instance == this.instance;

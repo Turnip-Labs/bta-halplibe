@@ -10,7 +10,7 @@ import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import turniplabs.halplibe.eventbus.EventBus;
-import turniplabs.halplibe.eventbus.impl.SimpleBus;
+import turniplabs.halplibe.eventbus.impl.SynchronizedSimpleBus;
 import turniplabs.halplibe.util.TomlConfigHandler;
 import turniplabs.halplibe.util.toml.Toml;
 
@@ -22,7 +22,7 @@ public class HalpLibe implements ModInitializer, PreLaunchEntrypoint {
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
     public static final boolean isClient = FabricLoader.getInstance().getEnvironmentType().equals(EnvType.CLIENT);
     public static final TomlConfigHandler CONFIG;
-    public static final EventBus BUS = new SimpleBus("HalpLibeBus");
+    public static final EventBus BUS = new SynchronizedSimpleBus("HalpLibeBus");
 
     static {
         Toml defaultConfig = new Toml("Halplibe configuration file.");
