@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import turniplabs.halplibe.HalpLibe;
 
 @Mixin(value = World.class,remap = false)
-public class WorldMixin {
+public abstract class WorldMixin {
 
     @WrapWithCondition(method = "updateEntities", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/block/entity/TileEntity;tick()V"))
     public boolean disableTickingTileEntities(TileEntity instance) {
