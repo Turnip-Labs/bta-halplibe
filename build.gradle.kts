@@ -183,15 +183,9 @@ fun resolveLwjglNatives(): String { // Sourced from https://www.lwjgl.org/
         System.getProperty("os.arch")!!
     ).let { (name, arch) ->
         when {
-            "FreeBSD" == name ->
-                "natives-freebsd"
             arrayOf("Linux", "SunOS", "Unit").any { name.startsWith(it) } ->
                 if (arrayOf("arm", "aarch64").any { arch.startsWith(it) })
                     "natives-linux${if (arch.contains("64") || arch.startsWith("armv8")) "-arm64" else "-arm32"}"
-                else if (arch.startsWith("ppc"))
-                    "natives-linux-ppc64le"
-                else if (arch.startsWith("riscv"))
-                    "natives-linux-riscv64"
                 else
                     "natives-linux"
             arrayOf("Mac OS X", "Darwin").any { name.startsWith(it) } ->
