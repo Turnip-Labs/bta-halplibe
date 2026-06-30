@@ -46,8 +46,9 @@ public final class ItemBuilder implements Cloneable {
      *
      * @param key Override translation key for the {@link Item}
      * @return Copy of {@link ItemBuilder}
+     * @deprecated Use the {@link Item} constructor to provide a language key
      */
-    @Deprecated
+    @Deprecated(since = "6.1.0")
     @SuppressWarnings({"unused"})
     public ItemBuilder setKey(String key) {
         ItemBuilder builder = this.clone();
