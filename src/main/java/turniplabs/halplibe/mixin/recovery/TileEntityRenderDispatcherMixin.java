@@ -16,7 +16,7 @@ import java.util.Map;
 
 @Environment(EnvType.CLIENT)
 @Mixin(value = TileEntityRenderDispatcher.class,remap = false)
-public class TileEntityRenderDispatcherMixin {
+public abstract class TileEntityRenderDispatcherMixin {
 
     @Shadow
     @Final

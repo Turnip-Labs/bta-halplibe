@@ -2,7 +2,6 @@ package turniplabs.halplibe.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import net.minecraft.core.block.Blocks;
 import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.player.inventory.CreativeMenuContents;
 import org.spongepowered.asm.mixin.Mixin;
@@ -13,10 +12,11 @@ import turniplabs.halplibe.helper.creativeInventory.CreativeInventoryRegistry;
 import java.util.List;
 
 @Mixin(value = CreativeMenuContents.class)
-public abstract class CreativeBlocksMixin {
+public abstract class CreativeMenuContentsMixin {
 
     @WrapMethod(method = "populate")
     private static void addMisc(List<ItemStack> list, Operation<Void> original) {
+        CreativeInventoryRegistry.INSTANCE.bakeAll();
         original.call(list);
 
         list.addAll(CreativeInventoryRegistry.INSTANCE.getAllFor(CreativeInventoryCategory.MISCELLANEOUS));

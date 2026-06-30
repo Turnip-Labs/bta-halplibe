@@ -2,29 +2,33 @@ package turniplabs.halplibe.helper;
 
 import net.minecraft.core.data.tag.Tag;
 import net.minecraft.core.item.Item;
-import org.apache.commons.lang3.ArrayUtils;
-import org.jetbrains.annotations.Nullable;
-import org.jspecify.annotations.NonNull;
+import net.minecraft.core.item.tag.ItemTags;
+import org.jspecify.annotations.Nullable;
+import org.jspecify.annotations.NullMarked;
 import turniplabs.halplibe.helper.creativeInventory.CreativeInventoryPlacement;
 import turniplabs.halplibe.helper.creativeInventory.CreativeInventoryRegistry;
+import turniplabs.halplibe.mixin.accessors.ItemAccessor;
 import turniplabs.halplibe.mixin.accessors.ItemDamageAccessor;
+import turniplabs.halplibe.util.ArrayUtils;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.function.Supplier;
 
+@NullMarked
+@SuppressWarnings("unused")
 public final class ItemBuilder implements Cloneable {
-    private final @NonNull String modId;
-    @Nullable
-    private String overrideKey = null;
-    @Nullable
-    private Tag<Item>[] tags = null;
-    private Integer stackSize = null;
-    private Integer maxDamage = null;
-    @Nullable
-    private Supplier<Item> containerItemSupplier = null;
-    private @NonNull CreativeInventoryPlacement creativeInventoryPlacement = null;
+    private final String modId;
 
+    private @Nullable String overrideKey = null;
+    public Tag<Item>[] tags = ArrayUtils.newArray(Tag.class, 0);
+    private @Nullable Integer stackSize = null;
+    private @Nullable Integer maxDamage = null;
+    private @Nullable Supplier<Item> containerItemSupplier = null;
+    private @Nullable CreativeInventoryPlacement creativeInventoryPlacement = null;
 
-    public ItemBuilder(@NonNull String modId) {
+    public ItemBuilder(String modId) {
         this.modId = modId;
     }
 
@@ -43,9 +47,11 @@ public final class ItemBuilder implements Cloneable {
      *
      * @param key Override translation key for the {@link Item}
      * @return Copy of {@link ItemBuilder}
+     * @deprecated Use the {@link Item} constructor to provide a language key
      */
+    @Deprecated(since = "6.1.0")
     @SuppressWarnings({"unused"})
-    public @NonNull ItemBuilder setKey(String key) {
+    public ItemBuilder setKey(String key) {
         ItemBuilder builder = this.clone();
         builder.overrideKey = key;
         return builder;
@@ -58,7 +64,7 @@ public final class ItemBuilder implements Cloneable {
      * @return Copy of {@link ItemBuilder}
      */
     @SuppressWarnings({"unused"})
-    public @NonNull ItemBuilder setStackSize(int stackSize) {
+    public ItemBuilder setStackSize(int stackSize) {
         ItemBuilder builder = this.clone();
         builder.stackSize = stackSize;
         return builder;
@@ -72,7 +78,7 @@ public final class ItemBuilder implements Cloneable {
      * @return Copy of {@link ItemBuilder}
      */
     @SuppressWarnings({"unused"})
-    public @NonNull ItemBuilder setMaxDamage(int maxDamage) {
+    public ItemBuilder setMaxDamage(int maxDamage) {
         ItemBuilder builder = this.clone();
         builder.maxDamage = maxDamage;
         return builder;
@@ -85,7 +91,7 @@ public final class ItemBuilder implements Cloneable {
      * @return Copy of {@link ItemBuilder}
      */
     @SuppressWarnings({"unused"})
-    public @NonNull ItemBuilder setContainerItem(Supplier<Item> itemSupplier) {
+    public ItemBuilder setContainerItem(@Nullable Supplier<Item> itemSupplier) {
         ItemBuilder builder = this.clone();
         builder.containerItemSupplier = itemSupplier;
         return builder;
@@ -98,9 +104,9 @@ public final class ItemBuilder implements Cloneable {
      */
     @SafeVarargs
     @SuppressWarnings({"unused"})
-    public final @NonNull ItemBuilder setTags(Tag<Item>... tags) {
+    public final ItemBuilder setTags(Tag<Item>... tags) {
         ItemBuilder itemBuilder = this.clone();
-        itemBuilder.tags = tags;
+        itemBuilder.tags = Arrays.copyOf(tags, tags.length);
         return itemBuilder;
     }
 
@@ -111,7 +117,7 @@ public final class ItemBuilder implements Cloneable {
      */
     @SafeVarargs
     @SuppressWarnings({"unused"})
-    public final @NonNull ItemBuilder addTags(Tag<Item>... tags) {
+    public final ItemBuilder addTags(Tag<Item>... tags) {
         ItemBuilder itemBuilder = this.clone();
         itemBuilder.tags = ArrayUtils.addAll(this.tags, tags);
         return itemBuilder;
@@ -120,7 +126,7 @@ public final class ItemBuilder implements Cloneable {
     /**
      * Adds item to the creative inventory based on the placement construct
      */
-    public ItemBuilder setCreativeInventoryPlacement(@NonNull CreativeInventoryPlacement creativeInventoryPlacement) {
+    public ItemBuilder setCreativeInventoryPlacement(@Nullable CreativeInventoryPlacement creativeInventoryPlacement) {
         ItemBuilder itemBuilder = this.clone();
         itemBuilder.creativeInventoryPlacement = creativeInventoryPlacement;
         return itemBuilder;
@@ -134,14 +140,26 @@ public final class ItemBuilder implements Cloneable {
      */
     @SuppressWarnings("unused")
     public <T extends Item> T build(T item) {
-        if (tags != null) item.withTags(tags);
+        final String theKey = overrideKey == null ? item.getKey() : overrideKey;
+        List<String> tokens = Arrays.asList(theKey.split("\\."));
+
+        item.withTags(tags);
         if (stackSize != null) item.setMaxStackSize(stackSize);
         if (containerItemSupplier != null) item.setContainerItem(containerItemSupplier.get());
         if (maxDamage != null) ((ItemDamageAccessor) item).callSetMaxDamage(maxDamage);
 
-        if (creativeInventoryPlacement != null) {
+        if (creativeInventoryPlacement != null && !item.hasTag(ItemTags.NOT_IN_CREATIVE_MENU)) {
             CreativeInventoryRegistry.INSTANCE.register(item, creativeInventoryPlacement);
         }
+
+        List<String> newTokens = new ArrayList<>();
+        newTokens.add("item");
+        newTokens.add(modId);
+        newTokens.addAll(tokens.subList(1, tokens.size()));
+
+        Item.nameToIdMap.remove(item.getKey(), item.id);
+        ((ItemAccessor) item).setKey(String.join(".", newTokens));
+        Item.nameToIdMap.put(item.getKey(), item.id);
 
         return item;
     }

@@ -4,6 +4,7 @@ import net.minecraft.core.item.IItemConvertible;
 import net.minecraft.core.item.ItemStack;
 import turniplabs.halplibe.util.CreativeEntry;
 
+@Deprecated(since = "6.1.0", forRemoval = true)
 public final class CreativeHelper {
     /**
      * @param itemToAdd The itemstack to be added to the creative inventory list

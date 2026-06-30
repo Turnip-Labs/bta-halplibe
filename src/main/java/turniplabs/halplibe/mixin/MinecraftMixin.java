@@ -58,8 +58,6 @@ public abstract class MinecraftMixin {
 
     @Inject(method = "startGame", at = @At("TAIL"))
     public void afterGameStartEntrypoint(CallbackInfo ci) {
-        CreativeInventoryRegistry.INSTANCE.bakeAll();
-
         NetworkHandler.internalNetworkHandlerSetup();
         FabricLoader.getInstance().getEntrypoints("afterGameStart", GameStartEntrypoint.class).forEach(GameStartEntrypoint::afterGameStart);
         FabricLoader.getInstance().getEntrypoints("afterClientStart", ClientStartEntrypoint.class).forEach(ClientStartEntrypoint::afterClientStart);
@@ -69,12 +67,12 @@ public abstract class MinecraftMixin {
         HalpLibe.BUS.post(new CommonSignals.AfterGameStart());
         if (HalpLibe.CONFIG.getBoolean("recoveryMode")) {
             PopupScreen popup = new PopupBuilder(this.currentScreen, 246)
-                    .withLabelLiteral(I18n.getInstance().translateKey("halplibe.recoveryMode"))
+                    .withLabelLiteral("/!\\ " + I18n.getInstance().translateKey("halplibe.recoveryMode") + " /!\\")
                     .withMessageBox("message", 128,
                             I18n.getInstance().translateKey("halplibe.recoveryMode.text") + "\n\n"
                                     + I18n.getInstance().translateKey("halplibe.recoveryMode.text2") + "\n"
-                                    + I18n.getInstance().translateKey("halplibe.recoveryMode.action1") + "\n"
-                                    + I18n.getInstance().translateKey("halplibe.recoveryMode.action2") + "\n\n"
+                                    + "- " + I18n.getInstance().translateKey("halplibe.recoveryMode.action1") + "\n"
+                                    + "- " + I18n.getInstance().translateKey("halplibe.recoveryMode.action2") + "\n\n"
                                     + I18n.getInstance().translateKey("halplibe.recoveryMode.text3"), 44)
                     .closeOnClickOut(0)
                     .build();
@@ -82,14 +80,14 @@ public abstract class MinecraftMixin {
         }
     }
 
-    @Inject(method = "startGame", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/block/Blocks;init()V", shift = At.Shift.AFTER))
+    @Inject(method = "startGame", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/block/Blocks;init()V", shift = At.Shift.BEFORE))
     public void afterBlockInitEntrypoint(CallbackInfo ci) {
         FabricLoader.getInstance().getEntrypoints("afterBlockInit", BlockInitEntrypoint.class).forEach(BlockInitEntrypoint::afterBlockInit);
         CommonEvents.AFTER_BLOCK_INIT.emit(Runnable::run);
         HalpLibe.BUS.post(new CommonSignals.AfterBlockInit());
     }
 
-    @Inject(method = "startGame", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/item/Items;init()V", shift = At.Shift.AFTER))
+    @Inject(method = "startGame", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/item/Items;init()V", shift = At.Shift.BEFORE))
     public void afterItemInitEntrypoint(CallbackInfo ci) {
         FabricLoader.getInstance().getEntrypoints("afterItemInit", ItemInitEntrypoint.class).forEach(ItemInitEntrypoint::afterItemInit);
         CommonEvents.AFTER_ITEM_INIT.emit(Runnable::run);

@@ -63,14 +63,14 @@ public abstract class MinecraftServerMixin {
         HalpLibe.BUS.post(new CommonSignals.AfterGameStart());
     }
 
-    @Inject(method = "startServer", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/block/Blocks;init()V", shift = At.Shift.AFTER))
+    @Inject(method = "startServer", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/block/Blocks;init()V", shift = At.Shift.BEFORE))
     public void afterBlockInitEntrypoint(CallbackInfoReturnable<Boolean> cir) {
         FabricLoader.getInstance().getEntrypoints("afterBlockInit", BlockInitEntrypoint.class).forEach(BlockInitEntrypoint::afterBlockInit);
         CommonEvents.AFTER_BLOCK_INIT.emit(Runnable::run);
         HalpLibe.BUS.post(new CommonSignals.AfterBlockInit());
     }
 
-    @Inject(method = "startServer", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/item/Items;init()V", shift = At.Shift.AFTER))
+    @Inject(method = "startServer", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/item/Items;init()V", shift = At.Shift.BEFORE))
     public void afterItemInitEntrypoint(CallbackInfoReturnable<Boolean> cir) {
         FabricLoader.getInstance().getEntrypoints("afterItemInit", ItemInitEntrypoint.class).forEach(ItemInitEntrypoint::afterItemInit);
         CommonEvents.AFTER_ITEM_INIT.emit(Runnable::run);

@@ -3,7 +3,7 @@
 Helper library containing functions for common use cases, while ensuring compatibility between mods.
 
 ## Prerequisites
-- JDK for Java 17 ([Eclipse Temurin](https://adoptium.net/temurin/releases/) recommended)
+- JDK for Java 17 ([Eclipse Temurin](https://adoptium.net/temurin/releases/?version=17) recommended)
 - IntelliJ IDEA
 - Minecraft Development plugin (Optional, but highly recommended)
 
@@ -11,14 +11,20 @@ Helper library containing functions for common use cases, while ensuring compati
 Follow the setup instructions on [the example mod](https://github.com/Turnip-Labs/bta-example-mod) GitHub page.
 
 ## How to include HalpLibe in a project
-Add this in your `build.gradle`:
-```groovy
-repositories {
-   maven { url = "https://jitpack.io" }
-}
 
+Update the ``/gradle/libs.versions.toml`` config file:
+```toml
+[versions]
+halplibe = "6.0.2"
+
+[libraries]
+halplibe = { group = "turniplabs", name = "halplibe", version.ref = "halplibe" }
+```
+
+Update the ``build.gradle.kts`` script:
+```kotlin
 dependencies {
-    modImplementation "com.github.Turnip-Labs:bta-halplibe:${project.halplibe_version}"
+    implementation(libs.halplibe)
 }
 ```
 

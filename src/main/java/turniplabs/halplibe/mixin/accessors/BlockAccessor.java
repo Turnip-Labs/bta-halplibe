@@ -12,4 +12,7 @@ import java.util.function.Supplier;
 public interface BlockAccessor {
     @Accessor("statParent")
     Supplier<@NonNull IItemConvertible> getStatParent();
+
+    @Accessor("key")
+    void setKey(String key);
 }
