@@ -158,7 +158,7 @@ public final class ItemBuilder implements Cloneable {
         newTokens.addAll(tokens.subList(1, tokens.size()));
 
         Item.nameToIdMap.remove(item.getKey(), item.id);
-        ((ItemAccessor) item).setKey("item." + String.join(".", newTokens));
+        ((ItemAccessor) item).setKey(String.join(".", newTokens));
         Item.nameToIdMap.put(item.getKey(), item.id);
 
         return item;
