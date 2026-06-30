@@ -5,7 +5,7 @@ import turniplabs.halplibe.eventbus.Signal;
 
 import java.util.function.Supplier;
 
-public final class SynchronizedSimpleBus extends SimpleBus {
+public class SynchronizedSimpleBus extends SimpleBus {
     public SynchronizedSimpleBus(@NonNull String name) {
         super(name);
     }

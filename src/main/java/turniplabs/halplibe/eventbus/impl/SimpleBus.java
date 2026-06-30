@@ -25,11 +25,11 @@ import java.util.function.Supplier;
 
 
 @SuppressWarnings("unused")
-public sealed class SimpleBus implements EventBus permits SynchronizedSimpleBus {
-    private final Logger logger;
-    private int mappingId = 0;
-    private final Map<Class<? extends Signal>, Mapping<? extends Signal>> mappings = new HashMap<>();
-    private final List<@NonNull List<ListenerData>> mappedListeners = new ArrayList<>();
+public class SimpleBus implements EventBus {
+    protected final Logger logger;
+    protected int mappingId = 0;
+    protected final Map<Class<? extends Signal>, Mapping<? extends Signal>> mappings = new HashMap<>();
+    protected final List<@NonNull List<ListenerData>> mappedListeners = new ArrayList<>();
 
     public SimpleBus(@NonNull final String name) {
         logger = LoggerFactory.getLogger(name);
@@ -94,7 +94,7 @@ public sealed class SimpleBus implements EventBus permits SynchronizedSimpleBus 
     }
 
     @SuppressWarnings("ForLoopReplaceableByForEach")
-    private static <T> boolean forEachUntil(
+    protected static <T> boolean forEachUntil(
             @Nullable final List<T> list,
             @NonNull final Consumer<T> consumer,
             @NonNull final Predicate<T> exitCondition
@@ -112,7 +112,7 @@ public sealed class SimpleBus implements EventBus permits SynchronizedSimpleBus 
     }
 
     @SuppressWarnings("unchecked")
-    private static <C extends S, S> void forEachSuper(
+    protected static <C extends S, S> void forEachSuper(
             @NonNull final Class<C> start,
             @NonNull final Class<S> end,
             @NonNull final Consumer<Class<S>> consumer
@@ -128,7 +128,7 @@ public sealed class SimpleBus implements EventBus permits SynchronizedSimpleBus 
     }
 
     @SuppressWarnings("unchecked")
-    private static <C extends S, S> void forEachSuperUntil(
+    protected static <C extends S, S> void forEachSuperUntil(
             @NonNull final Class<C> start,
             @NonNull final Class<S> end,
             @NonNull final Predicate<Class<S>> exitCondition
@@ -188,7 +188,7 @@ public sealed class SimpleBus implements EventBus permits SynchronizedSimpleBus 
     }
 
     @SuppressWarnings("unchecked")
-    private void registerListenersInternal(@NonNull final Class<?> cls, @Nullable final Object instance, final boolean registerBoth) {
+    protected void registerListenersInternal(@NonNull final Class<?> cls, @Nullable final Object instance, final boolean registerBoth) {
         final MethodType lambdaType = MethodType.methodType(void.class, Signal.class);
         final MethodHandles.Lookup lu = MethodHandles.lookup();
 
@@ -224,7 +224,7 @@ public sealed class SimpleBus implements EventBus permits SynchronizedSimpleBus 
         }
     }
 
-    private void removeListenersInternal(@NonNull final Class<?> cls, @Nullable final Object instance, final boolean removeBoth) {
+    protected void removeListenersInternal(@NonNull final Class<?> cls, @Nullable final Object instance, final boolean removeBoth) {
         final ListenerData dataKey = new ListenerData(null, cls, instance);
         final MethodType lambdaType = MethodType.methodType(void.class, Signal.class);
 
@@ -254,7 +254,7 @@ public sealed class SimpleBus implements EventBus permits SynchronizedSimpleBus 
         }
     }
 
-    private record ListenerData (Consumer<Signal> consumer, Class<?> cls, Object instance) {
+    protected record ListenerData (Consumer<Signal> consumer, Class<?> cls, Object instance) {
         @Override
         public boolean equals(Object obj) {
             return obj instanceof ListenerData data && data.cls == this.cls && data.instance == this.instance;
