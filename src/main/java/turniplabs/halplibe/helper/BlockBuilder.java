@@ -370,6 +370,7 @@ public final class BlockBuilder implements Cloneable {
         T run(Block<?> block);
     }
 
+    @Deprecated(since = "6.1.0", forRemoval = true)
     public static class Registry {
         public static int highestVanilla;
 

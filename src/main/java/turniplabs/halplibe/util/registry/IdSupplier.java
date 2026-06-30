@@ -6,6 +6,7 @@ import turniplabs.halplibe.util.registry.error.RequestOutOfBoundsException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Deprecated(since = "6.1.0", forRemoval = true)
 public class IdSupplier {
     String modId;
     RunReserves reserves;

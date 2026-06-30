@@ -22,6 +22,7 @@ import org.jspecify.annotations.NonNull;
 import java.util.function.Supplier;
 
 @Environment(EnvType.CLIENT)
+@Deprecated(since = "6.1.0", forRemoval = true)
 public class ModelHelper {
 
     public static BlockModelDispatcher blockModelDispatcher;

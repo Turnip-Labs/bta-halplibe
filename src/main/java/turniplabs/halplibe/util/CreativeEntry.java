@@ -6,6 +6,7 @@ import org.jspecify.annotations.NonNull;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+@Deprecated(since = "6.1.0", forRemoval = true)
 public class CreativeEntry implements Comparable<CreativeEntry> {
     public static final Map<String, CreativeEntry> priorityEntryMap = new LinkedHashMap<>();
     public static final Map<String, CreativeEntry> childEntryMap = new LinkedHashMap<>();

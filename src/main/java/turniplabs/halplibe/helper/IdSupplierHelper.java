@@ -5,6 +5,7 @@ import turniplabs.halplibe.util.toml.Toml;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
+@Deprecated(since = "6.1.0", forRemoval = true)
 public final class IdSupplierHelper {
     private static final ArrayList<Runnable> registryFunctions = new ArrayList<>();
     private static final ArrayList<Runnable> configuredRegistryFunctions = new ArrayList<>();
