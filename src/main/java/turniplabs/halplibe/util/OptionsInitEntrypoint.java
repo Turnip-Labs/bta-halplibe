@@ -1,7 +1,6 @@
 package turniplabs.halplibe.util;
 
-import net.minecraft.client.option.GameSettings;
-
+@Deprecated(since = "6.1.0", forRemoval = true)
 public interface OptionsInitEntrypoint {
     /**
      * The entrypoint name inside {@code fabric.mod.json} is {@code initOptions}.

@@ -5,25 +5,27 @@ import net.minecraft.client.render.block.color.BlockColor;
 import net.minecraft.client.render.block.color.BlockColorDispatcher;
 import net.minecraft.client.util.dispatch.Dispatcher;
 import net.minecraft.core.block.Block;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import turniplabs.halplibe.helper.ModelHelper;
+import turniplabs.halplibe.event.defs.ClientEvents;
 import turniplabs.halplibe.util.ModelEntrypoint;
 
 @Mixin(value = BlockColorDispatcher.class)
 public abstract class BlockColorDispatcherMixin extends Dispatcher<Block<?>, BlockColor> {
 
-    @Unique
-    private final BlockColorDispatcher thisAs = (BlockColorDispatcher) (Object) this;
+    @Shadow
+    @Final
+    private static BlockColorDispatcher instance;
 
-    @Inject(method = "<init>()V", at = @At("TAIL"))
+    @Inject(method = "reload", at = @At("TAIL"))
     private void addQueuedModels(CallbackInfo ci) {
-        ModelHelper.blockColorDispatcher = thisAs;
         FabricLoader.getInstance()
                 .getEntrypoints("initModels", ModelEntrypoint.class)
-                .forEach(e -> e.initBlockColors(thisAs));
+                .forEach(e -> e.initBlockColors(instance));
+        ClientEvents.BLOCK_COLOR_RELOAD.emit(consumer -> consumer.accept(instance));
     }
 }
