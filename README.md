@@ -10,36 +10,10 @@ Helper library containing functions for common use cases, while ensuring compati
 ## Setup instructions
 Follow the setup instructions on [the example mod](https://github.com/Turnip-Labs/bta-example-mod) GitHub page.
 
-## Using HalpLibe as a dependency
+## How to include HalpLibe in a project
 
-If you're using the [example mod template](https://github.com/Turnip-Labs/bta-example-mod) HalpLibe should already
-be set up as a dependency so you can safely skip this part.
-
-> [!NOTE]
-> This guide does not include registering a dependency with Fabric Loader, you can read more about
-> that [here](https://docs.fabricmc.net/develop/loader/fabric-mod-json).
-
-### Repository setup
-
-```kotlin
-// [build.gradle.kts]
-
-respositories {
-    // Some BTA modding projects (like HalpLibe) are hosted on the Signalum Maven
-    maven("https://maven.thesignalumproject.net/releases") { name = "SignalumMavenReleases" }
-    maven("https://maven.thesignalumproject.net/nightly") { name = "signalumMavenNightly" }
-    maven("https://maven.thesignalumproject.net/infrastructure") { name = "SignalumMavenInfrastructure" }
-}
-```
-
-### With version catalogs (recommended)
-
-If you are unfamiliar with version catalogs, you can read about them in detail
-[here](https://docs.gradle.org/current/userguide/version_catalogs.html).
-
+Update the ``/gradle/libs.versions.toml`` config file:
 ```toml
-# [gradle/libs.version.toml]
-
 [versions]
 halplibe = "6.0.2"
 
@@ -47,21 +21,10 @@ halplibe = "6.0.2"
 halplibe = { group = "turniplabs", name = "halplibe", version.ref = "halplibe" }
 ```
 
+Update the ``build.gradle.kts`` script:
 ```kotlin
-// [build.gradle.kts]
-
 dependencies {
     implementation(libs.halplibe)
-}
-```
-
-### Without version catalogs
-
-```kotlin
-// [build.gradle.kts]
-
-dependencies {
-    implementation("turniplabs:halplibe:6.0.2")
 }
 ```
 

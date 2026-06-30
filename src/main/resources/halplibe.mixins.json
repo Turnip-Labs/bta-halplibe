@@ -1,5 +1,8 @@
 {
   "required": true,
+  "mixinextras": {
+    "minVersion": "0.5.0"
+  },
   "minVersion": "0.8",
   "package": "turniplabs.halplibe.mixin",
   "compatibilityLevel": "JAVA_${java}",
@@ -10,11 +13,13 @@
     "PacketCustomPayloadMixin",
     "accessors.BlockAccessor",
     "accessors.BlocksAccessor",
+    "accessors.ItemAccessor",
     "accessors.ItemDamageAccessor",
     "accessors.ItemsAccessor",
     "accessors.LanguageAccessor",
     "accessors.WeightedRandomBagAccessor",
     "accessors.WeightedRandomBagEntryAccessor",
+    "deathcause.MobMixin",
     "recovery.WorldMixin"
   ],
   "client": [
