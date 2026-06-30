@@ -53,12 +53,12 @@ public abstract class MinecraftMixin {
         FabricLoader.getInstance().getEntrypoints("afterClientStart", ClientStartEntrypoint.class).forEach(ClientStartEntrypoint::afterClientStart);
         if (HalpLibe.CONFIG.getBoolean("recoveryMode")) {
             PopupScreen popup = new PopupBuilder(this.currentScreen, 246)
-                    .withLabelLiteral(I18n.getInstance().translateKey("halplibe.recoveryMode"))
+                    .withLabelLiteral("/!\\ " + I18n.getInstance().translateKey("halplibe.recoveryMode") + " /!\\")
                     .withMessageBox("message", 128,
                             I18n.getInstance().translateKey("halplibe.recoveryMode.text") + "\n\n"
                                     + I18n.getInstance().translateKey("halplibe.recoveryMode.text2") + "\n"
-                                    + I18n.getInstance().translateKey("halplibe.recoveryMode.action1") + "\n"
-                                    + I18n.getInstance().translateKey("halplibe.recoveryMode.action2") + "\n\n"
+                                    + "- " + I18n.getInstance().translateKey("halplibe.recoveryMode.action1") + "\n"
+                                    + "- " + I18n.getInstance().translateKey("halplibe.recoveryMode.action2") + "\n\n"
                                     + I18n.getInstance().translateKey("halplibe.recoveryMode.text3"), 44)
                     .closeOnClickOut(0)
                     .build();

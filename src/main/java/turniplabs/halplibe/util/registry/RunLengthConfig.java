@@ -5,6 +5,7 @@ import turniplabs.halplibe.util.toml.Toml;
 import java.util.ArrayList;
 import java.util.List;
 
+@Deprecated(since = "6.1.0", forRemoval = true)
 public class RunLengthConfig {
     public Reservation[] reservations;
 

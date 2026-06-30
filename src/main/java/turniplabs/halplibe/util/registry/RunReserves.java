@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
+@Deprecated(since = "6.1.0", forRemoval = true)
 public class RunReserves {
     ArrayList<Reservation> reservations = new ArrayList<>();
 

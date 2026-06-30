@@ -3,7 +3,6 @@ package turniplabs.halplibe;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
-import net.fabricmc.loader.api.entrypoint.PreLaunchEntrypoint;
 import net.minecraft.client.render.texture.stitcher.TextureRegistry;
 import net.minecraft.core.data.registry.Registries;
 import org.jspecify.annotations.NonNull;
@@ -17,10 +16,10 @@ import turniplabs.halplibe.util.toml.Toml;
 import java.io.File;
 import java.io.IOException;
 
-public class HalpLibe implements ModInitializer, PreLaunchEntrypoint {
+public class HalpLibe implements ModInitializer {
+    public static final boolean isClient = FabricLoader.getInstance().getEnvironmentType().equals(EnvType.CLIENT);
     public static final String MOD_ID = HalpLibe.registerMod("halplibe", false);
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-    public static final boolean isClient = FabricLoader.getInstance().getEnvironmentType().equals(EnvType.CLIENT);
     public static final TomlConfigHandler CONFIG;
 
     static {
@@ -59,12 +58,6 @@ public class HalpLibe implements ModInitializer, PreLaunchEntrypoint {
         }
     }
 
-    @SuppressWarnings("unused")
-    @Deprecated
-    public static String addModId(String modId, String name) {
-        return modId + "." + name;
-    }
-
     @Override
     public void onInitialize() {
         LOGGER.info("HalpLibe initialized.");
@@ -72,11 +65,7 @@ public class HalpLibe implements ModInitializer, PreLaunchEntrypoint {
         NetworkHandler.registerNetworkMessage(DeathCauseNetworkMessage::new);
     }
 
-    @Override
-    public void onPreLaunch() {
-
-    }
-
+    @SuppressWarnings("unused")
     public static @NonNull String registerMod(@NonNull String modId) {
         return registerMod(modId, true);
     }

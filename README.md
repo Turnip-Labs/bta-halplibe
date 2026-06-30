@@ -3,7 +3,7 @@
 Helper library containing functions for common use cases, while ensuring compatibility between mods.
 
 ## Prerequisites
-- JDK for Java 17 ([Eclipse Temurin](https://adoptium.net/temurin/releases/) recommended)
+- JDK for Java 17 ([Eclipse Temurin](https://adoptium.net/temurin/releases/?version=17) recommended)
 - IntelliJ IDEA
 - Minecraft Development plugin (Optional, but highly recommended)
 

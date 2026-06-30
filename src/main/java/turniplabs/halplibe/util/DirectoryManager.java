@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Deprecated(since = "6.1.0", forRemoval = true)
 public class DirectoryManager {
     public static final Map<String, HashMap<String, String>> resourceDirectoryMap = new HashMap<>();
     public static final List<String> allKeys = new ArrayList<>();
