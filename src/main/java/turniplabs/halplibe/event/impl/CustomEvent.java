@@ -27,4 +27,9 @@ public class CustomEvent<L, E> implements IndirectEmitter<E>, Event<L> {
     public void listen(@NonNull final L listener) {
         listeners.add(listener);
     }
+
+    @Override
+    public void remove(@NonNull final L listener) {
+        listeners.remove(listener);
+    }
 }

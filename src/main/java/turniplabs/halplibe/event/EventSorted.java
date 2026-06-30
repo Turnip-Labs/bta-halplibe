@@ -1,9 +1,10 @@
 package turniplabs.halplibe.event;
 
 import org.jspecify.annotations.NonNull;
+import turniplabs.halplibe.util.dependency.Key;
 
 @SuppressWarnings("unused")
-public interface Event<LISTENER> {
-    void listen(@NonNull LISTENER listener);
+public interface EventSorted<LISTENER> {
+    void listen(@NonNull Key key, @NonNull LISTENER listener);
     void remove(@NonNull LISTENER listener);
 }

@@ -21,4 +21,9 @@ public class BaseEvent<L> implements Event<L>, Emitter<L> {
     public void listen(@NonNull final L listener) {
         listeners.add(listener);
     }
+
+    @Override
+    public void remove(@NonNull final L listener) {
+        listeners.remove(listener);
+    }
 }

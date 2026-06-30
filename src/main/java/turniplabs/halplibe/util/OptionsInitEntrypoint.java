@@ -1,6 +1,6 @@
 package turniplabs.halplibe.util;
 
-@Deprecated
+@Deprecated(since = "6.1.0")
 public interface OptionsInitEntrypoint {
     /**
      * The entrypoint name inside {@code fabric.mod.json} is {@code initOptions}.

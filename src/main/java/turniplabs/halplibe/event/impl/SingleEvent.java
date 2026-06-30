@@ -23,7 +23,7 @@ public class SingleEvent<L> implements Event<L>, Emitter<L> {
     @Override
     public void emit(@NonNull final Consumer<L> consumer) {
         if (listeners == null) {
-            HalpLibe.LOGGER.warn("Attempted to call '{}' SingleEvent, but it was already consumed.", name);
+            HalpLibe.LOGGER.warn("Attempted to call '{}' SingleEvent multiple times.", name);
             return;
         }
 
@@ -39,5 +39,10 @@ public class SingleEvent<L> implements Event<L>, Emitter<L> {
         }
 
         listeners.add(listener);
+    }
+
+    @Override
+    public void remove(@NonNull final L listener) {
+        if (listeners != null) listeners.remove(listener);
     }
 }
