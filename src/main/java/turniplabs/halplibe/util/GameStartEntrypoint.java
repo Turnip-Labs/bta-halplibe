@@ -1,6 +1,6 @@
 package turniplabs.halplibe.util;
 
-@Deprecated(since = "6.1.0")
+@Deprecated(since = "6.1.0", forRemoval = true)
 public interface GameStartEntrypoint {
 
     /**
