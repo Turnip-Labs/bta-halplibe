@@ -2,6 +2,11 @@ package turniplabs.halplibe.eventbus.defs.client;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.render.EntityRendererDispatcher;
+import net.minecraft.client.render.TileEntityRenderDispatcher;
+import net.minecraft.client.render.block.color.BlockColorDispatcher;
+import net.minecraft.client.render.block.model.BlockModelDispatcher;
+import net.minecraft.client.render.item.model.ItemModelDispatcher;
 import turniplabs.halplibe.eventbus.FinalSignal;
 import turniplabs.halplibe.eventbus.Signal;
 
@@ -11,11 +16,11 @@ public final class ClientSignals {
     public static final class BeforeClientStart extends FinalSignal {}
     public static final class AfterClientStart extends FinalSignal {}
 
-    public static final class BlockModelReload implements Signal {}
-    public static final class ItemModelReload implements Signal {}
-    public static final class EntityRendererReload implements Signal {}
-    public static final class TileEntityRendererReload implements Signal {}
-    public static final class BlockColorReload implements Signal {}
+    public record BlockModelReload (BlockModelDispatcher dispatcher) implements Signal {}
+    public record ItemModelReload (ItemModelDispatcher dispatcher) implements Signal {}
+    public record EntityRendererReload (EntityRendererDispatcher dispatcher) implements Signal {}
+    public record TileEntityRendererReload (TileEntityRenderDispatcher dispatcher) implements Signal {}
+    public record BlockColorReload (BlockColorDispatcher dispatcher) implements Signal {}
 
     private ClientSignals() {}
 }
