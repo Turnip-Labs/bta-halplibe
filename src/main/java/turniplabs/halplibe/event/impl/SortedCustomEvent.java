@@ -8,26 +8,26 @@ import turniplabs.halplibe.event.utils.EventUtils;
 import turniplabs.halplibe.util.dependency.Key;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 
 @SuppressWarnings("unused")
 public class SortedCustomEvent<L, E> implements EventSorted<L>, IndirectEmitter<E> {
     protected final @NonNull E emitter;
-    protected final @NonNull List<ModListeners<L>> listeners;
+    protected final @NonNull List<L> listeners = new ArrayList<>();
+    protected final @NonNull Map<String, ModListeners<L>> listenerMap = new HashMap<>();
     protected boolean isSorted;
 
-    public SortedCustomEvent(@NonNull final Function<List<ModListeners<L>>, E> emitter) {
-        this.listeners = new ArrayList<>();
+    public SortedCustomEvent(@NonNull final Function<List<L>, E> emitter) {
         this.emitter = emitter.apply(this.listeners);
-        listeners.add(new ModListeners<>("bta"));
     }
 
     @Override
     public @NonNull E getEmitter() {
         if (!isSorted) {
-            // The first element should always be BTA
-            EventUtils.sortBFS(listeners, listeners.get(0));
+            EventUtils.sortBFS(listeners, listenerMap, listenerMap.get("bta"));
             isSorted = true;
         }
         return emitter;
@@ -35,18 +35,16 @@ public class SortedCustomEvent<L, E> implements EventSorted<L>, IndirectEmitter<
 
     @Override
     public void listen(@NonNull final Key key, @NonNull final L listener) {
-        final int prevSize = listeners.size();
-        final ModListeners<L> ml = EventUtils.getListenersOf(listeners, key.dependsOn());
-        if (prevSize != listeners.size()) isSorted = false;
+        final ModListeners<L> ml = listenerMap.computeIfAbsent(key.dependsOn(),  k -> {
+            isSorted = false;
+            return new ModListeners<>(k);
+        });
 
         ml.addListener(key.modId(), listener);
     }
 
     @Override
     public void remove(@NonNull final L listener) {
-        for (int i = 0; i < listeners.size(); ++i) {
-            final ModListeners<L> ml = listeners.get(i);
-            if (ml.listeners.removeIf(l -> l.listener() == listener)) return;
-        }
+        listeners.remove(listener);
     }
 }

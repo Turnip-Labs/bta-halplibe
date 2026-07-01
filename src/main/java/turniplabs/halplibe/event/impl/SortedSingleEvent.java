@@ -10,42 +10,43 @@ import turniplabs.halplibe.event.utils.EventUtils;
 import turniplabs.halplibe.util.dependency.Key;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 
 @SuppressWarnings("unused")
 public class SortedSingleEvent<L> implements EventSorted<L>, Emitter<L> {
     protected final String name;
-    protected @Nullable List<ModListeners<L>> listeners;
+    protected @Nullable List<L> listeners = new ArrayList<>();
+    protected @Nullable Map<String, ModListeners<L>> listenerMap = new HashMap<>();
 
     public SortedSingleEvent(@NonNull final String name) {
         this.name = name;
-        this.listeners = new ArrayList<>();
-        this.listeners.add(new ModListeners<>("bta"));
     }
 
     @Override
     public void emit(@NonNull final Consumer<L> consumer) {
-        if (listeners == null) {
+        if (listeners == null || listenerMap == null) {
             HalpLibe.LOGGER.warn("Attempted to call '{}' SingleEvent multiple times.", name);
             return;
         }
 
-        // The first element should always be BTA
-        EventUtils.sortBFS(listeners, listeners.get(0));
+        EventUtils.sortBFS(listeners, listenerMap, listenerMap.get("bta"));
 
-        listeners.forEach(ml -> ml.listeners.forEach(l -> consumer.accept(l.listener())));
+        listeners.forEach(consumer);
         listeners = null;
+        listenerMap = null;
     }
 
     @Override
     public void listen(@NonNull final Key key, @NonNull final L listener) {
-        if (listeners == null) {
+        if (listeners == null || listenerMap == null) {
             HalpLibe.LOGGER.warn("Attempted to add listener to '{}' SingleEvent too late.", name);
             return;
         }
 
-        final ModListeners<L> ml = EventUtils.getListenersOf(listeners, key.dependsOn());
+        final ModListeners<L> ml = listenerMap.computeIfAbsent(key.dependsOn(), ModListeners::new);
         ml.addListener(key.modId(), listener);
     }
 
@@ -53,9 +54,6 @@ public class SortedSingleEvent<L> implements EventSorted<L>, Emitter<L> {
     public void remove(@NonNull final L listener) {
         if (listeners == null) return;
 
-        for (int i = 0; i < listeners.size(); ++i) {
-            final ModListeners<L> ml = listeners.get(i);
-            if (ml.listeners.removeIf(l -> l.listener() == listener)) return;
-        }
+        listeners.remove(listener);
     }
 }
