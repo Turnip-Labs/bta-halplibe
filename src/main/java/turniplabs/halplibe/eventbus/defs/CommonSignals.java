@@ -1,4 +1,4 @@
-package turniplabs.halplibe.eventbus.defs.client;
+package turniplabs.halplibe.eventbus.defs;
 
 import turniplabs.halplibe.eventbus.FinalSignal;
 

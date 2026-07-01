@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import turniplabs.halplibe.HalpLibe;
 import turniplabs.halplibe.event.defs.ClientEvents;
-import turniplabs.halplibe.eventbus.defs.client.ClientSignals;
+import turniplabs.halplibe.eventbus.defs.ClientSignals;
 import turniplabs.halplibe.util.ModelEntrypoint;
 
 @Mixin(value = ItemModelDispatcher.class)

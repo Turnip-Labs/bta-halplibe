@@ -1,4 +1,4 @@
-package turniplabs.halplibe.eventbus.defs.client;
+package turniplabs.halplibe.eventbus.defs;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
