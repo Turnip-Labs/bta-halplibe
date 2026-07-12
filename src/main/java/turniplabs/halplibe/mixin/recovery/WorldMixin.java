@@ -10,7 +10,7 @@ import turniplabs.halplibe.HalpLibe;
 @Mixin(value = World.class,remap = false)
 public abstract class WorldMixin {
 
-    @WrapWithCondition(method = "updateEntities", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/block/entity/TileEntity;tick()V"))
+    @WrapWithCondition(method = "updateTileEntities", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/block/entity/TileEntity;tick()V"))
     public boolean disableTickingTileEntities(TileEntity instance) {
         return !HalpLibe.CONFIG.getBoolean("recoveryMode");
     }
