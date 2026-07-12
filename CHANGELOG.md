@@ -1,3 +1,4 @@
-- Lang keys of items now include the mod id.
-- Added installed mods to crash reports.
-- Creative inventory fixes. (by kheprep)
+- Added an API for death causes (by kheprep).
+- Replaced fabric entrypoints with an event system.
+- Renamed EnvironmentHelper methods to be more sensible.
+- Deprecated some outdated functionality.
