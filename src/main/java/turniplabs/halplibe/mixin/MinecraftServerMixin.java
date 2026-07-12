@@ -16,10 +16,7 @@ import turniplabs.halplibe.event.defs.CommonEvents;
 import turniplabs.halplibe.event.defs.ServerEvents;
 import turniplabs.halplibe.helper.creativeInventory.CreativeInventoryRegistry;
 import turniplabs.halplibe.helper.network.NetworkHandler;
-import turniplabs.halplibe.mixin.accessors.ItemsAccessor;
-import turniplabs.halplibe.util.BlockInitEntrypoint;
 import turniplabs.halplibe.util.GameStartEntrypoint;
-import turniplabs.halplibe.util.ItemInitEntrypoint;
 import turniplabs.halplibe.util.RecipeEntrypoint;
 
 @Environment(EnvType.SERVER)
@@ -55,22 +52,8 @@ public abstract class MinecraftServerMixin {
         CommonEvents.AFTER_GAME_START.emit(Runnable::run);
     }
 
-    @Inject(method = "startServer", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/block/Blocks;init()V", shift = At.Shift.BEFORE))
-    public void afterBlockInitEntrypoint(CallbackInfoReturnable<Boolean> cir) {
-        FabricLoader.getInstance().getEntrypoints("afterBlockInit", BlockInitEntrypoint.class).forEach(BlockInitEntrypoint::afterBlockInit);
-        CommonEvents.AFTER_BLOCK_INIT.emit(Runnable::run);
-    }
-
-    @Inject(method = "startServer", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/item/Items;init()V", shift = At.Shift.BEFORE))
-    public void afterItemInitEntrypoint(CallbackInfoReturnable<Boolean> cir) {
-        FabricLoader.getInstance().getEntrypoints("afterItemInit", ItemInitEntrypoint.class).forEach(ItemInitEntrypoint::afterItemInit);
-        CommonEvents.AFTER_ITEM_INIT.emit(Runnable::run);
-    }
-
     @Inject(method = "startServer", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/achievement/stat/StatList;init()V"))
-    public void initStats(CallbackInfoReturnable<Boolean> cir) {
-        ItemsAccessor.invokeInitStats();
-
+    public void printRecovery(CallbackInfoReturnable<Boolean> cir) {
         //before game start is too early and after game start is too late so thats why this is here
         if (HalpLibe.CONFIG.getBoolean("recoveryMode")) {
             HalpLibe.LOGGER.warn(I18n.getInstance().translateKey("halplibe.recoveryMode"));
