@@ -35,7 +35,8 @@
     "models.ItemModelDispatcherMixin",
     "models.TileEntityRendererDispatcherMixin",
     "recovery.HudIngameMixin",
-    "recovery.TileEntityRenderDispatcherMixin"
+    "recovery.TileEntityRenderDispatcherMixin",
+    "recovery.WorldClientMixin"
   ],
   "server": [
     "MinecraftServerMixin",
