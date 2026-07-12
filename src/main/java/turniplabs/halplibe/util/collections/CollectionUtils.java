@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 @NullMarked
+@SuppressWarnings("unused")
 public final class CollectionUtils {
 
     public static <K, V> Map<K, V> mapCollection(final Collection<V> collection, final Map<K, V> outMap, final Function<V, K> mappingFunc) {

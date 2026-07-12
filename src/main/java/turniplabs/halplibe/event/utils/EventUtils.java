@@ -1,8 +1,8 @@
 package turniplabs.halplibe.event.utils;
 
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 import turniplabs.halplibe.event.ModListeners;
-import turniplabs.halplibe.util.collections.CollectionUtils;
 
 import java.util.*;
 
@@ -10,45 +10,32 @@ import java.util.*;
 public final class EventUtils {
 
     /**
-     * Executes a breadth-first search on a list of listeners, dropping any unreachable nodes.
-     * The provided list is assumed to contain no duplicate ModListener entries.
+     * Executes a breadth-first search on a map of listeners starting from {@code root}, dropping any unreachable nodes.
+     * The provided {@code listeners} list is cleared before being repopulated with the listeners
+     * present in {@code listenerMap}. The elements in the list will be ordered based on their dependencies.
      * <br><br>
      * Dev Note: Circular dependencies are currently impossible, if multiple dependencies are ever allowed
      * this method will have to be replaced.
      */
-    public static <T> void sortBFS(final List<ModListeners<T>> listeners, final ModListeners<T> root) {
-        if (listeners.isEmpty()) return;
-
-        final Map<String, ModListeners<T>> map = CollectionUtils.mapCollection(listeners, new HashMap<>(), l -> l.modId);
+    public static <T> void sortBFS(final List<T> listeners, final Map<String, ModListeners<T>> listenerMap, @Nullable final ModListeners<T> root) {
+        if (listenerMap.isEmpty() || root == null) return;
         listeners.clear();
 
+        final Set<String> closed = new HashSet<>();
         final Deque<String> modIdQueue = new ArrayDeque<>();
         modIdQueue.add(root.modId);
 
         while (!modIdQueue.isEmpty()) {
             final String nextId = modIdQueue.poll();
 
-            final ModListeners<T> ml = map.remove(nextId);
-            if (ml == null) continue;
+            final ModListeners<T> ml = listenerMap.get(nextId);
+            if (ml == null || !closed.add(ml.modId)) continue;
 
-            listeners.add(ml);
-            ml.listeners.forEach(l -> modIdQueue.add(l.modId()));
+            ml.listeners.forEach(l -> {
+                listeners.add(l.listener());
+                modIdQueue.add(l.modId());
+            });
         }
-    }
-
-    /**
-     * Finds the first listener array matching modId, or adds a new listener array to the list and returns it.
-     */
-    public static <T> ModListeners<T> getListenersOf(final List<ModListeners<T>> listeners, final String modId) {
-        for (int i = 0; i < listeners.size(); ++i) {
-            final ModListeners<T> ml = listeners.get(i);
-            if (ml.modId.equals(modId)) return ml;
-        }
-
-        final ModListeners<T> newListeners = new ModListeners<>(modId);
-        listeners.add(newListeners);
-
-        return newListeners;
     }
 
     private EventUtils() {}
