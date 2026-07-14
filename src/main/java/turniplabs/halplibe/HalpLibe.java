@@ -9,6 +9,8 @@ import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import turniplabs.halplibe.helper.network.NetworkHandler;
+import turniplabs.halplibe.eventbus.EventBus;
+import turniplabs.halplibe.eventbus.impl.SynchronizedSimpleBus;
 import turniplabs.halplibe.util.TomlConfigHandler;
 import turniplabs.halplibe.util.deathcause.DeathCauseNetworkMessage;
 import turniplabs.halplibe.util.toml.Toml;
@@ -21,6 +23,7 @@ public class HalpLibe implements ModInitializer {
     public static final String MOD_ID = HalpLibe.registerMod("halplibe", false);
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
     public static final TomlConfigHandler CONFIG;
+    public static final EventBus BUS = new SynchronizedSimpleBus("HalpLibeBus");
 
     static {
         Toml defaultConfig = new Toml("Halplibe configuration file.");

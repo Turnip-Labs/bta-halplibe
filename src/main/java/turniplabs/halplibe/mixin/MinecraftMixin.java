@@ -17,7 +17,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import turniplabs.halplibe.HalpLibe;
 import turniplabs.halplibe.event.defs.ClientEvents;
 import turniplabs.halplibe.event.defs.CommonEvents;
-import turniplabs.halplibe.helper.creativeInventory.CreativeInventoryRegistry;
+import turniplabs.halplibe.eventbus.defs.ClientSignals;
+import turniplabs.halplibe.eventbus.defs.CommonSignals;
 import turniplabs.halplibe.helper.network.NetworkHandler;
 import turniplabs.halplibe.mixin.accessors.ItemsAccessor;
 import turniplabs.halplibe.util.*;
@@ -38,8 +39,10 @@ public abstract class MinecraftMixin {
     public void recipeEntrypoint(CallbackInfo ci) {
         FabricLoader.getInstance().getEntrypoints("recipesReady", RecipeEntrypoint.class).forEach(RecipeEntrypoint::initNamespaces);
         CommonEvents.RECIPES_NAMESPACE_INIT.emit(Runnable::run);
+        HalpLibe.BUS.post(new CommonSignals.RecipesNamespaceInit());
         FabricLoader.getInstance().getEntrypoints("recipesReady", RecipeEntrypoint.class).forEach(RecipeEntrypoint::onRecipesReady);
         CommonEvents.RECIPES_READY.emit(Runnable::run);
+        HalpLibe.BUS.post(new CommonSignals.RecipesReady());
     }
 
     @Inject(method = "startGame", at = @At("HEAD"))
@@ -47,7 +50,9 @@ public abstract class MinecraftMixin {
         FabricLoader.getInstance().getEntrypoints("beforeClientStart", ClientStartEntrypoint.class).forEach(ClientStartEntrypoint::beforeClientStart);
         FabricLoader.getInstance().getEntrypoints("beforeGameStart", GameStartEntrypoint.class).forEach(GameStartEntrypoint::beforeGameStart);
         ClientEvents.BEFORE_CLIENT_START.emit(Runnable::run);
+        HalpLibe.BUS.post(new ClientSignals.BeforeClientStart());
         CommonEvents.BEFORE_GAME_START.emit(Runnable::run);
+        HalpLibe.BUS.post(new CommonSignals.BeforeGameStart());
     }
 
     @Inject(method = "startGame", at = @At("TAIL"))
@@ -56,7 +61,9 @@ public abstract class MinecraftMixin {
         FabricLoader.getInstance().getEntrypoints("afterGameStart", GameStartEntrypoint.class).forEach(GameStartEntrypoint::afterGameStart);
         FabricLoader.getInstance().getEntrypoints("afterClientStart", ClientStartEntrypoint.class).forEach(ClientStartEntrypoint::afterClientStart);
         ClientEvents.AFTER_CLIENT_START.emit(Runnable::run);
+        HalpLibe.BUS.post(new ClientSignals.AfterClientStart());
         CommonEvents.AFTER_GAME_START.emit(Runnable::run);
+        HalpLibe.BUS.post(new CommonSignals.AfterGameStart());
         if (HalpLibe.CONFIG.getBoolean("recoveryMode")) {
             PopupScreen popup = new PopupBuilder(this.currentScreen, 246)
                     .withLabelLiteral("/!\\ " + I18n.getInstance().translateKey("halplibe.recoveryMode") + " /!\\")
@@ -72,16 +79,18 @@ public abstract class MinecraftMixin {
         }
     }
 
-    @Inject(method = "startGame", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/block/Blocks;init()V", shift = At.Shift.BEFORE))
+    @Inject(method = "startGame", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/block/Blocks;init()V", shift = At.Shift.AFTER))
     public void afterBlockInitEntrypoint(CallbackInfo ci) {
         FabricLoader.getInstance().getEntrypoints("afterBlockInit", BlockInitEntrypoint.class).forEach(BlockInitEntrypoint::afterBlockInit);
         CommonEvents.AFTER_BLOCK_INIT.emit(Runnable::run);
+        HalpLibe.BUS.post(new CommonSignals.AfterBlockInit());
     }
 
-    @Inject(method = "startGame", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/item/Items;init()V", shift = At.Shift.BEFORE))
+    @Inject(method = "startGame", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/item/Items;init()V", shift = At.Shift.AFTER))
     public void afterItemInitEntrypoint(CallbackInfo ci) {
         FabricLoader.getInstance().getEntrypoints("afterItemInit", ItemInitEntrypoint.class).forEach(ItemInitEntrypoint::afterItemInit);
         CommonEvents.AFTER_ITEM_INIT.emit(Runnable::run);
+        HalpLibe.BUS.post(new CommonSignals.AfterItemInit());
     }
 
     @Inject(method = "startGame", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/achievement/stat/StatList;init()V"))
