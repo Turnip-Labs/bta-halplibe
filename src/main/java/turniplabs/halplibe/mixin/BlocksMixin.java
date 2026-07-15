@@ -7,6 +7,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import turniplabs.halplibe.event.defs.CommonEvents;
+import turniplabs.halplibe.helper.BlockBuilder;
 import turniplabs.halplibe.util.BlockInitEntrypoint;
 
 @Mixin(value = Blocks.class, remap = false)
@@ -15,5 +16,10 @@ public abstract class BlocksMixin {
     private static void afterBlockInit(CallbackInfo ci) {
         FabricLoader.getInstance().getEntrypoints("afterBlockInit", BlockInitEntrypoint.class).forEach(BlockInitEntrypoint::afterBlockInit);
         CommonEvents.AFTER_BLOCK_INIT.emit(Runnable::run);
+    }
+
+    @Inject(method = "init", at = @At("TAIL"))
+    private static void completeInit(CallbackInfo ci) {
+        BlockBuilder.Internal.markBlocksInitComplete();
     }
 }
