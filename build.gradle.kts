@@ -9,7 +9,7 @@ plugins {
 
 val lwjglNatives = resolveLwjglNatives()
 
-val modVersion: Provider<String> = providers.gradleProperty("mod_version")
+val modVersion: String = "${providers.gradleProperty("mod_version").get()}+${libs.versions.bta.get()}"
 val modGroup: Provider<String> = providers.gradleProperty("mod_group")
 val modName: Provider<String> = providers.gradleProperty("mod_name")
 
@@ -17,9 +17,11 @@ val javaVersion: Provider<Int> = libs.versions.java.map { it.toInt() }
 
 base.archivesName = modName
 group = modGroup.get()
-version = modVersion.get()
+version = modVersion
 loom {
-    customMinecraftMetadata.set("https://downloads.betterthanadventure.net/bta-client/${libs.versions.btaChannel.get()}/${libs.versions.bta.get()}/manifest.json")
+    val btaChannel = libs.versions.btaChannel.get()
+    val btaVersion = (if (btaChannel == "nightly") "" else "v") + libs.versions.bta.get()
+    customMinecraftMetadata.set("https://downloads.betterthanadventure.net/bta-client/${btaChannel}/${btaVersion}/manifest.json")
 }
 repositories {
     mavenCentral()
@@ -112,7 +114,7 @@ tasks {
     }
     processResources {
         val resourceMap = mapOf(
-            "version" to modVersion.get(),
+            "version" to modVersion,
             "fabricloader" to libs.versions.loader.get(),
             "java" to libs.versions.java.get(),
             "modmenu" to libs.versions.modMenu.get()
@@ -154,7 +156,7 @@ publishing {
         create<MavenPublication>("maven") {
             groupId = modGroup.get()
             artifactId = modName.get()
-            version = modVersion.get()
+            version = modVersion
             from(components["java"])
         }
     }
@@ -166,7 +168,7 @@ if (modrinthToken.isPresent) {
     modrinth {
         token = modrinthToken
         projectId = "halplibe"
-        versionName = modVersion.map { "HalpLibe $it" }
+        versionName = "HalpLibe $modVersion"
         versionNumber = modVersion
         versionType = "release"
         uploadFile.set(tasks.jar)

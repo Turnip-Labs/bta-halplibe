@@ -19,5 +19,6 @@ public abstract class GameSettingsMixin {
         FabricLoader.getInstance()
                 .getEntrypoints("initOptions", OptionsInitEntrypoint.class)
                 .forEach(OptionsInitEntrypoint::initOptions);
+        // Note: Deliberately has no matching Event variant as this is now unnecessary
     }
 }

@@ -329,7 +329,7 @@ public final class BlockBuilder implements Cloneable {
             CreativeInventoryRegistry.INSTANCE.register(block, creativeInventoryPlacement);
         }
 
-        if (BlocksAccessor.hasInit()) {
+        if (Internal.isBlocksInitComplete) {
             block.init();
             block.getLogic().initializeBlock();
             BlocksAccessor.cacheBlock(block);
@@ -422,6 +422,23 @@ public final class BlockBuilder implements Cloneable {
                         supplier.validate();
                     }
             );
+        }
+    }
+
+    /**
+     * This class only exists to "hide" internal static methods that need to be accessible
+     */
+    public static final class Internal {
+        /**
+         * Set to true in {@link turniplabs.halplibe.mixin.BlocksMixin BlocksMixin} after
+         * every Block has been fully initialized by {@link Blocks#init()}
+         * */
+        static boolean isBlocksInitComplete;
+
+        private Internal() {}
+
+        public static void markBlocksInitComplete() {
+            isBlocksInitComplete = true;
         }
     }
 }
