@@ -3,11 +3,13 @@ package turniplabs.halplibe.helper.network;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.net.handler.PacketHandlerClient;
 import net.minecraft.core.entity.player.Player;
 import net.minecraft.core.net.packet.Packet;
 import net.minecraft.core.net.packet.PacketCustomPayload;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.entity.player.PlayerServer;
+import net.minecraft.server.net.handler.PacketHandlerServer;
 import org.jspecify.annotations.NonNull;
 import turniplabs.halplibe.HalpLibe;
 import turniplabs.halplibe.helper.EnvironmentHelper;
@@ -19,12 +21,18 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 public final class NetworkHandler {
-    private static final List<Supplier<NetworkMessage>> messagesToRegisterForServer = new LinkedList<>(Collections.singletonList(
-            MessageIdsNetworkMessage::new
+    private static final List<Supplier<NetworkMessage>> messagesToRegisterForServer = new LinkedList<>(Arrays.asList(
+            MessageIdsNetworkMessage::new,
+            HandshakeAckNetworkMessage::new
     ));
 
     private static final Map<Short, BiConsumer<NetworkMessage.NetworkContext, UniversalPacket>> packetReaders = new HashMap<>();
     private static final Map<Class<?>, Short> packetIds = new HashMap<>();
+
+    /**
+     * Connections whose client confirmed it can decode the native UniversalPacket (id 88).
+     */
+    private static final Set<PacketHandlerServer> nativeReadyConnections = Collections.newSetFromMap(Collections.synchronizedMap(new WeakHashMap<>()));
 
     private NetworkHandler() {
     }
@@ -62,6 +70,29 @@ public final class NetworkHandler {
     }
 
     /**
+     * Acknowledge to the server that this client can decode the native UniversalPacket,
+     * sent over the compatibility channel.
+     *
+     * @apiNote This method is auto managed by Halplibe
+     */
+    @Environment(EnvType.CLIENT)
+    public static void internalSendHandshakeAck(@NonNull PacketHandlerClient packetHandler) {
+        if (!packetIds.containsKey(HandshakeAckNetworkMessage.class)) {
+            return;
+        }
+        packetHandler.addToSendQueue(generateCompatibilityNetworkMessagePacket(new HandshakeAckNetworkMessage()));
+    }
+
+    /**
+     * Whether the given Player's client confirmed it can decode the native UniversalPacket.
+     */
+    @Environment(EnvType.SERVER)
+    public static boolean canReceiveNativePackets(Player player) {
+        return player instanceof PlayerServer playerServer
+                && nativeReadyConnections.contains(playerServer.playerNetServerHandler);
+    }
+
+    /**
      * Register a NetworkMessage, and a thread-unsafe handler for it.
      *
      * @param factory The factory for this type of message.
@@ -88,7 +119,7 @@ public final class NetworkHandler {
         packetReaders.put(id, (context, buf) -> {
             T result = decoder.apply(buf);
             result.handle(context);
-            if (EnvironmentHelper.isServerEnvironment()) {
+            if (EnvironmentHelper.isMultiplayerServer()) {
                 result.handleServerEnv(context);
             } else {
                 result.handleClientEnv(context);
@@ -136,7 +167,7 @@ public final class NetworkHandler {
 
     @Environment(EnvType.SERVER)
     private static void sendToPlayerServer(Player player, NetworkMessage message, boolean compatibility) {
-        if (compatibility) {
+        if (compatibility || !canReceiveNativePackets(player)) {
             ((PlayerServer) player).playerNetServerHandler.sendPacket(generateCompatibilityNetworkMessagePacket(message));
             return;
         }
@@ -151,14 +182,15 @@ public final class NetworkHandler {
     /**
      * Send a NetworkMessage to a specific Player from the server.
      * <p>
-     * If the receiver don't have Halplibe installed, the client will be kick for unrecognized Packet.
-     * Prefer to use {@link NetworkHandler#sendCompatibilityToPlayer(Player, NetworkMessage)} if you are unsure your receiver have Halplibe installed.
+     * If the receiver never confirmed native UniversalPacket support,
+     * the message is sent over the compatibility channel
+     * instead, so the client is not kicked for an unrecognized Packet.
      * <p>
      * If we are in SinglePlayer this will skip encoding and directly call the message handle.
      */
     @SuppressWarnings({"unused"})
     public static void sendToPlayer(Player player, NetworkMessage message) {
-        if (!EnvironmentHelper.isServerEnvironment()) {
+        if (!EnvironmentHelper.isMultiplayerServer()) {
             sendToPlayerLocal(message);
             return;
         }
@@ -175,7 +207,7 @@ public final class NetworkHandler {
      */
     @SuppressWarnings({"unused"})
     public static void sendCompatibilityToPlayer(Player player, NetworkMessage message) {
-        if (!EnvironmentHelper.isServerEnvironment()) {
+        if (!EnvironmentHelper.isMultiplayerServer()) {
             sendToPlayerLocal(message);
             return;
         }
@@ -185,18 +217,23 @@ public final class NetworkHandler {
     /**
      * Send a NetworkMessage to all Players from the server.
      * <p>
-     * If the receiver don't have Halplibe installed, the client will be kick for unrecognized Packet.
-     * Prefer to use {@link NetworkHandler#sendCompatibilityToAllPlayers(NetworkMessage)} if you are unsure your receiver have Halplibe installed.
+     * Receivers that never confirmed native UniversalPacket support
+     * get the message over the compatibility channel instead,
+     * so nobody is kicked for an unrecognized Packet.
      * <p>
      * If we are in SinglePlayer this will skip encoding and directly call the message handle.
      */
     @SuppressWarnings({"unused"})
     public static void sendToAllPlayers(NetworkMessage message) {
-        if (!EnvironmentHelper.isServerEnvironment()) {
+        if (!EnvironmentHelper.isMultiplayerServer()) {
             sendToPlayerLocal(message);
             return;
         }
-        MinecraftServer.getInstance().playerList.sendPacketToAllPlayers(generateNetworkMessagePacket(message));
+        UniversalPacket packet = generateNetworkMessagePacket(message);
+        PacketCustomPayload compatibilityPacket = packet.toPacketCustomPayload();
+        for (PlayerServer player : MinecraftServer.getInstance().playerList.playerEntities) {
+            player.playerNetServerHandler.sendPacket(canReceiveNativePackets(player) ? packet : compatibilityPacket);
+        }
     }
 
     /**
@@ -209,11 +246,53 @@ public final class NetworkHandler {
      */
     @SuppressWarnings({"unused"})
     public static void sendCompatibilityToAllPlayers(NetworkMessage message) {
-        if (!EnvironmentHelper.isServerEnvironment()) {
+        if (!EnvironmentHelper.isMultiplayerServer()) {
             sendToPlayerLocal(message);
             return;
         }
         MinecraftServer.getInstance().playerList.sendPacketToAllPlayers(generateCompatibilityNetworkMessagePacket(message));
+    }
+
+    /**
+     * Send a NetworkMessage to the given Players from the server.
+     * <p>
+     * Receivers that never confirmed native UniversalPacket support
+     * get the message over the compatibility channel instead,
+     * so nobody is kicked for an unrecognized Packet.
+     * <p>
+     * If we are in SinglePlayer this will skip encoding and directly call the message handle.
+     */
+    @SuppressWarnings({"unused"})
+    public static void sendToPlayers(Iterable<? extends Player> players, NetworkMessage message) {
+        if (!EnvironmentHelper.isMultiplayerServer()) {
+            sendToPlayerLocal(message);
+            return;
+        }
+        UniversalPacket packet = generateNetworkMessagePacket(message);
+        PacketCustomPayload compatibilityPacket = packet.toPacketCustomPayload();
+        for (Player player : players) {
+            ((PlayerServer) player).playerNetServerHandler.sendPacket(canReceiveNativePackets(player) ? packet : compatibilityPacket);
+        }
+    }
+
+    /**
+     * Send a NetworkMessage to the given Players from the server.
+     * <p>
+     * If the receiver don't have Halplibe installed, the client will not be kick for unrecognized Packet.
+     * Prefer to use {@link NetworkHandler#sendToPlayers(Iterable, NetworkMessage)} if you know your receivers have Halplibe installed.
+     * <p>
+     * If we are in SinglePlayer this will skip encoding and directly call the message handle.
+     */
+    @SuppressWarnings({"unused"})
+    public static void sendCompatibilityToPlayers(Iterable<? extends Player> players, NetworkMessage message) {
+        if (!EnvironmentHelper.isMultiplayerServer()) {
+            sendToPlayerLocal(message);
+            return;
+        }
+        PacketCustomPayload compatibilityPacket = generateCompatibilityNetworkMessagePacket(message);
+        for (Player player : players) {
+            ((PlayerServer) player).playerNetServerHandler.sendPacket(compatibilityPacket);
+        }
     }
 
     /**
@@ -227,7 +306,7 @@ public final class NetworkHandler {
     @SuppressWarnings({"unused"})
     @Environment(EnvType.CLIENT)
     public static void sendToServer(NetworkMessage message) {
-        if (EnvironmentHelper.isSinglePlayer()) {
+        if (EnvironmentHelper.isSingleplayerClient()) {
             sendToPlayerLocal(message);
             return;
         }
@@ -245,7 +324,7 @@ public final class NetworkHandler {
     @SuppressWarnings({"unused"})
     @Environment(EnvType.CLIENT)
     public static void sendCompatibilityToServer(NetworkMessage message) {
-        if (EnvironmentHelper.isSinglePlayer()) {
+        if (EnvironmentHelper.isSingleplayerClient()) {
             sendToPlayerLocal(message);
             return;
         }
@@ -255,18 +334,31 @@ public final class NetworkHandler {
     /**
      * Send a NetworkMessage to all Players around a block from the server.
      * <p>
-     * If the receiver don't have Halplibe installed, the client will be kick for unrecognized Packet.
-     * Prefer to use {@link NetworkHandler#sendCompatibilityToAllAround(double, double, double, double, int, NetworkMessage)} if you are unsure your receiver have Halplibe installed.
+     * Receivers that never confirmed native UniversalPacket support
+     * get the message over the compatibility channel instead,
+     * so nobody is kicked for an unrecognized Packet.
      * <p>
      * If we are in SinglePlayer this will skip encoding and directly call the message handle.
      */
     @SuppressWarnings({"unused"})
     public static void sendToAllAround(double x, double y, double z, double radius, int dimension, NetworkMessage message) {
-        if (!EnvironmentHelper.isServerEnvironment()) {
+        if (!EnvironmentHelper.isMultiplayerServer()) {
             sendToPlayerLocal(message);
             return;
         }
-        MinecraftServer.getInstance().playerList.sendPacketToPlayersAroundPoint(x, y, z, radius, dimension, generateNetworkMessagePacket(message));
+        UniversalPacket packet = generateNetworkMessagePacket(message);
+        PacketCustomPayload compatibilityPacket = packet.toPacketCustomPayload();
+        for (PlayerServer player : MinecraftServer.getInstance().playerList.playerEntities) {
+            if (player.dimension != dimension) {
+                continue;
+            }
+            double dx = x - player.x;
+            double dy = y - player.y;
+            double dz = z - player.z;
+            if (dx * dx + dy * dy + dz * dz < radius * radius) {
+                player.playerNetServerHandler.sendPacket(canReceiveNativePackets(player) ? packet : compatibilityPacket);
+            }
+        }
     }
 
     /**
@@ -279,7 +371,7 @@ public final class NetworkHandler {
      */
     @SuppressWarnings({"unused"})
     public static void sendCompatibilityToAllAround(double x, double y, double z, double radius, int dimension, NetworkMessage message) {
-        if (!EnvironmentHelper.isServerEnvironment()) {
+        if (!EnvironmentHelper.isMultiplayerServer()) {
             sendToPlayerLocal(message);
             return;
         }
@@ -349,6 +441,31 @@ public final class NetworkHandler {
                 }
             } catch (Exception e) {
                 throw new RuntimeException(e);
+            }
+        }
+    }
+
+    /**
+     * Sent by the client once login completes to confirm it decodes the native
+     * UniversalPacket with the same message ids as the server.
+     * Until a connection acknowledges, the server only sends it compatibility payloads.
+     */
+    private static class HandshakeAckNetworkMessage implements NetworkMessage {
+        public HandshakeAckNetworkMessage() {
+        }
+
+        @Override
+        public void encodeToUniversalPacket(@NonNull UniversalPacket packet) {
+        }
+
+        @Override
+        public void decodeFromUniversalPacket(@NonNull UniversalPacket packet) {
+        }
+
+        @Override
+        public void handleServerEnv(@NonNull NetworkContext context) {
+            if (context.player instanceof PlayerServer playerServer) {
+                nativeReadyConnections.add(playerServer.playerNetServerHandler);
             }
         }
     }
