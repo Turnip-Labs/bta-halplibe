@@ -14,9 +14,9 @@ gradleJava = "21"
 ##########################################################################
 # Mod Dependencies
 # Check this on https://downloads.betterthanadventure.net/bta-client/
-bta = "8.0-pre3"
+bta = "8.0"
 # Options are release, prerelease, nightly, and misc.
-btaChannel = "prerelease"
+btaChannel = "release"
 # Check this on https://maven.thesignalumproject.net/#/infrastructure/net/fabricmc/fabric-loader/
 loader = "0.18.4-bta.11"
 # Check this on https://github.com/Turnip-Labs/ModMenu/releases/latest/
