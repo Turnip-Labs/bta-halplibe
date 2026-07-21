@@ -18,11 +18,17 @@ jobs:
         id: vars
         run: |
           VERSION=$(grep '^mod_version = ' gradle.properties | cut -d'=' -f2 | tr -d '[:space:]')
+          BTA_VERSION=$(grep '^bta = ' ./gradle/libs.versions.toml | cut -d'=' -f2 | tr -d '[:space:]')
           if [ -z "$VERSION" ]; then
             echo "mod_version not found in gradle.properties"
             exit 1
           fi
+          if [ -z "BTA_VERSION" ]; then
+            echo "bta version not found in libs.versions.toml"
+            exit 1
+          fi
           echo "VERSION=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "BTA_VERSION=$BTA_VERSION" >> "$GITHUB_OUTPUT"
 
       - name: Set up JDK
         uses: actions/setup-java@v5
@@ -59,7 +65,7 @@ jobs:
           name: HalpLibe ${{ steps.vars.outputs.VERSION }}
           body_path: CHANGELOG.md
           files: |
-            build/libs/*-${{ steps.vars.outputs.VERSION }}.jar
-            build/libs/*-${{ steps.vars.outputs.VERSION }}-sources.jar
+            build/libs/*-${{ steps.vars.outputs.VERSION }}+${{ steps.vars.outputs.BTA_VERSION }}.jar
+            build/libs/*-${{ steps.vars.outputs.VERSION }}+${{ steps.vars.outputs.BTA_VERSION }}-sources.jar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -220,11 +220,12 @@ fun resolveLwjglNatives(): String { // Sourced from https://www.lwjgl.org/
 if(githubToken.isPresent){
     tasks.register("github") {
         doLast {
+            val v = providers.gradleProperty("mod_version").get()
             val github = GitHub.connectUsingOAuth(githubToken.get())
             val repository = github.getRepository("Turnip-Labs/bta-halplibe")
 
-            val releaseBuilder = GHReleaseBuilder(repository, version.toString())
-            releaseBuilder.name("HalpLibe $version")
+            val releaseBuilder = GHReleaseBuilder(repository, "v$v")
+            releaseBuilder.name("HalpLibe $v")
             releaseBuilder.body(Files.readString(rootProject.projectDir.toPath().resolve("CHANGELOG.md")))
             releaseBuilder.commitish("8.0")
             val release = releaseBuilder.create()
