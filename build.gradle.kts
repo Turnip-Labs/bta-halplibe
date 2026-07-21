@@ -1,4 +1,17 @@
+import org.kohsuke.github.GHReleaseBuilder
+import org.kohsuke.github.GitHub
 import java.nio.file.Files
+
+buildscript {
+
+    dependencies {
+        classpath("org.kohsuke:github-api:1.135")
+    }
+
+    repositories {
+        mavenCentral()
+    }
+}
 
 plugins {
     alias(libs.plugins.loom)
@@ -163,6 +176,7 @@ publishing {
 }
 
 val modrinthToken: Provider<String> = providers.gradleProperty("modrinthToken")
+val githubToken: Provider<String> = providers.gradleProperty("githubToken")
 
 if (modrinthToken.isPresent) {
     modrinth {
@@ -201,4 +215,28 @@ fun resolveLwjglNatives(): String { // Sourced from https://www.lwjgl.org/
                 throw Error("Unrecognized or unsupported platform. Please set \"lwjglNatives\" manually")
         }
     }
+}
+
+if(githubToken.isPresent){
+    tasks.register("github") {
+        doLast {
+            val github = GitHub.connectUsingOAuth(githubToken.get())
+            val repository = github.getRepository("Turnip-Labs/bta-halplibe")
+
+            val releaseBuilder = GHReleaseBuilder(repository, version.toString())
+            releaseBuilder.name("HalpLibe $version")
+            releaseBuilder.body(Files.readString(rootProject.projectDir.toPath().resolve("CHANGELOG.md")))
+            releaseBuilder.commitish("8.0")
+            val release = releaseBuilder.create()
+            release.uploadAsset(
+                project.file(tasks.named("jar").get().outputs.files.singleFile),
+                "application/java-archive"
+            )
+            release.uploadAsset(
+                project.file(tasks.named("sourcesJar").get().outputs.files.singleFile),
+                "application/java-archive"
+            )
+        }
+    }
+
 }
