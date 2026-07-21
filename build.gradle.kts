@@ -176,7 +176,7 @@ publishing {
 }
 
 val modrinthToken: Provider<String> = providers.gradleProperty("modrinthToken")
-val githubToken: Provider<String> = providers.gradleProperty("githubToken")
+val githubToken: Provider<String> = providers.gradleProperty("turnipLabsGithubToken")
 
 if (modrinthToken.isPresent) {
     modrinth {
