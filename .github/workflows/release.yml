@@ -18,7 +18,7 @@ jobs:
         id: vars
         run: |
           VERSION=$(grep '^mod_version = ' gradle.properties | cut -d'=' -f2 | tr -d '[:space:]')
-          BTA_VERSION=$(grep '^bta = ' ./gradle/libs.versions.toml | cut -d'=' -f2 | tr -d '[:space:]')
+          BTA_VERSION=$(grep '^bta = ' ./gradle/libs.versions.toml | cut -d'=' -f2 | tr -d '[:space:]' | tr -d '"')
           if [ -z "$VERSION" ]; then
             echo "mod_version not found in gradle.properties"
             exit 1
