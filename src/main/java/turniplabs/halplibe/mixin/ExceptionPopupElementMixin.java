@@ -3,7 +3,6 @@ package turniplabs.halplibe.mixin;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
-import net.fabricmc.loader.impl.metadata.BuiltinModMetadata;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ExceptionPopupElement;
 import net.minecraft.client.gui.Screen;

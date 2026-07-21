@@ -19,7 +19,10 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import turniplabs.halplibe.helper.EnvironmentHelper;
 import turniplabs.halplibe.helper.network.NetworkHandler;
-import turniplabs.halplibe.util.deathcause.*;
+import turniplabs.halplibe.util.deathcause.DeathCause;
+import turniplabs.halplibe.util.deathcause.DeathCauseMixinInterface;
+import turniplabs.halplibe.util.deathcause.DeathCauseNetworkMessage;
+import turniplabs.halplibe.util.deathcause.DeathCauseRegistry;
 import turniplabs.halplibe.util.deathcause.vanilla.DeathCauseKilledBy;
 import turniplabs.halplibe.util.deathcause.vanilla.DeathCauseProjectile;
 

@@ -3,7 +3,6 @@ package turniplabs.halplibe.mixin.recovery;
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import net.minecraft.client.world.WorldClient;
 import net.minecraft.core.block.entity.TileEntity;
-import net.minecraft.core.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import turniplabs.halplibe.HalpLibe;
