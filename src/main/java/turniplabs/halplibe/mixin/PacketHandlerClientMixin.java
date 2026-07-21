@@ -9,6 +9,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import turniplabs.halplibe.event.defs.CommonEvents;
+import turniplabs.halplibe.helper.network.NetworkHandler;
 import turniplabs.halplibe.helper.network.UniversalPacket;
 import turniplabs.halplibe.util.RecipeEntrypoint;
 
@@ -18,6 +19,7 @@ public abstract class PacketHandlerClientMixin {
     public void handleLogin(PacketLogin packetLogin, CallbackInfo ci) {
         FabricLoader.getInstance().getEntrypoints("recipesReady", RecipeEntrypoint.class).forEach(RecipeEntrypoint::initNamespaces);
         CommonEvents.RECIPES_NAMESPACE_INIT.emit(Runnable::run);
+        NetworkHandler.internalSendHandshakeAck((PacketHandlerClient) (Object) this);
     }
 
     @Inject(method = "handleCustomPayload", at = @At(value = "TAIL"))

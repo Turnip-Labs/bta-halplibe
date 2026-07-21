@@ -94,8 +94,15 @@ public class MobMixin implements DeathCauseMixinInterface {
             this.deathCause = new DeathCauseRegistry.DeathCauseHerobrine(thisAs);
         }
 
-        if (!EnvironmentHelper.isClientWorld()) {
-            NetworkHandler.sendToAllPlayers(new DeathCauseNetworkMessage(this.deathCause));
+        if (!EnvironmentHelper.isMultiplayerClient()) {
+            DeathCauseNetworkMessage deathMessage = new DeathCauseNetworkMessage(this.deathCause);
+            for (Player player : world.players) {
+                if (NetworkHandler.canReceiveNativePackets(player)) {
+                    NetworkHandler.sendToPlayer(player, deathMessage);
+                } else {
+                    player.sendMessageTranslated(format, key, args);
+                }
+            }
         }
     }
 
