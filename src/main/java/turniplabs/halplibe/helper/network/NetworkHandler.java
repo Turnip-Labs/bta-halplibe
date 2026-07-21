@@ -5,11 +5,11 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.net.handler.PacketHandlerClient;
 import net.minecraft.core.entity.player.Player;
+import net.minecraft.core.net.handler.PacketHandler;
 import net.minecraft.core.net.packet.Packet;
 import net.minecraft.core.net.packet.PacketCustomPayload;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.entity.player.PlayerServer;
-import net.minecraft.server.net.handler.PacketHandlerServer;
 import org.jspecify.annotations.NonNull;
 import turniplabs.halplibe.HalpLibe;
 import turniplabs.halplibe.helper.EnvironmentHelper;
@@ -32,7 +32,7 @@ public final class NetworkHandler {
     /**
      * Connections whose client confirmed it can decode the native UniversalPacket (id 88).
      */
-    private static final Set<PacketHandlerServer> nativeReadyConnections = Collections.newSetFromMap(Collections.synchronizedMap(new WeakHashMap<>()));
+    private static final Set<PacketHandler> nativeReadyConnections = Collections.newSetFromMap(Collections.synchronizedMap(new WeakHashMap<>()));
 
     private NetworkHandler() {
     }
@@ -229,6 +229,11 @@ public final class NetworkHandler {
             sendToPlayerLocal(message);
             return;
         }
+        sendToAllPlayersServer(message);
+    }
+
+    @Environment(EnvType.SERVER)
+    private static void sendToAllPlayersServer(NetworkMessage message) {
         UniversalPacket packet = generateNetworkMessagePacket(message);
         PacketCustomPayload compatibilityPacket = packet.toPacketCustomPayload();
         for (PlayerServer player : MinecraftServer.getInstance().playerList.playerEntities) {
@@ -268,6 +273,11 @@ public final class NetworkHandler {
             sendToPlayerLocal(message);
             return;
         }
+        sendToPlayersServer(players, message);
+    }
+
+    @Environment(EnvType.SERVER)
+    private static void sendToPlayersServer(Iterable<? extends Player> players, NetworkMessage message) {
         UniversalPacket packet = generateNetworkMessagePacket(message);
         PacketCustomPayload compatibilityPacket = packet.toPacketCustomPayload();
         for (Player player : players) {
@@ -346,6 +356,11 @@ public final class NetworkHandler {
             sendToPlayerLocal(message);
             return;
         }
+        sendToAllAroundServer(x, y, z, radius, dimension, message);
+    }
+
+    @Environment(EnvType.SERVER)
+    private static void sendToAllAroundServer(double x, double y, double z, double radius, int dimension, NetworkMessage message) {
         UniversalPacket packet = generateNetworkMessagePacket(message);
         PacketCustomPayload compatibilityPacket = packet.toPacketCustomPayload();
         for (PlayerServer player : MinecraftServer.getInstance().playerList.playerEntities) {
