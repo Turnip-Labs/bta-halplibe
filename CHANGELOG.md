@@ -1,1 +1,2 @@
-- Make the client not crash instantly due to trying to load server classes.
+- Client no longer crashes when dying.
+- Fix drowning death cause lang and add acid death cause

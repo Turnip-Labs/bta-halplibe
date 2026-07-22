@@ -48,13 +48,14 @@ public class DeathCauseRegistry extends Registry<Supplier<DeathCause>> {
     static {
         var inst = getInstance();
 
-        inst.register("halplibe:drown", DeathCauseDrown::new);
+        inst.register("halplibe:drowned", DeathCauseDrown::new);
         inst.register("halplibe:fall", DeathCauseFall::new);
         inst.register("halplibe:fire", DeathCauseFire::new);
         inst.register("halplibe:generic", DeathCauseGeneric::new);
         inst.register("halplibe:killed_by", DeathCauseKilledBy::new);
         inst.register("halplibe:projectile", DeathCauseProjectile::new);
         inst.register("halplibe:lava", DeathCauseLava::new);
+        inst.register("halplibe:acid", DeathCauseAcid::new);
         inst.register("halplibe:spikes", DeathCauseSpikes::new);
         inst.register("halplibe:herobrine", DeathCauseHerobrine::new);
     }
@@ -65,7 +66,7 @@ public class DeathCauseRegistry extends Registry<Supplier<DeathCause>> {
 
         @Override
         protected String getTranslationKeyShard() {
-            return "drown";
+            return "drowned";
         }
     }
 
@@ -107,6 +108,16 @@ public class DeathCauseRegistry extends Registry<Supplier<DeathCause>> {
         @Override
         protected String getTranslationKeyShard() {
             return "lava";
+        }
+    }
+
+    public static class DeathCauseAcid extends DeathCause {
+        public DeathCauseAcid(Mob mob) { super(mob); }
+        public DeathCauseAcid() { super(); }
+
+        @Override
+        protected String getTranslationKeyShard() {
+            return "acid";
         }
     }
 
