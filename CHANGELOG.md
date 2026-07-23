@@ -1,2 +1,2 @@
-- Client no longer crashes when dying.
-- Fix drowning death cause lang and add acid death cause
+- Client no longer crashes when dying. (by LukeisStuff)
+- Fix drowning death cause lang and add acid death cause. (by LukeisStuff)
