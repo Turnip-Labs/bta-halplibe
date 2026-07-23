@@ -15,7 +15,7 @@ Follow the setup instructions on [the example mod](https://github.com/Turnip-Lab
 Update the ``/gradle/libs.versions.toml`` config file:
 ```toml
 [versions]
-halplibe = "6.0.2"
+halplibe = "6.1.4+8.0"
 
 [libraries]
 halplibe = { group = "turniplabs", name = "halplibe", version.ref = "halplibe" }

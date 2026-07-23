@@ -86,8 +86,11 @@ public final class NetworkHandler {
     /**
      * Whether the given Player's client confirmed it can decode the native UniversalPacket.
      */
-    @Environment(EnvType.SERVER)
     public static boolean canReceiveNativePackets(Player player) {
+        if (EnvironmentHelper.isSingleplayerClient() || !EnvironmentHelper.isMultiplayerServer()) {
+            return true;
+        }
+
         return player instanceof PlayerServer playerServer
                 && nativeReadyConnections.contains(playerServer.playerNetServerHandler);
     }

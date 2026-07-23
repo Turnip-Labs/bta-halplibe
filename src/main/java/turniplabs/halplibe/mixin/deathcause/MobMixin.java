@@ -53,8 +53,8 @@ public class MobMixin implements DeathCauseMixinInterface {
 
                 // the projectile death message only triggers if one or both of the entities is a player.
                 if (entityKilledBy instanceof Projectile projectile) {
-                    if (thisAs instanceof Player) {
-                        this.deathCause = new DeathCauseProjectile((Player) thisAs, projectile);
+                    if (thisAs instanceof Player player) {
+                        this.deathCause = new DeathCauseProjectile(player, projectile);
                     }
 
                     // so if a skeleton shoots down your dog, just mark it as a skelie.
@@ -66,6 +66,10 @@ public class MobMixin implements DeathCauseMixinInterface {
 
             else if (thisAs.isInLava()) {
                 this.deathCause = new DeathCauseRegistry.DeathCauseLava(thisAs);
+            }
+
+            else if (thisAs.isInAcid()) {
+                this.deathCause = new DeathCauseRegistry.DeathCauseAcid(thisAs);
             }
 
             else {

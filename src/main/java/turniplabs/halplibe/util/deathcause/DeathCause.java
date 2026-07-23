@@ -35,12 +35,13 @@ public abstract class DeathCause {
     protected boolean isPlayer = false;
     protected EntityName victim = EntityName.empty();
 
-    public DeathCause() {};
+    public DeathCause() {
+    }
 
     public DeathCause(Mob victim) {
         this.isPlayer = victim instanceof Player;
         this.victim = EntityName.fromEntity(victim);
-    };
+    }
 
     public void serialize(CompoundTag tag) {
         var victimTag = new CompoundTag();
