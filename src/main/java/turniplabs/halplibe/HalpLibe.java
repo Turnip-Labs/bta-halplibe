@@ -9,6 +9,7 @@ import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import turniplabs.halplibe.helper.network.NetworkHandler;
+import turniplabs.halplibe.util.HalpLibeUtils;
 import turniplabs.halplibe.util.TomlConfigHandler;
 import turniplabs.halplibe.util.deathcause.DeathCauseNetworkMessage;
 import turniplabs.halplibe.util.toml.Toml;
@@ -19,6 +20,14 @@ import java.io.IOException;
 public class HalpLibe implements ModInitializer {
     public static final boolean isClient = FabricLoader.getInstance().getEnvironmentType().equals(EnvType.CLIENT);
     public static final String MOD_ID = HalpLibe.registerMod("halplibe", false);
+
+    /**
+     * Deprecated to avoid bleeding game class imports into utility classes that
+     * don't need to refer to them. If an isolated utility class needs a logging either use {@link HalpLibeUtils} or
+     * create new private logger.
+     * @deprecated See {@link HalpLibeUtils}
+     */
+    @Deprecated(forRemoval = true)
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
     public static final TomlConfigHandler CONFIG;
 
