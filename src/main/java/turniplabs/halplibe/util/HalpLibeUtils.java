@@ -6,8 +6,8 @@ import org.slf4j.LoggerFactory;
 
 @NullMarked
 public final class HalpLibeUtils {
-    // IMPORTANT: This class should NEVER refer to game classes. The "halplibe" string deliberate does
-    // not refer to the HalpLibe class.
+    // IMPORTANT: This class should NEVER refer to game classes. The "halplibe" string deliberately does
+    // not use MOD_ID from the HalpLibe class.
     public static final Logger LOGGER = LoggerFactory.getLogger("halplibe");
 
     private HalpLibeUtils() {}
