@@ -8,8 +8,8 @@ import net.minecraft.core.net.command.TextFormatting;
 
 /**
  * <p><b>This Object represents a cause of death</b>. It is used to set custom death messages for players and entities.</p>
- * The purpose of this class is it to preserve localization over the network. Additionaly {@link PlayerDeathHandler}
- * offers a common entrypoint for all mods to use to resolve {@link Player} specific death messages
+ * The purpose of this class is it to preserve localization over the network. Additionally {@link DeathCauseEvents}
+ * offers a common entrypoint for all mods to use to resolve {@link Player} or {@link Mob} specific death messages
  *
  * <h5>The usage is as follows:</h3>
  * <ol>
@@ -67,8 +67,8 @@ public abstract class DeathCause {
     /**
      * Binds this {@link DeathCause} to the given mob so it can be sent over the network.
      *
-     * <p>If the {@link PlayerDeathHandler} interface is implemented, than the call is handled by
-     * {@link turniplabs.halplibe.mixin.deathcause.PlayerMixin}. Otherwise, this method
+     * <p>If the {@code PLAYER_DEATH_EVENT} is used, than the call is handled by
+     * {@link turniplabs.halplibe.mixin.deathcause.PlayerMixin}/{@link turniplabs.halplibe.mixin.deathcause.MobMixin}. Otherwise, this method
      * must be called to set the death message.
      *
      * <p>Binding order matters. Binding a different {@link DeathCause} will overwrite

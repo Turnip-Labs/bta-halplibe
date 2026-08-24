@@ -22,7 +22,6 @@ public class DeathCauseRegistry extends Registry<Supplier<DeathCause>> {
         INSTANCE.register("halplibe", "killed_by", DeathCauseKilledBy::new);
         INSTANCE.register("halplibe", "projectile", DeathCauseProjectile::new);
         INSTANCE.register("halplibe", "generic", DeathCauseGeneric::new);
-
     }
 
     private DeathCauseRegistry(){}
