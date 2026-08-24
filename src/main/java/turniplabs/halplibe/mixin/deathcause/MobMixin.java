@@ -28,7 +28,7 @@ import static turniplabs.halplibe.util.deathcause.DeathCauseEvents.MOB_DEATH_HAN
 public abstract class MobMixin implements DeathCauseMixinInterface {
 
     @Unique
-    @Nullable DeathCause deathCause = null;
+    protected @Nullable DeathCause deathCause = null;
 
     @Override
     public void halplibe$setDeathCause(DeathCause deathCause) {

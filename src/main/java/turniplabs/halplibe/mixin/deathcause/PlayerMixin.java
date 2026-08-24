@@ -69,7 +69,7 @@ public abstract class PlayerMixin extends MobMixin{
             if (entityKilledBy instanceof EntityLightning) {
                 return new DeathCauseGeneric(asThis, "lightning");
             }
-            if (entityKilledBy instanceof Mob) {
+            if (entityKilledBy instanceof Mob && !(entityKilledBy instanceof Player)) {
                 return new DeathCauseKilledBy(asThis, entityKilledBy);
             }
             if (entityKilledBy instanceof Projectile projectile) {
