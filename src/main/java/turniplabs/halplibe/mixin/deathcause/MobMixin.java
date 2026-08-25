@@ -38,18 +38,14 @@ public abstract class MobMixin implements DeathCauseMixinInterface {
     @Inject(method = "getDeathMessageKey", at = @At("HEAD"))
     private void resolveDeathMessages(Entity entityKilledBy, CallbackInfoReturnable<String> cir) {
         Mob asThis = (Mob) (Object) this;
-        MOB_DEATH_HANDLER.emit(func -> {
-            DeathCause petDeathCause = func.apply(asThis, entityKilledBy);
-            petDeathCause.bind(asThis);
-        });
-        if (this.deathCause == null) {
-            this.deathCause = this.emulateVanillaBehaivor2(entityKilledBy);
+        MOB_DEATH_HANDLER.emit(func -> this.deathCause = func.apply(asThis, entityKilledBy));
+        if(this.deathCause == null || this.deathCause instanceof DeathCauseGeneric){
+            this.deathCause = this.emulateVanillaBehavior(asThis, entityKilledBy);
         }
     }
 
     @Unique
-    private DeathCause emulateVanillaBehaivor2(Entity entityKilledBy) {
-        Mob asThis = (Mob) (Object) this;
+    private DeathCause emulateVanillaBehavior(Mob asThis, Entity entityKilledBy) {
         if (entityKilledBy != null) {
             return new DeathCauseKilledBy(asThis, entityKilledBy);
         }

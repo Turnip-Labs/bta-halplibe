@@ -33,6 +33,8 @@ public class DeathCauseGeneric extends DeathCause {
 
     @Override
     protected void deserializeAdditional(CompoundTag tag) {
-        this.keyShard = tag.getString("halplibe:key_shard");
+        if(tag.containsKey("halplibe:key_shard")){
+            this.keyShard = tag.getString("halplibe:key_shard");
+        }
     }
 }

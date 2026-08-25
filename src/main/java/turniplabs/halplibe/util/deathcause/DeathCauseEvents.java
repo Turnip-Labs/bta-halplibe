@@ -37,13 +37,13 @@ public class DeathCauseEvents {
      *          );
      *      }
      *
-     *      public DeathCause resolvePlayerDeathCause(
+     *      public @Nullable DeathCause resolvePlayerDeathCause(
      *          Player player,
      *          Entity killedBy
      *      ) {
      *          return player.gotWizard()
      *                  ? new DeathCauseWizard (player, killedBy)
-     *                  : new DeathCauseGeneric();
+     *                  : null;
      *      }
      * }
      * </pre>
@@ -84,7 +84,7 @@ public class DeathCauseEvents {
      *      ) {
      *          return (killerBy instanceof Player player && player.isEvil())
      *                  ? new DeathCausePeta (player, killedBy)
-     *                  : new DeathCauseGeneric();
+     *                  : null;
      *      }
      * }
      * </pre>

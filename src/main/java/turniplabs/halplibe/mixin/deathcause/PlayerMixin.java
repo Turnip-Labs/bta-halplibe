@@ -26,19 +26,14 @@ public abstract class PlayerMixin extends MobMixin{
     @Inject(method = "getDeathMessageKey", at = @At("HEAD"))
     private void resolveDeathMessages(Entity entityKilledBy, CallbackInfoReturnable<String> cir) {
         Player asThis = (Player) (Object) this;
-        PLAYER_DEATH_HANDLER.emit(func -> {
-                    DeathCause deathCause = func.apply(asThis, entityKilledBy);
-                    deathCause.bind(asThis);
-                }
-        );
-        if(this.deathCause == null){
-            this.deathCause = this.emulateVanillaBehavior(entityKilledBy);
+        PLAYER_DEATH_HANDLER.emit(func -> this.deathCause = func.apply(asThis, entityKilledBy));
+        if(this.deathCause == null || this.deathCause instanceof DeathCauseGeneric){
+            this.deathCause = this.emulateVanillaBehavior(asThis, entityKilledBy);
         }
     }
 
     @Unique
-    private DeathCause emulateVanillaBehavior(Entity entityKilledBy) {
-        Player asThis = (Player) (Object) this;
+    private DeathCause emulateVanillaBehavior(Player asThis, Entity entityKilledBy) {
         if (asThis.world.rand.nextInt(8000) == 666) {
             return new DeathCauseGeneric(asThis, "herobrine");
         }
@@ -78,4 +73,5 @@ public abstract class PlayerMixin extends MobMixin{
         }
         return new DeathCauseGeneric(asThis);
     }
+
 }
