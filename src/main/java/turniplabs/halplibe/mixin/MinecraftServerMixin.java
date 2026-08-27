@@ -43,7 +43,7 @@ public abstract class MinecraftServerMixin {
         CommonEvents.BEFORE_GAME_START.emit(Runnable::run);
     }
 
-    @Inject(method = "startServer", at = @At("TAIL"))
+        @Inject(method = "startServer", at = @At(value = "INVOKE", target = "Lorg/slf4j/Logger;info(Ljava/lang/String;Ljava/lang/Object;)V", ordinal = 1, shift = At.Shift.BEFORE))
     public void afterGameStartEntrypoint(CallbackInfoReturnable<Boolean> cir) {
         CreativeInventoryRegistry.INSTANCE.bakeAll();
 

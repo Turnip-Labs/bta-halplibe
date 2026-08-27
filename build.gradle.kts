@@ -46,6 +46,14 @@ repositories {
         patternLayout { artifact("v1/[organisation]/[revision]/[module].jar") }
         metadataSources { artifact() }
     }
+    maven("https://maven.danygames2014.net/signalum") { name = "SignalumMavenMirror1" }
+    ivy("https://github.com/Turnip-Labs") {
+        patternLayout {
+            artifact("/fabric-loader/releases/download/[revision]/fabric-loader-[revision].jar")
+        }
+        metadataSources { artifact() }
+        content { includeGroup("bta.loader") }
+    }
 }
 
 dependencies {
@@ -159,6 +167,13 @@ publishing {
     repositories {
         maven("https://maven.thesignalumproject.net/releases") {
             name = "signalumMaven"
+            credentials(PasswordCredentials::class)
+            authentication {
+                create<BasicAuthentication>("basic")
+            }
+        }
+        maven("https://maven.danygames2014.net/signalum") {
+            name = "signalumMavenMirror1"
             credentials(PasswordCredentials::class)
             authentication {
                 create<BasicAuthentication>("basic")
