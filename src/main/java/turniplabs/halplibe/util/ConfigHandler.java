@@ -1,7 +1,6 @@
 package turniplabs.halplibe.util;
 
 import net.fabricmc.loader.api.FabricLoader;
-import turniplabs.halplibe.HalpLibe;
 
 import java.io.*;
 import java.util.Properties;
@@ -17,13 +16,13 @@ public class ConfigHandler {
         this.defaultProperties = defaultProperties;
         this.properties = new Properties();
         this.properties.putAll(defaultProperties);
-        HalpLibe.LOGGER.info("Config file name: " + this.properties);
+        HalpLibeUtils.LOGGER.info("Config file name: " + this.properties);
 
         File configFile = new File(getFilePath());
-        HalpLibe.LOGGER.info("Config file path: " + configFile.getAbsolutePath());
+        HalpLibeUtils.LOGGER.info("Config file path: " + configFile.getAbsolutePath());
         try {
             if (!configFile.exists()) {
-                HalpLibe.LOGGER.info("Config file does not exist. Creating...");
+                HalpLibeUtils.LOGGER.info("Config file does not exist. Creating...");
                 configFile.getParentFile().mkdirs();
                 configFile.createNewFile();
                 writeDefaultConfig(configFile, this.defaultProperties);
@@ -39,7 +38,7 @@ public class ConfigHandler {
     }
 
     private static void writeDefaultConfig(File configFile, Properties properties) {
-        HalpLibe.LOGGER.info("Writing default config to " + configFile.getAbsolutePath());
+        HalpLibeUtils.LOGGER.info("Writing default config to " + configFile.getAbsolutePath());
         try (OutputStream output = new FileOutputStream(configFile)) {
             properties.store(output, "Default config values");
             output.close();
@@ -49,7 +48,7 @@ public class ConfigHandler {
     }
 
     private static void updateConfig(File configFile, Properties properties) {
-        HalpLibe.LOGGER.info("Updating config at " + configFile.getAbsolutePath());
+        HalpLibeUtils.LOGGER.info("Updating config at " + configFile.getAbsolutePath());
         try (OutputStream output = new FileOutputStream(configFile)) {
             properties.store(output, "Updated config values");
             output.close();

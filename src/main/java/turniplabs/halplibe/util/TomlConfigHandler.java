@@ -1,7 +1,6 @@
 package turniplabs.halplibe.util;
 
 import net.fabricmc.loader.api.FabricLoader;
-import turniplabs.halplibe.HalpLibe;
 import turniplabs.halplibe.util.toml.Toml;
 import turniplabs.halplibe.util.toml.TomlParser;
 
@@ -40,11 +39,11 @@ public class TomlConfigHandler {
     //creates the actual config file
     public void create(){
         File configFile = new File(getFilePath());
-        HalpLibe.LOGGER.info("Config file name: " + this.configFileName);
-        HalpLibe.LOGGER.info("Config file path: " + configFile.getAbsolutePath());
+        HalpLibeUtils.LOGGER.info("Config file name: " + this.configFileName);
+        HalpLibeUtils.LOGGER.info("Config file path: " + configFile.getAbsolutePath());
         try {
             if (!configFile.exists()) {
-                HalpLibe.LOGGER.info("Config file does not exist. Creating...");
+                HalpLibeUtils.LOGGER.info("Config file does not exist. Creating...");
                 configFile.getParentFile().mkdirs();
                 configFile.createNewFile();
                 writeConfig();
