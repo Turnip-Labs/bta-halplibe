@@ -21,6 +21,7 @@
     "accessors.WeightedRandomBagAccessor",
     "accessors.WeightedRandomBagEntryAccessor",
     "deathcause.MobMixin",
+    "deathcause.PlayerMixin",
     "recovery.WorldMixin"
   ],
   "client": [

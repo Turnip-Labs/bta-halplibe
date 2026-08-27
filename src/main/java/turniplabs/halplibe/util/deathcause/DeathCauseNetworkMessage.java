@@ -5,8 +5,6 @@ import org.jspecify.annotations.NonNull;
 import turniplabs.halplibe.helper.network.NetworkMessage;
 import turniplabs.halplibe.helper.network.UniversalPacket;
 
-import java.util.Objects;
-
 public class DeathCauseNetworkMessage implements NetworkMessage {
 
     private CompoundTag deathCauseEncoded;
@@ -34,7 +32,7 @@ public class DeathCauseNetworkMessage implements NetworkMessage {
 
     @Override
     public void handleClientEnv(NetworkContext context) {
-        final DeathCause deathCause = Objects.requireNonNull(DeathCauseRegistry.getInstance().getItem(this.deathCauseId)).get();
+        final DeathCause deathCause = DeathCauseRegistry.getInstance().getItem(this.deathCauseId).get();
         deathCause.deserialize(this.deathCauseEncoded);
         deathCause.sendMessage(context.player);
     }

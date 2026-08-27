@@ -34,9 +34,7 @@ public class DeathCauseProjectile extends DeathCause {
     }
 
     @Override
-    public void serialize(CompoundTag tag) {
-        super.serialize(tag);
-
+    public void serializeAdditional(CompoundTag tag) {
         var attackerTag = new CompoundTag();
         attacker.serialize(attackerTag);
 
@@ -47,7 +45,7 @@ public class DeathCauseProjectile extends DeathCause {
     }
 
     @Override
-    public void deserialize(CompoundTag tag) {
+    public void deserializeAdditional(CompoundTag tag) {
         super.deserialize(tag);
 
         this.attacker = EntityName.deserialize(tag.getCompound("halplibe:attacker"));

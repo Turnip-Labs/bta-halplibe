@@ -24,20 +24,15 @@ public class DeathCauseKilledBy extends DeathCause {
     }
 
     @Override
-    public void serialize(CompoundTag tag) {
-        super.serialize(tag);
-
+    public void serializeAdditional(CompoundTag tag) {
         var attackerTag = new CompoundTag();
         attacker.serialize(attackerTag);
-
         tag.put("halplibe:attacker", attackerTag);
         tag.putString("halplibe:attacker_mob_id", this.attackerMobId);
     }
 
     @Override
-    public void deserialize(CompoundTag tag) {
-        super.deserialize(tag);
-
+    public void deserializeAdditional(CompoundTag tag) {
         this.attacker = EntityName.deserialize(tag.getCompound("halplibe:attacker"));
         this.attackerMobId = tag.getString("halplibe:attacker_mob_id");
     }
