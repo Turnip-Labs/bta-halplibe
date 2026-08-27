@@ -1,2 +1,3 @@
-- Client no longer crashes when dying. (by LukeisStuff)
-- Fix drowning death cause lang and add acid death cause. (by LukeisStuff)
+- Moved AFTER_GAME_START event to before worlds are loaded on servers.
+- ConfigHandler and TomlConfigHandler fixes. (by bigsir24)
+- Improvements to DeathCause API. (by Redart15)

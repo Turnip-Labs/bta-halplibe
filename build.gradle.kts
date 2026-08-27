@@ -172,13 +172,13 @@ publishing {
                 create<BasicAuthentication>("basic")
             }
         }
-        maven("https://maven.danygames2014.net/signalum") {
+        /*maven("https://maven.danygames2014.net/signalum") {
             name = "signalumMavenMirror1"
             credentials(PasswordCredentials::class)
             authentication {
                 create<BasicAuthentication>("basic")
             }
-        }
+        }*/
     }
     publications {
         create<MavenPublication>("maven") {
