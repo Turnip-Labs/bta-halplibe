@@ -8,6 +8,7 @@ import net.minecraft.client.gui.Screen;
 import net.minecraft.client.gui.popup.PopupBuilder;
 import net.minecraft.client.gui.popup.PopupScreen;
 import net.minecraft.core.lang.I18n;
+import net.minecraft.core.world.Dimension;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -70,5 +71,15 @@ public abstract class MinecraftMixin {
                     .build();
             displayScreen(popup);
         }
+    }
+
+    @Inject(method = "startGame", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/net/command/util/CommandHelper;init()V"))
+    public void hudInitializationEntrypoint(CallbackInfo ci) {
+        ClientEvents.HUD_INIT.emit(Runnable::run);
+    }
+
+    @Inject(method = "startGame", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/world/Dimension;init()V", shift = At.Shift.AFTER))
+    public void dimensionRegistry(CallbackInfo ci) {
+        CommonEvents.DIMENSION_REGISTRY.emit(Runnable::run);
     }
 }

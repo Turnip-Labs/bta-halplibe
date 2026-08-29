@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import turniplabs.halplibe.HalpLibe;
 import turniplabs.halplibe.event.defs.CommonEvents;
@@ -61,6 +62,11 @@ public abstract class MinecraftServerMixin {
             HalpLibe.LOGGER.warn(I18n.getInstance().translateKey("halplibe.recoveryMode.text2"));
             HalpLibe.LOGGER.warn(I18n.getInstance().translateKey("halplibe.recoveryMode.action1"));
         }
+    }
+
+    @Inject(method = "startServer", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/world/Dimension;init()V", shift = At.Shift.AFTER))
+    public void dimensionRegistry(CallbackInfoReturnable<Boolean> cir) {
+        CommonEvents.DIMENSION_REGISTRY.emit(Runnable::run);
     }
 
     /*
