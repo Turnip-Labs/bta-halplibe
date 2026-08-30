@@ -5,6 +5,7 @@ import turniplabs.halplibe.util.toml.Toml;
 import turniplabs.halplibe.util.toml.TomlParser;
 
 import java.io.*;
+import java.nio.file.Files;
 
 public class TomlConfigHandler {
     private static final String CONFIG_DIRECTORY = FabricLoader.getInstance().getGameDir().toString() + "/config/";
@@ -78,23 +79,43 @@ public class TomlConfigHandler {
     }
 
     public int getInt(String key) {
-        return this.config.get(key, Integer.class);
+        try {
+            return this.config.get(key, Integer.class);
+        } catch (NullPointerException e) {
+            throw new RuntimeException("Entry '"+key+"' doesn't exist!", e);
+        }
     }
 
     public long getLong(String key) {
-        return this.config.get(key, Long.class);
+        try {
+            return this.config.get(key, Long.class);
+        } catch (NullPointerException e) {
+            throw new RuntimeException("Entry '"+key+"' doesn't exist!", e);
+        }
     }
 
     public float getFloat(String key) {
-        return this.config.get(key, Float.class);
+        try {
+            return this.config.get(key, Float.class);
+        } catch (NullPointerException e) {
+            throw new RuntimeException("Entry '"+key+"' doesn't exist!", e);
+        }
     }
 
     public double getDouble(String key) {
-        return this.config.get(key, Double.class);
+        try {
+            return this.config.get(key, Double.class);
+        } catch (NullPointerException e) {
+            throw new RuntimeException("Entry '"+key+"' doesn't exist!", e);
+        }
     }
 
     public boolean getBoolean(String key) {
-        return this.config.get(key, Boolean.class);
+        try {
+            return this.config.get(key, Boolean.class);
+        } catch (NullPointerException e) {
+            throw new RuntimeException("Entry '"+key+"' doesn't exist!", e);
+        }
     }
 
     public void writeConfig() {
@@ -125,20 +146,10 @@ public class TomlConfigHandler {
     }
 
     private void loadConfig(File configFile, Toml properties) {
-        try (InputStream input = new FileInputStream(configFile)) {
-            // only loads the ones that it finds in the file
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            while (true) {
-                byte[] buf = new byte[Math.max(2048, input.available())];
-                int count = input.read(buf);
-                if (count == -1) break;
-                baos.write(buf, 0, count);
-            }
+        try {
+            String s = Files.readString(configFile.toPath());
+            Toml parsed = TomlParser.parse(s);
 
-            Toml parsed = TomlParser.parse(baos.toString());
-
-            // TODO: system for specifying "greedy" categories?
-            //       greedy categories would keep all entries that aren't sepcified in code but are specified in the config
             if (defaults.getComment().isPresent())  {
                 rawParsed = new Toml(defaults.getComment().get());
                 rawParsed.addMissing(parsed);
@@ -146,7 +157,6 @@ public class TomlConfigHandler {
 
             properties.merge(true, rawParsed);
 
-            input.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
