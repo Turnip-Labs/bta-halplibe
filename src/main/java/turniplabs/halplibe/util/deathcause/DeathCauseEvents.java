@@ -17,6 +17,7 @@ public class DeathCauseEvents {
      * <p>
      *     The resulting {@link DeathCause} is automatically bound to the player, so
      *     calling {@link DeathCause#bind(Mob)} is not necessary.
+     *     Make sure to return null when none of the DeathCauses apply!
      *     For more information on how the handler gets resolved see {@link turniplabs.halplibe.mixin.deathcause.PlayerMixin}
      *     and {@link DeathCause}.
      *</p>
@@ -47,7 +48,6 @@ public class DeathCauseEvents {
      *      }
      * }
      * </pre>
-     *
      */
     public static final SortedBaseEvent<BiFunction<Player, Entity, DeathCause>> PLAYER_DEATH_HANDLER = new SortedBaseEvent<>();
 
@@ -58,6 +58,7 @@ public class DeathCauseEvents {
      * <p>
      *      The resulting {@link DeathCause} is automatically bound to the player, so
      *      calling {@link DeathCause#bind(Mob)} is not necessary.
+     *      Make sure to return null when none of the DeathCauses apply!
      *      For more information on how the handler gets resolved see {@link turniplabs.halplibe.mixin.deathcause.MobMixin}
      *      and {@link DeathCause}.
      * </p>
@@ -88,6 +89,7 @@ public class DeathCauseEvents {
      *      }
      * }
      * </pre>
+     *
      */
     public static final SortedBaseEvent<BiFunction<Mob, Entity, DeathCause>> MOB_DEATH_HANDLER = new SortedBaseEvent<>();
 }

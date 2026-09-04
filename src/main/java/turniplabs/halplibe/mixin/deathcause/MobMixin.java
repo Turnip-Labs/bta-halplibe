@@ -39,7 +39,7 @@ public abstract class MobMixin implements DeathCauseMixinInterface {
     private void resolveDeathMessages(Entity entityKilledBy, CallbackInfoReturnable<String> cir) {
         Mob asThis = (Mob) (Object) this;
         MOB_DEATH_HANDLER.emit(func -> this.deathCause = func.apply(asThis, entityKilledBy));
-        if(this.deathCause == null || this.deathCause instanceof DeathCauseGeneric){
+        if(this.deathCause == null){
             this.deathCause = this.emulateVanillaBehavior(asThis, entityKilledBy);
         }
     }
