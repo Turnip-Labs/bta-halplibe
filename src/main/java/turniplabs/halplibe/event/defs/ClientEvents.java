@@ -16,6 +16,10 @@ import java.util.function.Consumer;
 public final class ClientEvents {
     public static final SortedSingleEvent<Runnable> BEFORE_CLIENT_START = new SortedSingleEvent<>("BeforeClientStart");
     public static final SortedSingleEvent<Runnable> AFTER_CLIENT_START = new SortedSingleEvent<>("AfterClientStart");
+    /**
+     * For hud to resets correct please register them at this event.
+    * */
+    public static final SortedSingleEvent<Runnable> HUD_INIT = new SortedSingleEvent<>("HudInitialization");
 
     public static final SortedBaseEvent<Consumer<BlockModelDispatcher>> BLOCK_MODEL_RELOAD = new SortedBaseEvent<>();
     public static final SortedBaseEvent<Consumer<ItemModelDispatcher>> ITEM_MODEL_RELOAD = new SortedBaseEvent<>();

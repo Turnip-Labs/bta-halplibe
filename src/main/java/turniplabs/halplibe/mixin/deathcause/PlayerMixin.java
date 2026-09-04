@@ -27,7 +27,7 @@ public abstract class PlayerMixin extends MobMixin{
     private void resolveDeathMessages(Entity entityKilledBy, CallbackInfoReturnable<String> cir) {
         Player asThis = (Player) (Object) this;
         PLAYER_DEATH_HANDLER.emit(func -> this.deathCause = func.apply(asThis, entityKilledBy));
-        if(this.deathCause == null || this.deathCause instanceof DeathCauseGeneric){
+        if(this.deathCause == null){
             this.deathCause = this.emulateVanillaBehavior(asThis, entityKilledBy);
         }
     }

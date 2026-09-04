@@ -20,6 +20,7 @@
     "accessors.LanguageAccessor",
     "accessors.WeightedRandomBagAccessor",
     "accessors.WeightedRandomBagEntryAccessor",
+    "SaveConversionFix",
     "deathcause.MobMixin",
     "deathcause.PlayerMixin",
     "recovery.WorldMixin"
